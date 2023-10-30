@@ -1,0 +1,220 @@
+/* 
+    This is LectureDoc's core CSS file. It primarily defines css properties directly 
+    related to layout of LectureDoc and the interaction with it. All styling
+    information related to LectureDoc's widgets is found in ld-theme.css.
+
+    Styling related to slides is defined in a used defined css file or in default.css.
+    
+    _______________________________________________________________________________________________
+
+    ________________       Any changes here, will likely break LectureDoc!        _________________
+
+    _______________________________________________________________________________________________
+*/
+:root {
+    /* 
+        Specifies the width and height of slides. The following values are, 
+        however, only for informational purposes. These value are always 
+        (re)set by the JavaScript when the document is loaded; either to 
+        the default values as seen below or to the values specified in the
+        document.
+    */
+    --ld-slide-width: 1920px;
+    --ld-slide-height: 1200px;
+    /*
+        The default zoom level as a ratio. I.e., the slides shown in the 
+        light-table will be 1/10th of --ld-slide-width by default.
+    */
+    --ld-light-table-zoom-level: 10;
+}
+
+/* Basic normalization. */
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+div {
+    /* Foreground, Background */
+    scrollbar-color: #999 #333;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/*  We need a fixed size for the main pane to make the content
+    as a whole scalable using the scale property which is 
+    updated on viewport changes using Javascript. 
+    Conceptually, we would like to have some CSS like:
+    
+        scale: min(calc(100vh/1080),calc(100vw/1920)); 
+    
+    But such computations are (not yet?) supported.
+
+    The actual (fixed) size, however, doesn't really matter,
+    because the content is scaled anyway. Nevertheless, when 
+    external content is embededd (in particular images) 
+    it makes sense to have a size that resembles a "natural"
+    screen resolution to avoid having the user to scale 
+    everything up or down. Nevertheless, in the end  all 
+    that matters is the ratio.
+*/
+.ld-slide {
+    width: var(--ld-slide-width);
+    height: var(--ld-slide-height);
+    overflow: hidden;
+    display: none;
+    /* we ignore the default slides */
+}
+
+/*  ----------------------------------------------------------------------------
+
+
+    Core styles for the main pane used to render the slide.
+*/
+
+#ld-main-pane {
+    z-index: 1;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+#ld-main-pane .ld-slide {
+    position: absolute;
+}
+
+/*  ----------------------------------------------------------------------------
+
+
+    Core styles for the light table view
+*/
+
+#ld-light-table-dialog {
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+#ld-light-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+}
+
+#ld-light-table {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+#ld-light-table-slides {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow-y: scroll;
+}
+
+.ld-light-table-slide-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: calc(var(--ld-slide-width) / var(--ld-light-table-zoom-level));
+    height: calc(var(--ld-slide-height) / var(--ld-light-table-zoom-level));
+}
+
+.ld-light-table-slide-pane {
+    position: relative;
+    flex-shrink: 0;
+    width: calc(var(--ld-slide-width) / var(--ld-light-table-zoom-level));
+    height: calc(var(--ld-slide-height) / var(--ld-light-table-zoom-level));
+    overflow: hidden;
+}
+
+.ld-light-table-slide-scaler {
+    scale: calc(1 / var(--ld-light-table-zoom-level));
+    position: absolute;
+}
+
+#ld-light-table .ld-slide {
+    position: absolute;
+}
+
+/*  ----------------------------------------------------------------------------
+
+
+    Core styles for the help dialog
+*/
+
+#ld-help-dialog {
+    /*  We want to have a very subtle fade-out effect. 
+        
+        The value 500ms is also used in the JavaScript code to toggle the 
+        display property between none and block. This is necessary to make 
+        the link in the help ineffective, when the help is not shown!
+    */
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+#ld-help {
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+/*  ----------------------------------------------------------------------------
+
+
+    Core styles for the continuous view 
+*/
+
+#ld-continuous-view-pane {
+    display: none;
+    background-color: white;
+    margin: auto;
+    width: calc(var(--ld-slide-width) / 2);
+    max-width: calc(var(--ld-slide-width) / 2);
+}
+
+#ld-continuous-view-pane .ld-slide {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /* To ensure that they are not "none" for whatever reason. */
+    display: block;
+}
+
+.ld-continuous-view-slide-pane {
+    width: calc(var(--ld-slide-width) / 2);
+    max-width: calc(var(--ld-slide-width) / 2);
+    height: calc(var(--ld-slide-height) / 2);
+    max-height: calc(var(--ld-slide-height) / 2);
+}
+
+.ld-continuous-view-scaler {
+    position: absolute;
+    scale: 0.5;
+}
+
+@media screen {
+    .ld-continuous-view-slide-pane {
+        height: calc(var(--ld-slide-height) / 2 + 2px);
+        max-height: calc(var(--ld-slide-height) / 2 + 2px);
+        border-bottom: 2px solid gray;
+    }
+}
+
