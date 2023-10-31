@@ -18,9 +18,22 @@
 /* The following really depends on the logo that you want to use. */
 img.logo {
     position: absolute;
-    bottom: 100px;
-    right: 275px;
-    scale: 4;
+    bottom: 48px;
+    right: 48px;
+    scale: 1;
+}
+
+.huge {
+    font-size: 1.5rem;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.center {
+    text-align: center;
+    width: 100%;
 }
 
 .small {
@@ -222,11 +235,15 @@ table.header-column td:first-child {
 }
 
 .not-important {
-    color: rgb(175, 175, 175)
+    color: rgb(129, 129, 129)
 }
 
 .line-above {
     border-top: 2px solid rgb(24, 25, 25);
+}
+
+.margin-below {
+    margin-bottom: 1em;
 }
 
 .two-columns,
