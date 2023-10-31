@@ -1,55 +1,21 @@
 /* 
-    This demonstrates how to style LectureDoc documents.
+    Default styling for LectureDoc2 documents.
 */
 
-table.highlight-line-on-hover tr:hover {
-    background-color: rgb(180, 214, 249);
-}
-table.highlight-line-on-hover tbody td:hover {
-    background-color: rgb(200, 234, 256);
-}
-
-td.highlight {
-    background-color: rgb(171, 224, 253);
+:root {
+    --ld-dhbw-red: rgb(226, 0, 26);
+    /* the red used by the DHBW Logo */
+    --ld-red: rgb(131, 0, 0);
+    --ld-red-background: rgb(131, 0, 0, 0.1);
 }
 
 .ld-slide {
-    padding: 45px;
+    padding: 0.75rem;
     background-color: white;
+    border-radius: 0.5rem;
 }
 
-small {
-    font-size: smaller;
-}
-
-ul {
-    list-style-type: disc;
-    list-style-position: outside;    
-    padding-left: 60px;
-}
-
-ol {
-    list-style-position: outside;    
-    padding-left: 60px;
-}
-
-.admonition {
-    margin: 25px 0px;
-    background-color: rgb(251, 200, 200);
-    border: 0;
-    border-radius: 25px;
-}
-
-/* Important! This fixes a MathJax rendering issue! */ 
-p.admonition-title {
-    margin: 0;
-    padding-bottom: 25px;
-}
-
-.ld-slide {
-    border-radius: 25px;
-}
-
+/* The following really depends on the logo that you want to use. */
 img.logo {
     position: absolute;
     bottom: 100px;
@@ -57,18 +23,72 @@ img.logo {
     scale: 4;
 }
 
-blockquote {
-    padding: 25px;
-    border-radius: 15px;
-    background-color: rgba(55,55,55,0.075);
+.small {
+    font-size: 0.85rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.tiny {
+    font-size: 0.7rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.smaller {
+    font-size: 0.9em;
+}
+
+.monospaced {
+    font-family: monospace;
+}
+
+
+a:link,
+a:visited {
+    color: var(--ld-dhbw-red);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-left: 1.1em;
+}
+
+ol {
+    list-style-position: outside;
+    padding-left: 1.1em;
+}
+
+li {
+    padding-left: 0.5em;
+}
+
+.admonition {
+    margin: 0.5em 0em;
+    background-color: var(--ld-dhbw-red);
+    box-shadow: 4px 4px 8px gray;
+    color: white;
+    border: 0;
+    border-radius: 0.5em;
+    padding: 0.75em;
+}
+
+/* Important! This fixes a MathJax rendering issue! */
+p.admonition-title {
+    margin: 0;
+    padding-bottom: 0.2em;
 }
 
 .admonition.note {
     float: right;
     background-color: rgb(255, 255, 203);
+    color: darkblue;
     margin-top: 0;
     margin-bottom: 0;
-    margin-left: 24px;
+    margin-left: 0.75em;
     max-width: 40%;
 }
 
@@ -76,96 +96,128 @@ blockquote {
     background-color: rgb(157, 255, 204);
 }
 
+
+
+blockquote {
+    padding: 0.5em;
+    border-radius: 0.25em;
+    background-color: rgba(55, 55, 55, 0.075);
+}
+
+
+
 pre.code {
-    margin:0;
+    margin: 0;
 }
 
-.smaller {
-    font-size: smaller;
+
+/*
+Styling of table is done by adding the desired classes:
+
+    1) highlight-line-on-hover
+    2) highlight-on-hover 
+    3) compact
+    4) no-table-borders
+    5) no-inner-borders
+*/
+table {
+    border: 1.5px solid black;
+    box-shadow: 4px 4px 8px gray;
 }
 
-.small {
-    font-size: 30px;
+th,
+td {
+    border: 1.5px solid black;
 }
 
-.tiny {
-    font-size: 24px;
+/*
+If the content of the entire cell has a red background, we lift it 
+up to the cell level.
+*/
+td:has(p>span.red) {
+    background-color: var(--ld-red-background);
+    font-weight: bold;
 }
 
-.monospaced {
-    font-family: monospace;
+table.highlight-line-on-hover tr:hover {
+    background-color: rgb(180, 214, 249);
+}
+
+table.highlight-line-on-hover tbody td:hover {
+    background-color: rgb(200, 234, 256);
+}
+
+/* 
+The following property is associated with cells when the table has the 
+highlight-on-hover class and the ld-animation package is loaded.
+*/
+td.highlight {
+    background-color: rgb(171, 224, 253);
 }
 
 table.compact {
-    line-height: 1;
-    padding: 0;
+    line-height: 1.05em;
     margin: 0;
 }
 
-table.compact td {
-    border: 0;
-    padding: 0;
+table.compact td,
+table.compact th {
+    padding: 0.1em;
 }
 
-
 /* fix for an rst2ld issue related to the csv tables */
-table.align-center tr{
+table.align-center tr {
     text-align: center;
 }
 
-table.invisible {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-table.invisible :is(td,th), 
-table.no-borders :is(td,th)  {
-    border: 0;
+table.no-table-borders {
+    border: 2px solid white;
+    box-shadow: none;
 }
 
+table.no-inner-borders :is(td, th) {
+    border: 0;
+}
 
 table.header-column td:first-child {
     font-weight: bold;
 }
 
-
-.enable-copy-to-clipboard {
-    padding: 25px;
-    border-radius: 15px;
-    background-color: rgb(255, 235, 211);
-    user-select: initial;
-    -webkit-user-select: initial;
-}
-.enable-copy-to-clipboard::before {
-    content: "Select and copy to clipboard:";
-    color: white;
-    background-color: gray;
-    border-radius: 8px;
-    user-select: none;
-    -webkit-user-select: none;
-    padding-left: 24px;
-    padding-right: 24px;
-}
-
-
-span.ger { 
+.ger {
     color: gray;
     font-style: italic;
 }
-span.ger::before { 
-    content: "(dt. ";
+
+.ger::before {
+    content: "(🇩🇪 ";
 }
-span.ger::after { 
+
+.ger::after {
     content: ")";
 }
 
-span.red {
-    color: rgb(131, 0, 0);
+.eng {
+    color: gray;
+    font-style: italic;
 }
-span.blue {
+
+.eng::before {
+    content: "(🇺🇸 ";
+}
+
+.eng::after {
+    content: ")";
+}
+
+.red {
+    color: var(--ld-red);
+}
+
+.blue {
     color: rgb(0, 0, 155);
 }
-span.green {
+
+.green {
     color: rgb(0, 88, 0);
 }
 
@@ -173,30 +225,27 @@ span.green {
     color: rgb(175, 175, 175)
 }
 
-.separated {
-     border-top: 1px solid gray;
+.line-above {
+    border-top: 2px solid rgb(24, 25, 25);
+}
+
+.two-columns,
+.three-columns {
+    column-rule: 2px solid gray;
+    width: 100%;
+    column-gap: 1.5em;
 }
 
 .two-columns {
     column-count: 2;
-    column-gap: 96px;
-    column-rule: 2px solid gray;
-    width: 100%;
+
 }
 
 .three-columns {
     column-count: 3;
-    column-gap: 64px;
-    column-rule: 2px solid gray;
-    width: 100%;
 }
 
-/* Primarily meant as a hint to avoid breaks insides columns. */ 
+/* Primarily meant as a hint to avoid breaks insides columns. */
 .column {
     break-inside: avoid;
-}
-
-td:has(p>span.red) {
-    background-color: rgb(255, 162, 162);
-    font-weight: bold;
 }
