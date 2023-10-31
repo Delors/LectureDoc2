@@ -1,11 +1,15 @@
 /* Theming of LectureDoc controls and configuration of the most basic assumptions. */
 
 
-body {
+:root {
     /*  48px to have roughly 16 lines of text on a slide with a height of 1200px. */
     font: 48px "Helvetica", sans-serif;
     line-height: 1.5;
     /* Primarily for debugging purposes!*/
+    background-color: rgb(125, 125, 125); 
+}
+
+body {
     background-color: rgb(25, 25, 30); 
 }
 
