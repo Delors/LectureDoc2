@@ -524,7 +524,7 @@ const lectureDoc2 = function () {
     function resetSlideProgress(slide) {
         setupSlideProgress(slide);
         if (state.slideProgress) {
-            state.slideProgress.removeAttribute(slide.id)
+            delete state.slideProgress[slide.id];
             // ... when the last slide.id key is removed from the object, the 
             // object is actually deleted...
         }
@@ -640,14 +640,15 @@ const lectureDoc2 = function () {
     }
 
     /** 
-     * Stores the number of times the user has to press the reset key
-     * before LectureDoc will be reset.
-     */
-    var resetCount = 8
-    /** 
      * Central keyboard event handler.
      */
     function registerKeyboardEventListener() {
+        /** 
+         * Stores the number of times the user has to press the reset key
+         * before LectureDoc will be reset.
+         */
+        const resetCount = { 'v': 8 }
+
         document.addEventListener("keydown", (event) => {
             // we don't want to stop the user from interacting with the browser/OS
             if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
@@ -657,15 +658,15 @@ const lectureDoc2 = function () {
             // When the user presses the "r" key eight times in a row, LectureDoc
             // will be reset.
             if (event.key == "r") {
-                resetCount--
-                if (resetCount == 0) {
+                resetCount.v--
+                if (resetCount.v == 0) {
                     resetLectureDoc();
-                } else if (resetCount < 7) {
-                    console.info(`press r ${resetCount} more times more to reset LectureDoc`)
+                } else if (resetCount.v < 7) {
+                    console.info(`press r ${resetCount.v} more times more to reset LectureDoc`)
                     return;
                 }
             } else {
-                resetCount == 8
+                resetCount.v = 8
             }
 
             switch (event.key) {
@@ -684,6 +685,7 @@ const lectureDoc2 = function () {
                 case "Enter": jumpToSlide(); break;
                 case "ArrowLeft": moveToPreviousSlide(); break;
                 case "ArrowRight":
+                case " ":
                 case "Space": advancePresentation(); break;
                 case "r": resetSlideProgress(getCurrentSlide()); break;
 
