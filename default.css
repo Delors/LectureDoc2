@@ -109,14 +109,30 @@ p.admonition-title {
     background-color: rgb(157, 255, 204);
 }
 
+span.ger-quote::before {
+    content: '„' ;
+}
 
+span.ger-quote::after {
+    content: '”' ;
+}
 
 blockquote {
     padding: 0.5em;
-    border-radius: 0.25em;
+    border-radius: 0.4em;
     background-color: rgba(55, 55, 55, 0.075);
 }
 
+.epigraph {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-variant-ligatures: additional-ligatures;
+}
+
+.topic-title {
+    text-align: center;
+    padding-top: 0.5em;
+}
 
 
 pre.code {
@@ -132,6 +148,7 @@ Styling of table is done by adding the desired classes:
     3) compact
     4) no-table-borders
     5) no-inner-borders
+    6) no-column-borders
 */
 table {
     border: 1.5px solid black;
@@ -169,7 +186,6 @@ td.highlight {
 }
 
 table.compact {
-    line-height: 1.05em;
     margin: 0;
 }
 
@@ -196,6 +212,11 @@ table.header-column td:first-child {
     font-weight: bold;
 }
 
+table.no-column-borders :is(td,th) {
+    border-left: 0;
+    border-right: 0;
+}
+
 .ger {
     color: gray;
     font-style: italic;
@@ -220,6 +241,10 @@ table.header-column td:first-child {
 
 .eng::after {
     content: ")";
+}
+
+.compact { /* often used in combination with tables */
+    line-height: 1.05em;
 }
 
 .red {
@@ -266,3 +291,4 @@ table.header-column td:first-child {
 .column {
     break-inside: avoid;
 }
+
