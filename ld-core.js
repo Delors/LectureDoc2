@@ -80,6 +80,7 @@ const lectureDoc2 = function () {
         lightTableZoomLevel: 10,
         showHelp: false,
         showContinuousView: false,
+        continuousViewScrollY: 0,
     }
 
     /**
@@ -407,6 +408,13 @@ const lectureDoc2 = function () {
             slide_pane.appendChild(slide_scaler);
 
             continuous_view_pane.appendChild(slide_pane);
+
+            // Move "aside with details below the slide".
+            const aside = slide.querySelector(":scope aside.details");
+            if (aside) {
+                aside.parentElement.removeChild(aside);
+                continuous_view_pane.appendChild(aside);
+            }
         });
 
         document.getElementsByTagName("BODY")[0].prepend(continuous_view_pane);
@@ -631,11 +639,12 @@ const lectureDoc2 = function () {
         // and then actually perform the change.
         state.showContinuousView = getComputedStyle(ld_main_pane).display == "flex"
         if (state.showContinuousView) {
-            ld_main_pane.style.display = "none"
-            ld_continuous_view_pane.style.display = "block"
+            ld_main_pane.style.display = "none";
+            ld_continuous_view_pane.style.display = "block";
+            window.scrollTo(0,state.continuousViewScrollY);
         } else {
-            ld_continuous_view_pane.style.display = "none"
-            ld_main_pane.style.display = "flex"
+            ld_continuous_view_pane.style.display = "none";
+            ld_main_pane.style.display = "flex";
         }
     }
 
@@ -743,6 +752,14 @@ const lectureDoc2 = function () {
         });
     }
 
+    function registerContinuousViewScrollYListener() {
+        document.addEventListener("scroll", () => {
+            if (state.showContinuousView) {
+                state.continuousViewScrollY = window.scrollY;
+            }
+        })
+    }
+
     /**
      * Queries and manipulates the DOM to setup lecture doc and bring the 
      * presentation to the last state.
@@ -793,6 +810,7 @@ const lectureDoc2 = function () {
 
         document.addEventListener("visibilitychange", storeStateOnVisibilityHidden);
 
+        registerContinuousViewScrollYListener();
         registerKeyboardEventListener();
         registerViewportResizeListener();
         registerSlideClickedListener();

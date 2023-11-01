@@ -210,11 +210,41 @@ div {
     scale: 0.5;
 }
 
-@media screen {
+.ld-continuous-view-slide-pane {
+    height: calc(var(--ld-slide-height) / 2 + 3px);
+    max-height: calc(var(--ld-slide-height) / 2 + 3px);
+}
+
+@media print {
     .ld-continuous-view-slide-pane {
-        height: calc(var(--ld-slide-height) / 2 + 2px);
-        max-height: calc(var(--ld-slide-height) / 2 + 2px);
-        border-bottom: 2px solid gray;
+        page-break-before: always;
     }
+}
+
+/*  ----------------------------------------------------------------------------
+
+
+    Styles related to elements that are (re)arranged depending on the selected
+    view.
+*/
+
+:is(#ld-main-pane, #ld-light-table) aside.admonition.details {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin:0;
+    max-width: 75%;
+    max-height: 70%;
+    overflow-y: scroll;
+    transform: translateX(calc(100% - 10px)) translateY(calc(1200px / 2 - ( 100% / 2 ) ));
+}
+
+:is(#ld-main-pane, #ld-light-table) .admonition.details:hover{
+    transform: translateX(0%) translateY(calc(1200px / 2 - ( 100% / 2 ) ));
+}
+
+#ld-continuous-view-pane aside.admonition.details {
+    border-radius: 0;    
+    box-shadow: none;
 }
 
