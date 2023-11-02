@@ -122,7 +122,6 @@ However, when you use ``rst2ld`` to author your slides, you can make use of some
 - .small
 - .monospaced 
 - table.compact 
-- .enable-copy-to-clipboard
 
 
 Non-Goals
