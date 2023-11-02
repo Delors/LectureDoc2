@@ -110,11 +110,11 @@ p.admonition-title {
 }
 
 span.ger-quote::before {
-    content: '„' ;
+    content: '„';
 }
 
 span.ger-quote::after {
-    content: '”' ;
+    content: '”';
 }
 
 blockquote {
@@ -212,7 +212,7 @@ table.header-column td:first-child {
     font-weight: bold;
 }
 
-table.no-column-borders :is(td,th) {
+table.no-column-borders :is(td, th) {
     border-left: 0;
     border-right: 0;
 }
@@ -243,7 +243,8 @@ table.no-column-borders :is(td,th) {
     content: ")";
 }
 
-.compact { /* often used in combination with tables */
+.compact {
+    /* often used in combination with tables */
     line-height: 1.05em;
 }
 
@@ -259,8 +260,16 @@ table.no-column-borders :is(td,th) {
     color: rgb(0, 88, 0);
 }
 
+.shadow {
+    box-shadow: 4px 4px 8px rgb(33, 33, 33);
+}
+
 .not-important {
     color: rgb(129, 129, 129)
+}
+
+.obsolete {
+    text-decoration: line-through;
 }
 
 .line-above {
@@ -270,6 +279,11 @@ table.no-column-borders :is(td,th) {
 .margin-below {
     margin-bottom: 1em;
 }
+
+/*
+    Styling of multi-column diffs.
+
+*/
 
 .two-columns,
 .three-columns {
@@ -292,3 +306,116 @@ table.no-column-borders :is(td,th) {
     break-inside: avoid;
 }
 
+/*
+    Styling of section headers.
+
+    A section header is a div with the class ".new-section"
+*/
+
+div.ld-slide.new-section>h2 {
+    font-size: 2rem;
+    font-variant: small-caps;
+    text-align: center;
+    margin-top: 4rem;
+    border-top: 2px solid;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid;
+}
+
+div.ld-slide.new-section>h2::after {
+    content: "Prof. Dr. Michael Eichberg";
+    display: block;
+    position: absolute;
+    font-size: 0.75rem;
+    font-variant: normal;
+    font-weight: 400;
+    margin-top: 2.25rem;
+}
+
+div.ld-slide.new-section::after {
+    content: url(../dhbw_logo.png);
+    position: absolute;
+    bottom: 18px;
+    right: 36px;
+}
+
+
+/*
+    Styling of warning asides. 
+
+    These asides should be used very sparingly because a subtle animation 
+    is used to make this warning really effective.
+*/
+
+aside.warning {
+    background-color: var(--ld-dhbw-red);
+}
+
+/* We only want the animation in the slide view! */
+#ld-main-pane aside.warning[style*="visibility: visible;"] {
+    animation:
+        red-to-orange-and-back 10s infinite,
+        scale-in 1s;
+}
+
+aside.warning p.admonition-title {
+    color: white;
+    text-align: center;
+    font-size: larger;
+}
+
+@keyframes red-to-orange-and-back {
+    0% {
+        background-color: var(--ld-dhbw-red);
+    }
+
+    50% {
+        background-color: rgb(253, 108, 41);
+    }
+
+    100% {
+        background-color: var(--ld-dhbw-red);
+    }
+}
+
+@keyframes scale-in {
+    0% {
+        scale: 0.95;
+    }
+
+    100% {
+        scale: 1;
+    }
+}
+
+
+/*
+
+Styling of impressive lists (whatever "impressive" means in this case).
+
+*/
+ol.impressive {
+    color: white;
+}
+
+ol.impressive li::marker{
+    color: rgb(0, 0, 64);
+    font-size: 1.5em;
+}
+
+ol.impressive li{
+    background-color: rgb(0, 0, 64);
+    margin-top: 1em;
+    margin-left: 0.5em;
+    box-shadow: 4px 4px 8px black;
+    line-height: 1.5em;
+    min-height: 3em;
+}
+
+
+.admonition.white-background {
+    background-color: white;
+    color: rgb(30,30,30);
+}
+    

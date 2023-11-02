@@ -117,7 +117,7 @@ div {
 #ld-light-table {
     height: 100%;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: scroll; 
 }
 
 #ld-light-table-slides {
@@ -126,7 +126,6 @@ div {
     justify-content: space-evenly;
     align-items: flex-start;
     align-content: flex-start;
-    overflow-y: scroll;
 }
 
 .ld-light-table-slide-overlay {
@@ -221,6 +220,18 @@ div {
     }
 }
 
+#ld-message-box {
+    z-index: 9999;
+    position: fixed;
+    top: 1rem;
+    padding: 0.5rem;
+    color: white;
+    margin: auto;
+    background-color: rgb(158, 89, 89);
+    box-shadow: 4px 4px 8px black;
+    border-radius: 1em;
+}
+
 /*  ----------------------------------------------------------------------------
 
 
@@ -228,7 +239,7 @@ div {
     view.
 */
 
-:is(#ld-main-pane, #ld-light-table) aside.admonition.details {
+:is(#ld-main-pane, #ld-light-table) aside.admonition.supplemental {
     position: absolute;
     top: 0;
     right: 0;
@@ -236,15 +247,18 @@ div {
     max-width: 75%;
     max-height: 70%;
     overflow-y: scroll;
-    transform: translateX(calc(100% - 10px)) translateY(calc(1200px / 2 - ( 100% / 2 ) ));
+    transform: 
+        translateX(calc(100% - 18px)) 
+        translateY(calc(1200px / 2 - ( 100% / 2 ) ));
 }
 
-:is(#ld-main-pane, #ld-light-table) .admonition.details:hover{
+:is(#ld-main-pane, #ld-light-table) .admonition.supplemental:hover{
     transform: translateX(0%) translateY(calc(1200px / 2 - ( 100% / 2 ) ));
 }
 
-#ld-continuous-view-pane aside.admonition.details {
+#ld-continuous-view-pane aside.admonition.supplemental {
     border-radius: 0;    
     box-shadow: none;
 }
+
 

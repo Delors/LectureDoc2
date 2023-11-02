@@ -81,6 +81,7 @@ const lectureDoc2 = function () {
         showHelp: false,
         showContinuousView: false,
         continuousViewScrollY: 0,
+        lightTableViewScrollY: 0,
     }
 
     /**
@@ -89,7 +90,7 @@ const lectureDoc2 = function () {
     function storeState() {
         if (presentation.id) {
             const jsonState = JSON.stringify(state)
-            console.log(`saving state of ${presentation.id}: ${jsonState}`)
+            console.debug(`saving state of ${presentation.id}: ${jsonState}`)
             localStorage.setItem(documentSpecificId("state"), jsonState);
         }
     }
@@ -116,7 +117,7 @@ const lectureDoc2 = function () {
             const jsonState = localStorage.getItem(documentSpecificId("state"))
             const newState = JSON.parse(jsonState);
             if (newState) {
-                console.info(`loaded state of ${presentation.id}: ${jsonState}`);
+                console.debug(`loaded state of ${presentation.id}: ${jsonState}`);
                 state = newState;
             }
         }
@@ -129,13 +130,13 @@ const lectureDoc2 = function () {
         reapplySlideProgress();
 
         if (state.currentSlideNo > lastSlideNo()) {
-            console.info(`invalid slide number: ${state.currentSlideNo}; set to last slide`)
+            console.debug(`invalid slide number: ${state.currentSlideNo}; set to last slide`)
             state.currentSlideNo = lastSlideNo();
         }
         showSlide(state.currentSlideNo);
 
         updateLightTableZoomLevel(state.lightTableZoomLevel);
-        if (state.showLightTable) toggleDialog("light-table");
+        if (state.showLightTable) { toggleLightTable(); }
 
         if (state.showHelp) toggleDialog("help");
 
@@ -409,8 +410,8 @@ const lectureDoc2 = function () {
 
             continuous_view_pane.appendChild(slide_pane);
 
-            // Move "aside with details below the slide".
-            const aside = slide.querySelector(":scope aside.details");
+            // Move "aside with supplemental information below the slide".
+            const aside = slide.querySelector(":scope aside.supplemental");
             if (aside) {
                 aside.parentElement.removeChild(aside);
                 continuous_view_pane.appendChild(aside);
@@ -419,6 +420,21 @@ const lectureDoc2 = function () {
 
         document.getElementsByTagName("BODY")[0].prepend(continuous_view_pane);
     }
+
+    function setupMessageBox() {
+        const message = document.createElement("DIALOG");
+        message.id = "ld-message-box";
+        document.querySelector("body").prepend(message);
+    }
+
+    function showMessage(message) {
+        const messageBox = document.querySelector("#ld-message-box");
+        messageBox.innerText = message;
+        messageBox.show();
+        setTimeout(() => { messageBox.close() }, 3000);
+        console.log(message);
+    }
+
 
     /**
      * @returns The element ("DIV") with the ID of the current slide.
@@ -553,6 +569,13 @@ const lectureDoc2 = function () {
             }
         });
     }
+    function resetAllAnimations(){
+        document.querySelectorAll("#ld-main-pane .ld-slide").forEach((slide) => {
+            resetSlideProgress(slide);
+        });
+        showMessage("all animations reset");
+    }
+
 
     function clearJumpTarget() {
         document.getElementById("ld-jump-target-current").innerText = "";
@@ -597,10 +620,23 @@ const lectureDoc2 = function () {
         const root = document.querySelector(":root");
         root.style.setProperty("--ld-light-table-zoom-level", value);
 
-        state.lightTableZoomLevel = value
+        state.lightTableZoomLevel = value;
     }
 
+    function updateLightTableViewScrollY(y) {
+        if (y) {
+            const lightTableView = document.querySelector("#ld-light-table");
+            lightTableView.scrollTo(0,y);
+        }
+    }
 
+    function toggleLightTable() {
+        if (toggleDialog("light-table")) {
+            updateLightTableViewScrollY(state.lightTableViewScrollY);
+        }
+    }
+
+    
     /**
      * Toggles a modal dialog. 
      * 
@@ -613,18 +649,22 @@ const lectureDoc2 = function () {
     function toggleDialog(name) {
         const elementId = "ld-" + name + "-dialog"
         const stateId = "show" + capitalizeCSSName(name)
+        var isShown = undefined;
 
         const dialog = document.getElementById(elementId)
         if (dialog.open) {
             dialog.style.opacity = 0;
             /* the 500ms is also hard coded in the css */
             setTimeout(function () { dialog.close() }, 500);
-            state[stateId] = false
+            isShown = false
         } else {
             dialog.showModal();
             dialog.style.opacity = 1;
-            state[stateId] = true
+            isShown = true
         }
+
+        state[stateId] = isShown
+        return isShown;
     }
 
     /**
@@ -670,12 +710,18 @@ const lectureDoc2 = function () {
                 resetCount.v--
                 if (resetCount.v == 0) {
                     resetLectureDoc();
+                } else if (resetCount.v == 3) {
+                    resetAllAnimations();
+                    return;
+                } else if (resetCount.v < 3) {
+                    console.info(`press r ${resetCount.v} more times more to reset LectureDoc`);
+                    return;
                 } else if (resetCount.v < 7) {
-                    console.info(`press r ${resetCount.v} more times more to reset LectureDoc`)
+                    console.info(`press r ${resetCount.v-3} more times more to reset all animations`);
                     return;
                 }
             } else {
-                resetCount.v = 8
+                resetCount.v = 8;
             }
 
             switch (event.key) {
@@ -698,7 +744,7 @@ const lectureDoc2 = function () {
                 case "Space": advancePresentation(); break;
                 case "r": resetSlideProgress(getCurrentSlide()); break;
 
-                case "l": toggleDialog("light-table"); break;
+                case "l": toggleLightTable(); break;
 
                 case "h": toggleDialog("help"); break;
 
@@ -706,7 +752,7 @@ const lectureDoc2 = function () {
 
                 // for development purposes:
                 default:
-                    console.log("unhandled: " + event.key);
+                    console.debug("unhandled: " + event.key);
             }
         });
     }
@@ -723,8 +769,8 @@ const lectureDoc2 = function () {
                 return;
             }
 
-            /* Let's determine if we have clicked on the left or right part. */
-            if (event.pageX < (window.innerWidth / 2)) {
+            /* Let's determine if we have clicked on the far left or right part. */
+            if (event.pageX < (window.innerWidth / 4)) {
                 moveToPreviousSlide();
             } else {
                 advancePresentation();
@@ -749,6 +795,16 @@ const lectureDoc2 = function () {
                 showSlide(state.currentSlideNo);
                 toggleDialog("light-table");
             });
+        });
+    }
+
+    function registerLightTableViewScrollYListener() {
+        const lightTableView = document.querySelector("#ld-light-table")
+        lightTableView.addEventListener("scroll", () => {
+            console.log("ld" + lightTableView.scrollTop);
+            if (state.showLightTable) {
+                state.lightTableViewScrollY = lightTableView.scrollTop;
+            }
         });
     }
 
@@ -787,6 +843,7 @@ const lectureDoc2 = function () {
         has to follow some well-defined restrictions - we first extend the DOM with
         the elements that realize LectureDoc's core functionality.
         */
+        setupMessageBox();
         setupLightTable();
         setupHelp();
         setupJumpTargetDialog();
@@ -811,6 +868,7 @@ const lectureDoc2 = function () {
         document.addEventListener("visibilitychange", storeStateOnVisibilityHidden);
 
         registerContinuousViewScrollYListener();
+        registerLightTableViewScrollYListener();
         registerKeyboardEventListener();
         registerViewportResizeListener();
         registerSlideClickedListener();
@@ -820,7 +878,7 @@ const lectureDoc2 = function () {
         try {
             lectureDoc2Animations();
         } catch (error) {
-            console.log("advanced animations package is not found/not loaded")
+            console.warn("advanced animations package is not found/not loaded")
         }
     });
 

@@ -11,8 +11,8 @@ const lectureDoc2Help = function () {
         </p>
         <p>
             <strong>Mouse Navigation</strong><br>
-            When you click on the left side of a slide you'll go the previous slide.
-            When you click in the right half the next step will be done; i.e., the
+            When you click on the very left side of a slide you'll go the previous slide.
+            When you click in the middle or right half the next step will be done; i.e., the
             next animation will be started or you'll advance to the next slide.
         </p>
         <p>
@@ -26,6 +26,8 @@ const lectureDoc2Help = function () {
                 <tr><td>l</td><td>toggle light table</td></tr>
                 <tr></tr>
                 <tr><td>r</td><td>reset animation for current slide</td></tr>
+                <tr><td>r (5 times in a row)</td><td>reset all animations</td></tr>
+                <tr><td>r (8 times in a row)</td><td>delete all state and restart LectureDoc</td></tr>
                 <tr><td>&lt;space&gt;, →</td><td>next step/slide</td></tr>
                 <tr><td>←</td><td>previous slide</td></tr>
                 <tr><td>&lt;digit(s)&gt; + &lt;enter&gt;</td><td>jump to slide</td></tr>
