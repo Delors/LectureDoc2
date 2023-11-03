@@ -572,7 +572,7 @@ const lectureDoc2 = function () {
         document.querySelectorAll("#ld-main-pane .ld-slide").forEach((slide) => {
             resetSlideProgress(slide);
         });
-        showMessage("all animations reset");
+        showMessage("Reset all animation progress.");
     }
 
 
@@ -709,6 +709,9 @@ const lectureDoc2 = function () {
                 resetCount.v--
                 if (resetCount.v == 0) {
                     resetLectureDoc();
+                } else if (resetCount.v == 4) {
+                    showMessage("When you press 'r' one more time all animation progress will be reset.")
+                    return;
                 } else if (resetCount.v == 3) {
                     resetAllAnimations();
                     return;
