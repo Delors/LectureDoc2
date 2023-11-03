@@ -427,11 +427,11 @@ const lectureDoc2 = function () {
         document.querySelector("body").prepend(message);
     }
 
-    function showMessage(message) {
+    function showMessage(html_message,ms = 3000) {
         const messageBox = document.querySelector("#ld-message-box");
-        messageBox.innerText = message;
+        messageBox.innerHTML = html_message;
         messageBox.show();
-        setTimeout(() => { messageBox.close() }, 3000);
+        setTimeout(() => { messageBox.close() }, ms);
         console.log(message);
     }
 
@@ -770,8 +770,9 @@ const lectureDoc2 = function () {
             }
 
             /* Let's determine if we have clicked on the far left or right part. */
-            if (event.pageX < (window.innerWidth / 4)) {
+            if (event.pageX < (window.innerWidth / 2)) {
                 moveToPreviousSlide();
+                showMessage("<span style='font-size:2rem'>⬅︎</span>",400);
             } else {
                 advancePresentation();
             }

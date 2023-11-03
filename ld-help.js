@@ -11,8 +11,8 @@ const lectureDoc2Help = function () {
         </p>
         <p>
             <strong>Mouse Navigation</strong><br>
-            When you click on the very left side of a slide you'll go the previous slide.
-            When you click in the middle or right half the next step will be done; i.e., the
+            When you click on the left side of a slide you'll go the previous slide.
+            When you click on the right half the next step will be done; i.e., the
             next animation will be started or you'll advance to the next slide.
         </p>
         <p>
