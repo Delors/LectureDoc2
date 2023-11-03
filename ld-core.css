@@ -71,8 +71,11 @@ div {
     width: var(--ld-slide-width);
     height: var(--ld-slide-height);
     overflow: hidden;
-    display: none;
+}
+
+body div.ld-slide {
     /* we ignore the default slides */
+    display: none;
 }
 
 /*  ----------------------------------------------------------------------------
@@ -94,6 +97,8 @@ div {
 
 #ld-main-pane .ld-slide {
     position: absolute;
+    display: block; /* just to make sure */
+    scale: 0; /* we make them effectively invisible */
 }
 
 /*  ----------------------------------------------------------------------------
@@ -151,6 +156,7 @@ div {
 
 #ld-light-table .ld-slide {
     position: absolute;
+    display: block; /* just to make sure */
 }
 
 /*  ----------------------------------------------------------------------------

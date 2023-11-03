@@ -323,7 +323,6 @@ const lectureDoc2 = function () {
         document.querySelectorAll("body > .ld-slide").forEach((slide_template, i) => {
             const slide = slide_template.cloneNode(true);
             slide.removeAttribute("id"); // not needed anymore (in case it was set)
-            slide.style.display = "block"; // in case it was "none"
 
             const slide_scaler = document.createElement("DIV");
             slide_scaler.className = "ld-light-table-slide-scaler";
@@ -463,14 +462,14 @@ const lectureDoc2 = function () {
      */
     function showSlide(slideNo) {
         const slide_id = "ld-slide-no-" + slideNo;
-        document.getElementById(slide_id).style.display = "block";
+        document.getElementById(slide_id).style.scale = 1;
         state.currentSlideNo = slideNo;
     }
 
     function hideSlide(slideNo) {
         const ld_slide = document.getElementById("ld-slide-no-" + slideNo)
         if (ld_slide) {
-            ld_slide.style.display = "none";
+            ld_slide.style.scale = 0;
 
             // We have to clear a potential selection of text to avoid that the
             // user is confused if s(he) copies text to the clipboard (s)he can't 
