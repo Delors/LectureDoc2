@@ -458,6 +458,9 @@ We want to add a section number to each major section (a section is marked by a 
 }
     
 
+.more-space-between-list-items li{
+    margin-top: 0.75em;
+}
 
 /*
 
