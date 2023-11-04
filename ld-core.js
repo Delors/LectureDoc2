@@ -710,16 +710,16 @@ const lectureDoc2 = function () {
                 if (resetCount.v == 0) {
                     resetLectureDoc();
                 } else if (resetCount.v == 4) {
-                    showMessage("When you press 'r' one more time all animation progress will be reset.")
+                    showMessage('When you press "r" again all animation progress will be reset.')
                     return;
                 } else if (resetCount.v == 3) {
                     resetAllAnimations();
                     return;
                 } else if (resetCount.v < 3) {
-                    console.info(`press r ${resetCount.v} more times more to reset LectureDoc`);
+                    console.info(`press "r" ${resetCount.v} more times to reset LectureDoc`);
                     return;
                 } else if (resetCount.v < 7) {
-                    console.info(`press r ${resetCount.v-3} more times more to reset all animations`);
+                    console.info(`press "r" ${resetCount.v-3} more times to reset all animations.`);
                     return;
                 }
             } else {
