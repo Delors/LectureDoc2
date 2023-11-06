@@ -306,40 +306,6 @@ table.no-column-borders :is(td, th) {
     break-inside: avoid;
 }
 
-/*
-    Styling of section headers.
-
-    A section header is a div with the class ".new-section"
-*/
-
-div.ld-slide.new-section>h2 {
-    font-size: 2rem;
-    font-variant: small-caps;
-    text-align: center;
-    margin-top: 4rem;
-    border-top: 2px solid;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid;
-}
-
-div.ld-slide.new-section>h2::after {
-    content: "Prof. Dr. Michael Eichberg";
-    display: block;
-    position: absolute;
-    font-size: 0.75rem;
-    font-variant: normal;
-    font-weight: 400;
-    margin-top: 2.25rem;
-}
-
-div.ld-slide.new-section::after {
-    content: url(../dhbw_logo.png);
-    position: absolute;
-    bottom: 18px;
-    right: 36px;
-}
-
 
 /*
     Styling of warning asides. 
@@ -391,6 +357,43 @@ aside.warning p.admonition-title {
 
 .references {
     font-size: 16px;
+}
+
+
+/*
+    Styling of section headers.
+
+    A section header is a div with the class ".new-section"
+*/
+
+div.ld-slide.new-section>h2 {
+    font-size: 2rem;
+    font-variant: small-caps;
+    text-align: center;
+    margin-top: 4rem;
+    border-top: 2px solid;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid;
+    border-radius: 0.5em;
+    background-color: rgb(222, 222, 222);
+}
+
+div.ld-slide.new-section>h2::after {
+    content: "Prof. Dr. Michael Eichberg";
+    display: block;
+    position: absolute;
+    font-size: 0.75rem;
+    font-variant: normal;
+    font-weight: 400;
+    margin-top: 2.25rem;
+}
+
+div.ld-slide.new-section::after {
+    content: url(../dhbw_logo.png);
+    position: absolute;
+    bottom: 18px;
+    right: 36px;
 }
 
 /*
@@ -451,6 +454,91 @@ We want to add a section number to each major section (a section is marked by a 
     padding-right: 0.5em;
 }
 
+
+/* *
+ 
+Handling of subsections.
+
+*/
+
+div.ld-slide.new-subsection>h2 {
+    font-size: 1.666rem;
+    font-variant: small-caps;
+    text-align: center;
+    margin-top: 4rem;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    border-radius: 0.5em;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background-color: rgb(222, 222, 222);
+}
+
+div.ld-slide.new-subsection::after {
+    content: url(../dhbw_logo.png);
+    position: absolute;
+    scale: 0.5;
+    top: -18px;
+    right: -100px;
+}
+
+/*
+    Let's add a nice animation when we reach the next "new-subsection" slide.
+*/
+
+#ld-main-pane .ld-slide.new-subsection[style*="scale: 1;"] {
+    animation: blend-in 2s;
+}
+
+#ld-main-pane .ld-slide[style*="scale: 0"]:has(+.ld-slide.new-subsection[style*="scale: 1;"]) {
+    animation: blend-out 2s;
+}
+
+@keyframes blend-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100;
+    }
+}
+
+@keyframes blend-out {
+    0% {
+        opacity: 1;
+        scale: 1; /* We have to reset the scale level to make a blending effect possible. */
+    }
+
+    99% { /*  */
+        opacity: 0;
+    }
+    100% {
+        scale: 0;
+    }
+}
+
+.new-section {
+    counter-reset: ld-subsection 0;
+}
+
+.ld-slide.new-subsection {
+    counter-increment: ld-subsection;
+}
+
+.ld-slide.new-subsection h2::before {
+    content: counter(ld-section)"."counter(ld-subsection);
+    padding-right: 0.5em;
+}
+
+
+/*
+
+Styling of individual elements.
+
+*/ 
 
 .admonition.white-background {
     background-color: white;
