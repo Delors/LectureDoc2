@@ -520,19 +520,6 @@ div.ld-slide.new-subsection::after {
     }
 }
 
-.new-section {
-    counter-reset: ld-subsection 0;
-}
-
-.ld-slide.new-subsection {
-    counter-increment: ld-subsection;
-}
-
-.ld-slide.new-subsection h2::before {
-    content: counter(ld-section)"."counter(ld-subsection);
-    padding-right: 0.5em;
-}
-
 
 /*
 
