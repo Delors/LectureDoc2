@@ -5,31 +5,45 @@
     -   LectureDoc (i.e., the slide set) must be 
         usable without a Server(!); hence, no JavaScript modules :-(...
    
-    -   We store the state information in a state object; this object can then
-        be used to re-instantiate a LectureDoc session later on. This object
-        is saved in local storage whenever the user leaves the webpage.
+    -   We store all relevante state information in a state object; this object 
+        is then used to re-instantiate a LectureDoc session later on. This object
+        is saved in local storage whenever the user leaves the webpage. To make
+        it possible to distinguish document specific state information, a 
+        document has to be associated with a unique id. This id has to be 
+        set by the user. If no id is configured, no state information will be
+        saved.
+        Saved states always overrides information found in the document.
 
     -   Meta information about the presentation is stored in the presentation 
-        object. This object is - after initialization - not mutated. 
+        object. This object is - after initialization - not mutated.
+
+    -   Except for dialogs we try to avoid using the style display:none.
+        This impedes potential animations and also counters.
 */
 "use strict";
 
 /**
- * Let's put all functionality in the `lectureDoc2` "module" to avoid conflicts
- * with other JavaScript libraries.
+ * For `lectureDoc2` we use "modules" that start with lectureDoc2.
+ * 
+ * lectureDoc2 is an object which contains a reference to the meta-information
+ * object (presentation) and a function (getState) to return the current state.
  */
 const lectureDoc2 = function () {
 
     /**
-     * The following information is read from the document, if it is specified.
-     * Therefore this information is neither representing the runtime state nor
-     * static code configuration information.
+     * The meta-information about the document.
+     * 
+     * The following information is read from the document or initialized
+     * with default values. 
+     * 
+     * This information will not be mutated after initialization.
      */
     const presentation = {
         /** 
          * The unique id of this document; required to store state information 
-         * across multiple visits to the same document in local storage. If
-         * the document id is null we will not use local storage.
+         * in local storage across multiple visits to the same document. 
+         * 
+         * If the document id is null we will not use local storage.
          */
         id: null,
         /** 
@@ -42,7 +56,8 @@ const lectureDoc2 = function () {
             height: 1200
         },
         /**
-         * The number of slides; automatically derived when the slide set is loaded.
+         * The number of slides; automatically derived when the slide set is
+         * loaded.
          */
         slideCount: -1,
         /**
@@ -67,21 +82,47 @@ const lectureDoc2 = function () {
          * then the help will be shown at least once; unless help is explicitly
          * set to false.
          */
-        showHelp: false
+        showHelp: true
     }
 
     /**
      * Captures the current state of the presentation.
      */
-    var state = { // the following is the default state 
+    var state = { // the (default) state 
+        // The overall progress.
         currentSlideNo: 0,
-        slideProgress: {}, // stores for each slide the number of revealed elements
+        // stores for each slide the number of executed animation steps
+        slideProgress: {}, 
+        
+        // Help dialog related state
+        showHelp: false,
+        
+        // Light table related state
         showLightTable: false,
         lightTableZoomLevel: 10,
-        showHelp: false,
+        lightTableViewScrollY: 0,
+        
+        // Continuous view related state
         showContinuousView: false,
         continuousViewScrollY: 0,
-        lightTableViewScrollY: 0,
+    }
+
+    /**
+     * Creates a document dependent unique id. 
+     * 
+     * This enables the storage of document dependent information in local
+     * storage, even though all documents have the same origin and therefore 
+     * use the same local storage object.
+     * 
+     * @param {string} id the id of the information item without the prefix 
+     *          "ld-".
+     */
+    function documentSpecificId(dataId) {
+        if (presentation.id) {
+            return "ld-" + presentation.id + "-" + dataId;
+        } else {
+            throw new Error("no document id available")
+        }
     }
 
     /**
@@ -90,16 +131,16 @@ const lectureDoc2 = function () {
     function storeState() {
         if (presentation.id) {
             const jsonState = JSON.stringify(state)
-            console.debug(`saving state of ${presentation.id}: ${jsonState}`)
             localStorage.setItem(documentSpecificId("state"), jsonState);
+            console.debug(`${presentation.id} stated saved: ${jsonState}`)
         }
     }
 
     /**
-     * Stores the current state, when the page is hidden.
+     * Stores the current state, when the page/document is hidden.
      * 
-     * Register this function as a listener when the visibility of a document
-     * changes. This enables us to restore the state even if the user "kills" the browser 
+     * Register this function as a listener of the document's visibility.
+     * This enables us to restore the state even if the user "kills" the browser 
      * and therefore other events (e.g., "onunload") are not reliably fired. 
      * (See MDN for more details.)
      */
@@ -117,21 +158,26 @@ const lectureDoc2 = function () {
             const jsonState = localStorage.getItem(documentSpecificId("state"))
             const newState = JSON.parse(jsonState);
             if (newState) {
-                console.debug(`loaded state of ${presentation.id}: ${jsonState}`);
                 state = newState;
+                console.debug(`${presentation.id} state loaded: ${jsonState}`);
             }
         }
     }
 
     /**
-     * Applies the current state object to the presentation.
+     * Applies the current state to the presentation. 
+     * 
+     * I.e., based on the state information all necessary methods will
+     * be called to ensure that the state (open dialogs, presentation progress)
+     * is as before.
      */
     function applyState() {
         reapplySlideProgress();
 
-        if (state.currentSlideNo > lastSlideNo()) {
-            console.debug(`invalid slide number: ${state.currentSlideNo}; set to last slide`)
-            state.currentSlideNo = lastSlideNo();
+        const lastSlideNo = lastSlideNo()
+        if (state.currentSlideNo > lastSlideNo) {
+            state.currentSlideNo = lastSlideNo;
+            console.info(`updated slide number: ${lastSlideNo}`);
         }
         showSlide(state.currentSlideNo);
 
@@ -143,6 +189,10 @@ const lectureDoc2 = function () {
         if (state.showContinuousView) toggleContinuousView();
     }
 
+    /**
+     * Deletes all permanent state associated with this document and LectureDoc 
+     * as a whole.
+     */
     function deleteStoredState() {
         localStorage.removeItem("ld-help-was-shown");
 
@@ -152,37 +202,26 @@ const lectureDoc2 = function () {
     }
 
     /**
-     * Deletes all LectureDoc information associated with this document and lectureDoc
+     * Deletes all information associated with this document and LectureDoc
      * as such.
      */
     function resetLectureDoc() {
         console.log(`LectureDoc reset initiated`);
 
-        // We need to remove the listener to avoid that the state is saved before/on a 
-        // reload.
-        document.removeEventListener("visibilitychange", storeStateOnVisibilityHidden);
-
+        // We need to remove the visibility listener first to avoid that 
+        // the state is saved before/on a reload.
+        document.removeEventListener(
+            "visibilitychange",
+            storeStateOnVisibilityHidden);
         deleteStoredState();
-
         location.reload();
     }
 
-    /**
-     * Creates a document dependent unique id. This enables the storage of
-     * document dependent information in local storage, even though all documents
-     * have the same origin and therefore use the same local storage object.
-     * 
-     * @param {string} id the id of the information item without the prefix "ld-".
-     */
-    function documentSpecificId(id) {
-        if (presentation.id != null) {
-            return "ld-" + presentation.id + "-" + id;
-        } else {
-            throw new Error("no document id available")
-        }
-    }
+
 
     /**
+     * Converts a string in CSS notation into a variable name as used by
+     * JavaScript except that also the first character is also capitalized.
      * 
      * @param {string} a string in css notation; e.g., "light-table". 
      * @returns The given string where each segment is capitalized. 
@@ -193,9 +232,7 @@ const lectureDoc2 = function () {
     function capitalizeCSSName(str, separator = "-") {
         return str.
             split(separator).
-            map((e) => {
-                return e[0].toUpperCase() + e.slice(1)
-            }).
+            map((e) => { return e[0].toUpperCase() + e.slice(1) }).
             join("")
     }
 
@@ -210,13 +247,13 @@ const lectureDoc2 = function () {
         try {
             presentation.id = document.querySelector('meta[name="id"]').content;
         } catch (error) {
-            console.info("document id not found; state will not be preserved in local storage");
+            console.info("no document id found; state will not be preserved");
         }
     }
 
     /**
-     * Reads the meta element which specifies the dimension of a slide and initializes
-     * the corresponding variables.
+     * Parses the meta information about slide dimensions and initializes the
+     * corresponding variables.
      * 
      * The name has to be: `slide-dimensions` and the value (content) has to 
      * use the format: `<width>x<height>`.
@@ -225,24 +262,26 @@ const lectureDoc2 = function () {
      */
     function initSlideDimensions() {
         try {
-            const slideDimensions = document.querySelector('meta[name="slide-dimensions"]').content;
-            const [width, height] = slideDimensions.trim().split("x").map((e) => e.trim())
-            presentation.slide.width = width;
-            presentation.slide.height = height;
+            const slideDimensions = 
+                document.querySelector('meta[name="slide-dimensions"]').content;
+            const [w, h] = slideDimensions.split("x").map((e) => e.trim());
+            presentation.slide.width = w;
+            presentation.slide.height = h;
         } catch (error) {
-            console.info("slide dimensions are not specified; using default (1920x1200)");
+            console.info("no slide dimensions specified; using 1920x1200");
         }
         // Set the corresponding CSS variables accordingly.
-        const root = document.querySelector(":root");
-        root.style.setProperty("--ld-slide-width", presentation.slide.width + "px");
-        root.style.setProperty("--ld-slide-height", presentation.slide.height + "px");
+        const root = document.querySelector(":root").style;
+        root.setProperty("--ld-slide-width", presentation.slide.width + "px");
+        root.setProperty("--ld-slide-height", presentation.slide.height + "px");
     }
 
     /**
      * Counts the number of slides in the document and initializes `slideCount`.
      */
     function initSlideCount() {
-        presentation.slideCount = document.querySelectorAll("body>div.ld-slide").length
+        presentation.slideCount = 
+            document.querySelectorAll("body>div.ld-slide").length
     }
 
     /**
@@ -252,13 +291,14 @@ const lectureDoc2 = function () {
      */
     function initCurrentSlide() {
         try {
-            presentation.firstSlide = document.querySelector('meta[name="first-slide"]').content;
+            presentation.firstSlide = 
+                document.querySelector('meta[name="first-slide"]').content;
         } catch (error) {
-            console.info("first slide is not specified; trying to show last viewed slide");
+            console.info("first slide not specified; showing last viewed");
         }
         switch (presentation.firstSlide) {
             case "last-viewed":
-                // handled by applyState; defaults to the first slide 
+                // handled by applyState(); defaults to the first slide 
                 break;
             case "last":
                 state.currentSlideNo = lastSlideNo();
@@ -274,9 +314,11 @@ const lectureDoc2 = function () {
     }
 
     function initShowLightTable() {
-        const showLightTable = document.querySelector('meta[name="ld-show-light-table"]');
+        const showLightTable = 
+            document.querySelector('meta[name="ld-show-light-table"]');
         if (showLightTable) {
-            presentation.showLightTable = showLightTable.content.trim().toLowerCase()
+            presentation.showLightTable = 
+                showLightTable.content.trim().toLowerCase();
             state.showLightTable = (presentation.showLightTable === "true")
         }
     }
@@ -320,8 +362,8 @@ const lectureDoc2 = function () {
         light_table_slides.id = "ld-light-table-slides"
         light_table.appendChild(light_table_slides)
 
-        document.querySelectorAll("body > .ld-slide").forEach((slide_template, i) => {
-            const slide = slide_template.cloneNode(true);
+        document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
+            const slide = slideTemplate.cloneNode(true);
             slide.removeAttribute("id"); // not needed anymore (in case it was set)
 
             const slide_scaler = document.createElement("DIV");
@@ -409,7 +451,7 @@ const lectureDoc2 = function () {
 
             continuous_view_pane.appendChild(slide_pane);
 
-            // Move "aside with supplemental information below the slide".
+            // Move "asides with supplemental information" below the slide.
             const aside = slide.querySelector(":scope aside.supplemental");
             if (aside) {
                 aside.parentElement.removeChild(aside);
@@ -672,18 +714,18 @@ const lectureDoc2 = function () {
      * This view shows all slides in its final rendering.
      */
     function toggleContinuousView() {
-        const ld_continuous_view_pane = document.getElementById("ld-continuous-view-pane");
-        const ld_main_pane = document.getElementById("ld-main-pane")
+        const continuousViewPane = document.getElementById("ld-continuous-view-pane");
+        const mainPane = document.getElementById("ld-main-pane")
         // If we currently show the slides, we update the state for `showContinuousView`
         // and then actually perform the change.
-        state.showContinuousView = getComputedStyle(ld_main_pane).display == "flex"
+        state.showContinuousView = getComputedStyle(mainPane).display == "flex"
         if (state.showContinuousView) {
-            ld_main_pane.style.display = "none";
-            ld_continuous_view_pane.style.display = "block";
+            mainPane.style.display = "none";
+            continuousViewPane.style.display = "block";
             window.scrollTo(0,state.continuousViewScrollY);
         } else {
-            ld_continuous_view_pane.style.display = "none";
-            ld_main_pane.style.display = "flex";
+            continuousViewPane.style.display = "none";
+            mainPane.style.display = "flex";
         }
     }
 
