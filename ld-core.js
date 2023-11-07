@@ -17,8 +17,6 @@
     -   Meta information about the presentation is stored in the presentation 
         object. This object is - after initialization - not mutated.
 
-    -   Except for dialogs we try to avoid using the style display:none.
-        This impedes potential animations and also counters.
 */
 "use strict";
 
@@ -904,6 +902,11 @@ const lectureDoc2 = function () {
      * enable state changes after everything is fully loaded.
      */
     window.addEventListener("load", () => {
+
+        document.querySelectorAll("body > div.ld-slide").forEach((slide) => {
+            slide.style.display= "none";
+        });
+
         // Whatever the state is/was - let's apply it before we make state changes
         // possible by the user.
         applyState();

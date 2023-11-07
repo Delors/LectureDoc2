@@ -73,10 +73,11 @@ div {
     overflow: hidden;
 }
 
+/* conceptually, we ignore the default slides after copying...
 body div.ld-slide {
-    /* we ignore the default slides */
     display: none;
 }
+*/
 
 /*  ----------------------------------------------------------------------------
 
@@ -97,7 +98,6 @@ body div.ld-slide {
 
 #ld-main-pane .ld-slide {
     position: absolute;
-    display: block; /* just to make sure */
     scale: 0; /* we make them effectively invisible */
 }
 
@@ -199,8 +199,6 @@ body div.ld-slide {
     position: absolute;
     top: 0px;
     left: 0px;
-    /* To ensure that they are not "none" for whatever reason. */
-    display: block;
 }
 
 .ld-continuous-view-slide-pane {
