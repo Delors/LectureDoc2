@@ -174,10 +174,9 @@ const lectureDoc2 = function () {
     function applyState() {
         reapplySlideProgress();
 
-        const lastSlideNo = lastSlideNo()
-        if (state.currentSlideNo > lastSlideNo) {
-            state.currentSlideNo = lastSlideNo;
-            console.info(`updated slide number: ${lastSlideNo}`);
+        if (state.currentSlideNo > lastSlideNo()) {
+            state.currentSlideNo = lastSlideNo();
+            console.info(`updated slide number: ${lastSlideNo()}`);
         }
         showSlide(state.currentSlideNo);
 
@@ -468,12 +467,11 @@ const lectureDoc2 = function () {
         document.querySelector("body").prepend(message);
     }
 
-    function showMessage(html_message,ms = 3000) {
+    function showMessage(htmMessage,ms = 3000) {
         const messageBox = document.querySelector("#ld-message-box");
-        messageBox.innerHTML = html_message;
+        messageBox.innerHTML = htmMessage;
         messageBox.show();
         setTimeout(() => { messageBox.close() }, ms);
-        console.log(message);
     }
 
 
@@ -715,7 +713,7 @@ const lectureDoc2 = function () {
      */
     function toggleContinuousView() {
         const continuousViewPane = document.getElementById("ld-continuous-view-pane");
-        const mainPane = document.getElementById("ld-main-pane")
+        const mainPane = document.getElementById("ld-main-pane");
         // If we currently show the slides, we update the state for `showContinuousView`
         // and then actually perform the change.
         state.showContinuousView = getComputedStyle(mainPane).display == "flex"
