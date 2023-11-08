@@ -143,4 +143,19 @@ body {
     border: 0;
 }
 
+#ld-slide-number-pane {
+    /* set by core: display: none <-> table */
+    position: fixed; 
+    bottom: 0px; 
+    right: 4px; 
+    height: 50px;
+    width: 50px;
+    font-size: 24px; 
+    text-shadow: 1px 1px 1px white; 
+}
 
+#ld-slide-number {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}

@@ -25,6 +25,8 @@ const lectureDoc2Help = function () {
                 <tr></tr>
                 <tr><td>l</td><td>toggle light table</td></tr>
                 <tr></tr>
+                <tr><td>s</td><td>toggle slide number</td></tr>
+                <tr></tr>
                 <tr><td>r</td><td>reset animation for current slide</td></tr>
                 <tr><td>r (5 times in a row)</td><td>reset all animations</td></tr>
                 <tr><td>r (8 times in a row)</td><td>delete all state and restart LectureDoc</td></tr>

@@ -103,6 +103,8 @@ const lectureDoc2 = function () {
         // Continuous view related state
         showContinuousView: false,
         continuousViewScrollY: 0,
+
+        showSlideNumber: false,
     }
 
     /**
@@ -184,6 +186,8 @@ const lectureDoc2 = function () {
         if (state.showHelp) toggleDialog("help");
 
         if (state.showContinuousView) toggleContinuousView();
+
+        if (state.showSlideNumber) toggleSlideNumberPane(true);
     }
 
     /**
@@ -407,9 +411,18 @@ const lectureDoc2 = function () {
         document.getElementsByTagName("BODY")[0].prepend(jump_target_dialog);
     }
 
+    function setupSlideNumberPane() {
+        const slideNumberPane = document.createElement("DIV");
+        slideNumberPane.id = "ld-slide-number-pane";
+        slideNumberPane.innerHTML = `
+            <span id="ld-slide-number">/</span>
+        `
+        document.getElementsByTagName("BODY")[0].prepend(slideNumberPane);
+    }
+
     function setupMainPane() {
-        const main_pane = document.createElement("DIV")
-        main_pane.id = "ld-main-pane"
+        const mainPane = document.createElement("DIV");
+        mainPane.id = "ld-main-pane";
 
         /* 
         Copies all slide(-template)s found in the document to the main pane
@@ -425,15 +438,15 @@ const lectureDoc2 = function () {
             // Let's hide all elements that should be shown incrementally;
             // this is down to get all (new) slides to a well-defined state.
             setupSlideProgress(slide);
-            main_pane.appendChild(slide);
+            mainPane.appendChild(slide);
         })
 
-        document.getElementsByTagName("BODY")[0].prepend(main_pane);
+        document.getElementsByTagName("BODY")[0].prepend(mainPane);
     }
 
     function setupContinuousView() {
-        const continuous_view_pane = document.createElement("DIV")
-        continuous_view_pane.id = "ld-continuous-view-pane"
+        const continuousViewPane = document.createElement("DIV")
+        continuousViewPane.id = "ld-continuous-view-pane"
 
         document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
             const slide = slideTemplate.cloneNode(true);
@@ -447,17 +460,17 @@ const lectureDoc2 = function () {
             slide_pane.className = "ld-continuous-view-slide-pane"
             slide_pane.appendChild(slide_scaler);
 
-            continuous_view_pane.appendChild(slide_pane);
+            continuousViewPane.appendChild(slide_pane);
 
             // Move "asides with supplemental information" below the slide.
             const aside = slide.querySelector(":scope aside.supplemental");
             if (aside) {
                 aside.parentElement.removeChild(aside);
-                continuous_view_pane.appendChild(aside);
+                continuousViewPane.appendChild(aside);
             }
         });
 
-        document.getElementsByTagName("BODY")[0].prepend(continuous_view_pane);
+        document.getElementsByTagName("BODY")[0].prepend(continuousViewPane);
     }
 
     function setupMessageBox() {
@@ -503,6 +516,7 @@ const lectureDoc2 = function () {
         const slide_id = "ld-slide-no-" + slideNo;
         document.getElementById(slide_id).style.scale = 1;
         state.currentSlideNo = slideNo;
+        document.getElementById("ld-slide-number").innerText = slideNo + 1;
     }
 
     function hideSlide(slideNo) {
@@ -705,6 +719,20 @@ const lectureDoc2 = function () {
         return isShown;
     }
 
+    function toggleSlideNumberPane(makeVisible) {
+        if (makeVisible === undefined) {
+            makeVisible = !state.showSlideNumber
+        }
+
+        if (makeVisible) {
+            state.showSlideNumber = true;
+            document.getElementById("ld-slide-number-pane").style.display = "table";           
+        } else {
+            state.showSlideNumber = false;
+            document.getElementById("ld-slide-number-pane").style.display = "none";
+        }
+    }
+
     /**
      * Shows/hides the continuous view. 
      * 
@@ -788,6 +816,8 @@ const lectureDoc2 = function () {
                 case "l": toggleLightTable(); break;
 
                 case "h": toggleDialog("help"); break;
+
+                case "s": toggleSlideNumberPane(); break;
 
                 case "c": toggleContinuousView(); break;
 
@@ -942,6 +972,7 @@ const lectureDoc2 = function () {
         setupMessageBox();
         setupLightTable();
         setupHelp();
+        setupSlideNumberPane();        
         setupJumpTargetDialog();
         setupContinuousView();
         setupMainPane();

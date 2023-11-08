@@ -73,7 +73,7 @@ div {
     overflow: hidden;
 }
 
-/* conceptually, we ignore the default slides after copying...
+/* conceptually, we ignore the default slides __after___ copying...
 body div.ld-slide {
     display: none;
 }
@@ -229,6 +229,8 @@ body div.ld-slide {
     position: fixed;
 }
 
+
+
 /*  ----------------------------------------------------------------------------
 
 
@@ -257,6 +259,25 @@ body div.ld-slide {
     border-radius: 0;    
     box-shadow: none;
 }
+
+
+/*  ----------------------------------------------------------------------------
+
+
+    Styles related to the slide number.
+*/
+
+#ld-slide-number-pane {
+    display: none;
+}
+
+
+/*  ----------------------------------------------------------------------------
+
+
+    Styles related to default elements to make them work in the context of 
+    LectureDoc2.
+*/
 
 a {
     user-select: initial;
