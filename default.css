@@ -3,8 +3,14 @@
 */
 
 :root {
-    --ld-dhbw-red: rgb(226, 0, 26);
     /* the red used by the DHBW Logo */
+    --ld-dhbw-red: rgb(226, 0, 26);
+    /* the gray used by the text in the DHBW Logo*/
+    --ld-dhbw-gray:  rgb(91,105,113);
+
+    /* a blue that fits nicely to the previous colors*/
+    --ld-the-blue: rgb(45, 62, 255);
+
     --ld-red: rgb(131, 0, 0);
     --ld-red-background: rgb(131, 0, 0, 0.1);
 }
@@ -107,7 +113,7 @@ p.admonition-title {
 
 .admonition.note {
     float: right;
-    background-color: rgb(45, 62, 255);
+    background-color: var(--ld-the-blue);
     color: whitesmoke;
     margin-top: 0;
     margin-bottom: 0;
@@ -290,12 +296,22 @@ table.no-column-borders :is(td, th) {
     border-top: 2px solid rgb(24, 25, 25);
 }
 
+.line-below {
+    border-bottom: 2px solid rgb(24, 25, 25);
+}
+
 .margin-below {
     margin-bottom: 1em;
 }
 
 .margin-above {
     margin-top: 1em;
+}
+
+.centered-content {
+    position: relative;
+    top: 50%;
+    transform: translate(0,calc( -50% - 0.5rem ));
 }
 
 /*
@@ -389,12 +405,12 @@ div.ld-slide.new-section>h2 {
     font-variant: small-caps;
     text-align: center;
     margin-top: 4rem;
-    border-top: 2px solid;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    border-bottom: 2px solid;
     border-radius: 0.5em;
-    background-color: rgb(222, 222, 222);
+    background-color: var(--ld-dhbw-gray);
+    box-shadow: 4px 4px 8px black;
+    color: white;
 }
 
 div.ld-slide.new-section>h2::after {
@@ -484,22 +500,22 @@ div.ld-slide.new-subsection>h2 {
     font-variant: small-caps;
     text-align: center;
     margin-top: 4rem;
-    border-top: 2px solid gray;
-    border-bottom: 2px solid gray;
     border-radius: 0.5em;
     padding-top: 2rem;
     padding-bottom: 2rem;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    background-color: rgb(222, 222, 222);
+    background-color: var(--ld-dhbw-gray);
+    box-shadow: 4px 4px 8px black;
+    color: white;
 }
 
 div.ld-slide.new-subsection::after {
     content: url(../dhbw_logo.png);
     position: absolute;
-    scale: 0.5;
+    scale: 0.75;
     top: -18px;
-    right: -100px;
+    right: -20px;
 }
 
 /*
@@ -561,21 +577,24 @@ Styling of impressive lists (whatever "impressive" means in this case).
 
 */
 ol.impressive {
-    color: white;
+    list-style-position: outside;
+    margin-left: 1em;
+    padding-left: 0;
 }
 
-ol.impressive li::marker{
-    color: rgb(0, 0, 64);
-    font-size: 1.5em;
+ol.impressive li::marker {
+    color: black;
 }
 
 ol.impressive li{
-    background-color: rgb(0, 0, 64);
+    color: black;
+    background-color: white;
     margin-top: 1em;
-    margin-left: 0.5em;
     box-shadow: 4px 4px 8px black;
-    line-height: 1.5em;
-    min-height: 3em;
+    border-radius: 0.33em;
+    align-items: center;
+    min-height: 4em;
+    padding: 0.75em;
 }
 
 
