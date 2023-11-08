@@ -133,14 +133,14 @@ body {
 
 #ld-message-box {
     padding: 0.5rem;
-    color: white;
+    top: 1rem;
+    color: black;
     margin: auto;
-    background-color: rgb(158, 89, 89);
+    background-color: rgb(193, 242, 69);
     box-shadow: 4px 4px 8px black;
     border-radius: 0.5em;
+    font-size: 36px;
+    border: 0;
 }
 
-#ld-message-box::backdrop {
-    background-color: rgba(158, 89, 89, 0.3);
-}
 
