@@ -41,6 +41,16 @@ img.logo {
     /* deliberately absolute w.r.t. the "global" font-size */
 }
 
+.footnotesize {
+    font-size: 0.815rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.scriptsize {
+    font-size: 0.785rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
 .tiny {
     font-size: 0.7rem;
     /* deliberately absolute w.r.t. the "global" font-size */
@@ -97,8 +107,8 @@ p.admonition-title {
 
 .admonition.note {
     float: right;
-    background-color: rgb(255, 255, 203);
-    color: darkblue;
+    background-color: rgb(45, 62, 255);
+    color: whitesmoke;
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 0.75em;
@@ -260,6 +270,10 @@ table.no-column-borders :is(td, th) {
     color: rgb(0, 88, 0);
 }
 
+.black {
+    color: black;
+}
+
 .shadow {
     box-shadow: 4px 4px 8px rgb(33, 33, 33);
 }
@@ -278,6 +292,10 @@ table.no-column-borders :is(td, th) {
 
 .margin-below {
     margin-bottom: 1em;
+}
+
+.margin-above {
+    margin-top: 1em;
 }
 
 /*
