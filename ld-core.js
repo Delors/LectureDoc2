@@ -86,7 +86,7 @@ const lectureDoc2 = function () {
     /**
      * Captures the current state of the presentation.
      */
-    var state = { // the (default) state 
+    let state = { // the (default) state 
         // The overall progress.
         currentSlideNo: 0,
         // stores for each slide the number of executed animation steps
@@ -421,6 +421,7 @@ const lectureDoc2 = function () {
         document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
             const slide = slideTemplate.cloneNode(true);
             slide.id = "ld-slide-no-" + i;
+            slide.dataset.ldSlideNo = i;
             // Let's hide all elements that should be shown incrementally;
             // this is down to get all (new) slides to a well-defined state.
             setupSlideProgress(slide);
@@ -569,7 +570,7 @@ const lectureDoc2 = function () {
         const slide = getCurrentSlide();
         const elements = getElementsToAnimate(slide)
         const elementsCount = elements.length;
-        for (var i = 0; i < elementsCount; i++) {
+        for (let i = 0; i < elementsCount; i++) {
             if (elements[i].style.visibility == "hidden") {
                 elements[i].style.visibility = "visible";
                 setSlideProgress(slide, i)
@@ -600,7 +601,7 @@ const lectureDoc2 = function () {
             if (visibleElements > 0) {
                 const elements = getElementsToAnimate(slide);
                 const elementsCount = elements.length;
-                for (var i = 0; i < visibleElements && i < elementsCount; i++) {
+                for (let i = 0; i < visibleElements && i < elementsCount; i++) {
                     elements[i].style.visibility = "visible";
                 }
             }
@@ -620,8 +621,8 @@ const lectureDoc2 = function () {
     }
     /** Removes the last digit of the current jump target. */
     function cutDownJumpTarget() {
-        var ld_goto_number = document.getElementById("ld-jump-target-current");
-        var jumpTarget = ld_goto_number.innerText
+        const ld_goto_number = document.getElementById("ld-jump-target-current");
+        const jumpTarget = ld_goto_number.innerText
         switch (jumpTarget.length) {
             case 0: /* a redundant "backspace" press */
                 return;
@@ -686,7 +687,7 @@ const lectureDoc2 = function () {
     function toggleDialog(name) {
         const elementId = "ld-" + name + "-dialog"
         const stateId = "show" + capitalizeCSSName(name)
-        var isShown = undefined;
+        let isShown = undefined;
 
         const dialog = document.getElementById(elementId)
         if (dialog.open) {
@@ -806,7 +807,6 @@ const lectureDoc2 = function () {
         document.querySelectorAll("#ld-main-pane a").forEach((a) => {a.addEventListener(
             "click",
             (event) => {
-                console.log("capturing phase...")
                 event["link_clicked"] = true;
             },
             {capture: true}
@@ -833,8 +833,45 @@ const lectureDoc2 = function () {
         });
     }
 
-    function registerSlideLinkClickedListener() {
-        // document.querySelectorAll("#ld-main-pane")
+
+    /**
+     * @param str id The unique id of the target element!
+     */
+    function jumpToSlideWithId(id) {
+        const slide = document.querySelector(`#ld-main-pane .ld-slide:has(${id})`);
+        if (slide) {
+            const targetSlideNo = slide.dataset.ldSlideNo;
+            hideSlide(state.currentSlideNo);
+            showSlide(targetSlideNo);
+        } else {
+            console.warn("invalide jump target: "+target);
+        }
+
+        // ensure that all elements up to the target element are visible.
+        const target = document.querySelector(`#ld-main-pane .ld-slide ${id}`);
+        while (getComputedStyle(target).visibility == "hidden") {
+            advancePresentation();
+        }
+  }
+
+    function registerSlideInternalLinkClickedListener() {
+        /*
+        Handle links related to the bibliography
+        */
+        document.
+            querySelectorAll("#ld-main-pane a.citation-reference").
+            forEach((a) => { a.addEventListener("click",(event) => {
+                event.stopPropagation();
+                const target = a.getAttribute("href");
+                jumpToSlideWithId(target);
+            })  });
+        document.
+            querySelectorAll('#ld-main-pane a[role="doc-backlink"]').
+            forEach((a) => { a.addEventListener("click",(event) => {
+                event.stopPropagation();
+                const target = a.getAttribute("href");
+                jumpToSlideWithId(target);
+            })  });
     }
 
     function registerLightTableZoomListener() {
@@ -936,7 +973,7 @@ const lectureDoc2 = function () {
         registerKeyboardEventListener();
         registerViewportResizeListener();
         registerSlideClickedListener();
-        registerSlideLinkClickedListener();
+        registerSlideInternalLinkClickedListener();
         registerLightTableZoomListener();
         registerLightTableSlideSelectionListener();
 
