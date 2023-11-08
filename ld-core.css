@@ -265,4 +265,9 @@ body div.ld-slide {
     box-shadow: none;
 }
 
+a {
+    user-select: initial;
+    margin-left: auto;
+    margin-right: auto;
+}
 

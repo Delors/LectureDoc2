@@ -802,7 +802,21 @@ const lectureDoc2 = function () {
     }
 
     function registerSlideClickedListener() {
+        // we still want to be able to click links
+        document.querySelectorAll("#ld-main-pane a").forEach((a) => {a.addEventListener(
+            "click",
+            (event) => {
+                console.log("capturing phase...")
+                event["link_clicked"] = true;
+            },
+            {capture: true}
+        )});
+        
+
         document.getElementById("ld-main-pane").addEventListener("click", (event) => {
+            if (event.link_clicked)
+                return;
+
             // Let's check if the user is currently selecting text - we don't want
             // to interfere with that!
             if (window.getSelection().anchorNode != null) {
