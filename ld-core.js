@@ -826,11 +826,15 @@ const lectureDoc2 = function () {
             /* Let's determine if we have clicked on the far left or right part. */
             if (event.pageX < (window.innerWidth / 2)) {
                 moveToPreviousSlide();
-                showMessage("<span style='font-size:2rem'>⬅︎</span>",400);
+                showMessage("⬅︎",400);
             } else {
                 advancePresentation();
             }
         });
+    }
+
+    function registerSlideLinkClickedListener() {
+        // document.querySelectorAll("#ld-main-pane")
     }
 
     function registerLightTableZoomListener() {
@@ -932,6 +936,7 @@ const lectureDoc2 = function () {
         registerKeyboardEventListener();
         registerViewportResizeListener();
         registerSlideClickedListener();
+        registerSlideLinkClickedListener();
         registerLightTableZoomListener();
         registerLightTableSlideSelectionListener();
 
