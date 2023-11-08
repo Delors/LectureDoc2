@@ -227,13 +227,6 @@ body div.ld-slide {
 #ld-message-box {
     z-index: 9999;
     position: fixed;
-    top: 1rem;
-    padding: 0.5rem;
-    color: white;
-    margin: auto;
-    background-color: rgb(158, 89, 89);
-    box-shadow: 4px 4px 8px black;
-    border-radius: 1em;
 }
 
 /*  ----------------------------------------------------------------------------
