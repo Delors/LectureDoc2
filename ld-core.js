@@ -384,6 +384,7 @@ const lectureDoc2 = function () {
             const slideOverlay = document.createElement("DIV");
             slideOverlay.className = "ld-light-table-slide-overlay";
             slideOverlay.dataset.ldSlideNo = i;
+            slideOverlay.innerHTML = `<span>${i+1}</span>`
 
             const slidePane = document.createElement("DIV");
             slidePane.className = "ld-light-table-slide-pane";

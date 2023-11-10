@@ -163,8 +163,17 @@ body {
     background-color: rgba(0, 0, 0, 0.33);
     opacity: 1;
     transition: opacity 333ms ease-in;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
 }
 
+.ld-light-table-slide-overlay > span {
+    display: block; 
+    color: rgba(0,0,0,0.25); 
+    text-shadow: 1px 2px 1px rgba(255,255,255,0.25); 
+    font-size: 32px;
+}
 
 .ld-continuous-view-slide-pane,
 #ld-continuous-view-pane aside.admonition.supplemental {
