@@ -104,7 +104,8 @@ const lectureDoc2 = function () {
         showContinuousView: false,
         continuousViewScrollY: 0,
 
-        showSlideNumber: false,
+        showMainSlideNumber: false,
+        showContinuousViewSlideNumber: false,
     }
 
     /**
@@ -187,7 +188,8 @@ const lectureDoc2 = function () {
 
         if (state.showContinuousView) toggleContinuousView();
 
-        if (state.showSlideNumber) toggleSlideNumberPane(true);
+        if (state.showMainSlideNumber) showMainSlideNumber(true);
+        if (state.showContinuousViewSlideNumber) showContinuousViewSlideNumber(true);
     }
 
     /**
@@ -457,8 +459,11 @@ const lectureDoc2 = function () {
             slide_scaler.appendChild(slide);
 
             const slide_pane = document.createElement("DIV");
+            slide_pane.innerHTML = `
+                <span class="ld-continuous-view-slide-number">${i}</span>
+            `;
             slide_pane.className = "ld-continuous-view-slide-pane"
-            slide_pane.appendChild(slide_scaler);
+            slide_pane.prepend(slide_scaler);
 
             continuousViewPane.appendChild(slide_pane);
 
@@ -719,17 +724,36 @@ const lectureDoc2 = function () {
         return isShown;
     }
 
-    function toggleSlideNumberPane(makeVisible) {
-        if (makeVisible === undefined) {
-            makeVisible = !state.showSlideNumber
-        }
+    function showMainSlideNumber(show) {
+        state.showMainSlideNumber = show;
 
-        if (makeVisible) {
-            state.showSlideNumber = true;
-            document.getElementById("ld-slide-number-pane").style.display = "table";           
+        if (show && !state.showContinuousView) {
+            document.getElementById("ld-slide-number-pane").style.display = "table";
         } else {
-            state.showSlideNumber = false;
             document.getElementById("ld-slide-number-pane").style.display = "none";
+        }
+    }
+
+    function showContinuousViewSlideNumber(show) {
+        state.showContinuousViewSlideNumber = show;
+
+        if (show && state.showContinuousView) {
+            document.querySelectorAll(".ld-continuous-view-slide-number").forEach((e) => {
+                e.style.display = "none";
+            });
+        } else {
+            document.querySelectorAll(".ld-continuous-view-slide-number").forEach((e) => {
+                e.style.display = "block";
+            });
+        }
+    }
+
+    function toggleSlideNumber() {
+        var makeVisible = false;
+        if (state.showContinuousView) {
+            showContinuousViewSlideNumber(!state.showContinuousViewSlideNumber);
+        } else {
+            showMainSlideNumber(!state.showMainSlideNumber);
         }
     }
 
@@ -752,6 +776,10 @@ const lectureDoc2 = function () {
             continuousViewPane.style.display = "none";
             mainPane.style.display = "flex";
         }
+
+        // The main slide number pane is rendered independent of the slide and
+        // we always have to check/update the state.
+        showMainSlideNumber(state.showMainSlideNumber);
     }
 
     /** 
@@ -817,7 +845,7 @@ const lectureDoc2 = function () {
 
                 case "h": toggleDialog("help"); break;
 
-                case "s": toggleSlideNumberPane(); break;
+                case "s": toggleSlideNumber(); break;
 
                 case "c": toggleContinuousView(); break;
 
@@ -989,6 +1017,8 @@ const lectureDoc2 = function () {
      */
     window.addEventListener("load", () => {
 
+        // we finally make the slide templates (i.e., the original slides)
+        // invisible
         document.querySelectorAll("body > div.ld-slide").forEach((slide) => {
             slide.style.display= "none";
         });

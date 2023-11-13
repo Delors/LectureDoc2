@@ -3,14 +3,29 @@
     related to layout of LectureDoc and the interaction with it. All styling
     information related to LectureDoc's widgets is found in ld-theme.css.
 
-    Styling related to slides is defined in a used defined css file or in default.css.
-    
+    Styling related to slides is defined in a user defined css file or in default.css.
+
     _______________________________________________________________________________________________
 
     ________________       Any changes here, will likely break LectureDoc!        _________________
 
     _______________________________________________________________________________________________
 */
+
+
+/*
+    z-order:
+
+    1 - main-pane
+    2 - slide-number-pane
+
+    100 - light table
+    101 - light table header
+
+    9999 - message box
+*/
+
+
 :root {
     /* 
         Specifies the width and height of slides. The following values are, 
@@ -216,6 +231,11 @@ body div.ld-slide {
 .ld-continuous-view-slide-pane {
     height: calc(var(--ld-slide-height) / 2 + 3px);
     max-height: calc(var(--ld-slide-height) / 2 + 3px);
+    position: relative;
+}
+
+.ld-continuous-view-slide-number {
+    position: absolute;
 }
 
 @media print {
@@ -269,6 +289,7 @@ body div.ld-slide {
 
 #ld-slide-number-pane {
     display: none;
+    z-index: 2;
 }
 
 

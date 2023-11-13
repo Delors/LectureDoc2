@@ -10,6 +10,7 @@
 
     /* a blue that fits nicely to the previous colors*/
     --ld-the-blue: rgb(45, 62, 255);
+    --ld-the-green: rgb(0, 88, 0);
 
     --ld-red: rgb(131, 0, 0);
     --ld-red-background: rgb(131, 0, 0, 0.1);
@@ -276,6 +277,14 @@ table.no-column-borders :is(td, th) {
     color: rgb(0, 88, 0);
 }
 
+.green-background {
+    background-color: var(--ld-the-green);
+}
+
+.blue-background {
+    background-color: var(--ld-the-blue);
+}
+
 .black {
     color: black;
 }
@@ -299,6 +308,11 @@ table.no-column-borders :is(td, th) {
 .line-below {
     border-bottom: 2px solid rgb(24, 25, 25);
 }
+
+.padding-below {
+    padding-bottom: 1em;
+}
+
 
 .margin-below {
     margin-bottom: 1em;
@@ -569,6 +583,11 @@ Styling of individual elements.
 
 .more-space-between-list-items li{
     margin-top: 0.75em;
+}
+
+img.picture {
+    border-radius: 25px;
+    box-shadow: 4px 4px 8px black;
 }
 
 /*
