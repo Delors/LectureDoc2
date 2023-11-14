@@ -11,6 +11,7 @@
     /* a blue that fits nicely to the previous colors*/
     --ld-the-blue: rgb(45, 62, 255);
     --ld-the-green: rgb(0, 88, 0);
+    --ld-the-light-green: rgb(0, 88, 0, 0.1);
 
     --ld-red: rgb(131, 0, 0);
     --ld-red-background: rgb(131, 0, 0, 0.1);
@@ -112,7 +113,7 @@ p.admonition-title {
     padding-bottom: 0.2em;
 }
 
-.admonition.note {
+.admonition .note {
     float: right;
     background-color: var(--ld-the-blue);
     color: whitesmoke;
@@ -265,29 +266,8 @@ table.no-column-borders :is(td, th) {
     line-height: 1.05em;
 }
 
-.red {
-    color: var(--ld-red);
-}
 
-.blue {
-    color: rgb(0, 0, 155);
-}
 
-.green {
-    color: rgb(0, 88, 0);
-}
-
-.green-background {
-    background-color: var(--ld-the-green);
-}
-
-.blue-background {
-    background-color: var(--ld-the-blue);
-}
-
-.black {
-    color: black;
-}
 
 .shadow {
     box-shadow: 4px 4px 8px rgb(33, 33, 33);
@@ -326,6 +306,18 @@ table.no-column-borders :is(td, th) {
     position: relative;
     top: 50%;
     transform: translate(0,calc( -50% - 0.5rem ));
+}
+
+.complement {
+    font-size: smaller;
+    background-color: rgb(240,240,240);
+    color:var(--ld-dhbw-gray);
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    padding-top: 0.35em;
+    padding-bottom: 0.35em;
+    margin: -0.25em;
+    border-radius: 0.5em;
 }
 
 /*
@@ -618,3 +610,169 @@ ol.impressive li{
 
 
 
+/*
+
+    Styling of index cards
+
+*/
+
+.index-card {
+    font-family: bradley hand, cursive;
+    background-color: rgb(255, 255, 165);
+    color: rgb(76, 76, 255);
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    width: 1200px;
+    margin: auto;
+    box-shadow: 4px 4px 6px gray;
+    border-radius: 0.25em;
+}
+
+.index-card > p {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-bottom: 1px solid gray;
+}
+
+.index-card p:first-of-type {
+    border-bottom: 3px solid black;
+    text-align: right;
+    padding-right: 0.5em;
+    margin: 0;
+}
+
+
+/*
+
+    The class "annotated-text" can be used in combination with tables to make
+    them behave as if we have a text document with some paragraphs with some 
+    comments to the side.
+
+*/
+
+table.annotated-text {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 0px;
+    border-right: 0px;
+    box-shadow: none;
+    background-color: transparent;
+    border-collapse: separate;
+}
+
+table.annotated-text :is(tr, td, th){
+    border: 0;
+}
+
+table.annotated-text tr{
+    margin: 2px;
+}
+
+table.annotated-text :is(td, th):first-of-type:not(:empty){
+    background-color: var(--ld-dhbw-gray);
+    color: whitesmoke;
+    vertical-align: text-top;
+    padding-top: 0.7em;
+    text-align: right;
+    border-bottom: 0.75em solid white;
+    border-radius: 1em 0em 0em 0em;
+    font-size: smaller;
+    font-weight: 300;
+    max-width: 25%;
+}
+
+table.annotated-text :is(td, th):not(:first-of-type):not(:empty){
+    text-align: justify;
+    padding-bottom: 0.5em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
+/*
+
+    The following provides an option to rotate the title by 90 degrees.
+*/
+
+div.vertical-title h2{
+    display: inline-block;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+
+
+
+div:not(.admonition).note {
+    margin: 0.5em 0em;
+    box-shadow: 4px 4px 6px gray;
+    border: 0;
+    border-radius: 0.5em;
+    padding: 0.66em;
+}
+
+div:not(.admonition).note {
+    float: right;
+    background-color: var(--ld-the-blue);
+    color: whitesmoke;
+    max-width: 20%;
+}
+
+
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.rotate-ff {
+    transform: rotate(25deg);
+}
+
+
+
+
+.red {
+    color: var(--ld-red);
+}
+
+.blue {
+    color: rgb(0, 0, 155);
+}
+
+.green {
+    color: rgb(0, 88, 0);
+}
+
+.black {
+    color: black;
+}
+
+.red-background {
+    background-color: var(--ld-dhbw-red);
+}
+
+
+.green-background {
+    background-color: var(--ld-the-light-green);
+}
+
+.light-green-background {
+    background-color: var(--ld-the-light-green);
+}
+
+
+.blue-background {
+    background-color: var(--ld-the-blue);
+}
