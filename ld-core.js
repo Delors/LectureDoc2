@@ -460,7 +460,7 @@ const lectureDoc2 = function () {
 
             const slide_pane = document.createElement("DIV");
             slide_pane.innerHTML = `
-                <span class="ld-continuous-view-slide-number">${i}</span>
+                <span class="ld-continuous-view-slide-number">${i+1}</span>
             `;
             slide_pane.className = "ld-continuous-view-slide-pane"
             slide_pane.prepend(slide_scaler);
