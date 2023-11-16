@@ -31,6 +31,11 @@ img.logo {
     scale: 1;
 }
 
+.footer-left {
+    position: absolute;
+    bottom: 48px;
+}
+
 .huge {
     font-size: 1.5rem;
 }
@@ -266,8 +271,12 @@ table.no-column-borders :is(td, th) {
     line-height: 1.05em;
 }
 
-
-
+:is(ol,ul).compact li{
+    /* often used in combination with tables */
+    line-height: 1.35em;
+    padding-top: 0em;
+    margin-top: 0em;
+}
 
 .shadow {
     box-shadow: 4px 4px 8px rgb(33, 33, 33);
@@ -292,7 +301,6 @@ table.no-column-borders :is(td, th) {
 .padding-below {
     padding-bottom: 1em;
 }
-
 
 .margin-below {
     margin-bottom: 1em;
@@ -423,17 +431,21 @@ div.ld-slide.new-section>h2::after {
     content: "Prof. Dr. Michael Eichberg";
     display: block;
     position: absolute;
-    font-size: 0.75rem;
     font-variant: normal;
-    font-weight: 400;
+    font-size: 0.75rem;
+    font-weight: 200;
     margin-top: 2.25rem;
+    margin-left: 1rem;
+    color: var(--ld-dhbw-gray);
 }
 
 div.ld-slide.new-section::after {
     content: url(../dhbw_logo.png);
     position: absolute;
-    bottom: 18px;
-    right: 36px;
+    top: 0px;
+    right: 0px;
+    scale: 0.50;
+    translate: 60px -25px;
 }
 
 /*
@@ -670,11 +682,13 @@ table.annotated-text tr{
     margin: 2px;
 }
 
+/* style the "comment" column */
 table.annotated-text :is(td, th):first-of-type:not(:empty){
     background-color: var(--ld-dhbw-gray);
     color: whitesmoke;
     vertical-align: text-top;
-    padding-top: 0.7em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
     text-align: right;
     border-bottom: 0.75em solid white;
     border-radius: 1em 0em 0em 0em;
@@ -683,10 +697,16 @@ table.annotated-text :is(td, th):first-of-type:not(:empty){
     max-width: 25%;
 }
 
+/* the intermediate columns */
 table.annotated-text :is(td, th):not(:first-of-type):not(:empty){
-    text-align: justify;
+    text-align: left;
     padding-bottom: 0.5em;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* the last column */
+table.annotated-text :is(td, th):last-child:not(:empty){
+    text-align: justify;
 }
 
 
@@ -759,13 +779,18 @@ div:not(.admonition).note {
     color: black;
 }
 
+.dhbw-gray {
+    color: var(--ld-dhbw-gray);
+}
+
+
 .red-background {
     background-color: var(--ld-dhbw-red);
 }
 
 
 .green-background {
-    background-color: var(--ld-the-light-green);
+    background-color: var(--ld-the-green);
 }
 
 .light-green-background {
@@ -775,4 +800,34 @@ div:not(.admonition).note {
 
 .blue-background {
     background-color: var(--ld-the-blue);
+}
+
+div.important {
+    background-color: var(--ld-dhbw-red);
+    color:whitesmoke;
+    padding: 1em;
+    border-radius: 0.5em;
+    text-align: center;
+    position: relative;
+}
+
+
+.on-slide-section-start {
+    text-align: right;
+    border-right: 3px solid var(--ld-dhbw-gray);
+    border-top: 3px solid var(--ld-dhbw-gray);
+    border-radius: 0.25em 0.25em 0 0 ;
+    padding-right: 0.25em;
+    color: var(--ld-dhbw-gray);
+    box-shadow: 2px -2px 2px gray;
+}
+
+.on-slide-section-end {
+    text-align: right;
+    border-bottom: 3px solid var(--ld-dhbw-gray);
+    border-right: 3px solid var(--ld-dhbw-gray);
+    border-radius: 0em 0em 0.25em 0.25em ;
+    padding-right: 0.25em;
+    box-shadow: 2px 2px 2px gray;
+    color: var(--ld-dhbw-gray);
 }
