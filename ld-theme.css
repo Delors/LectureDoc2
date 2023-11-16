@@ -52,9 +52,10 @@ body {
 #ld-help table {
     width: 100%;
     border: 1px solid gray;
-    background-color: black;
+    background-color: rgba(0,0,0,0.5);
     border-spacing: 20px 10px;
     border-radius: 10px;
+    box-shadow: none;
 }
 
 #ld-help th {
@@ -62,6 +63,12 @@ body {
     text-align: left;
 }
 
+#ld-help tr.ld-help-keys-category {
+    font-weight: 900;
+    text-align: center;
+    background-color: rgba(125, 125, 125,0.25);
+    color:whitesmoke;
+}
 
 
 #ld-jump-target-dialog {
@@ -70,19 +77,69 @@ body {
     padding: 10px;
 }
 
-
-
 #ld-light-table-dialog {
     height: 90vh;
     width: 90vw;
 }
 
 #ld-light-table-header {
-    font-size: 12px;
-    color: white;
-    padding: 10px;
+    display: flex;
     width: 100%;
+    height: 42px;
+    padding: 10px;
+    font-size: 14px;
+    color: white;
     background-color: rgb(27, 26, 26);
+}
+
+#ld-light-table-header > div{
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+}
+
+#ld-light-table-slides-count {
+    flex-grow: 0;
+}
+
+#ld-light-table-search {
+    flex-grow: 2;
+    text-align: right;
+}
+
+#ld-light-table-search-input {
+    max-width: 100%;
+    border-radius: 0.2em;
+    padding-left: 0.25em;
+}
+
+#ld-light-table-zoom {
+    flex-grow: 2;
+    text-align: right;
+}
+#ld-light-table-zoom-slider {
+    float:right;
+}
+#ld-light-table-close {
+    width: 22px;
+    text-align: center;
+    border-radius: 0.2em;
+}
+#ld-light-table-close-button {
+    background-color: rgb(27, 26, 26);
+    color: white;
+}
+#ld-light-table-close:hover #ld-light-table-close-button {
+    background-color: white;
+    color:  rgb(27, 26, 26);
+}
+#ld-light-table-close:hover {
+    background-color: white;
+    color: rgb(27, 26, 26);
+}   
+
+#ld-light-table-header-stretch {
+    width: 100%;
+
 }
 
 #ld-light-table-slides {
@@ -90,19 +147,12 @@ body {
     gap: 10px;
 }
 
-#ld-light-table-zoom {
-    display:block;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
 .ld-light-table-slide-overlay:hover {
     opacity: 0;
 }
 
 .ld-light-table-slide-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.33);
     opacity: 1;
     transition: opacity 333ms ease-in;
 }
