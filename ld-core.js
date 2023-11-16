@@ -353,10 +353,22 @@ const lectureDoc2 = function () {
         const light_table_header = document.createElement("DIV")
         light_table_header.id = "ld-light-table-header"
         light_table_header.innerHTML = `
-            <span>Light Table: ${presentation.slideCount} slides</span>
+            <div id="ld-light-table-slides-count">${presentation.slideCount} slides</div>
+            <div id="ld-light-table-search" >
+                <input
+                type="search"
+                id="ld-light-table-search-input"
+                name="q"
+                placeholder="Search the slides…"
+                tabindex ="-1"
+                />
+            </div>
             <div id="ld-light-table-zoom">
                 <label for="ld-light-table-zoom-slider">Zoom:</label>
                 <input type="range" id="ld-light-table-zoom-slider" name="Zoom" min="3"  max="25" step="2" value="10"/>
+            </div>
+            <div id="ld-light-table-close">
+                <button id="ld-light-table-close-button" type="button">×</button>
             </div>
         `
         light_table.appendChild(light_table_header)
@@ -690,6 +702,11 @@ const lectureDoc2 = function () {
     function toggleLightTable() {
         if (toggleDialog("light-table")) {
             updateLightTableViewScrollY(state.lightTableViewScrollY);
+
+            // We don't want the search input field to be automatically selected. 
+            // This would prevent us from pressing "l" to close
+            // the light table view without deselecting the input first.
+            document.querySelector("#ld-light-table-search-input").blur();
         }
     }
 
@@ -793,6 +810,11 @@ const lectureDoc2 = function () {
         const resetCount = { 'v': 8 }
 
         document.addEventListener("keydown", (event) => {
+            // let's check if the user is using an input field to type something in
+            if(document.activeElement.nodeName == "INPUT") {            
+                return;
+            }
+
             // we don't want to stop the user from interacting with the browser/OS
             if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
                 return;
@@ -952,6 +974,24 @@ const lectureDoc2 = function () {
         });
     }
 
+    function registerLightTableSlideSearchListener() {
+        const searchInput = document.querySelector("#ld-light-table-search-input");
+        searchInput.addEventListener("input",() => {
+            const searchValue = searchInput.value;
+            const ns = document.evaluate(
+                `.//*[text()[contains(.,'${searchValue}')]]`,
+                document.querySelector("#ld-light-table-slides"),
+                null,
+                XPathResult.ANY_TYPE,
+                null)
+            var n = ns.iterateNext()
+            while (n) {
+// TODO ... a lot is missing...
+                n = ns.iterateNext();
+            }
+        });
+    }
+
     function registerLightTableViewScrollYListener() {
         const lightTableView = document.querySelector("#ld-light-table")
         lightTableView.addEventListener("scroll", () => {
@@ -959,6 +999,12 @@ const lectureDoc2 = function () {
             if (state.showLightTable) {
                 state.lightTableViewScrollY = lightTableView.scrollTop;
             }
+        });
+    }
+
+    function registerLightTableCloseListener() {
+        document.querySelector("#ld-light-table-close-button").addEventListener("click", () => {
+            toggleLightTable();
         });
     }
 
@@ -1037,6 +1083,8 @@ const lectureDoc2 = function () {
         registerSlideInternalLinkClickedListener();
         registerLightTableZoomListener();
         registerLightTableSlideSelectionListener();
+        registerLightTableSlideSearchListener();
+        registerLightTableCloseListener();
 
         try {
             lectureDoc2Animations();
