@@ -268,11 +268,11 @@ body div.ld-slide {
     overflow-y: scroll;
     transform: 
         translateX(calc(100% - 18px)) 
-        translateY(calc(1200px / 2 - ( 100% / 2 ) ));
+        translateY(calc(var(--ld-slide-height) / 2 - ( 100% / 2 ) ));
 }
 
 :is(#ld-main-pane, #ld-light-table) .admonition.supplemental:hover{
-    transform: translateX(0%) translateY(calc(1200px / 2 - ( 100% / 2 ) ));
+    transform: translateX(0%) translateY(calc(var(--ld-slide-height) / 2 - ( 100% / 2 ) ));
 }
 
 #ld-continuous-view-pane aside.admonition.supplemental {
