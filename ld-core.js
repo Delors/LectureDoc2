@@ -342,17 +342,13 @@ const lectureDoc2 = function () {
     }
 
     function setupLightTable() {
-        const light_table_dialog = document.createElement("DIALOG")
-        light_table_dialog.id = "ld-light-table-dialog"
-        light_table_dialog.className = "ld-dialog"
+        const lightTableDialog = document.createElement("DIALOG")
+        lightTableDialog.id = "ld-light-table-dialog"
+        lightTableDialog.className = "ld-dialog"
 
-        const light_table = document.createElement("DIV")
-        light_table.id = "ld-light-table"
-        light_table_dialog.appendChild(light_table)
-
-        const light_table_header = document.createElement("DIV")
-        light_table_header.id = "ld-light-table-header"
-        light_table_header.innerHTML = `
+        const lightTableHeader = document.createElement("DIV")
+        lightTableHeader.id = "ld-light-table-header"
+        lightTableHeader.innerHTML = `
             <div id="ld-light-table-slides-count">${presentation.slideCount} slides</div>
             <div id="ld-light-table-search" >
                 <input
@@ -363,41 +359,51 @@ const lectureDoc2 = function () {
                 tabindex ="-1"
                 />
             </div>
-            <div id="ld-light-table-zoom">
-                <label for="ld-light-table-zoom-slider">Zoom:</label>
-                <input type="range" id="ld-light-table-zoom-slider" name="Zoom" min="0.05"  max="0.3" step="0.05" value="0.2"/>
-            </div>
             <div id="ld-light-table-close">
                 <button id="ld-light-table-close-button" type="button">×</button>
             </div>
         `
-        light_table.appendChild(light_table_header)
+        lightTableDialog.appendChild(lightTableHeader)
 
-        const light_table_slides = document.createElement("DIV")
-        light_table_slides.id = "ld-light-table-slides"
-        light_table.appendChild(light_table_slides)
+        const lightTable = document.createElement("DIV")
+        lightTable.id = "ld-light-table";
+        lightTableDialog.appendChild(lightTable);
+        
+        const lightTableSlides = document.createElement("DIV")
+        lightTableSlides.id = "ld-light-table-slides";
+        lightTable.appendChild(lightTableSlides);
 
         document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
             const slide = slideTemplate.cloneNode(true);
             slide.removeAttribute("id"); // not needed anymore (in case it was set)
 
-            const slide_scaler = document.createElement("DIV");
-            slide_scaler.className = "ld-light-table-slide-scaler";
-            slide_scaler.appendChild(slide);
+            const slideScaler = document.createElement("DIV");
+            slideScaler.className = "ld-light-table-slide-scaler";
+            slideScaler.appendChild(slide);
 
-            const slide_overlay = document.createElement("DIV");
-            slide_overlay.className = "ld-light-table-slide-overlay";
-            slide_overlay.dataset.ldSlideNo = i;
+            const slideOverlay = document.createElement("DIV");
+            slideOverlay.className = "ld-light-table-slide-overlay";
+            slideOverlay.dataset.ldSlideNo = i;
 
-            const slide_pane = document.createElement("DIV");
-            slide_pane.className = "ld-light-table-slide-pane";
-            slide_pane.appendChild(slide_scaler);
-            slide_pane.appendChild(slide_overlay);
+            const slidePane = document.createElement("DIV");
+            slidePane.className = "ld-light-table-slide-pane";
+            slidePane.appendChild(slideScaler);
+            slidePane.appendChild(slideOverlay);
 
-            light_table_slides.appendChild(slide_pane);
+            lightTableSlides.appendChild(slidePane);
         });
 
-        document.getElementsByTagName("BODY")[0].prepend(light_table_dialog);
+        const lightTableFooter = document.createElement("DIV")
+        lightTableFooter.id = "ld-light-table-footer"
+        lightTableFooter.innerHTML = `
+            <div id="ld-light-table-zoom">
+            <label for="ld-light-table-zoom-slider">Zoom:</label>
+            <input type="range" id="ld-light-table-zoom-slider" name="Zoom" min="0.05"  max="0.3" step="0.05" value="0.2"/>
+            </div>
+        `
+        lightTableDialog.appendChild(lightTableFooter)
+
+        document.getElementsByTagName("BODY")[0].prepend(lightTableDialog);
     }
 
     function setupHelp() {
@@ -993,7 +999,7 @@ const lectureDoc2 = function () {
     }
 
     function registerLightTableViewScrollYListener() {
-        const lightTableView = document.querySelector("#ld-light-table")
+        const lightTableView = document.querySelector("#ld-light-table-slides")
         lightTableView.addEventListener("scroll", () => {
             console.log("ld" + lightTableView.scrollTop);
             if (state.showLightTable) {

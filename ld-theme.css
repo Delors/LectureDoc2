@@ -82,13 +82,14 @@ body {
     width: 90vw;
 }
 
-#ld-light-table-header {
+#ld-light-table-header,
+#ld-light-table-footer {
     display: flex;
     width: 100%;
     height: 42px;
     padding: 10px;
     font-size: 14px;
-    color: white;
+    color: whitesmoke;
     background-color: rgb(27, 26, 26);
 }
 
@@ -110,10 +111,12 @@ body {
     max-width: 100%;
     border-radius: 0.2em;
     padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-right: 10px;
 }
 
 #ld-light-table-zoom {
-    flex-grow: 2;
+    flex-grow: 1;
     text-align: right;
 }
 #ld-light-table-zoom-slider {
