@@ -355,7 +355,7 @@ const lectureDoc2 = function () {
                 type="search"
                 id="ld-light-table-search-input"
                 name="q"
-                placeholder="Search the slides…"
+                placeholder="Search slide with text..."
                 tabindex ="-1"
                 />
             </div>
@@ -365,13 +365,9 @@ const lectureDoc2 = function () {
         `
         lightTableDialog.appendChild(lightTableHeader)
 
-        const lightTable = document.createElement("DIV")
-        lightTable.id = "ld-light-table";
-        lightTableDialog.appendChild(lightTable);
-        
         const lightTableSlides = document.createElement("DIV")
         lightTableSlides.id = "ld-light-table-slides";
-        lightTable.appendChild(lightTableSlides);
+        lightTableDialog.appendChild(lightTableSlides);
 
         document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
             const slide = slideTemplate.cloneNode(true);
@@ -700,7 +696,7 @@ const lectureDoc2 = function () {
 
     function updateLightTableViewScrollY(y) {
         if (y) {
-            const lightTableView = document.querySelector("#ld-light-table");
+            const lightTableView = document.querySelector("#ld-light-table-slides");
             lightTableView.scrollTo(0,y);
         }
     }
@@ -981,27 +977,35 @@ const lectureDoc2 = function () {
     }
 
     function registerLightTableSlideSearchListener() {
+        const lightTableSlides = document.querySelector("#ld-light-table-slides");
         const searchInput = document.querySelector("#ld-light-table-search-input");
         searchInput.addEventListener("input",() => {
             const searchValue = searchInput.value;
-            const ns = document.evaluate(
-                `.//*[text()[contains(.,'${searchValue}')]]`,
-                document.querySelector("#ld-light-table-slides"),
-                null,
-                XPathResult.ANY_TYPE,
-                null)
-            var n = ns.iterateNext()
-            while (n) {
-// TODO ... a lot is missing...
-                n = ns.iterateNext();
-            }
+            lightTableSlides.querySelectorAll(":scope .ld-light-table-slide-pane").forEach((slidePane) => {
+                const ns = document.evaluate(
+                    `.//*[text()[contains(.,'${searchValue}')]]`,
+                    slidePane,
+                    null,
+                    XPathResult.ANY_TYPE,
+                    null);
+                const e = ns.iterateNext();
+                if (e || searchValue == "") {
+                    console.log(slidePane + "visible" + e)
+                    slidePane.style.removeProperty("width");
+                    slidePane.style.margin = "4px";
+                    return ;
+                } else {
+                    console.log("invisible"+e)
+                    slidePane.style.width = "0";
+                    slidePane.style.margin = "0";
+                }
+            });
         });
     }
 
     function registerLightTableViewScrollYListener() {
         const lightTableView = document.querySelector("#ld-light-table-slides")
         lightTableView.addEventListener("scroll", () => {
-            console.log("ld" + lightTableView.scrollTop);
             if (state.showLightTable) {
                 state.lightTableViewScrollY = lightTableView.scrollTop;
             }

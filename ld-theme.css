@@ -108,6 +108,7 @@ body {
 }
 
 #ld-light-table-search-input {
+    width: 20em;
     max-width: 100%;
     border-radius: 0.2em;
     padding-left: 0.25em;
@@ -147,7 +148,6 @@ body {
 
 #ld-light-table-slides {
     padding: 10px;
-    gap: 10px;
 }
 
 .ld-light-table-slide-overlay:hover {
@@ -166,11 +166,11 @@ body {
     border-bottom: 3px solid var(--body-background-color);
 }
 
-:is(#ld-main-pane, #ld-light-table) aside.admonition.supplemental {
+:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
     border-radius: 1em 0 0 1em;
 }
 
-:is(#ld-main-pane, #ld-light-table) aside.admonition.supplemental {
+:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
     font-size: 36px;
     background-color: #333;
 }
