@@ -1,9 +1,11 @@
 /* 
     This is LectureDoc's core CSS file. It primarily defines css properties directly 
-    related to layout of LectureDoc and the interaction with it. All styling
-    information related to LectureDoc's widgets is found in ld-theme.css.
+    related to the core functionality of LectureDoc. I.e., it defines the very basics
+    constraints for slides and all lecture-doc dialogs. 
 
-    Styling related to slides is defined in a user defined css file or in default.css.
+    All styling information related to LectureDoc's widgets is found in ld-theme.css.
+
+    Styling related to slides is defined in (a) user defined css file(s) or in default.css.
 
     _______________________________________________________________________________________________
 
@@ -37,10 +39,9 @@
     --ld-slide-width: 1920px;
     --ld-slide-height: 1200px;
     /*
-        The default zoom level as a ratio. I.e., the slides shown in the 
-        light-table will be 1/10th of --ld-slide-width by default.
+        The default zoom level.
     */
-    --ld-light-table-zoom-level: 10;
+    --ld-light-table-zoom-level: 0.2;
 }
 
 /* Basic normalization. */
@@ -66,11 +67,11 @@ div {
 }
 
 /*  We need a fixed size for the main pane to make the content
-    as a whole scalable using the scale property which is 
+    as a whole scalable using the scale property. The scale property is 
     updated on viewport changes using Javascript. 
     Conceptually, we would like to have some CSS like:
     
-        scale: min(calc(100vh/1080),calc(100vw/1920)); 
+        scale: min(calc(100vh/1080px),calc(100vw/1920px)); 
     
     But such computations are (not yet?) supported.
 
@@ -88,7 +89,7 @@ div {
     overflow: hidden;
 }
 
-/* conceptually, we ignore the default slides __after___ copying...
+/* We set the display property of the default slides to none __after___ copying.
 body div.ld-slide {
     display: none;
 }
@@ -106,6 +107,13 @@ body div.ld-slide {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* 
+        In general, we don't want accidental interaction with the slides, such 
+        as selecting texts/elements. 
+        
+        In the Javascript code we reenable interaction with selected elements.
+    */
     -webkit-user-select: none;
     user-select: none;
     cursor: default;
@@ -113,7 +121,17 @@ body div.ld-slide {
 
 #ld-main-pane .ld-slide {
     position: absolute;
-    scale: 0; /* we make them effectively invisible */
+    /* 
+        To only show one slide, we basically, scale all other slides to a size of 0.
+        This makes them effectively invisible without _removing_ them from the DOM.
+
+        Compared to using the display property (i.e., none <-> block) this has 
+        a number of advantages: 
+         - counters, e.g., for section titles work as expected.
+         - the scale property can be easily animated and enables "cool" animations.
+    
+    */
+    scale: 0; 
 }
 
 /*  ----------------------------------------------------------------------------
@@ -143,7 +161,7 @@ body div.ld-slide {
 #ld-light-table-slides {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: flex-start;
     align-content: flex-start;
 }
@@ -152,20 +170,21 @@ body div.ld-slide {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: calc(var(--ld-slide-width) / var(--ld-light-table-zoom-level));
-    height: calc(var(--ld-slide-height) / var(--ld-light-table-zoom-level));
+    width: calc(var(--ld-slide-width) * var(--ld-light-table-zoom-level));
+    height: calc(var(--ld-slide-height) * var(--ld-light-table-zoom-level));
 }
 
 .ld-light-table-slide-pane {
     position: relative;
+    margin: 4px;
     flex-shrink: 0;
-    width: calc(var(--ld-slide-width) / var(--ld-light-table-zoom-level));
-    height: calc(var(--ld-slide-height) / var(--ld-light-table-zoom-level));
+    width: calc(var(--ld-slide-width) * var(--ld-light-table-zoom-level));
+    height: calc(var(--ld-slide-height) * var(--ld-light-table-zoom-level));
     overflow: hidden;
 }
 
 .ld-light-table-slide-scaler {
-    scale: calc(1 / var(--ld-light-table-zoom-level));
+    scale: var(--ld-light-table-zoom-level);
     position: absolute;
 }
 

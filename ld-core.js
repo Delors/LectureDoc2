@@ -97,7 +97,7 @@ const lectureDoc2 = function () {
         
         // Light table related state
         showLightTable: false,
-        lightTableZoomLevel: 10,
+        lightTableZoomLevel: 0.2,
         lightTableViewScrollY: 0,
         
         // Continuous view related state
@@ -365,7 +365,7 @@ const lectureDoc2 = function () {
             </div>
             <div id="ld-light-table-zoom">
                 <label for="ld-light-table-zoom-slider">Zoom:</label>
-                <input type="range" id="ld-light-table-zoom-slider" name="Zoom" min="3"  max="25" step="2" value="10"/>
+                <input type="range" id="ld-light-table-zoom-slider" name="Zoom" min="0.05"  max="0.3" step="0.05" value="0.2"/>
             </div>
             <div id="ld-light-table-close">
                 <button id="ld-light-table-close-button" type="button">×</button>
@@ -682,8 +682,8 @@ const lectureDoc2 = function () {
 
 
     function updateLightTableZoomLevel(value) {
-        // The following will not trigger an event but is necessary when 
-        // the state is restored.
+        // The following statement will not trigger an event but is necessary
+        // when the state is restored.
         document.querySelector("#ld-light-table-zoom-slider").value = value
 
         const root = document.querySelector(":root");
