@@ -989,15 +989,18 @@ const lectureDoc2 = function () {
                     XPathResult.ANY_TYPE,
                     null);
                 const e = ns.iterateNext();
+                /*
                 if (e || searchValue == "") {
-                    console.log(slidePane + "visible" + e)
                     slidePane.style.removeProperty("width");
                     slidePane.style.margin = "4px";
-                    return ;
                 } else {
-                    console.log("invisible"+e)
                     slidePane.style.width = "0";
                     slidePane.style.margin = "0";
+                }*/
+                if (e || searchValue == "") {
+                    slidePane.classList.remove("ld-light-table-slide-pane-hide");
+                } else {
+                    slidePane.classList.add("ld-light-table-slide-pane-hide");
                 }
             });
         });
