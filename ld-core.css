@@ -160,7 +160,7 @@ body div.ld-slide {
 #ld-light-table {
     height: 100%;
     width: 100%;
-    overflow-y: scroll; 
+    overflow-y: scroll;
 }
 
 
@@ -187,6 +187,7 @@ body div.ld-slide {
     width: calc(var(--ld-slide-width) * var(--ld-light-table-zoom-level));
     height: calc(var(--ld-slide-height) * var(--ld-light-table-zoom-level));
     overflow: hidden;
+    scroll-snap-align: start;
 }
 
 .ld-light-table-slide-scaler {
@@ -233,12 +234,9 @@ body div.ld-slide {
     margin: auto;
     width: calc(var(--ld-slide-width) / 2);
     max-width: calc(var(--ld-slide-width) / 2);
-}
-
-#ld-continuous-view-pane .ld-slide {
-    position: absolute;
-    top: 0px;
-    left: 0px;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;    
 }
 
 .ld-continuous-view-slide-pane {
@@ -246,6 +244,13 @@ body div.ld-slide {
     max-width: calc(var(--ld-slide-width) / 2);
     height: calc(var(--ld-slide-height) / 2);
     max-height: calc(var(--ld-slide-height) / 2);
+    scroll-snap-align: start;
+}
+
+#ld-continuous-view-pane .ld-slide {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .ld-continuous-view-scaler {
