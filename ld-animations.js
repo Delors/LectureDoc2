@@ -1,11 +1,9 @@
-/*
-   Functionality related to animations on slides.
-
-   This is not core functionality of LectureDoc.
-*/
 "use strict";
 
 /**
+ * Functionality related to animations on slides.
+ *
+ * This is not core functionality of LectureDoc.
  * All functionality is defined in the `lectureDoc2Animations` "module" to avoid
  * conflicts with other JavaScript libraries. This "module" will be called after 
  * all dom manipulations and listener registrations; i.e., at the end of 
