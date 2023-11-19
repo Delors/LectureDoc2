@@ -1,0 +1,143 @@
+
+.huge {
+    font-size: 1.5rem;
+}
+
+.large {
+    font-size: 1.15rem;
+}
+
+.small {
+    font-size: 0.85rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.footnotesize {
+    font-size: 0.815rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.scriptsize {
+    font-size: 0.785rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.tiny {
+    font-size: 0.7rem;
+    /* deliberately absolute w.r.t. the "global" font-size */
+}
+
+.larger {
+    font-size: 1.1em;
+}
+
+.smaller {
+    font-size: 0.9em;
+}
+
+
+.monospaced {
+    font-family: monospace;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+
+.center {
+    text-align: center;
+    width: 100%;
+}
+
+
+a:link,
+a:visited {
+    color: var(--ld-dhbw-red);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+img.picture {
+    border-radius: 25px;
+    box-shadow: 4px 4px 8px black;
+}
+
+
+.not-important {
+    color: rgb(129, 129, 129)
+}
+
+div.important {
+    background-color: var(--ld-dhbw-red);
+    color:whitesmoke;
+    padding: 1em;
+    border-radius: 0.5em;
+    text-align: center;
+    position: relative;
+}
+
+.obsolete {
+    text-decoration: line-through;
+}
+
+
+.inline-block {
+    display: inline-block;
+}
+
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.rotate-ff {
+    transform: rotate(25deg);
+}
+
+
+.red {
+    color: var(--ld-red);
+}
+
+.blue {
+    color: rgb(0, 0, 155);
+}
+
+.green {
+    color: rgb(0, 88, 0);
+}
+
+.black {
+    color: black;
+}
+
+.dhbw-gray {
+    color: var(--ld-dhbw-gray);
+}
+
+
+.red-background {
+    background-color: var(--ld-dhbw-red);
+}
+
+
+.green-background {
+    background-color: var(--ld-the-green);
+}
+
+.light-green-background {
+    background-color: var(--ld-the-light-green);
+}
+
+
+.blue-background {
+    background-color: var(--ld-the-blue);
+}

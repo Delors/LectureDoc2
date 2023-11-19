@@ -1,0 +1,120 @@
+.ld-slide {
+    padding: 0.75rem;
+    background-color: white;
+    border-radius: 0.5rem;
+}
+
+
+/* The following really depends on the logo that you want to use. */
+img.logo {
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
+    scale: 1;
+}
+
+.footer-left {
+    position: absolute;
+    bottom: 48px;
+}
+
+
+/*
+    Styling of section headers.
+
+    A section header is a div with the class ".new-section"
+*/
+
+div.ld-slide.new-section>h2 {
+    font-size: 2rem;
+    font-variant: small-caps;
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-radius: 0.5em;
+    background-color: var(--ld-dhbw-gray);
+    box-shadow: 4px 4px 8px black;
+    color: white;
+}
+
+div.ld-slide.new-section>h2::after {
+    content: "Prof. Dr. Michael Eichberg";
+    display: block;
+    position: absolute;
+    font-variant: normal;
+    font-size: 0.75rem;
+    font-weight: 200;
+    margin-top: 2.25rem;
+    margin-left: 1rem;
+    color: var(--ld-dhbw-gray);
+}
+
+div.ld-slide.new-section::after {
+    content: url(../../../dhbw_logo.png);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    scale: 0.50;
+    translate: 60px -25px;
+}
+
+/*
+    Let's add a nice animation when we reach the next "new-section" slide.
+*/
+
+#ld-main-pane .ld-slide.new-section[style*="scale: 1;"] {
+    animation: blend-in 2s;
+}
+
+#ld-main-pane .ld-slide[style*="scale: 0"]:has(+.ld-slide.new-section[style*="scale: 1;"]) {
+    animation: blend-out 2s;
+}
+
+@keyframes blend-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100;
+    }
+}
+
+@keyframes blend-out {
+    0% {
+        opacity: 1;
+        scale: 1; /* We have to reset the scale level to make a blending effect possible. */
+    }
+
+    99% { /*  */
+        opacity: 0;
+        scale: 1;
+    }
+    100% {
+        scale: 0;
+    }
+}
+
+
+
+/*
+
+We want to add a section number to each major section (a section is marked by a slide with the class .new-section.
+
+*/
+
+#ld-main-pane,
+#ld-continuous-view-pane,
+#ld-light-table-dialog {
+    counter-reset: ld-section 0;
+}
+
+.ld-slide.new-section {
+    counter-increment: ld-section;
+}
+
+.ld-slide.new-section h2::before {
+    content: counter(ld-section)".";
+    padding-right: 0.5em;
+}

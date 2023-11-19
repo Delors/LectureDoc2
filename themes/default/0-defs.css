@@ -1,0 +1,14 @@
+:root {
+    /* the red used by the DHBW Logo */
+    --ld-dhbw-red: rgb(226, 0, 26);
+    /* the gray used by the text in the DHBW Logo*/
+    --ld-dhbw-gray:  rgb(91,105,113);
+
+    /* a blue that fits nicely to the previous colors*/
+    --ld-the-blue: rgb(45, 62, 255);
+    --ld-the-green: rgb(0, 88, 0);
+    --ld-the-light-green: rgb(0, 88, 0, 0.1);
+
+    --ld-red: rgb(131, 0, 0);
+    --ld-red-background: rgb(131, 0, 0, 0.1);
+}

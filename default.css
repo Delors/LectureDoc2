@@ -272,7 +272,6 @@ table.no-column-borders :is(td, th) {
 }
 
 :is(ol,ul).compact li{
-    /* often used in combination with tables */
     line-height: 1.35em;
     padding-top: 0em;
     margin-top: 0em;
@@ -659,7 +658,7 @@ ol.impressive li{
 /*
 
     The class "annotated-text" can be used in combination with tables to make
-    them behave as if we have a text document with some paragraphs with some 
+    them look like as if we have a text document with some paragraphs with some 
     comments to the side.
 
 */
