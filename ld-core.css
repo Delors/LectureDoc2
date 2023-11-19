@@ -144,6 +144,9 @@ body div.ld-slide {
     z-index: 100;
     opacity: 0;
     transition: opacity 500ms;
+}
+
+#ld-light-table-dialog-container {
     display: flex;
     flex-direction: column;
 }
@@ -239,9 +242,16 @@ body div.ld-slide {
     margin: auto;
     width: calc(var(--ld-slide-width) / 2);
     max-width: calc(var(--ld-slide-width) / 2);
+    /*
+    ATTENTION:  When the continuous view pane becomes the Scroll Container, 
+                printing the slide set/generating a PDF slide set becomes 
+                virtually impossible. (Most?) Browsers can only handle the
+                situation where the whole document directly belongs to the
+                main body element.
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;    
+    */
 }
 
 .ld-continuous-view-slide-pane {
@@ -249,7 +259,10 @@ body div.ld-slide {
     max-width: calc(var(--ld-slide-width) / 2);
     height: calc(var(--ld-slide-height) / 2);
     max-height: calc(var(--ld-slide-height) / 2);
+    /*
+    ATTENTION:  SEE ABOVE!
     scroll-snap-align: start;
+    */
 }
 
 #ld-continuous-view-pane .ld-slide {

@@ -346,6 +346,10 @@ const lectureDoc2 = function () {
         lightTableDialog.id = "ld-light-table-dialog"
         lightTableDialog.className = "ld-dialog"
 
+        const lightTableDialogContainer = document.createElement("DIV")
+        lightTableDialogContainer.id = "ld-light-table-dialog-container"
+        lightTableDialog.appendChild(lightTableDialogContainer)
+
         const lightTableHeader = document.createElement("DIV")
         lightTableHeader.id = "ld-light-table-header"
         lightTableHeader.innerHTML = `
@@ -363,11 +367,11 @@ const lectureDoc2 = function () {
                 <button id="ld-light-table-close-button" type="button">×</button>
             </div>
         `
-        lightTableDialog.appendChild(lightTableHeader)
+        lightTableDialogContainer.appendChild(lightTableHeader)
 
         const lightTableSlides = document.createElement("DIV")
         lightTableSlides.id = "ld-light-table-slides";
-        lightTableDialog.appendChild(lightTableSlides);
+        lightTableDialogContainer.appendChild(lightTableSlides);
 
         document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
             const slide = slideTemplate.cloneNode(true);
@@ -397,7 +401,7 @@ const lectureDoc2 = function () {
             <input type="range" id="ld-light-table-zoom-slider" name="Zoom" min="0.05"  max="0.3" step="0.05" value="0.2"/>
             </div>
         `
-        lightTableDialog.appendChild(lightTableFooter)
+        lightTableDialogContainer.appendChild(lightTableFooter)
 
         document.getElementsByTagName("BODY")[0].prepend(lightTableDialog);
     }
@@ -989,14 +993,6 @@ const lectureDoc2 = function () {
                     XPathResult.ANY_TYPE,
                     null);
                 const e = ns.iterateNext();
-                /*
-                if (e || searchValue == "") {
-                    slidePane.style.removeProperty("width");
-                    slidePane.style.margin = "4px";
-                } else {
-                    slidePane.style.width = "0";
-                    slidePane.style.margin = "0";
-                }*/
                 if (e || searchValue == "") {
                     slidePane.classList.remove("ld-light-table-slide-pane-hide");
                 } else {
@@ -1024,7 +1020,8 @@ const lectureDoc2 = function () {
     function registerContinuousViewScrollYListener() {
         document.addEventListener("scroll", () => {
             if (state.showContinuousView) {
-                state.continuousViewScrollY = window.scrollY;
+                const scrollY = window.scrollY;
+                state.continuousViewScrollY = scrollY;
             }
         })
     }

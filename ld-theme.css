@@ -82,6 +82,11 @@ body {
     width: 90vw;
 }
 
+#ld-light-table-dialog-container {
+    height: 100%;
+    width: 100%;
+}
+
 #ld-light-table-header,
 #ld-light-table-footer {
     display: flex;
