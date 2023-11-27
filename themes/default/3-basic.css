@@ -1,4 +1,8 @@
 
+.xxl {
+    font-size: 3rem;
+}
+
 .huge {
     font-size: 1.5rem;
 }
@@ -107,6 +111,11 @@ div.important {
     color: var(--ld-red);
 }
 
+.dhbw-red {
+    color: var(--ld-dhbw-red);
+}
+
+
 .blue {
     color: rgb(0, 0, 155);
 }
@@ -140,4 +149,22 @@ div.important {
 
 .blue-background {
     background-color: var(--ld-the-blue);
+}
+
+
+.line-above {
+    border-top: 2px solid rgb(24, 25, 25);
+}
+
+.line-below {
+    border-bottom: 2px solid rgb(24, 25, 25);
+}
+
+
+.shadow {
+    box-shadow: 4px 4px 8px rgb(33, 33, 33);
+}
+
+ul {
+    list-style-type: "▫️";
 }

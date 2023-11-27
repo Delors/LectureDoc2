@@ -182,9 +182,13 @@ body {
     background-color: #333;
 }
 
-.ld-continuous-view-slide-pane:not(:has(+aside.admonition.supplemental)),
+.ld-continuous-view-slide-pane,
 #ld-continuous-view-pane aside.admonition.supplemental {
     border-bottom: 3px solid var(--body-background-color);
+}
+
+#ld-continuous-view-pane .ld-continuous-view-slide-pane:has(+aside.admonition.supplemental) {
+    border-bottom: 0;
 }
 
 #ld-continuous-view-pane aside.admonition.supplemental {

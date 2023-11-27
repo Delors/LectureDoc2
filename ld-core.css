@@ -39,7 +39,7 @@
     --ld-slide-width: 1920px;
     --ld-slide-height: 1200px;
     /*
-        The default zoom level used by the light table.
+        The default zoom level.
     */
     --ld-light-table-zoom-level: 0.2;
     --ld-continuous-view-zoom-level: 0.5;
@@ -206,7 +206,6 @@ body div.ld-slide {
 
 #ld-light-table-slides .ld-slide {
     position: absolute;
-    display: block; /* just to make sure */
 }
 
 /*  ----------------------------------------------------------------------------

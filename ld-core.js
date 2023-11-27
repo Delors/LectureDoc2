@@ -221,7 +221,6 @@ const lectureDoc2 = function () {
     }
 
 
-
     /**
      * Converts a string in CSS notation into a variable name as used by
      * JavaScript except that also the first character is also capitalized.

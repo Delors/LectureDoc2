@@ -103,6 +103,75 @@ div.ld-slide.new-section::after {
 }
 
 
+div.ld-slide.new-subsection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+    text-decoration-color: var(--ld-dhbw-gray);
+    text-decoration-thickness: 6px;
+}
+
+div.ld-slide.new-subsection::after {
+    content: url(../../../dhbw_logo.png);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    scale: 0.50;
+    translate: 60px -25px;
+}
+
+div.ld-slide.new-subsection>h2 {
+    font-size: 1.666rem;
+    text-align: center;
+    border-radius: 0.5em;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    color: var(--ld-dhbw-gray);
+}
+
+
+/*
+    Let's add a nice animation when we reach the next "new-subsection" slide.
+*/
+
+#ld-main-pane .ld-slide.new-subsection[style*="scale: 1;"] {
+    animation: fade-in 2s;
+}
+
+#ld-main-pane .ld-slide[style*="scale: 0"]:has(+.ld-slide.new-subsection[style*="scale: 1;"]) {
+    animation: fade-out 2s;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+        scale: 1; /* We have to reset the scale level to make a blending effect possible. */
+    }
+
+    99% { /*  */
+        opacity: 0;
+        scale: 1;
+    }
+    100% {
+        scale: 0;
+    }
+}
+
+
 
 /*
 
@@ -123,4 +192,104 @@ We want to add a section number to each major section (a section is marked by a 
 .ld-slide.new-section h2::before {
     content: counter(ld-section)".";
     padding-right: 0.5em;
+}
+
+
+
+.ld-slide.center-elements {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.integrated-exercise {
+    background-color: var(--ld-dhbw-gray);
+    color: whitesmoke;
+}
+
+.integrated-exercise h2:first-child {
+    background-color: whitesmoke;
+    color: var(--ld-dhbw-red);
+    margin: -0.75rem -0.75rem 0.5rem -0.75rem;
+    padding: 0.5rem 0.75rem 0.25rem 0.75rem;
+}
+
+.integrated-exercise::before {
+    display: block;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    content: url(../../../dhbw_logo.png);
+    transform: translateX(30%) translateY(-35%) scale(0.4); 
+}
+
+.integrated-exercise .conditions {
+    font-size: smaller;
+}
+
+.integrated-exercise .task {
+    font-size: smaller;
+    border-radius: 0.4em;
+    padding: 0.4em;
+    margin: 0.4em 0 0.4em 0;
+    background-color: var(--ld-dhbw-red);
+    color: white;
+    box-shadow: none;
+}
+
+
+
+
+
+
+
+/*
+    Animations
+
+    (Recall that LectureDoc's mechanism to switch slides is to scale a slide to 0 and
+    to scale (both instanteously) the next slide to 1.)
+*/
+
+
+#ld-main-pane .ld-slide.transition-move-left.ld-current-slide {
+    animation: move-left-in 3s;
+}
+
+#ld-main-pane .ld-slide.ld-previous-slide:has(+.ld-slide.transition-move-left.ld-current-slide) {
+    animation: move-left-out 3s, 0s 3s scale-to-zero;
+}
+
+
+@keyframes move-left-in {
+    1% { /*it works beautifully with 1% and awfully with 0%...*/
+        translate: 100%;
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 100%;
+    }
+
+    100% {
+        translate: 0%;
+    }
+}
+
+@keyframes move-left-out {
+    0% {
+        scale: 1; /* We have to reset the scale level to make a blending effect possible. */
+        translate: 0%;
+    }
+
+    30% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 0%;
+        scale: 1;
+        translate: -100%;
+    }
 }

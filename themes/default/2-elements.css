@@ -388,3 +388,101 @@ div:not(.admonition).note {
     color: whitesmoke;
     max-width: 20%;
 }
+
+
+/*
+highlight-line-on-hover
+    2) highlight-on-hover 
+    3) compact
+    4) no-table-borders
+    5) no-inner-borders
+    6) no-column-borders
+*/
+table {
+    border: 1.5px solid black;
+    box-shadow: 4px 4px 8px gray;
+}
+
+th,
+td {
+    border: 1.5px solid black;
+}
+
+/*
+If the content of the entire cell has a red background, we lift it 
+up to the cell level.
+*/
+td:has(p>span.red) {
+    background-color: var(--ld-red-background);
+    font-weight: bold;
+}
+
+table.highlight-line-on-hover tr:hover {
+    background-color: rgb(180, 214, 249);
+}
+
+table.highlight-line-on-hover tbody td:hover {
+    background-color: rgb(200, 234, 256);
+}
+
+/* 
+The following property is associated with cells when the table has the 
+highlight-on-hover class and the ld-animation package is loaded.
+*/
+td.highlight {
+    background-color: rgb(171, 224, 253);
+}
+
+table.compact {
+    margin: 0;
+}
+
+table.compact td,
+table.compact th {
+    padding: 0.1em;
+}
+
+table.compact-cells td,
+table.compact-cells th {
+    padding: 0;
+    line-height: 1.1;
+}
+
+/* fix for an rst2ld issue related to the csv tables */
+table.align-center tr {
+    text-align: center;
+}
+
+table.no-table-borders {
+    border: 2px solid white;
+    box-shadow: none;
+}
+
+table.no-inner-borders :is(td, th) {
+    border: 0;
+}
+
+table.header-column td:first-child {
+    font-weight: bold;
+}
+
+table.no-column-borders :is(td, th) {
+    border-left: 0;
+    border-right: 0;
+}
+
+.compact-ps > p{
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+
+.admonition.note {
+    float: right;
+    background-color: var(--ld-the-blue);
+    color: whitesmoke;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0.75em;
+    max-width: 40%;
+}
