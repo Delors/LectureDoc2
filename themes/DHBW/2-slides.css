@@ -57,7 +57,7 @@ div.ld-slide.new-section>h2::after {
 }
 
 div.ld-slide.new-section::after {
-    content: url(../../../dhbw_logo.png);
+    content: var(--ld-dhbw-logo);
     position: absolute;
     top: 0px;
     right: 0px;
@@ -113,7 +113,7 @@ div.ld-slide.new-subsection {
 }
 
 div.ld-slide.new-subsection::after {
-    content: url(../../../dhbw_logo.png);
+    content: var(--ld-dhbw-logo);
     position: absolute;
     top: 0px;
     right: 0px;
@@ -221,7 +221,7 @@ We want to add a section number to each major section (a section is marked by a 
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    content: url(../../../dhbw_logo.png);
+    content: var(--ld-dhbw-logo);
     transform: translateX(30%) translateY(-35%) scale(0.4); 
 }
 
