@@ -1,13 +1,15 @@
 "use strict";
 
 /**
- * Functionality related to animations on slides.
+ * Functionality related to animations on slides which need some JavaScript
+ * to get it done.
  *
- * This is not core functionality of LectureDoc.
- * All functionality is defined in the `lectureDoc2Animations` "module" to avoid
- * conflicts with other JavaScript libraries. This "module" will be called after 
- * all dom manipulations and listener registrations; i.e., at the end of 
- * LectureDoc's `window.onLoad` listener.
+ * This is not considered to be core functionality of LectureDoc.
+ * 
+ * All functionality is defined in the `lectureDoc2Animations` module to avoid
+ * conflicts with other JavaScript libraries. This module will be called after 
+ * all DOM manipulations and listener registrations to the original document.
+ * I.e., at the end of LectureDoc's `window.onLoad` listener.
  */
 const lectureDoc2Animations = function() {
 
@@ -17,7 +19,8 @@ const lectureDoc2Animations = function() {
      * row.
      * 
      * Note that, highlighting the row is trivially done in CSS, highlighting 
-     * a column is not yet easily possible and requires too ugly solutions.
+     * a column is not yet easily possible and requires either a too ugly css
+     * solution or some JavaScript.
      */
     // TODO add support to handle colspan and rowspan...
     // TODO add support to handle header rows (and header columns?)
