@@ -7,33 +7,70 @@
     --body-background-color: rgb(25, 25, 30);
 }
 
-
-
 body {
     background-color: var(--body-background-color); 
 }
 
-
-
-/* common styling of all dialogs */
+/* Common styling of all dialogs.
+   */
 .ld-dialog {
-    background-color: rgba(30, 30, 30, 0.9);
-    box-shadow: 2px 2px 3px black,  -2px -2px 3px black,  -2px 2px 3px black,  2px -2px 3px black;            
-    border-radius: 10px;
     margin: auto;
+    background-color: rgba(30, 30, 30, 0.9);
+    box-shadow: 
+        2px 2px 3px black,
+        -2px -2px 3px black,
+        -2px 2px 3px black,
+        2px -2px 3px black;            
+    border-radius: 10px;
+}
+
+#ld-message-box {
+    top: 1rem;
+    margin: auto;
+    border: 0px;
+    padding: 0.5rem;
+    font-size: 36px;
+    color: black;
+    background-color: rgb(193, 242, 69);
+    box-shadow: 4px 4px 8px black;
+    border-radius: 0.5em;
 }
 
 
+/*  ----------------------------------------------------------------------------
 
-/* z-index: 1000 */
+    Styling the slide numbers pane.
+*/
+
+#ld-slide-number-pane {
+    /* set by core: display: none <-> table */
+    position: fixed; 
+    bottom: 0px; 
+    right: 0px; 
+    height: 50px;
+    width: 50px;
+    font-size: 24px; 
+    text-shadow: 1px 1px 1px white; 
+}
+
+#ld-slide-number {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+/*  ----------------------------------------------------------------------------
+    Styling the help dialog.
+
+*/
 #ld-help {
-    /* used by ld: display, opacity, z-index, position, transition */
-    font-size: 14px;
-    color: white;
     min-width: 45vw;
     max-width: 75vw;
     max-height: 75vh;
     padding: 1em;
+    font-size: 14px;
+    color: white;
     overflow-y: scroll;
     overflow-x: scroll;
 }
@@ -68,12 +105,20 @@ body {
 }
 
 
+/*  ----------------------------------------------------------------------------
+    Styling the direct jumpt target dialog.
+
+*/
 #ld-jump-target-dialog {
     font-size: 18px;
     color: white;
     padding: 10px;
 }
 
+/*  ----------------------------------------------------------------------------
+
+    Styling the light table dialog.
+*/
 #ld-light-table-dialog {
     height: 90vh;
     width: 90vw;
@@ -145,7 +190,6 @@ body {
 
 #ld-light-table-header-stretch {
     width: 100%;
-
 }
 
 #ld-light-table-slides {
@@ -160,6 +204,7 @@ body {
     background-color: rgba(0, 0, 0, 0.33);
     opacity: 1;
     transition: opacity 333ms ease-in;
+    /* We use flex here, to make it easy to align slide number: */
     display: flex; 
     align-items: end; 
     justify-content: right;
@@ -173,68 +218,7 @@ body {
     margin-right: 0.25em;
 }
 
-:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
-    border-radius: 1em 0 0 1em;
-}
 
-:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
-    font-size: 36px;
-    background-color: #333;
-}
 
-.ld-continuous-view-slide-pane,
-#ld-continuous-view-pane aside.admonition.supplemental {
-    border-bottom: 3px solid var(--body-background-color);
-}
-
-#ld-continuous-view-pane .ld-continuous-view-slide-pane:has(+aside.admonition.supplemental) {
-    border-bottom: 0;
-}
-
-#ld-continuous-view-pane aside.admonition.supplemental {
-    margin-bottom: 3px;
-    border-radius: 0;    
-    box-shadow: none;
-    background-color: rgb(232, 232, 232); 
-    font-size: 18px;
-    color: #333;
-}
-
-.ld-continuous-view-slide-number {
-    bottom: 0px;
-    right: 5px;
-    font-size: 18px;
-    color: rgb(25, 25, 25);
-    text-shadow: 1px 1px 1px white;
-}
-
-#ld-message-box {
-    padding: 0.5rem;
-    top: 1rem;
-    color: black;
-    margin: auto;
-    background-color: rgb(193, 242, 69);
-    box-shadow: 4px 4px 8px black;
-    border-radius: 0.5em;
-    font-size: 36px;
-    border: 0;
-}
-
-#ld-slide-number-pane {
-    /* set by core: display: none <-> table */
-    position: fixed; 
-    bottom: 0px; 
-    right: 0px; 
-    height: 50px;
-    width: 50px;
-    font-size: 24px; 
-    text-shadow: 1px 1px 1px white; 
-}
-
-#ld-slide-number {
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
-}
 
 
