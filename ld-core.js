@@ -98,7 +98,7 @@ const lectureDoc2 = function () {
         // Light table related state
         showLightTable: false,
         lightTableZoomLevel: 0.2,
-        lightTableViewScrollY: 0,
+        lightTableViewScrollY: 0, // we should use a different method... this one depends on the size of viewport 
         
         // Continuous view related state
         showContinuousView: false,
@@ -108,12 +108,19 @@ const lectureDoc2 = function () {
         showContinuousViewSlideNumber: false,
     }
 
+    let ephermal = { 
+        // The following information is only short lived and does not need
+        // to be preserved durch reloads. It is in particular information related
+        // to animations.
+        previousSlide: undefined,
+    }
+
     /**
      * Creates a document dependent unique id. 
      * 
      * This enables the storage of document dependent information in local
-     * storage, even though all documents have the same origin and therefore 
-     * use the same local storage object.
+     * storage, even when all LectureDoc documents have the same origin and 
+     * therefore use the same local storage object.
      * 
      * @param {string} id the id of the information item without the prefix 
      *          "ld-".
@@ -133,7 +140,7 @@ const lectureDoc2 = function () {
         if (presentation.id) {
             const jsonState = JSON.stringify(state)
             localStorage.setItem(documentSpecificId("state"), jsonState);
-            console.debug(`${presentation.id} stated saved: ${jsonState}`)
+            // console.debug(`${presentation.id} stated saved: ${jsonState}`)
         }
     }
 
@@ -152,7 +159,9 @@ const lectureDoc2 = function () {
     }
 
     /**
-     * Restores the state of this presentation.
+     * Restores the state object of this presentation.
+     * 
+     * This method DOES NOT apply the state to the presentation. 
      */
     function loadState() {
         if (presentation.id) {
@@ -160,7 +169,7 @@ const lectureDoc2 = function () {
             const newState = JSON.parse(jsonState);
             if (newState) {
                 state = newState;
-                console.debug(`${presentation.id} state loaded: ${jsonState}`);
+                // console.debug(`${presentation.id} state loaded: ${jsonState}`);
             }
         }
     }
@@ -168,16 +177,16 @@ const lectureDoc2 = function () {
     /**
      * Applies the current state to the presentation. 
      * 
-     * I.e., based on the state information all necessary methods will
-     * be called to ensure that the state (open dialogs, presentation progress)
-     * is as before.
+     * I.e., based on the state object's information all necessary methods will
+     * be called to ensure that the presentation state (open dialogs, 
+     * presentation progress etc.) is as before.
      */
     function applyState() {
         reapplySlideProgress();
 
         if (state.currentSlideNo > lastSlideNo()) {
             state.currentSlideNo = lastSlideNo();
-            console.info(`updated slide number: ${lastSlideNo()}`);
+            console.info(`slide number: ${lastSlideNo()}`);
         }
         showSlide(state.currentSlideNo);
 
@@ -192,9 +201,10 @@ const lectureDoc2 = function () {
         if (state.showContinuousViewSlideNumber) showContinuousViewSlideNumber(true);
     }
 
+
     /**
-     * Deletes all permanent state associated with this document and LectureDoc 
-     * as a whole.
+     * Deletes all permanent state information associated with the current 
+     * document and LectureDoc as a whole.
      */
     function deleteStoredState() {
         localStorage.removeItem("ld-help-was-shown");
@@ -204,9 +214,10 @@ const lectureDoc2 = function () {
         }
     }
 
+
     /**
-     * Deletes all information associated with this document and LectureDoc
-     * as such.
+     * Deletes all information associated with the current document and 
+     * LectureDoc as such.
      */
     function resetLectureDoc() {
         console.log(`LectureDoc reset initiated`);
@@ -287,9 +298,9 @@ const lectureDoc2 = function () {
     }
 
     /**
-     * Initializes the state information regarding the current slide to show and also 
-     * initializes the field storing the meta-information about the first-slide
-     * that should be shown.
+     * Initializes the state information regarding the current slide to show and
+     * also initializes the field storing the meta-information about the 
+     * first-slide that should be shown.
      */
     function initCurrentSlide() {
         try {
@@ -380,6 +391,7 @@ const lectureDoc2 = function () {
             slideScaler.className = "ld-light-table-slide-scaler";
             slideScaler.appendChild(slide);
 
+            
             const slideOverlay = document.createElement("DIV");
             slideOverlay.className = "ld-light-table-slide-overlay";
             slideOverlay.dataset.ldSlideNo = i;
@@ -535,22 +547,40 @@ const lectureDoc2 = function () {
      * using this and the `hideSlide` method. This ensures that the internal
      * state is correctly updated!
      */
-    function showSlide(slideNo) {
-        const slide_id = "ld-slide-no-" + slideNo;
-        document.getElementById(slide_id).style.scale = 1;
+    function showSlide(slideNo, setNewMarker = false) {
+        console.log(typeof(slideNo));
+        if (typeof(slideNo) == "string" || slideNo instanceof String) {
+            slideNo = parseInt(slideNo);
+        }
+
+        const slideId = "ld-slide-no-" + slideNo;
+        const ldSlide = document.getElementById(slideId)
+        ldSlide.style.scale = 1;
+        if (setNewMarker)
+            ldSlide.classList.add("ld-current-slide");
+
         state.currentSlideNo = slideNo;
         document.getElementById("ld-slide-number").innerText = slideNo + 1;
     }
 
-    function hideSlide(slideNo) {
-        const ld_slide = document.getElementById("ld-slide-no-" + slideNo)
-        if (ld_slide) {
-            ld_slide.style.scale = 0;
+    function hideSlide(slideNo, setOldMarker = false) {
+        if (ephermal.previousSlide) {
+            ephermal.previousSlide.classList.remove("ld-previous-slide");
+        }
+        const ldSlide = document.getElementById("ld-slide-no-" + slideNo)
+        if (ldSlide) {
+            ephermal.previousSlide = ldSlide;
+            ldSlide.style.scale = 0;
+            ldSlide.classList.remove("ld-current-slide");
+            if (setOldMarker)
+                ldSlide.classList.add("ld-previous-slide");
 
             // We have to clear a potential selection of text to avoid that the
             // user is confused if s(he) copies text to the clipboard (s)he can't 
             // see.
             window.getSelection().empty()
+        } else {
+            ephermal.previousSlide = undefined;
         }
     }
 
@@ -561,8 +591,8 @@ const lectureDoc2 = function () {
      */
     function moveToNextSlide() {
         if (state.currentSlideNo < lastSlideNo()) {
-            hideSlide(state.currentSlideNo);
-            showSlide(++state.currentSlideNo);
+            hideSlide(state.currentSlideNo,true);
+            showSlide(++state.currentSlideNo,true);
         }
     }
 
@@ -573,6 +603,9 @@ const lectureDoc2 = function () {
         }
     }
 
+    /**
+     * Gets the information how many animation steps are already executed.
+     */
     function getSlideProgress(slide) {
         if (!state.slideProgress) {
             return 0;
@@ -580,6 +613,9 @@ const lectureDoc2 = function () {
         return state.slideProgress[slide.id];
     }
 
+    /**
+     * Stores the information how many animation steps are already executed.
+     */
     function setSlideProgress(slide, i) {
         if (!state.slideProgress) {
             state.slideProgress = {};
@@ -909,7 +945,7 @@ const lectureDoc2 = function () {
                 return;
             }
 
-            /* Let's determine if we have clicked on the far left or right part. */
+            /* Let's determine if we have clicked on the left or right part. */
             if (event.pageX < (window.innerWidth / 2)) {
                 moveToPreviousSlide();
                 showMessage("⬅︎",400);
@@ -921,16 +957,16 @@ const lectureDoc2 = function () {
 
 
     /**
-     * @param str id The unique id of the target element!
+     * @param str id The unique id of the target element on a slide!
      */
-    function jumpToSlideWithId(id) {
+    function jumpToSlideWithElementWithId(id) {
         const slide = document.querySelector(`#ld-main-pane .ld-slide:has(${id})`);
         if (slide) {
             const targetSlideNo = slide.dataset.ldSlideNo;
             hideSlide(state.currentSlideNo);
             showSlide(targetSlideNo);
         } else {
-            console.warn("invalide jump target: "+target);
+            console.warn("invalid jump target: "+target);
         }
 
         // ensure that all elements up to the target element are visible.
@@ -942,21 +978,21 @@ const lectureDoc2 = function () {
 
     function registerSlideInternalLinkClickedListener() {
         /*
-        Handle links related to the bibliography
+        Handle links related to the bibliography.
         */
         document.
             querySelectorAll("#ld-main-pane a.citation-reference").
             forEach((a) => { a.addEventListener("click",(event) => {
                 event.stopPropagation();
                 const target = a.getAttribute("href");
-                jumpToSlideWithId(target);
+                jumpToSlideWithElementWithId(target);
             })  });
         document.
             querySelectorAll('#ld-main-pane a[role="doc-backlink"]').
             forEach((a) => { a.addEventListener("click",(event) => {
                 event.stopPropagation();
                 const target = a.getAttribute("href");
-                jumpToSlideWithId(target);
+                jumpToSlideWithElementWithId(target);
             })  });
     }
 
@@ -1012,9 +1048,9 @@ const lectureDoc2 = function () {
     }
 
     function registerLightTableCloseListener() {
-        document.querySelector("#ld-light-table-close-button").addEventListener("click", () => {
-            toggleLightTable();
-        });
+        document.
+            querySelector("#ld-light-table-close-button").
+            addEventListener("click", () => { toggleLightTable(); });
     }
 
     function registerContinuousViewScrollYListener() {
