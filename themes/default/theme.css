@@ -1,4 +1,5 @@
-@import url(0-defs.css); /* common definitions (i.e., primarily variables.) */
-@import url(1-slides.css);   /* css related to slides as a whole */
-@import url(2-elements.css);   /* css related to complex elements (e.g., lists and tables and complex divs.) */
-@import url(3-basic.css);  /* Simple css property definitions for fine-grained control. */
+@import url(0-defs.css);    /* common definitions (i.e., primarily variables.) */
+@import url(1-views.css);   /* styling of the main views */
+@import url(2-slides.css);  /* slides as a whole and slide transitions */
+@import url(3-elements.css);/* complex stylings related to multiple elements */
+@import url(4-basic.css);   /* property definitions for fine-grained control */

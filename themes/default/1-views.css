@@ -1,0 +1,42 @@
+/*
+    Styling of the continuous view and the supplemental admonition.
+
+    Changing the styling of these elements may have significant impact on 
+    the respective view and may render it inoperable. But, it will not affect
+    LectureDoc as such. 
+*/
+
+:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
+    border-radius: 1em 0 0 1em;
+}
+
+:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
+    font-size: 36px;
+    background-color: #333;
+}
+
+.ld-continuous-view-slide-pane,
+#ld-continuous-view-pane aside.admonition.supplemental {
+    border-bottom: 3px solid var(--body-background-color);
+}
+
+#ld-continuous-view-pane .ld-continuous-view-slide-pane:has(+aside.admonition.supplemental) {
+    border-bottom: 0;
+}
+
+#ld-continuous-view-pane aside.admonition.supplemental {
+    margin-bottom: 3px;
+    border-radius: 0;    
+    box-shadow: none;
+    background-color: rgb(232, 232, 232); 
+    font-size: 18px;
+    color: #333;
+}
+
+.ld-continuous-view-slide-number {
+    bottom: 0px;
+    right: 5px;
+    font-size: 18px;
+    color: rgb(25, 25, 25);
+    text-shadow: 1px 1px 1px white;
+}
