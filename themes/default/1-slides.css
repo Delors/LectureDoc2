@@ -1,3 +1,9 @@
+:root {
+    /*  48px to have roughly 16 lines of text on a slide with a height of 1200px. */
+    font: 48px "Helvetica", sans-serif;
+    line-height: 1.5;
+}
+
 .ld-slide {
     padding: 0.75rem;
     background-color: white;

@@ -1,9 +1,6 @@
 /* Theming of LectureDoc controls and configuration of the most basic assumptions. */
 
 :root {
-    /*  48px to have roughly 16 lines of text on a slide with a height of 1200px. */
-    font: 48px "Helvetica", sans-serif;
-    line-height: 1.5;
     /* Primarily for debugging purposes!*/
     background-color: rgb(125, 125, 125); 
 
@@ -164,20 +161,16 @@ body {
     opacity: 1;
     transition: opacity 333ms ease-in;
     display: flex; 
-    align-items: center; 
-    justify-content: center;
+    align-items: end; 
+    justify-content: right;
 }
 
 .ld-light-table-slide-overlay > span {
     display: block; 
-    color: rgba(0,0,0,0.25); 
+    color: rgba(0,0,0,0.5); 
     text-shadow: 1px 2px 1px rgba(255,255,255,0.25); 
-    font-size: 32px;
-}
-
-.ld-continuous-view-slide-pane,
-#ld-continuous-view-pane aside.admonition.supplemental {
-    border-bottom: 3px solid var(--body-background-color);
+    font-size: 18px;
+    margin-right: 0.25em;
 }
 
 :is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
@@ -189,12 +182,18 @@ body {
     background-color: #333;
 }
 
+.ld-continuous-view-slide-pane:not(:has(+aside.admonition.supplemental)),
 #ld-continuous-view-pane aside.admonition.supplemental {
-    background-color: rgb(232, 232, 232);
-    font-size: 18px;
-    margin-top: -3px; /* to override the border-bottom of the slide*/
-    color: #333;
+    border-bottom: 3px solid var(--body-background-color);
+}
+
+#ld-continuous-view-pane aside.admonition.supplemental {
     margin-bottom: 3px;
+    border-radius: 0;    
+    box-shadow: none;
+    background-color: rgb(232, 232, 232); 
+    font-size: 18px;
+    color: #333;
 }
 
 .ld-continuous-view-slide-number {
