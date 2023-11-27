@@ -15,6 +15,7 @@
 
     --ld-red: rgb(131, 0, 0);
     --ld-red-background: rgb(131, 0, 0, 0.1);
+    font-size: 48px;
 }
 
 .ld-slide {
