@@ -497,8 +497,8 @@ const lectureDoc2 = function () {
 
             continuousViewPane.appendChild(slide_pane);
 
-            // Move "asides with supplemental information" below the slide.
-            const aside = slide.querySelector(":scope aside.supplemental");
+            // Move DIVs and ASIDEs with supplemental infos below the slide:
+            const aside = slide.querySelector(":scope .supplemental");
             if (aside) {
                 aside.parentElement.removeChild(aside);
                 continuousViewPane.appendChild(aside);

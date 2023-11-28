@@ -1,59 +1,63 @@
-:root {
-    /*  48px to have roughly 16 lines of text on a slide with a height of 1200px. */
-    font: 48px "Helvetica", sans-serif;
-    line-height: 1.5;
-}
-
-.ld-slide {
-    background-color: white;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-}
 
 
-/* The following really depends on the logo that you want to use. */
-img.logo {
-    position: absolute;
-    bottom: 48px;
-    right: 48px;
-    scale: 1;
-}
-
+/*
+    Generic styling for per-slide footer elements.
+*/
 .footer-left {
     position: absolute;
-    bottom: 48px;
+    bottom: 36px;
+}
+
+.footer-right {
+    position: absolute;
+    bottom: 36px;
+    right: 36px;
+}
+
+
+/* 
+    Styling of the title slide
+*/
+
+div.ld-slide:has(h1)::before {
+    content: var(--ld-dhbw-logo);
+    position: absolute;
+    right: 48px;
+    bottom: 32px;
 }
 
 
 /*
-    Styling of section headers.
+    Styling of slides which act as section headers.
 
-    A section header is a div with the class ".new-section"
+    <code>div class="ld-slide new-section"...</code>
+
+    We add a counter to the first (and only) h2 element on the slide.
 */
 
 div.ld-slide.new-section>h2 {
-    font-size: 2rem;
-    font-variant: small-caps;
-    text-align: center;
     margin-top: 4rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    border-radius: 0.5em;
     background-color: var(--ld-dhbw-gray);
-    box-shadow: 4px 4px 8px black;
     color: white;
+    font-size: 2rem;
+    font-variant: small-caps;
+    text-align: center;
+    border-radius: 0.5em;
+    box-shadow: 4px 4px 8px black;
 }
 
 div.ld-slide.new-section>h2::after {
-    content: "Prof. Dr. Michael Eichberg";
-    display: block;
-    position: absolute;
-    font-variant: normal;
-    font-size: 0.75rem;
-    font-weight: 200;
+    content: var(--author);
     margin-top: 2.25rem;
     margin-left: 1rem;
+    display: block;
+    position: absolute;
     color: var(--ld-dhbw-gray);
+    font-size: 0.75rem;
+    font-variant: normal;
+    font-weight: 200;
 }
 
 div.ld-slide.new-section::after {
@@ -65,43 +69,30 @@ div.ld-slide.new-section::after {
     translate: 60px -25px;
 }
 
+#ld-main-pane,
+#ld-continuous-view-pane,
+#ld-light-table-dialog {
+    counter-reset: ld-section 0;
+}
+
+.ld-slide.new-section {
+    counter-increment: ld-section;
+}
+
+.ld-slide.new-section h2::before {
+    content: counter(ld-section)".";
+    padding-right: 0.5em;
+}
+
+
+
 /*
-    Let's add a nice animation when we reach the next "new-section" slide.
+    Styling of slides which act as sub section headers.
+
+    <code>div class="ld-slide new-subsection"...</code>
+
+    TODO Add support for numbering subsection header. Currently, adding numbering to subsection headers does not work in the light table and continuous view modes. 
 */
-
-#ld-main-pane .ld-slide.new-section[style*="scale: 1;"] {
-    animation: blend-in 2s;
-}
-
-#ld-main-pane .ld-slide[style*="scale: 0"]:has(+.ld-slide.new-section[style*="scale: 1;"]) {
-    animation: blend-out 2s;
-}
-
-@keyframes blend-in {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 100;
-    }
-}
-
-@keyframes blend-out {
-    0% {
-        opacity: 1;
-        scale: 1; /* We have to reset the scale level to make a blending effect possible. */
-    }
-
-    99% { /*  */
-        opacity: 0;
-        scale: 1;
-    }
-    100% {
-        scale: 0;
-    }
-}
-
 
 div.ld-slide.new-subsection {
     display: flex;
@@ -109,7 +100,6 @@ div.ld-slide.new-subsection {
     justify-content: center;
     align-items: center;
     text-decoration-color: var(--ld-dhbw-gray);
-    text-decoration-thickness: 6px;
 }
 
 div.ld-slide.new-subsection::after {
@@ -121,16 +111,16 @@ div.ld-slide.new-subsection::after {
     translate: 60px -25px;
 }
 
-div.ld-slide.new-subsection>h2 {
+div.ld-slide.new-subsection > h2 {
     width: 90%;
+    padding: 2rem 0.5rem 2rem 0.5rem;
+    border: 1px solid var(--ld-dhbw-gray);
+    border-radius: 0.5em;
+    background-color: whitesmoke;
+    color: var(--ld-dhbw-gray);
     font-size: 1.666rem;
     text-align: center;
-    border: 1px solid var(--ld-dhbw-gray);
-    background-color: whitesmoke;
-    border-radius: 0.5em;
     box-shadow: 2px 2px gray;
-    padding: 2rem 0.5rem 2rem 0.5rem;
-    color: var(--ld-dhbw-gray);
 }
 
 
@@ -171,38 +161,9 @@ div.ld-slide.new-subsection>h2 {
     }
 }
 
-
-
 /*
-
-We want to add a section number to each major section (a section is marked by a slide with the class .new-section.
-
+    Styling of slides which represent lecture-integrated exercise.
 */
-
-#ld-main-pane,
-#ld-continuous-view-pane,
-#ld-light-table-dialog {
-    counter-reset: ld-section 0;
-}
-
-.ld-slide.new-section {
-    counter-increment: ld-section;
-}
-
-.ld-slide.new-section h2::before {
-    content: counter(ld-section)".";
-    padding-right: 0.5em;
-}
-
-
-
-.ld-slide.center-elements {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 
 .integrated-exercise {
     background-color: var(--ld-dhbw-gray);
@@ -210,18 +171,18 @@ We want to add a section number to each major section (a section is marked by a 
 }
 
 .integrated-exercise h2:first-child {
-    background-color: whitesmoke;
-    color: var(--ld-dhbw-red);
     margin: -0.75rem -0.75rem 0.5rem -0.75rem;
     padding: 0.5rem 0.75rem 0.25rem 0.75rem;
+    background-color: whitesmoke;
+    color: var(--ld-dhbw-red);
 }
 
 .integrated-exercise::before {
+    content: var(--ld-dhbw-logo);
     display: block;
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    content: var(--ld-dhbw-logo);
     transform: translateX(30%) translateY(-35%) scale(0.4); 
 }
 
@@ -230,12 +191,12 @@ We want to add a section number to each major section (a section is marked by a 
 }
 
 .integrated-exercise .task {
-    font-size: smaller;
-    border-radius: 0.4em;
-    padding: 0.4em;
     margin: 0.4em 0 0.4em 0;
+    padding: 0.4em;
+    border-radius: 0.4em;
     background-color: var(--ld-dhbw-red);
     color: white;
+    font-size: smaller;
     box-shadow: none;
 }
 
@@ -245,6 +206,12 @@ We want to add a section number to each major section (a section is marked by a 
     Recall that LectureDoc's mechanism to switch slides is to scale a slide 
     to 0 and to scale (both instanteously) the next slide to 1. Hence,
     it is often necessary to "reset" the scale level to make animations work.
+
+    Currently, we support three slide animations:
+    transition-*
+    - fade
+    - scale
+    - move-left
 */
 
 @keyframes scale-to-zero {
@@ -253,11 +220,11 @@ We want to add a section number to each major section (a section is marked by a 
     }
 }
 
-#ld-main-pane .ld-slide.transition-move-left.ld-current-slide {
+#ld-main-pane .ld-current-slide.transition-move-left {
     animation: 3s slide-move-left-in ;
 }
 
-#ld-main-pane .ld-slide.ld-previous-slide:has(+.ld-slide.transition-move-left.ld-current-slide) {
+#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-move-left.ld-current-slide) {
     animation: 3s slide-move-left-out, 0s 3s scale-to-zero;
 }
 
@@ -296,11 +263,11 @@ We want to add a section number to each major section (a section is marked by a 
 
 
 
-#ld-main-pane .ld-slide.transition-scale-in.ld-current-slide {
+#ld-main-pane .ld-current-slide.transition-scale {
     animation: 3s slide-scale-in;
 }
 
-#ld-main-pane .ld-slide.ld-previous-slide:has(+.ld-slide.transition-scale-in.ld-current-slide) {
+#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-scale.ld-current-slide) {
     animation: 3s slide-scale-out;
 }
 
@@ -325,5 +292,37 @@ We want to add a section number to each major section (a section is marked by a 
     100% {
         opacity: 0%;
         scale: 0.5;
+    }
+}
+
+
+
+#ld-main-pane .ld-current-slide.transition-fade {
+    animation: 2s slide-fade-in;
+}
+
+#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-fade.ld-current-slide) {
+    animation: 2s slide-fade-out, 0s 2s scale-to-zero;
+}
+
+@keyframes slide-fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100;
+    }
+}
+
+@keyframes slide-fade-out {
+    0% {
+        opacity: 1;
+        scale: 1; /* reset the scale level to make a fading effect possible */
+    }
+
+    100% {
+        opacity: 0;
+        scale: 1;
     }
 }

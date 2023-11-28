@@ -1,38 +1,102 @@
-/*
-    Styling of the continuous view and the supplemental admonition.
+/*  ----------------------------------------------------------------------------
+    The very fundamental definitions for slides.
+*/ 
+:root {
+    /*  48px to have roughly 16 lines of text on a 1200px height slide. */
+    font: 48px "Helvetica", sans-serif;
+    line-height: 1.5;
+}
+
+.ld-slide {
+    background-color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+}
+
+
+/*  ----------------------------------------------------------------------------
+    Styling of elements that behave differently when the viewing mode changes.
+    E.g., supplemental information is placed at different locations in the DOM
+    when the view changes between the continuous view and the slide/light table 
+    view.
 
     Changing the styling of these elements may have significant impact on 
     the respective view and may render it inoperable. But, it will not affect
     LectureDoc as such. 
 */
 
-:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
-    border-radius: 1em 0 0 1em;
-}
+/*  1. Styling of supplemental information.
 
-:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
-    font-size: 36px;
-    background-color: #333;
-}
+    Each slide can only have one supplemental information (aside or div). The 
+    supplemental information is placed differently in the DOM when the view 
+    mode changes.
+    
+    In continuous view mode the supplemental information element is moved below
+    the element for the slide:
+    
+        <div class="ld-slide">...</>
+        <div|aside class="supplemental">...</>
 
-.ld-continuous-view-slide-pane,
-#ld-continuous-view-pane aside.admonition.supplemental {
-    border-bottom: 3px solid var(--body-background-color);
-}
+    In slide mode the element remains in the DOM at it is original place. 
+    
+    Here, the DIV with the supplemental information is positioned at the right 
+    side in the slide mode.
+*/
 
-#ld-continuous-view-pane .ld-continuous-view-slide-pane:has(+aside.admonition.supplemental) {
-    border-bottom: 0;
-}
-
-#ld-continuous-view-pane aside.admonition.supplemental {
+.ld-continuous-view-slide-pane:not(:has(+.supplemental)){
     margin-bottom: 3px;
-    border-radius: 0;    
-    box-shadow: none;
-    background-color: rgb(232, 232, 232); 
-    font-size: 18px;
-    color: #333;
+} 
+.ld-continuous-view-slide-pane:has(+.supplemental) .ld-slide {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
+#ld-continuous-view-pane .supplemental {
+    margin-bottom: 3px;
+    padding: calc(0.75rem * var(--ld-continuous-view-zoom-level)); 
+    border-radius: 0 0 0.5rem 0.5rem;
+    box-shadow: none;
+    background-color: white; 
+    border-top: 1px dashed #333;
+    color: #333;
+    font-size: 0.4rem;
+}
+
+:is(#ld-main-pane, #ld-light-table-slides) .supplemental {
+    max-width: 75%;
+    max-height: 70%;
+    margin:0;
+    border-radius: 1em 0 0 1em;
+    padding: 18px 36px 18px 36px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    overflow-y: scroll;
+    font-size: 0.75rem;
+    transform: 
+        translateX(calc(100% - 18px)) 
+        translateY(calc(
+            var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) 
+            - ( 100% * var(--ld-continuous-view-zoom-level))));
+    box-shadow: -4px  0px 8px 0px gray,
+                -4px  4px 8px 0px gray,
+                 4px  4px 8px 0px gray, 
+                -4px -4px 8px 0px gray;
+}
+
+:is(#ld-main-pane, #ld-light-table-slides) .supplemental:hover{
+    transform: 
+        translateX(0%) 
+        translateY(calc(
+            var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) 
+            - ( 100% * var(--ld-continuous-view-zoom-level))));
+    transition: 0.75s;
+}
+
+
+/* 2. Rendering of the slide number in the continuous view.
+*/
 .ld-continuous-view-slide-number {
     bottom: 0px;
     right: 5px;

@@ -18,6 +18,9 @@
 .. role:: huge
 .. role:: small
 
+.. role:: smaller
+
 .. role:: line-above
 .. role:: not-important
 .. role:: obsolete
+

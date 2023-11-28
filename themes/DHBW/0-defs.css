@@ -4,10 +4,13 @@ Collects definitions of colors and the like to achieve a consistent layout.
 
 
 :root {
+
+    --author: "Prof. Dr. Michael Eichberg";
+
     /* Coporate design related colors. */
     --ld-dhbw-red: rgb(226, 0, 26);/* red used by the DHBW Logo */    
     --ld-dhbw-gray:  rgb(91,105,113);/* gray used by the text in the DHBW Logo */
-    --ld-dhbw-logo: url(../../../dhbw_logo.png);
+    --ld-dhbw-logo: url(dhbw_logo.png);
 
 
     /* a blue that fits nicely to the previous colors*/

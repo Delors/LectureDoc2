@@ -223,13 +223,12 @@ div {
 */
 
 #ld-continuous-view-pane {
-    display: none;
-    background-color: white;
-    margin: auto;
     width: calc(
         var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
     max-width: calc(
         var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
+    margin: auto;
+    display: none; 
     /*
     ATTENTION:  When the continuous view pane becomes the "scroll container", 
                 printing the slide set/generating a PDF slide set becomes 
@@ -243,6 +242,7 @@ div {
 }
 
 .ld-continuous-view-slide-pane {
+    box-sizing: border-box;
     width: calc(
         var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
     max-width: calc(
@@ -251,9 +251,10 @@ div {
         var(--ld-slide-height) * var(--ld-continuous-view-zoom-level));
     max-height: calc(
         var(--ld-slide-height) * var(--ld-continuous-view-zoom-level));
+    position: relative;
     /*
-    ATTENTION:  SEE ABOVE!
-    scroll-snap-align: start;
+        ATTENTION:  SEE ABOVE!
+        scroll-snap-align: start;
     */
 }
 
@@ -268,75 +269,20 @@ div {
     scale: var(--ld-continuous-view-zoom-level);
 }
 
-.ld-continuous-view-slide-pane {
-    height: calc(
-        var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) + 3px);
-    max-height: calc(
-        var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) + 3px);
-    position: relative;
-}
-
-.ld-continuous-view-slide-pane:not(:has(+aside.admonition.supplemental)),
-#ld-continuous-view-pane aside.admonition.supplemental {
-    border-bottom: 3px solid var(--body-background-color);
-    margin: 0;
-}
-
-#ld-continuous-view-pane aside.admonition.supplemental {
-    margin-bottom: 3px;
-}
-
 .ld-continuous-view-slide-number {
     position: absolute;
 }
 
-@media print {
+@media print { /* at least Safari seems to honor this setting...*/
     .ld-continuous-view-slide-pane {
         page-break-before: always;
     }
 }
 
-#ld-message-box {
-    position: fixed;
-}
-
-
 
 /*  ----------------------------------------------------------------------------
 
-    Styles related to elements that are (re)arranged depending on the selected
-    view.
-*/
-
-:is(#ld-main-pane, #ld-light-table-slides) aside.admonition.supplemental {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin:0;
-    max-width: 75%;
-    max-height: 70%;
-    overflow-y: scroll;
-    transform: 
-        translateX(calc(100% - 18px)) 
-        translateY(calc(
-            var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) 
-            - ( 100% * var(--ld-continuous-view-zoom-level))));
-}
-
-:is(#ld-main-pane, #ld-light-table-slides) .admonition.supplemental:hover{
-    transform: 
-        translateX(0%) 
-        translateY(calc(
-            var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) 
-            - ( 100% * var(--ld-continuous-view-zoom-level))));
-}
-
-
-
-
-/*  ----------------------------------------------------------------------------
-
-    Styles related to the slide number.
+    Styling related to the slide number.
 */
 
 #ld-slide-number-pane {
@@ -346,7 +292,7 @@ div {
 
 /*  ----------------------------------------------------------------------------
 
-    Styles related to standard elements to make them work in the context of 
+    Styling related to standard elements to make them work in the context of 
     LectureDoc.
 */
 

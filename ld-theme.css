@@ -2,7 +2,7 @@
 
 :root {
     /* Primarily for debugging purposes!*/
-    background-color: rgb(125, 125, 125); 
+    background-color: black; 
 
     --body-background-color: rgb(25, 25, 30);
 }
@@ -20,11 +20,12 @@ body {
         2px 2px 3px black,
         -2px -2px 3px black,
         -2px 2px 3px black,
-        2px -2px 3px black;            
+        2px -2px 3px black;
     border-radius: 10px;
 }
 
 #ld-message-box {
+    position: fixed;
     top: 1rem;
     margin: auto;
     border: 0px;
@@ -167,22 +168,27 @@ body {
     flex-grow: 1;
     text-align: right;
 }
+
 #ld-light-table-zoom-slider {
     float:right;
 }
+
 #ld-light-table-close {
     width: 22px;
     text-align: center;
     border-radius: 0.2em;
 }
+
 #ld-light-table-close-button {
     background-color: rgb(27, 26, 26);
     color: white;
 }
+
 #ld-light-table-close:hover #ld-light-table-close-button {
     background-color: white;
     color:  rgb(27, 26, 26);
 }
+
 #ld-light-table-close:hover {
     background-color: white;
     color: rgb(27, 26, 26);

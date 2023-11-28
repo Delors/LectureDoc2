@@ -1,3 +1,54 @@
+/*
+    A DIV with two or three columns.
+
+    When we want to have a layout with just two or three columns, using (rst) 
+    tables causes a lot of syntactic overhead and also makes it hard to achieve
+    a pleasant styling. Therefore, we opted for using flex layout, because using
+    the css column property has proven to be vey brittle when the user wants to 
+    print the slides.
+*/
+.three-columns, 
+.two-columns {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.two-columns > .column {
+    width: 50%;
+}
+
+.three-columns > .column {
+    width: calc(100% / 3);
+}
+
+.column {
+    box-sizing: border-box;
+    margin: 0px; 
+    padding-left: 6px;
+    padding-right: 6px;
+    flex-grow: 1;
+}
+
+.column:not(:last-child):not(.no-separator) {
+    border-right: 2px solid gray;
+}
+
+/* TODO move them in the right place*/
+
+.center-element {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
 span.ger-quote::before {
     content: '„';
 }
@@ -115,46 +166,7 @@ li {
 }
 
 
-/*
-    A DIV with two or three columns.
 
-    When we want to have a layout with just two or three columns, using
-    (rst) tables causes a lot of overhead and also makes it hard to achieve 
-    a pleasant styling.
-
-    We opted for using flex layout, because using column div has proven to 
-    be vey brittle when the user want to print the slides.
-*/
-.three-columns, 
-.two-columns {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.two-columns > .column {
-    width: 50%;
-}
-
-.three-columns > .column {
-    width: 33.3333%;
-}
-
-.column {
-    box-sizing: border-box;
-    margin: 0px; 
-    padding-left: 6px;
-    padding-right: 6px;
-    flex-grow: 1;
-}
-
-.column:not(:last-child):not(.no-separator) {
-    border-right: 2px solid gray;
-}
 
 
 
@@ -485,4 +497,23 @@ table.no-column-borders :is(td, th) {
     margin-bottom: 0;
     margin-left: 0.75em;
     max-width: 40%;
+}
+
+
+.important { /* TODO Replace by foundations + center(if required) */ 
+    background-color: var(--ld-dhbw-red);
+    color:whitesmoke;
+    padding: 1em;
+    border-radius: 0.5em;
+    text-align: center;
+    position: relative;
+}
+
+.foundations {
+    background-color: var(--ld-dhbw-red);
+    color:whitesmoke;
+    padding: 1em;
+    margin: 0.5em 0 0.5em 0;
+    border-radius: 0.5em;
+    box-shadow: 4px 4px 8px black;
 }
