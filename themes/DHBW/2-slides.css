@@ -116,6 +116,7 @@ div.ld-slide.new-subsection > h2 {
     padding: 2rem 0.5rem 2rem 0.5rem;
     border: 1px solid var(--ld-dhbw-gray);
     border-radius: 0.5em;
+    margin: 0;
     background-color: whitesmoke;
     color: var(--ld-dhbw-gray);
     font-size: 1.666rem;
@@ -123,43 +124,6 @@ div.ld-slide.new-subsection > h2 {
     box-shadow: 2px 2px gray;
 }
 
-
-/*
-    Let's add a nice animation when we reach the next "new-subsection" slide.
-*/
-
-#ld-main-pane .ld-slide.new-subsection[style*="scale: 1;"] {
-    animation: 2s slide-fade-in;
-}
-
-#ld-main-pane .ld-slide[style*="scale: 0"]:has(+.ld-slide.new-subsection[style*="scale: 1;"]) {
-    animation: 2s slide-fade-out;
-}
-
-@keyframes slide-fade-in {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 100;
-    }
-}
-
-@keyframes slide-fade-out {
-    0% {
-        opacity: 1;
-        scale: 1; /* We have to reset the scale level to make a blending effect possible. */
-    }
-
-    99% { /*  */
-        opacity: 0;
-        scale: 1;
-    }
-    100% {
-        scale: 0;
-    }
-}
 
 /*
     Styling of slides which represent lecture-integrated exercise.
@@ -198,6 +162,21 @@ div.ld-slide.new-subsection > h2 {
     color: white;
     font-size: smaller;
     box-shadow: none;
+}
+
+.integrated-exercise .excersise-solution {
+    color: black;
+}
+
+/* 
+    Styling, which changes the positioning of elements on a slide.
+*/
+
+.ld-slide.center-elements-on-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /*
