@@ -38,7 +38,30 @@
     border-right: 2px solid gray;
 }
 
-/* TODO move them in the right place*/
+/*
+    Styling of Links
+*/
+
+a:link,
+a:visited {
+    color: var(--ld-dhbw-red);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+div.center-text-in-div {
+    text-align: center;
+    width: 100%;
+}
+
+
+/* TODO move the following style definitions in them in the right place*/
+
+
+
 
 .center-element {
     height: 100%;

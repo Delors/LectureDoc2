@@ -1,41 +1,46 @@
+/*
+    The CSS classes defined in this file generally style only one property and 
+    are intended to enable fine-grained control of the design of a slide when needed. 
+    
+    Hence, it is best to minimize the usage of these styles to avoid 
+    interference with a specific theme. That is, the stylings defined in this
+    file are intended to be indepent of a specific theme.
+*/
+
 .xxl {
-    font-size: 3rem;
+    font-size: 3rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .huge {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .large {
-    font-size: 1.15rem;
+    font-size: 1.15rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .small {
-    font-size: 0.85rem;
-    /* deliberately absolute w.r.t. the "global" font-size */
+    font-size: 0.85rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .footnotesize {
-    font-size: 0.815rem;
-    /* deliberately absolute w.r.t. the "global" font-size */
+    font-size: 0.815rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .scriptsize {
-    font-size: 0.785rem;
-    /* deliberately absolute w.r.t. the "global" font-size */
+    font-size: 0.785rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .tiny {
-    font-size: 0.7rem;
-    /* deliberately absolute w.r.t. the "global" font-size */
+    font-size: 0.7rem; /* absolute w.r.t. the "global" font-size */
 }
 
 .larger {
-    font-size: 1.1em;
+    font-size: 1.1em; /* relative to the "current" font size */
 }
 
 .smaller {
-    font-size: 0.9em;
+    font-size: 0.9em; /* relative to the "current" font size */
 }
 
 
@@ -47,20 +52,12 @@
     font-weight: 700;
 }
 
-
-.center {
-    text-align: center;
-    width: 100%;
+.light {
+    font-weight: 250;
 }
 
-
-a:link,
-a:visited {
-    color: var(--ld-dhbw-red);
-}
-
-a:hover {
-    text-decoration: underline;
+.thin {
+    font-weight: 200;
 }
 
 
@@ -80,21 +77,28 @@ img.picture {
 }
 
 
-.inline-block {
-    display: inline-block;
-}
-
-
-.no-margin {
+.margin-none {
     margin: 0;
 }
 
-.no-padding {
+.margin-1em {
+    margin: 1em;
+}
+
+.margin-0_5em {
+    margin: 0.5em;
+}
+
+.padding-none {
     padding: 0;
 }
 
-.rotate-ff {
-    transform: rotate(25deg);
+.padding-1em {
+    padding: 1em;
+}
+
+.padding-0_5em {
+    padding: 0.5em;
 }
 
 
@@ -136,7 +140,6 @@ img.picture {
     background-color: var(--ld-the-light-green);
 }
 
-
 .blue-background {
     background-color: var(--ld-the-blue);
 }
@@ -157,4 +160,27 @@ img.picture {
 
 ul {
     list-style-type: "▫️";
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+
+
+
+
+/*DEPRECATED: use center-text-in-div */ .center {
+    text-align: center;
+    width: 100%;
+}
+
+
+/*DEPRECATED use margin-none */ .no-margin {
+    margin: 0;
+}
+
+/*DEPRECATED use padding-none */ 
+.no-padding {
+    padding: 0;
 }
