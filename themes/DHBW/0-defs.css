@@ -7,13 +7,13 @@ Collects definitions of colors and the like to achieve a consistent layout.
 
     --author: "Prof. Dr. Michael Eichberg";
 
-    /* Coporate design related colors. */
+    /* Coporate design related colors and images: */
     --ld-dhbw-red: rgb(226, 0, 26);/* red used by the DHBW Logo */    
     --ld-dhbw-gray:  rgb(91,105,113);/* gray used by the text in the DHBW Logo */
     --ld-dhbw-logo: url(dhbw_logo.png);
 
 
-    /* a blue that fits nicely to the previous colors*/
+    /* Colors that fit nicely to the colors of the corporate design: */
     --ld-the-blue: rgb(45, 62, 255);
 
 
