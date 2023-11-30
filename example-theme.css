@@ -752,12 +752,6 @@ div:not(.admonition).note {
     padding: 0;
 }
 
-.rotate-ff {
-    transform: rotate(25deg);
-}
-
-
-
 
 .red {
     color: var(--ld-red);
