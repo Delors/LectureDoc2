@@ -58,9 +58,21 @@ div.center-text-in-div {
 }
 
 
+/*
+    Styling of stacked elements.
+*/
+
+/*div*/.layer {
+    background-color: var(--slide-background-color);
+    box-shadow: var(--standard-shadow);  
+    border-radius: 1em;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+
+/* --- - - - - - - - -  - - - -- -  - - - - - --  */
 /* TODO move the following style definitions in them in the right place*/
-
-
 
 
 .center-element {
@@ -84,26 +96,16 @@ span.ger-quote::after {
     color: gray;
     font-style: italic;
 }
-
 .ger::before {
-    content: "(🇩🇪 ";
-}
-
-.ger::after {
-    content: ")";
+    content: "🇩🇪 ";
 }
 
 .eng {
     color: gray;
     font-style: italic;
 }
-
 .eng::before {
-    content: "(🇺🇸 ";
-}
-
-.eng::after {
-    content: ")";
+    content: "🇺🇸 ";
 }
 
 
