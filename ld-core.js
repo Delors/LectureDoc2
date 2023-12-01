@@ -288,7 +288,7 @@ const lectureDoc2 = function () {
         root.setProperty("--ld-slide-width", presentation.slide.width + "px");
         root.setProperty("--ld-slide-height", presentation.slide.height + "px");
     }
-
+    
     /**
      * Counts the number of slides in the document and initializes `slideCount`.
      */
@@ -548,7 +548,6 @@ const lectureDoc2 = function () {
      * state is correctly updated!
      */
     function showSlide(slideNo, setNewMarker = false) {
-        console.log(typeof(slideNo));
         if (typeof(slideNo) == "string" || slideNo instanceof String) {
             slideNo = parseInt(slideNo);
         }
@@ -1062,11 +1061,23 @@ const lectureDoc2 = function () {
         })
     }
 
+    var animations = undefined;
+    try {
+        animations = lectureDoc2Animations;
+    } catch (error) {
+        console.warn("advanced animations package is not found/not loaded: "+error)
+    }
+
     /**
      * Queries and manipulates the DOM to setup lecture doc and bring the 
      * presentation to the last state.
      */
     document.addEventListener("DOMContentLoaded", () => {
+
+        if(animations) {
+            animations.beforeLDDOMManipulations();
+        }
+
         initDocumentId();
         initSlideDimensions();
         initSlideCount();
@@ -1101,6 +1112,10 @@ const lectureDoc2 = function () {
         Update rendering related information.
         */
         setPaneScale(); // done to improve the initial rendering behavior
+
+        if(animations) {
+            animations.afterLDDOMManipulations();
+        }
     });
 
     /**
@@ -1132,10 +1147,8 @@ const lectureDoc2 = function () {
         registerLightTableSlideSearchListener();
         registerLightTableCloseListener();
 
-        try {
-            lectureDoc2Animations();
-        } catch (error) {
-            console.warn("advanced animations package is not found/not loaded")
+        if(animations) {
+            animations.afterLDListenerRegistrations();
         }
     });
 
