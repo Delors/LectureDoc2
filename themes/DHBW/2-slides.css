@@ -16,7 +16,7 @@
 
 
 /* 
-    Styling of the title slide
+    Styling related to __the__ title slide
 */
 
 div.ld-slide:has(h1)::before {
@@ -180,11 +180,15 @@ div.ld-slide.new-subsection > h2 {
 }
 
 /*
-    Animations
+    "Styling" of Animations
+
+    The following style can generally be composed with the previous styles which
+    affect the layout of the slide. 
 
     Recall that LectureDoc's mechanism to switch slides is to scale a slide 
-    to 0 and to scale (both instanteously) the next slide to 1. Hence,
-    it is often necessary to "reset" the scale level to make animations work.
+    to 0 and to scale the next slide to 1 (normally both happens instanteously). 
+    Hence, it is often necessary to "reset" the scale level to make animations 
+    work.
 
     Currently, we support three slide animations:
     transition-*
