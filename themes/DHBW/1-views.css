@@ -154,7 +154,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    /* DON'T: height: 100%;*/
+    /* DON'T ADD: height: 100%; !!! */
     background-color: var(--slide-background-color);  
 }
 
@@ -165,4 +165,27 @@
     bottom: 0.35em;
     counter-increment: stack-layer;
     content: counter(stack-layer);
+}
+
+:is(#ld-continuous-view-pane, #ld-main-pane, #ld-light-table-dialog) .ld-slide .stack .layer.warning {
+    background-color: var(--ld-dhbw-red);
+    color: white;
+    text-align: center;
+}
+
+:is(#ld-light-table-dialog) .ld-slide .stack {
+    transform-style: preserve-3d;
+    transform: translateY(-250px) perspective(2400px) rotateX(80deg);  
+}
+
+/* IMPROVE Make it possible to rotate the stack by adding some kind of "indicating" div.
+:is(#ld-main-pane) .ld-slide .stack:hover {
+    transform-style: preserve-3d;
+    transform: translateY(-250px) perspective(2400px) rotateX(80deg);
+    transition: 1s ease-in;
+}
+*/
+
+:is(#ld-main-pane, #ld-light-table-dialog) .ld-slide .stack .layer {
+    transform: translateZ(calc(var(--index) * -50px));  
 }
