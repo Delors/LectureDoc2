@@ -1,13 +1,16 @@
 /*
-    A DIV with two or three columns.
+    A layout with two or three columns based on DIVs.
 
     When we want to have a layout with just two or three columns, using (rst) 
     tables causes a lot of syntactic overhead and also makes it hard to achieve
     a pleasant styling. Therefore, we opted for using flex layout, because using
-    the css column property has proven to be vey brittle when the user wants to 
-    print the slides.
+    the css column property has proven to be vey brittle. Sometime the elements
+    in each column are moved between the columns when it is opened/shown 
+    a second time and in particular when the user wants to print the slides 
+    using the css column property for styling slides leads to totally unexpected
+    results.
 */
-.three-columns, 
+.three-columns,
 .two-columns {
     width: 100%;
     padding-top: 0;
@@ -18,17 +21,17 @@
     justify-content: space-evenly;
 }
 
-.two-columns > .column {
+.two-columns>.column {
     width: 50%;
 }
 
-.three-columns > .column {
+.three-columns>.column {
     width: calc(100% / 3);
 }
 
 .column {
     box-sizing: border-box;
-    margin: 0px; 
+    margin: 0px;
     padding-left: 6px;
     padding-right: 6px;
     flex-grow: 1;
@@ -39,7 +42,7 @@
 }
 
 /*
-    Styling of Links
+    Styling of Links (A elements).
 */
 
 a:link,
@@ -62,14 +65,27 @@ div.center-text-in-div {
     Styling of stacked elements.
 */
 
-/*div*/.layer {
+/*div*/
+.layer {
     background-color: var(--slide-background-color);
-    box-shadow: var(--standard-shadow);  
+    box-shadow: var(--standard-shadow);
     border-radius: 1em;
     padding: 0.5em;
     margin-bottom: 0.5em;
+    /* All layers must have the same margin! */
 }
 
+/*
+    Styling of rst footnotes.
+*/
+
+.footnote-list {
+    position: absolute;
+    bottom: 10px;
+    font-size: smaller;
+    border-left: none;
+    padding-left: none;
+}
 
 /* --- - - - - - - - -  - - - -- -  - - - - - --  */
 /* TODO move the following style definitions in them in the right place*/
@@ -96,6 +112,7 @@ span.ger-quote::after {
     color: gray;
     font-style: italic;
 }
+
 .ger::before {
     content: "🇩🇪 ";
 }
@@ -104,6 +121,7 @@ span.ger-quote::after {
     color: gray;
     font-style: italic;
 }
+
 .eng::before {
     content: "🇺🇸 ";
 }
@@ -154,8 +172,8 @@ blockquote {
 
 .complement {
     font-size: smaller;
-    background-color: rgb(240,240,240);
-    color:var(--ld-dhbw-gray);
+    background-color: rgb(240, 240, 240);
+    color: var(--ld-dhbw-gray);
     padding-left: 0.6em;
     padding-right: 0.6em;
     padding-top: 0.35em;
@@ -262,7 +280,7 @@ ol.impressive li::marker {
     color: black;
 }
 
-ol.impressive li{
+ol.impressive li {
     color: black;
     background-color: white;
     margin-top: 1em;
@@ -293,7 +311,7 @@ ol.impressive li{
     border-radius: 0.25em;
 }
 
-.index-card > p {
+.index-card>p {
     margin-top: 0.1em;
     margin-bottom: 0.1em;
     margin-left: 0.5em;
@@ -330,16 +348,16 @@ table.annotated-text {
     border-collapse: separate;
 }
 
-table.annotated-text :is(tr, td, th){
+table.annotated-text :is(tr, td, th) {
     border: 0;
 }
 
-table.annotated-text tr{
+table.annotated-text tr {
     margin: 2px;
 }
 
 /* style the "comment" column */
-table.annotated-text :is(td, th):first-of-type:not(:empty){
+table.annotated-text :is(td, th):first-of-type:not(:empty) {
     background-color: var(--ld-dhbw-gray);
     color: whitesmoke;
     vertical-align: text-top;
@@ -354,14 +372,14 @@ table.annotated-text :is(td, th):first-of-type:not(:empty){
 }
 
 /* the intermediate columns */
-table.annotated-text :is(td, th):not(:first-of-type):not(:empty){
+table.annotated-text :is(td, th):not(:first-of-type):not(:empty) {
     text-align: left;
     padding-bottom: 0.5em;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* the last column */
-table.annotated-text :is(td, th):last-child:not(:empty){
+table.annotated-text :is(td, th):last-child:not(:empty) {
     text-align: justify;
 }
 
@@ -376,7 +394,7 @@ table.annotated-text :is(td, th):last-child:not(:empty){
     (This typlically requires the next element to be an inline-block.
 */
 
-div.vertical-title h2{
+div.vertical-title h2 {
     display: inline-block;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
@@ -394,7 +412,7 @@ div.vertical-title h2{
     text-align: right;
     border-right: 3px solid var(--ld-dhbw-gray);
     border-top: 3px solid var(--ld-dhbw-gray);
-    border-radius: 0.25em 0.25em 0 0 ;
+    border-radius: 0.25em 0.25em 0 0;
     padding-right: 0.25em;
     color: var(--ld-dhbw-gray);
     box-shadow: 2px -2px 2px gray;
@@ -404,7 +422,7 @@ div.vertical-title h2{
     text-align: right;
     border-bottom: 3px solid var(--ld-dhbw-gray);
     border-right: 3px solid var(--ld-dhbw-gray);
-    border-radius: 0em 0em 0.25em 0.25em ;
+    border-radius: 0em 0em 0.25em 0.25em;
     padding-right: 0.25em;
     box-shadow: 2px 2px 2px gray;
     color: var(--ld-dhbw-gray);
@@ -508,7 +526,7 @@ table.no-column-borders :is(td, th) {
     border-right: 0;
 }
 
-.compact-ps > p{
+.compact-ps>p {
     margin-top: 0em;
     margin-bottom: 0em;
 }
@@ -525,9 +543,10 @@ table.no-column-borders :is(td, th) {
 }
 
 
-.important { /* TODO Replace by foundations + center(if required) */ 
+.important {
+    /* TODO Replace by foundations + center(if required) */
     background-color: var(--ld-dhbw-red);
-    color:whitesmoke;
+    color: whitesmoke;
     padding: 1em;
     border-radius: 0.5em;
     text-align: center;
@@ -536,7 +555,7 @@ table.no-column-borders :is(td, th) {
 
 .foundations {
     background-color: var(--ld-dhbw-red);
-    color:whitesmoke;
+    color: whitesmoke;
     padding: 1em;
     margin: 0.5em 0 0.5em 0;
     border-radius: 0.5em;

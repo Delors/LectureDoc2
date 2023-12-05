@@ -9,11 +9,22 @@
 }
 
 .ld-slide {
-    background-color: white;
+    background-color: var(--slide-background-color);
     padding: 0.75rem;
     border-radius: 0.5rem;
 }
 
+/*  Rendering of the slide number in the continuous view.
+
+    (Slide numbers are handled differently in the slide view.)
+*/
+.ld-continuous-view-slide-number {
+    bottom: 0px;
+    right: 5px;
+    font-size: 18px;
+    color: rgb(25, 25, 25);
+    text-shadow: 1px 1px 1px white;
+}
 
 /*  ----------------------------------------------------------------------------
     Styling of elements that behave differently when the viewing mode changes.
@@ -96,12 +107,62 @@
 }
 
 
-/* 2. Rendering of the slide number in the continuous view.
+/*  2. Styling of stacked elements.
+
+    To create elements which stack on top of each other use a div with the class
+    stack as the parent of the elements in the stack. Eeach element in the 
+    stack is represented by an element (div) with the class layer. User the
+    class overlay to make the background of the layer transparent. The first
+    layer must not be an overlay layer.
+
+    Example:
+
+        <div class="stack">
+            <div class="layer">...</div>
+            <div class="layer overlay">...</div>
+            <div class="layer">...</div>
+        </div>
+    
+    The first element in the stack is the bottom most element and rendered 
+    first. All other elements are rendered on top of the previous element and
+    will hide the underyling elements.
+    Add the additional class overlay to layers that should have a transparent
+    background.
+
+    If the layers are opqaue, it is most often required to add incremental
+    to make the lower layers visible. 
 */
-.ld-continuous-view-slide-number {
-    bottom: 0px;
-    right: 5px;
-    font-size: 18px;
-    color: rgb(25, 25, 25);
-    text-shadow: 1px 1px 1px white;
+
+/*div*/.stack {
+    position: relative;
+    width: 100%;
+    height: 100%; /* reset in JavaScript ld-animations.js to the required size.*/
+    counter-reset: stack-layer 0;
+}
+
+:is(#ld-continuous-view-pane, #ld-main-pane, #ld-light-table-dialog) .ld-slide .stack /*div*/.layer.overlay {
+    background-color: transparent;
+}
+
+#ld-continuous-view-pane .ld-slide .stack /*div*/.layer {
+    /* Unfortunately, the final positioning needs to be done in JavaScript! */
+    position: relative; 
+}
+
+:is(#ld-main-pane, #ld-light-table-dialog) .ld-slide .stack /*div*/.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* DON'T: height: 100%;*/
+    background-color: var(--slide-background-color);  
+}
+
+.layer:not(.overlay)::before {
+    font-size: 0.75em;
+    position: absolute;
+    right: 0.6em;
+    bottom: 0.35em;
+    counter-increment: stack-layer;
+    content: counter(stack-layer);
 }

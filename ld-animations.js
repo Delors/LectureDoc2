@@ -32,52 +32,47 @@ const lectureDoc2Animations = function () {
 
         // 1. query all layers to compute the necessary heights
         var overallHeight = 0;
-        var maxHeight = 0;
-        var lastNonOverlayLayerHeight = 0;
-        //var lastNonOverlayLayer = null;
+        var maxOuterHeight = 0;
         var topOffset = 0;
-        //var nonOverlayLayersCount = 0
-        var firstOverlayLayer = true;
-        var groupedLayers = [];
-        stack.querySelectorAll(":scope >.layer").forEach((layer, i) => {
-            const layerHeight = layer.offsetHeight + getTopAndBottomMargin(layer);
-            maxHeight = Math.max(maxHeight, layerHeight);
-            if (i == 0 /* In case the first layer is accidentally also an overlay layer */ || !layer.classList.contains("overlay")) {
 
-  /*            When one of the overlay layers is taller than the reference
-                layer (lastNonOverlayLayer), we have to adapt the topOffset...
-               groupedLayers.forEach((layer) => {
-                    layer.style.height = lastNonOverlayLayerHeight + "px";
-                    // TODO adapt top parameter according to the new height
-                    // of the base element.
-                });
-*/
-                layer.style.position = "relative"; // "defensive programming"
-                //lastNonOverlayLayer = layer;
-                lastNonOverlayLayerHeight = layerHeight;
-                overallHeight += lastNonOverlayLayerHeight
+        var maxGroupedLayersOuterHeight = 0;
+        var groupedLayers = [];
+
+        function processLastGroupedLayers() {
+            overallHeight += maxGroupedLayersOuterHeight  ;
+            groupedLayers.forEach((layer, i) => {
+                const marginHeight = getTopAndBottomMargin(layer)
+                layer.style.height = (maxGroupedLayersOuterHeight - marginHeight) + "px";
+                // Adapt top parameter according to the new height
+                // of the base element.
+                if (i >= 1) {
+                    topOffset -= (maxGroupedLayersOuterHeight);
+                }
                 layer.style.top = topOffset + "px";
-                //nonOverlayLayersCount += 1
-                firstOverlayLayer = true;
-                groupedLayers = [layer];
+            });
+            console.log("overallHeight: " + overallHeight);
+        }
+
+        stack.querySelectorAll(":scope >.layer").forEach((layer, i) => {
+            const layerOffsetHeight = layer.offsetHeight
+            const layerOuterHeight = layerOffsetHeight + getTopAndBottomMargin(layer);
+            maxOuterHeight = Math.max(maxOuterHeight, layerOuterHeight);
+
+            if (!layer.classList.contains("overlay")) {
+                processLastGroupedLayers();
+                groupedLayers = [layer]; // a non-overlay layer and all its overlay layers
+                maxGroupedLayersOuterHeight = layerOuterHeight;
             } else {
                 groupedLayers.push(layer);
-                if (firstOverlayLayer) {
-                    topOffset -= lastNonOverlayLayerHeight;
-                    firstOverlayLayer = false;
-                }
                 // In case of an overlay layer, we set the height of the 
                 // reference layer (lastNonOverlayLayer), which has to have
                 // position: relative, to the maximum height required by itself 
                 // or any of the stacked overlay layers.
-                const overlayLayerHeight = layerHeight;
-                if (overlayLayerHeight > lastNonOverlayLayerHeight) {
-                    overallHeight += (overlayLayerHeight - lastNonOverlayLayerHeight);
-                    lastNonOverlayLayerHeight = overlayLayerHeight;
-                }
-                layer.style.top = topOffset + "px";
+                maxGroupedLayersOuterHeight = Math.max(maxGroupedLayersOuterHeight, layerOuterHeight);
             }
+            console.log("layerOuterHeight: " + layerOuterHeight + " maxGrouped: "+ maxGroupedLayersOuterHeight+" maxOuterHeight: " + maxOuterHeight);
         });
+        processLastGroupedLayers();
 
         // 2. set the height of the stack to the sum of the heights of all 
         //    non-overlay layers (after adapting the heights of them if necessary)
@@ -86,7 +81,7 @@ const lectureDoc2Animations = function () {
         // 3. adapt the height of the slide to accommodate the unfolded stack
         const root = getComputedStyle(document.querySelector(":root"));
         const zoomFactor = root.getPropertyValue("--ld-continuous-view-zoom-level");
-        const extraHeight = overallHeight - maxHeight;
+        const extraHeight = overallHeight - maxOuterHeight;
 
         const slide = document.evaluate(
             `*/ancestor::*[contains(@class,'ld-slide')]`,
