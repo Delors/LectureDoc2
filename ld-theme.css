@@ -26,11 +26,11 @@ body {
 
 #ld-message-box {
     position: fixed;
-    top: 1rem;
+    top: 48px;
     margin: auto;
     border: 0px;
-    padding: 0.5rem;
-    font-size: 36px;
+    padding: 16px;
+    font-size: 24px;
     color: black;
     background-color: rgb(193, 242, 69);
     box-shadow: 4px 4px 8px black;

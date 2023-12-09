@@ -103,7 +103,9 @@ const lectureDoc2Animations = function () {
     }
 
     /**
-     *  In pure CSS it is not possible to adapt the height of an element to 
+     * Handles the rendering of a stack layout in the standard slides view.
+     * 
+     * In pure CSS it is not possible to adapt the height of an element to 
      * the height of its tallest child when all children are positioned 
      * absolutely. 
      * 
@@ -141,6 +143,12 @@ const lectureDoc2Animations = function () {
      */
     function beforeLDDOMManipulations() {
         /* empty for now */
+        document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
+            
+            const copyItDiv = document.createElement("div");
+            copyItDiv.classList.add("copy-it");
+            code.insertBefore(copyItDiv, code.firstChild);
+        });
     }
 
 
@@ -185,6 +193,8 @@ const lectureDoc2Animations = function () {
             observer.observe(stack);
         });
 
+
+        
 
         /**
          * The following highlights the current element and the element in 

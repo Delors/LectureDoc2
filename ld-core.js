@@ -924,15 +924,14 @@ const lectureDoc2 = function () {
     }
 
     function registerSlideClickedListener() {
-        // we still want to be able to click links
-        document.querySelectorAll("#ld-main-pane a").forEach((a) => {a.addEventListener(
+        // we still want to be able to click links and the "copy-it" icon
+        document.querySelectorAll("#ld-main-pane :is(a,div.copy-it)").forEach((a) => {a.addEventListener(
             "click",
             (event) => {
                 event["link_clicked"] = true;
             },
             {capture: true}
         )});
-        
 
         document.getElementById("ld-main-pane").addEventListener("click", (event) => {
             if (event.link_clicked)
@@ -993,6 +992,18 @@ const lectureDoc2 = function () {
                 const target = a.getAttribute("href");
                 jumpToSlideWithElementWithId(target);
             })  });
+    }
+
+    function registerCopyItClickedListener() {
+        document.querySelectorAll("div.copy-it").forEach((copyIt) => {
+            copyIt.addEventListener("click", (event) => {
+                event.stopPropagation();
+                const textToCopy = copyIt.parentNode.innerText
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showMessage("Copied to clipboard.", 1000);
+                });
+            });
+        });
     }
 
     function registerLightTableZoomListener() {
@@ -1142,6 +1153,7 @@ const lectureDoc2 = function () {
         registerViewportResizeListener();
         registerSlideClickedListener();
         registerSlideInternalLinkClickedListener();
+        registerCopyItClickedListener();
         registerLightTableZoomListener();
         registerLightTableSlideSelectionListener();
         registerLightTableSlideSearchListener();
