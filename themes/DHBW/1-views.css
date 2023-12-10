@@ -95,6 +95,7 @@
                 -4px  4px 8px 0px gray,
                  4px  4px 8px 0px gray, 
                 -4px -4px 8px 0px gray;
+    transition: 0.75s;
 }
 
 :is(#ld-main-pane, #ld-light-table-slides) .supplemental:hover{
