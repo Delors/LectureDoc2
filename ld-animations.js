@@ -153,7 +153,31 @@ const lectureDoc2Animations = function () {
 
 
     function afterLDDOMManipulations() {
-        /* empty for now */
+        /* Due to the copying of the slide templates, the ids in inline SVGs 
+           (e.g. for defining and referencing markers) are no longer unique, 
+           which is a violation of the spec and causes troubles in Chrome and 
+           Firefox . We have to fix this!
+        */
+        var counter = 1;
+        document.querySelectorAll("svg").forEach((svg) => {
+            const svgIds = new Map(); // maps old url(#id) to new url(#id)
+            svg.querySelectorAll("[id]").forEach((element) => {
+                const oldId = element.id;
+                const newId = element.id + "-" + (counter++);
+                element.id = newId;
+                svgIds.set("url(#" + oldId + ")", "url(#" + newId + ")");
+            });
+            svgIds.forEach((newId, oldId) => {
+                const refs =`.//@*[.="${oldId}"]`;
+                const it = document.evaluate(refs,svg,null,XPathResult.ANY_TYPE,null);
+                var attr, attrs = []
+                while (attr = it.iterateNext())
+                attrs.push(attr);
+                attrs.forEach((ref) => {
+                    ref.textContent = newId;
+                });
+            });
+        }); 
     }
 
     /**
