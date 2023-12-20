@@ -4,11 +4,11 @@
     /* Primarily for debugging purposes!*/
     background-color: black; 
 
-    --body-background-color: rgb(25, 25, 30);
+    --ld-body-background-color: rgb(25, 25, 30);
 }
 
 body {
-    background-color: var(--body-background-color); 
+    background-color: var(--ld-body-background-color); 
 }
 
 /* Common styling of all dialogs.

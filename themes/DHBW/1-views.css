@@ -89,9 +89,7 @@
     font-size: 0.90rem;
     transform: 
         translateX(calc(100% - 18px)) 
-        translateY(calc(
-            var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) 
-            - ( 100% * var(--ld-continuous-view-zoom-level))));
+        translateY(calc(var(--ld-slide-height) * 0.5 - ( 100% * 0.5)));
     box-shadow: -4px  0px 8px 0px gray,
                 -4px  4px 8px 0px gray,
                  4px  4px 8px 0px gray, 
@@ -102,9 +100,7 @@
 :is(#ld-main-pane, #ld-light-table-slides) .supplemental:hover{
     transform: 
         translateX(0%) 
-        translateY(calc(
-            var(--ld-slide-height) * var(--ld-continuous-view-zoom-level) 
-            - ( 100% * var(--ld-continuous-view-zoom-level))));
+        translateY(calc(var(--ld-slide-height) * 0.5 - ( 100% * 0.5)));
     transition: 0.75s;
 }
 
@@ -160,6 +156,11 @@
     background-color: var(--slide-background-color);  
 }
 
+/*  TODO change the selector such that we only add numbers when we have more than
+    one layer that is not an overlay layer.
+
+    .stack:has(* .layer:not(.overlay):not(:only-child)) .layer:not(.overlay)::before {
+*/
 .layer:not(.overlay)::before {
     font-size: 0.75em;
     position: absolute;
@@ -190,4 +191,52 @@
 
 :is(#ld-main-pane, #ld-light-table-dialog) .ld-slide .stack .layer {
     transform: translateZ(calc(var(--index) * -50px));  
+}
+
+/*
+    We associate the nth-child with a custom data attribute index that we  
+    use in the css calculations!
+
+    See https://crinkles.dev/writing/a-nth-child-css-trick/
+    See https://crinkles.dev/writing/use-the-child-element-count-in-css/ 
+*/
+
+.stack .layer:nth-child(1) {
+    --index: 1;
+}
+
+.stack .layer:nth-child(2) {
+    --index: 2;
+}
+
+.stack .layer:nth-child(3) {
+    --index: 3;
+}
+
+.stack .layer:nth-child(4) {
+    --index: 4;
+}
+
+.stack .layer:nth-child(5) {
+    --index: 5;
+}
+
+.stack .layer:nth-child(6) {
+    --index: 6;
+}
+
+.stack .layer:nth-child(7) {
+    --index: 7;
+}
+
+.stack .layer:nth-child(8) {
+    --index: 8;
+}
+
+.stack .layer:nth-child(9) {
+    --index: 9;
+}
+
+.stack .layer:nth-child(10) {
+    --index: 10;
 }

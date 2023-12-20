@@ -113,6 +113,27 @@ div.center-text-in-div {
     transition: 750ms;
 }
 
+/*
+
+    Adds a semi-transparent white layer on top of it.
+
+*/
+
+.faded-to-white {
+    position: relative;
+}
+
+.faded-to-white::after {
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* TODO move the following style definitions in them in the right place*/
 
@@ -237,9 +258,6 @@ li {
 
 
 
-
-
-
 /*
     Styling of warning asides. 
 
@@ -317,7 +335,21 @@ ol.impressive li {
     padding: 0.75em;
 }
 
-
+ul.impressive {
+    list-style-type: none;
+    font-weight: bolder;
+    margin-left: 0;
+    padding-left: 0;
+    display: grid;
+    grid-auto-rows: 1fr;
+}
+ul.impressive li{
+    text-align: center;
+    background-color: var(--ld-dhbw-light-gray);
+    border-radius: 0.5em;
+    margin-top: 0.5em;
+    padding: 0.5em;
+}
 
 /*
 
@@ -351,8 +383,6 @@ ol.impressive li {
     padding-right: 0.5em;
     margin: 0;
 }
-
-
 
 
 
@@ -587,3 +617,13 @@ table.no-column-borders :is(td, th) {
     border-radius: 0.5em;
     box-shadow: 4px 4px 8px black;
 }
+
+.foundations a { /* necessary to make links visible! */
+    color: var(--ld-the-yellow);
+}
+
+
+.li-margin-top-0-75em li{
+    margin-top: calc(var(--ld-li-margin-top) * 1.5);
+}
+
