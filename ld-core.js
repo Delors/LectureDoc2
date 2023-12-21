@@ -470,6 +470,7 @@ const lectureDoc2 = function () {
             // Let's hide all elements that should be shown incrementally;
             // this is down to get all (new) slides to a well-defined state.
             setupSlideProgress(slide);
+            slide.style.display = "none";
             mainPane.appendChild(slide);
         })
 
@@ -554,6 +555,7 @@ const lectureDoc2 = function () {
 
         const slideId = "ld-slide-no-" + slideNo;
         const ldSlide = document.getElementById(slideId)
+        ldSlide.style.display = "block";
         ldSlide.style.scale = 1;
         if (setNewMarker)
             ldSlide.classList.add("ld-current-slide");
@@ -565,8 +567,13 @@ const lectureDoc2 = function () {
     function hideSlide(slideNo, setOldMarker = false) {
         if (ephermal.previousSlide) {
             ephermal.previousSlide.classList.remove("ld-previous-slide");
+            /* When we simply "keep" all slides in the DOM, we have a significant
+               memory issue in Safari. A small lecture with ~40 slide can 
+               suddenly require 1.5 to 2GB of memory!
+             */
+            ephermal.previousSlide.style.display = "none"; 
         }
-        const ldSlide = document.getElementById("ld-slide-no-" + slideNo)
+        const ldSlide = document.getElementById("ld-slide-no-" + slideNo);
         if (ldSlide) {
             ephermal.previousSlide = ldSlide;
             ldSlide.style.scale = 0;

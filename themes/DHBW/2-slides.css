@@ -79,7 +79,11 @@ div.ld-slide.new-section::after {
     counter-increment: ld-section;
 }
 
-.ld-slide.new-section h2::before {
+/*
+    Counters accross multiple slides cannot be used in the slide mode because,
+    we have to use "display: none" to hide slides due to an issue in Safari. 
+*/
+:is(#ld-continuous-view-pane, #ld-light-table-dialog) .ld-slide.new-section h2::before {
     content: counter(ld-section)".";
     padding-right: 0.5em;
 }

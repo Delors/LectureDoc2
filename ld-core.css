@@ -49,6 +49,7 @@ div {
     scrollbar-color: #999 #333;
 }
 
+/*
 ::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -57,6 +58,7 @@ div {
 ::-webkit-scrollbar-track {
     background: transparent;
 }
+*/
 
 /*  We need a fixed size for the main pane to make the content as a whole 
     scalable using the scale property. The scale property is updated on viewport 
@@ -81,8 +83,8 @@ div {
     overflow: hidden;
 }
 
-/*  Programmatically, we set the display property of the template slides to none __after___ 
-    copying.
+/*  Programmatically, we set the display property of the template slides to none 
+    __after___ copying.
 
     body > div.ld-slide {
         display: none;
@@ -312,7 +314,10 @@ a {
 .code.copy-to-clipboard div.copy-it 
 ___________________________________
 
-LectureDoc has special support for enabling copy to clipboard. If a code block (i.e., a DIV or PRE element with the class code and also copy-to-clipboard) is found, LectureDoc will add a copy "button" to the code block by means of a div with the class copy-it.
+LectureDoc has special support for enabling copy to clipboard functionality. 
+If a code block (i.e., a DIV or PRE element with the class "code" and also 
+"copy-to-clipboard") is found, LectureDoc will add a copy "button" to the code
+block by means of a div with the class copy-it.
 
 Example:
 <div class="code copy-to-clipboard">
