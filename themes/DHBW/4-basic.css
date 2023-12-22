@@ -1,10 +1,36 @@
+ul {
+    list-style-type: "▫️";
+}
+
 /*
-    The CSS classes defined in this file generally style only one property and 
-    are intended to enable fine-grained control of the design of a slide when needed. 
+    The CSS classes defined in the following generally style only one property 
+    and are intended to enable fine-grained control of the design of a slide 
+    when needed. 
     
     Hence, it is best to minimize the usage of these styles to avoid 
     interference with a specific theme. That is, the stylings defined in this
     file are intended to be indepent of a specific theme.
+*/
+
+/* 
+    Semantic based CSS classes.
+*/
+
+.minor {
+    color: rgb(129, 129, 129)
+}
+
+.obsolete {
+    text-decoration: line-through;
+}
+
+img.picture {
+    border-radius: var(--slide-border-radius);
+    box-shadow: var(--br-shadow);
+}
+
+/* 
+    Styling based CSS classes.
 */
 
 .xxl {
@@ -43,7 +69,6 @@
     font-size: 0.9em; /* relative to the "current" font size */
 }
 
-
 .monospaced {
     font-family: monospace;
 }
@@ -60,23 +85,6 @@
     font-weight: 200;
 }
 
-
-img.picture {
-    border-radius: 25px;
-    box-shadow: 4px 4px 8px black;
-}
-
-
-.not-important {
-    color: rgb(129, 129, 129)
-}
-
-
-.obsolete {
-    text-decoration: line-through;
-}
-
-
 .margin-none {
     margin: 0;
 }
@@ -85,7 +93,7 @@ img.picture {
     margin: 1em;
 }
 
-.margin-0_5em {
+.margin-0-5em {
     margin: 0.5em;
 }
 
@@ -97,51 +105,51 @@ img.picture {
     padding: 1em;
 }
 
-.padding-0_5em {
+.padding-0-5em {
     padding: 0.5em;
 }
 
 
-.red {
-    color: var(--ld-red);
-}
 
 .dhbw-red {
-    color: var(--ld-dhbw-red);
+    color: var(--dhbw-red);
 }
 
+.dhbw-gray {
+    color: var(--dhbw-gray);
+}
 
 .blue {
-    color: rgb(0, 0, 155);
+    color: var(--the-blue);
 }
 
 .green {
-    color: rgb(0, 88, 0);
+    color: var(--the-green)
 }
 
 .black {
     color: black;
 }
 
-.dhbw-gray {
-    color: var(--ld-dhbw-gray);
+.dark-red {
+    color: var(--dark-red);
 }
 
 
-.red-background {
-    background-color: var(--ld-dhbw-red);
+.dhbw-red-background {
+    background-color: var(--dhbw-red);
 }
 
-.green-background {
-    background-color: var(--ld-the-green);
+.the-green-background {
+    background-color: var(--the-green);
+}
+
+.the-blue-background {
+    background-color: var(--the-blue);
 }
 
 .light-green-background {
-    background-color: var(--ld-the-light-green);
-}
-
-.blue-background {
-    background-color: var(--ld-the-blue);
+    background-color: var(--light-green);
 }
 
 
@@ -155,32 +163,13 @@ img.picture {
 
 
 .shadow {
-    box-shadow: 4px 4px 8px rgb(33, 33, 33);
+    box-shadow: var(--br-shadow);
 }
 
-ul {
-    list-style-type: "▫️";
-}
+
 
 .inline-block {
     display: inline-block;
 }
 
 
-
-
-
-/*DEPRECATED: use center-text-in-div */ .center {
-    text-align: center;
-    width: 100%;
-}
-
-
-/*DEPRECATED use margin-none */ .no-margin {
-    margin: 0;
-}
-
-/*DEPRECATED use padding-none */ 
-.no-padding {
-    padding: 0;
-}
