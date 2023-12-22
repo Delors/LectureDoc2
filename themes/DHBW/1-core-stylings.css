@@ -1,0 +1,19 @@
+/*  ----------------------------------------------------------------------------
+
+    The very fundamental styling definitions.
+    
+    ------------------------------------------------------------------------  */
+
+    :root {
+        font: var(--slide-font-size) "Helvetica", sans-serif;
+        line-height: 1.5;
+        font-weight: 300;
+    }
+    
+    .ld-slide {
+        background-color: var(--slide-background-color);
+        padding: var(--slide-padding);
+        border-radius: var(--slide-border-radius);
+    }
+    
+    

@@ -1,33 +1,6 @@
-/*  ----------------------------------------------------------------------------
-    The very fundamental definitions for slides.
-*/ 
-:root {
-    /*  48px to have roughly 16 lines of text on a 1200px height slide. */
-    font: 48px "Helvetica", sans-serif;
-    line-height: 1.5;
-    font-weight: 300;
-}
-
-.ld-slide {
-    background-color: var(--slide-background-color);
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-}
-
-/*  Rendering of the slide number in the continuous view.
-
-    (Slide numbers are handled differently in the slide view.)
-*/
-.ld-continuous-view-slide-number {
-    bottom: 0px;
-    right: 5px;
-    font-size: 18px;
-    color: rgb(25, 25, 25);
-    text-shadow: 1px 1px 1px white;
-}
 
 /*  ----------------------------------------------------------------------------
-    Styling of elements that behave differently when the viewing mode changes.
+    Styling of elements that behave differently when the mode changes.
     E.g., supplemental information is placed at different locations in the DOM
     when the view changes between the continuous view and the slide/light table 
     view.
@@ -35,7 +8,22 @@
     Changing the styling of these elements may have significant impact on 
     the respective view and may render it inoperable. But, it will not affect
     LectureDoc as such. 
+    ------------------------------------------------------------------------  */
+
+
+/*  0. Rendering of the slide numbers in the continuous view.
+
+    (Slide numbers are handled differently in the slide view.)
 */
+.ld-continuous-view-slide-number {
+    bottom: 0px;
+    right: 5px;
+    font-size: 18px;
+    /* We want to ensure that the number is basically always readable: */
+    color: rgb(25, 25, 25);
+    text-shadow: 1px 1px 1px white; 
+}
+
 
 /*  1. Styling of supplemental information.
 
@@ -56,7 +44,7 @@
 */
 
 .ld-continuous-view-slide-pane:not(:has(+.supplemental)){
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 } 
 .ld-continuous-view-slide-pane:has(+.supplemental) .ld-slide {
     border-bottom-left-radius: 0;
@@ -65,35 +53,37 @@
 
 #ld-continuous-view-pane .supplemental {
     margin-bottom: 3px;
-    padding: calc(0.75rem * var(--ld-continuous-view-zoom-level)); 
-    border-radius: 0 0 0.5rem 0.5rem;
+    padding: calc(var(--slide-padding) * var(--ld-continuous-view-zoom-level)); 
+    border-radius: 
+        0 
+        0 
+        calc(var(--slide-border-radius) * var(--ld-continuous-view-zoom-level))
+        calc(var(--slide-border-radius) * var(--ld-continuous-view-zoom-level)) ;
     box-shadow: none;
-    background-color: white; 
+    background-color: var(--slide-background-color); 
     border-top: 1px dashed #333;
-    color: #333;
-    font-size: 0.4rem;
+    /* We assume that the font size for the slide is roughly 2.5 times
+       the size that is typically used for "standard text". */
+    font-size: calc(var(--slide-font-size) / 2.5);
 }
 
 :is(#ld-main-pane, #ld-light-table-slides) .supplemental {
     max-width: 75%;
     max-height: 70%;
-    margin:0;
-    border-radius: 1em 0 0 1em;
-    padding: 18px 36px 18px 36px;
+    overflow-y: scroll;
     position: absolute;
     top: 0;
     right: 0;
+    margin:0;
+    border-radius: var(--slide-border-radius) 0 0 var(--slide-border-radius);
+    padding: calc(var(--slide-padding) * 0.75); /* the factor has to larger than the factor used by translate (see below) */ 
     z-index: 1;
-    background-color: white;
-    overflow-y: scroll;
-    font-size: 0.90rem;
+    background-color: var(--slide-background-color);
+    font-size: 0.75rem;
     transform: 
-        translateX(calc(100% - 18px)) 
+        translateX(calc(100% - var(--slide-padding) * 0.5)) 
         translateY(calc(var(--ld-slide-height) * 0.5 - ( 100% * 0.5)));
-    box-shadow: -4px  0px 8px 0px gray,
-                -4px  4px 8px 0px gray,
-                 4px  4px 8px 0px gray, 
-                -4px -4px 8px 0px gray;
+    box-shadow: var(--trbl-shadow);
     transition: 0.75s;
 }
 
@@ -107,28 +97,30 @@
 
 /*  2. Styling of stacked elements.
 
-    To create elements which stack on top of each other use a div with the class
-    stack as the parent of the elements in the stack. Eeach element in the 
-    stack is represented by an element (div) with the class layer. User the
-    class overlay to make the background of the layer transparent. The first
-    layer must not be an overlay layer.
+    To create elements which stack on top of each other on a single slide 
+    (e.g., to create some animation) use a div with the class stack as the 
+    parent of the elements in the stack. 
+    Each element in the stack is represented by an element (div) with the class layer. 
+    
+    Use the class overlay to make the background of the layer transparent. 
+    
+    The first layer must not be an overlay layer.
 
     Example:
 
         <div class="stack">
             <div class="layer">...</div>
-            <div class="layer overlay">...</div>
-            <div class="layer">...</div>
+            <div class="layer overlay incremental">...</div>
+            <div class="layer incremental">...</div>
         </div>
     
     The first element in the stack is the bottom most element and rendered 
     first. All other elements are rendered on top of the previous element and
     will hide the underyling elements.
-    Add the additional class overlay to layers that should have a transparent
-    background.
+    Add the additional css class overlay to layers that should have a 
+    transparent background.
 
-    If the layers are opqaue, it is most often required to add incremental
-    to make the lower layers visible. 
+    In general, stack based layouts are most often only useful if the class incremental is added to the layers.
 */
 
 /*div*/.stack {
@@ -136,6 +128,20 @@
     width: 100%;
     height: 100%; /* reset in JavaScript ld-animations.js to the required size.*/
     counter-reset: stack-layer 0;
+}
+
+/*
+    Styling of stacked elements.
+*/
+
+/*div*/
+.layer {
+    background-color: var(--slide-background-color);
+    box-shadow: var(--br-shadow);
+    border-radius: var(--slide-border-radius);
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    /* All layers must have the same margin! */
 }
 
 :is(#ld-continuous-view-pane, #ld-main-pane, #ld-light-table-dialog) .ld-slide .stack /*div*/.layer.overlay {
@@ -156,22 +162,19 @@
     background-color: var(--slide-background-color);  
 }
 
-/*  TODO change the selector such that we only add numbers when we have more than
-    one layer that is not an overlay layer.
-
-    .stack:has(* .layer:not(.overlay):not(:only-child)) .layer:not(.overlay)::before {
+/*  We only add numbers when we have more than one layer that is not an overlay layer.
 */
-.layer:not(.overlay)::before {
-    font-size: 0.75em;
+.stack:has(.layer:not(.overlay):not(:first-child)) .layer:not(.overlay)::before {
     position: absolute;
     right: 0.6em;
     bottom: 0.35em;
+    font-size: 0.75em;
     counter-increment: stack-layer;
     content: counter(stack-layer);
 }
 
 :is(#ld-continuous-view-pane, #ld-main-pane, #ld-light-table-dialog) .ld-slide .stack .layer.warning {
-    background-color: var(--ld-dhbw-red);
+    background-color: var(--dhbw-red);
     color: white;
     text-align: center;
 }
@@ -181,7 +184,8 @@
     transform: translateY(-250px) perspective(2400px) rotateX(80deg);  
 }
 
-/* IMPROVE Make it possible to rotate the stack by adding some kind of "indicating" div.
+/* IMPROVE Make it possible to rotate the stack and select a stack layer by 
+adding some kind of "indicating" div.
 :is(#ld-main-pane) .ld-slide .stack:hover {
     transform-style: preserve-3d;
     transform: translateY(-250px) perspective(2400px) rotateX(80deg);
@@ -190,7 +194,7 @@
 */
 
 :is(#ld-main-pane, #ld-light-table-dialog) .ld-slide .stack .layer {
-    transform: translateZ(calc(var(--index) * -50px));  
+    transform: translateZ(calc(var(--index) * -50px));  /* see below for "--index" */
 }
 
 /*

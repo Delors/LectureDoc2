@@ -20,7 +20,7 @@
 */
 
 div.ld-slide:has(h1)::before {
-    content: var(--ld-dhbw-logo);
+    content: var(--dhbw-logo);
     position: absolute;
     right: 48px;
     bottom: 32px;
@@ -39,7 +39,7 @@ div.ld-slide.new-section>h2 {
     margin-top: 4rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    background-color: var(--ld-dhbw-gray);
+    background-color: var(--dhbw-gray);
     color: white;
     font-size: 2rem;
     font-variant: small-caps;
@@ -54,14 +54,14 @@ div.ld-slide.new-section>h2::after {
     margin-left: 1rem;
     display: block;
     position: absolute;
-    color: var(--ld-dhbw-gray);
+    color: var(--dhbw-gray);
     font-size: 0.75rem;
     font-variant: normal;
     font-weight: 200;
 }
 
 div.ld-slide.new-section::after {
-    content: var(--ld-dhbw-logo);
+    content: var(--dhbw-logo);
     position: absolute;
     top: 0px;
     right: 0px;
@@ -81,7 +81,8 @@ div.ld-slide.new-section::after {
 
 /*
     Counters accross multiple slides cannot be used in the slide mode because,
-    we have to use "display: none" to hide slides due to an issue in Safari. 
+    we have to use "display: none" to hide slides due to an issue in Safari
+    and this makes it impossible to use counters.
 */
 :is(#ld-continuous-view-pane, #ld-light-table-dialog) .ld-slide.new-section h2::before {
     content: counter(ld-section)".";
@@ -94,8 +95,6 @@ div.ld-slide.new-section::after {
     Styling of slides which act as sub section headers.
 
     <code>div class="ld-slide new-subsection"...</code>
-
-    TODO Add support for numbering subsection header. Currently, adding numbering to subsection headers does not work in the light table and continuous view modes. 
 */
 
 div.ld-slide.new-subsection {
@@ -103,11 +102,11 @@ div.ld-slide.new-subsection {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-decoration-color: var(--ld-dhbw-gray);
+    text-decoration-color: var(--dhbw-gray);
 }
 
 div.ld-slide.new-subsection::after {
-    content: var(--ld-dhbw-logo);
+    content: var(--dhbw-logo);
     position: absolute;
     top: 0px;
     right: 0px;
@@ -118,14 +117,14 @@ div.ld-slide.new-subsection::after {
 div.ld-slide.new-subsection > h2 {
     width: 90%;
     padding: 2rem 0.5rem 2rem 0.5rem;
-    border: 1px solid var(--ld-dhbw-gray);
+    border: 1px solid var(--dhbw-gray);
     border-radius: 0.5em;
     margin: 0;
     background-color: whitesmoke;
-    color: var(--ld-dhbw-gray);
+    color: var(--dhbw-gray);
     font-size: 1.666rem;
     text-align: center;
-    box-shadow: 2px 2px gray;
+    box-shadow: var(--br-shadow);
 }
 
 
@@ -134,7 +133,7 @@ div.ld-slide.new-subsection > h2 {
 */
 
 .integrated-exercise {
-    background-color: var(--ld-dhbw-gray);
+    background-color: var(--dhbw-gray);
     color: whitesmoke;
 }
 
@@ -142,11 +141,11 @@ div.ld-slide.new-subsection > h2 {
     margin: -0.75rem -0.75rem 0.5rem -0.75rem;
     padding: 0.5rem 0.75rem 0.25rem 0.75rem;
     background-color: whitesmoke;
-    color: var(--ld-dhbw-red);
+    color: var(--dhbw-red);
 }
 
 .integrated-exercise::before {
-    content: var(--ld-dhbw-logo);
+    content: var(--dhbw-logo);
     display: block;
     position: absolute;
     top: 0.75rem;
@@ -162,7 +161,7 @@ div.ld-slide.new-subsection > h2 {
     margin: 0.4em 0 0.4em 0;
     padding: 0.4em;
     border-radius: 0.4em;
-    background-color: var(--ld-dhbw-red);
+    background-color: var(--dhbw-red);
     color: white;
     font-size: smaller;
     box-shadow: none;
@@ -311,5 +310,49 @@ div.ld-slide.new-subsection > h2 {
     100% {
         opacity: 0;
         scale: 1;
+    }
+}
+
+
+
+
+#ld-main-pane .ld-current-slide.transition-move-to-top {
+    animation: 3s slide-move-old-to-top ;
+}
+
+#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-move-to-top.ld-current-slide) {
+    animation: 3s slide-move-bottom-to-center, 0s 3s scale-to-zero;
+}
+
+
+@keyframes slide-move-old-to-top {
+    0.1% { /* it works beautifully with 0.1% and awfully with 0%...*/
+        translate: 0 100%;
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 100%;
+    }
+
+    100% {
+        translate: 0 0%;
+    }
+}
+
+@keyframes slide-move-bottom-to-center {
+    0% {
+        scale: 1; /* reset the scale level to make the slide visible (again) */
+        translate: 0% 0;
+    }
+
+    30% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 0%;
+        scale: 1;
+        translate: 0 -100%;
     }
 }

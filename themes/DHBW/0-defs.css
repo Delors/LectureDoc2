@@ -1,6 +1,8 @@
-/*
-Collects definitions of colors and the like to achieve a consistent layout.
-*/
+/*  ----------------------------------------------------------------------------
+
+    Common definitions to achieve a consistent layout that is easy to adapt.
+
+    ------------------------------------------------------------------------- */
 
 
 :root {
@@ -8,28 +10,39 @@ Collects definitions of colors and the like to achieve a consistent layout.
     --author: "Prof. Dr. Michael Eichberg";
 
     --slide-background-color: rgb(255, 255, 255);
+    --slide-border-radius: 0.5rem;
+    --slide-padding: 0.66rem;
+    /*  48px to have roughly 16 lines of text on a 1200px height slide. */
+    --slide-font-size: 48px;
 
     /* Coporate design related colors and images: */
-    --ld-dhbw-red: rgb(226, 0, 26);/* red used by the DHBW Logo */    
-    --ld-dhbw-gray:  rgb(91,105,113);/* gray used by the text in the DHBW Logo */
-    --ld-dhbw-light-gray: rgb(222,226,228); /* as found in some brochures */
-    --ld-dhbw-logo: url(dhbw_logo.png);
+    --dhbw-red: rgb(226, 0, 26);/* red used by the DHBW Logo */    
+    --dhbw-gray:  rgb(91,105,113);/* gray used by the text in the DHBW Logo */
+    --dhbw-light-gray: rgb(222,226,228); /* as found in some brochures */
+    --dhbw-logo: url(dhbw_logo.png);
 
 
     /* Colors that fit nicely to the colors of the corporate design: */
-    --ld-the-blue: rgb(45, 62, 255);
-    --ld-the-yellow: #ff1;
-    --ld-the-green: rgb(0, 88, 0);
+    --the-blue: rgb(45, 62, 255);
+    --the-yellow: #ff1;
+    --the-green: rgb(0, 88, 0);
 
-    /* Other colors */
-    --ld-red: rgb(131, 0, 0);
-    --ld-the-light-green: rgb(0, 88, 0, 0.1);
-    --ld-red-background: rgb(131, 0, 0, 0.1);
-
+    
     /* Sizes, Margins, etc. */
-    --ld-li-margin-top: 0.5em;
+    --li-margin-top-0-5em: 0.5em;
 
-    --standard-shadow: 4px 4px 8px black;
+    --br-shadow: 4px 4px 8px var(--dhbw-gray); /* br = bottom - right*/
+    --trbl-shadow: -4px  0px 8px 0px var(--dhbw-gray),
+                   -4px  4px 8px 0px var(--dhbw-gray),
+                    4px  4px 8px 0px var(--dhbw-gray), 
+                   -4px -4px 8px 0px var(--dhbw-gray);
+
+
+    /* Other colors - which should only be used if we can't use the coporate
+       colors, or if the slide does not contain any CI related colors. */
+    --dark-red: rgb(131, 0, 0);
+    --light-green: rgb(0, 88, 0, 0.1);
+    --light-red: rgb(131, 0, 0, 0.1);
+
 }
-
 

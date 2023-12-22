@@ -47,7 +47,7 @@
 
 a:link,
 a:visited {
-    color: var(--ld-dhbw-red);
+    color: var(--dhbw-red);
 }
 
 a:hover {
@@ -61,19 +61,7 @@ div.center-text-in-div {
 }
 
 
-/*
-    Styling of stacked elements.
-*/
 
-/*div*/
-.layer {
-    background-color: var(--slide-background-color);
-    box-shadow: var(--standard-shadow);
-    border-radius: 1em;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-    /* All layers must have the same margin! */
-}
 
 /*
     Styling of rst footnotes.
@@ -87,16 +75,18 @@ div.center-text-in-div {
     padding-left: none;
 }
 
-/*
-    Adds the functionality to copy code snippets to the clipboard.
+/*  ----------------------------------------------------------------------------
+    Adds the styling for the functionality to copy code to the clipboard.
 
-    This is supported by respective Javascript code!
+    This base functionality is implemented in LectureDoc.
 */
 .code.copy-to-clipboard {
     position: relative;
 }
 
-.code.copy-to-clipboard div.copy-it { /* the "div.copy-it" element is inserted by LectureDoc; i.e., the copy-to-clipboard class has explicit support in LectureDoc's core */
+/*  The DIV element with the class ".copy-it" is added by LectureDoc; i.e.,
+    the copy-to-clipboard class has explicit support in LectureDoc's core */
+.code.copy-to-clipboard div.copy-it { 
     content: url(copy_to_clipboard.svg);
     opacity: 0;
     position: absolute;
@@ -113,10 +103,8 @@ div.center-text-in-div {
     transition: 750ms;
 }
 
-/*
-
-    Adds a semi-transparent white layer on top of it.
-
+/*  ----------------------------------------------------------------------------
+    Adds a semi-transparent white layer on top of an element.
 */
 
 .faded-to-white {
@@ -125,7 +113,7 @@ div.center-text-in-div {
 
 .faded-to-white::after {
     position: absolute;
-    content: " ";
+    content: " "; /* necessary to make the element visible */
     width: 100%;
     height: 100%;
     top: 0;
@@ -138,7 +126,7 @@ div.center-text-in-div {
 /* TODO move the following style definitions in them in the right place*/
 
 
-.center-element {
+.center-child-element {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -156,7 +144,7 @@ span.ger-quote::after {
 }
 
 .ger {
-    color: gray;
+    color: var(--dhbw-gray);
     font-style: italic;
 }
 
@@ -165,18 +153,19 @@ span.ger-quote::after {
 }
 
 .eng {
-    color: gray;
+    color: var(--dhbw-gray);
     font-style: italic;
 }
 
 .eng::before {
     content: "🇺🇸 ";
+    mix-blend-mode: luminosity;
 }
 
 
 .admonition {
     margin: 0.5em 0em;
-    background-color: var(--ld-dhbw-red);
+    background-color: var(--dhbw-red);
     box-shadow: 4px 4px 8px gray;
     color: white;
     border: 0;
@@ -192,7 +181,7 @@ p.admonition-title {
 
 .admonition .note {
     float: right;
-    background-color: var(--ld-the-blue);
+    background-color: var(--the-blue);
     color: whitesmoke;
     margin-top: 0;
     margin-bottom: 0;
@@ -220,7 +209,7 @@ blockquote {
 .complement {
     font-size: smaller;
     background-color: rgb(240, 240, 240);
-    color: var(--ld-dhbw-gray);
+    color: var(--dhbw-gray);
     padding-left: 0.6em;
     padding-right: 0.6em;
     padding-top: 0.35em;
@@ -266,7 +255,7 @@ li {
 */
 
 aside.warning {
-    background-color: var(--ld-dhbw-red);
+    background-color: var(--dhbw-red);
 }
 
 /* We only want the animation in the slide view! */
@@ -284,7 +273,7 @@ aside.warning p.admonition-title {
 
 @keyframes red-to-orange-and-back {
     0% {
-        background-color: var(--ld-dhbw-red);
+        background-color: var(--dhbw-red);
     }
 
     50% {
@@ -292,7 +281,7 @@ aside.warning p.admonition-title {
     }
 
     100% {
-        background-color: var(--ld-dhbw-red);
+        background-color: var(--dhbw-red);
     }
 }
 
@@ -345,7 +334,7 @@ ul.impressive {
 }
 ul.impressive li{
     text-align: center;
-    background-color: var(--ld-dhbw-light-gray);
+    background-color: var(--dhbw-light-gray);
     border-radius: 0.5em;
     margin-top: 0.5em;
     padding: 0.5em;
@@ -414,7 +403,7 @@ table.annotated-text tr {
 
 /* style the "comment" column */
 table.annotated-text :is(td, th):first-of-type:not(:empty) {
-    background-color: var(--ld-dhbw-gray);
+    background-color: var(--dhbw-gray);
     color: whitesmoke;
     vertical-align: text-top;
     padding-top: 0.1em;
@@ -450,38 +439,19 @@ table.annotated-text :is(td, th):last-child:not(:empty) {
     (This typlically requires the next element to be an inline-block.
 */
 
-div.vertical-title h2 {
+.ld-slide.vertical-title {
+    display : flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.ld-slide.vertical-title h2 {
     display: inline-block;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     vertical-align: top;
     margin: 0;
     padding: 0;
-}
-
-
-
-
-
-
-.on-slide-section-start {
-    text-align: right;
-    border-right: 3px solid var(--ld-dhbw-gray);
-    border-top: 3px solid var(--ld-dhbw-gray);
-    border-radius: 0.25em 0.25em 0 0;
-    padding-right: 0.25em;
-    color: var(--ld-dhbw-gray);
-    box-shadow: 2px -2px 2px gray;
-}
-
-.on-slide-section-end {
-    text-align: right;
-    border-bottom: 3px solid var(--ld-dhbw-gray);
-    border-right: 3px solid var(--ld-dhbw-gray);
-    border-radius: 0em 0em 0.25em 0.25em;
-    padding-right: 0.25em;
-    box-shadow: 2px 2px 2px gray;
-    color: var(--ld-dhbw-gray);
 }
 
 
@@ -495,7 +465,7 @@ div:not(.admonition).note {
 
 div:not(.admonition).note {
     float: right;
-    background-color: var(--ld-the-blue);
+    background-color: var(--the-blue);
     color: whitesmoke;
     max-width: 20%;
 }
@@ -524,16 +494,17 @@ If the content of the entire cell has a red background, we lift it
 up to the cell level.
 */
 td:has(p>span.red) {
-    background-color: var(--ld-red-background);
+    background-color: var(--light-red);
     font-weight: bold;
 }
 
 table.highlight-line-on-hover tr:hover {
-    background-color: rgb(180, 214, 249);
+    background-color: var(--dhbw-light-gray);
 }
 
 table.highlight-line-on-hover tbody td:hover {
-    background-color: rgb(200, 234, 256);
+    background-color: var(--the-blue);
+    color: white;
 }
 
 /* 
@@ -590,7 +561,7 @@ table.no-column-borders :is(td, th) {
 
 .admonition.note {
     float: right;
-    background-color: var(--ld-the-blue);
+    background-color: var(--the-blue);
     color: whitesmoke;
     margin-top: 0;
     margin-bottom: 0;
@@ -598,19 +569,9 @@ table.no-column-borders :is(td, th) {
     max-width: 40%;
 }
 
-
-.important {
-    /* TODO Replace by foundations + center(if required) */
-    background-color: var(--ld-dhbw-red);
-    color: whitesmoke;
-    padding: 1em;
-    border-radius: 0.5em;
-    text-align: center;
-    position: relative;
-}
-
+/* .important is replaced by .foundations + center(if required) */
 .foundations {
-    background-color: var(--ld-dhbw-red);
+    background-color: var(--dhbw-red);
     color: whitesmoke;
     padding: 1em;
     margin: 0.5em 0 0.5em 0;
@@ -619,11 +580,11 @@ table.no-column-borders :is(td, th) {
 }
 
 .foundations a { /* necessary to make links visible! */
-    color: var(--ld-the-yellow);
+    color: var(--the-yellow);
 }
 
 
-.li-margin-top-0-75em li{
-    margin-top: calc(var(--ld-li-margin-top) * 1.5);
+:is(ul, ol).li-margin-top-0-75em > li{
+    margin-top: calc(var(--li-margin-top-0-5em) * 1.5);
 }
 
