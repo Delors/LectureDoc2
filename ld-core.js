@@ -249,6 +249,18 @@ const lectureDoc2 = function () {
             join("")
     }
 
+
+    function initCopyIt() {
+        /* To make the "copy-it" functionality work in all views, 
+           we simply add it to the DOM before the slides are copied. */
+        document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
+            const copyItDiv = document.createElement("div");
+            copyItDiv.classList.add("copy-it");
+            code.insertBefore(copyItDiv, code.firstChild);
+        });
+    }
+
+
     /**
      * The number of the last slide.
      */
@@ -509,6 +521,35 @@ const lectureDoc2 = function () {
         document.getElementsByTagName("BODY")[0].prepend(continuousViewPane);
     }
 
+    function applyDOMfixes(){
+        /*  Due to the copying of the slide templates, the ids in inline SVGs 
+            (e.g. for defining and referencing markers) are no longer unique, 
+            which is a violation of the spec and causes troubles in Chrome and 
+            Firefox . We have to fix this!
+            */
+        let counter = 1;
+        document.querySelectorAll("svg").forEach((svg) => {
+            const svgIds = new Map(); // maps old url(#id) to new url(#id)
+            svg.querySelectorAll("[id]").forEach((element) => {
+                const oldId = element.id;
+                const newId = element.id + "-" + (counter++);
+                element.id = newId;
+                svgIds.set("url(#" + oldId + ")", "url(#" + newId + ")");
+            });
+            svgIds.forEach((newId, oldId) => {
+                const refs =`.//@*[.="${oldId}"]`;
+                const it = document.evaluate(refs,svg,null,XPathResult.ANY_TYPE,null);
+                let attr, attrs = []
+                while (attr = it.iterateNext())
+                attrs.push(attr);
+                attrs.forEach((ref) => {
+                    ref.textContent = newId;
+                });
+            });
+        });
+    }
+
+
     function setupMessageBox() {
         const message = document.createElement("DIALOG");
         message.id = "ld-message-box";
@@ -555,7 +596,8 @@ const lectureDoc2 = function () {
 
         const slideId = "ld-slide-no-" + slideNo;
         const ldSlide = document.getElementById(slideId)
-        ldSlide.style.display = "block";
+        /* We now want to use the style based display property again: */
+        ldSlide.style.removeProperty("display"); 
         ldSlide.style.scale = 1;
         if (setNewMarker)
             ldSlide.classList.add("ld-current-slide");
@@ -1095,7 +1137,7 @@ const lectureDoc2 = function () {
         if(animations) {
             animations.beforeLDDOMManipulations();
         }
-
+        initCopyIt();
         initDocumentId();
         initSlideDimensions();
         initSlideCount();
@@ -1114,9 +1156,9 @@ const lectureDoc2 = function () {
         /*
         Setup base structure.
 
-        Given a LectureDoc HTML document - which is basically an HTML document that
-        has to follow some well-defined restrictions - we first extend the DOM with
-        the elements that realize LectureDoc's core functionality.
+        Given a LectureDoc document - which is basically an HTML document that
+        has to follow some well-defined restrictions - we first extend the DOM 
+        with the elements that realize LectureDoc's core functionality.
         */
         setupMessageBox();
         setupLightTable();
@@ -1131,6 +1173,10 @@ const lectureDoc2 = function () {
         */
         setPaneScale(); // done to improve the initial rendering behavior
 
+        /*  Due to the copying of the slide templates, some things (e.g.,
+            no longer unique ids), need to be fixed. */
+        applyDOMfixes(); 
+
         if(animations) {
             animations.afterLDDOMManipulations();
         }
@@ -1142,8 +1188,8 @@ const lectureDoc2 = function () {
      */
     window.addEventListener("load", () => {
 
-        // we finally make the slide templates (i.e., the original slides)
-        // invisible
+        // we finally remove the the slide templates (i.e., the original slides)
+        // from the DOM 
         document.querySelectorAll("body > div.ld-slide").forEach((slide) => {
             slide.style.display= "none";
         });

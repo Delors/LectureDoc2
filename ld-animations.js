@@ -14,7 +14,9 @@
 const lectureDoc2Animations = function () {
 
     /* -------------------------------------------------------------------------
-        Private methods.
+
+        Private methods of the module.
+
     */
 
     /**
@@ -143,41 +145,11 @@ const lectureDoc2Animations = function () {
      */
     function beforeLDDOMManipulations() {
         /* empty for now */
-        document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
-            
-            const copyItDiv = document.createElement("div");
-            copyItDiv.classList.add("copy-it");
-            code.insertBefore(copyItDiv, code.firstChild);
-        });
     }
 
 
     function afterLDDOMManipulations() {
-        /* Due to the copying of the slide templates, the ids in inline SVGs 
-           (e.g. for defining and referencing markers) are no longer unique, 
-           which is a violation of the spec and causes troubles in Chrome and 
-           Firefox . We have to fix this!
-        */
-        var counter = 1;
-        document.querySelectorAll("svg").forEach((svg) => {
-            const svgIds = new Map(); // maps old url(#id) to new url(#id)
-            svg.querySelectorAll("[id]").forEach((element) => {
-                const oldId = element.id;
-                const newId = element.id + "-" + (counter++);
-                element.id = newId;
-                svgIds.set("url(#" + oldId + ")", "url(#" + newId + ")");
-            });
-            svgIds.forEach((newId, oldId) => {
-                const refs =`.//@*[.="${oldId}"]`;
-                const it = document.evaluate(refs,svg,null,XPathResult.ANY_TYPE,null);
-                var attr, attrs = []
-                while (attr = it.iterateNext())
-                attrs.push(attr);
-                attrs.forEach((ref) => {
-                    ref.textContent = newId;
-                });
-            });
-        }); 
+        /* empty for now */
     }
 
     /**
@@ -218,18 +190,18 @@ const lectureDoc2Animations = function () {
         });
 
 
-        
-
         /**
          * The following highlights the current element and the element in 
-         * the first row with the same column and in the first column with the same
-         * row.
+         * the first row with the same column and in the first column with the 
+         * same row.
          * 
          * Note that, highlighting the row is trivially done in CSS, highlighting 
          * a column is not yet easily possible and requires either a too ugly css
          * solution or some JavaScript as shown here.
          * 
-         * Currently, we only support most basic table without cells which span multiple columns or rows. Also tables which have a header row are not yet supported.
+         * Currently, we only support most basic table without cells which span 
+         * multiple columns or rows. Also tables which have a header row are not
+         * yet supported.
          */
         // TODO add support to handle colspan and rowspan...
         // TODO add support to handle header rows (and header columns?)
