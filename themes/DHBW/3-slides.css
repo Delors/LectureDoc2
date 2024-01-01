@@ -148,8 +148,8 @@ div.ld-slide.new-subsection > h2 {
     content: var(--dhbw-logo);
     display: block;
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    top: 0.5rem;
+    right: 0.5rem;
     transform: translateX(30%) translateY(-35%) scale(0.4); 
 }
 
