@@ -53,7 +53,7 @@
 
 #ld-continuous-view-pane .supplemental {
     margin-bottom: 3px;
-    padding: calc(var(--slide-padding) * var(--ld-continuous-view-zoom-level)); 
+    padding: calc(var(--slide-lr-padding) * var(--ld-continuous-view-zoom-level)); 
     border-radius: 
         0 
         0 
@@ -76,12 +76,12 @@
     right: 0;
     margin:0;
     border-radius: var(--slide-border-radius) 0 0 var(--slide-border-radius);
-    padding: calc(var(--slide-padding) * 0.75); /* the factor has to larger than the factor used by translate (see below) */ 
+    padding: calc(var(--slide-tb-padding) * 0.75) calc(var(--slide-lr-padding) * 0.75); /* the factor has to larger than the factor used by translate (see below) */ 
     z-index: 1;
     background-color: var(--slide-background-color);
     font-size: 0.75rem;
     transform: 
-        translateX(calc(100% - var(--slide-padding) * 0.5)) 
+        translateX(calc(100% - var(--slide-lr-padding) * 0.5)) 
         translateY(calc(var(--ld-slide-height) * 0.5 - ( 100% * 0.5)));
     box-shadow: var(--trbl-shadow);
     transition: 0.75s;
