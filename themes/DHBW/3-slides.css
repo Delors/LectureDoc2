@@ -167,8 +167,15 @@ div.ld-slide.new-subsection > h2 {
     box-shadow: none;
 }
 
-.integrated-exercise .excersise-solution {
+.integrated-exercise .exercise-solution {
     color: black;
+}
+
+/* The solution will not be shown when browsing the lecture slides. TODO Handling for encrypting it and making it available later on needs to be developed! */
+.post-lecture-exercise-solution {
+    display: none;
+    /*background-color: var(--dhbw-gray);
+    color: whitesmoke;*/
 }
 
 /* 
