@@ -20,7 +20,7 @@ const lectureDoc2Animations = function () {
     */
 
     /**
-     * Handles the rendering of a stack layout in the continuous view.
+     * Handles the rendering of a "stacked layout" in the continuous view.
      */
     function adaptHeightOfSlideToStack(stack) {
 
@@ -52,7 +52,6 @@ const lectureDoc2Animations = function () {
                 }
                 layer.style.top = topOffset + "px";
             });
-            console.log("overallHeight: " + overallHeight);
         }
 
         stack.querySelectorAll(":scope >.layer").forEach((layer, i) => {
@@ -62,6 +61,7 @@ const lectureDoc2Animations = function () {
 
             if (!layer.classList.contains("overlay")) {
                 processLastGroupedLayers();
+                // reset groupdLayers to store the next group of layers:
                 groupedLayers = [layer]; // a non-overlay layer and all its overlay layers
                 maxGroupedLayersOuterHeight = layerOuterHeight;
             } else {
@@ -72,7 +72,7 @@ const lectureDoc2Animations = function () {
                 // or any of the stacked overlay layers.
                 maxGroupedLayersOuterHeight = Math.max(maxGroupedLayersOuterHeight, layerOuterHeight);
             }
-            console.log("layerOuterHeight: " + layerOuterHeight + " maxGrouped: "+ maxGroupedLayersOuterHeight+" maxOuterHeight: " + maxOuterHeight);
+            // console.log("layerOuterHeight: " + layerOuterHeight + " maxGrouped: "+ maxGroupedLayersOuterHeight+" maxOuterHeight: " + maxOuterHeight);
         });
         processLastGroupedLayers();
 
