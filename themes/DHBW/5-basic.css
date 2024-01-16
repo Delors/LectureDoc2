@@ -210,8 +210,13 @@ img.picture {
 }
 
 
+/**
+ * Clearfix hack to ensure that the parent element of a floated element
+ * is not "collapsed".
+ */
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
 }
+
