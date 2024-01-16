@@ -208,3 +208,10 @@ img.picture {
 .no-default-width {
     width: unset;
 }
+
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
