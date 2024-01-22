@@ -173,9 +173,17 @@ img.picture {
     background-color: var(--the-blue);
 }
 
+.the-yellow-background {
+    background-color: var(--the-yellow);
+}
+
 .light-green-background {
     background-color: var(--light-green);
 }
+
+.white-background {
+    background-color: white;
+}   
 
 
 .line-above {
