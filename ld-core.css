@@ -304,6 +304,105 @@ a {
     margin-right: auto;
 }
 
+
+/*  ----------------------------------------------------------------------------
+
+    The menu.
+*/
+
+@media print { /* at least Safari seems to honor this setting...*/
+    #ld-menu {
+        display: none;
+    }
+}
+
+#ld-menu {
+    width: 480px;
+    height: 360px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    border-radius: 2em;
+    /*transform: translate(-216px, -162px) scale(0.1); 10%*/
+    transform: translate(-228px, -171px) scale(0.05); 
+    overflow: hidden;
+    background-color: white;
+    transition: all 0.5s ease-in-out;
+}
+
+/*
+    The menu is nearly visible when we are presenting a slide. 
+    When we are not presenting a slide, the menu is more visible.
+*/
+#ld-menu:not(:has(+ #ld-main-pane[style*="display: none;"])) {
+    opacity: 0.075;
+}
+
+#ld-menu:has(+ #ld-main-pane[style*="display: none;"]) {
+    opacity: 0.3;
+}
+
+#ld-menu:hover {
+    width: calc(480px + 0.5em);
+    height: calc(360px + 0.5em);
+    border-radius: 0.25em;
+    padding:0.25em;
+    /*transform: initial;*/
+    transform: translate(calc(-120px + 0.05em), calc(-90px + 0.05em)) scale(0.5) ;
+    opacity: 1 !important;
+    box-shadow: 2px 2px 4px, -1px -1px 2px gray;;
+    transition: all 0.5s ease-in-out;
+}
+
+#ld-menu-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    grid-template-rows: repeat(3, 120px);
+}
+
+div#ld-menu-buttons > div {
+    height: 120px;
+    width: 120px;   
+    transition: all 0.5s ease-in-out;
+} 
+
+div#ld-menu-buttons > div:hover {
+    opacity: 0.25;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+} 
+
+div#ld-menu-buttons > div.empty:hover {
+    cursor: initial;
+} 
+
+div#ld-menu #ld-slides-button {
+    background-image: url('icons/slides.svg');
+}
+
+div#ld-menu #ld-slides-with-nr-button {
+    background-image: url('icons/slides-with-nr.svg');
+}
+
+div#ld-menu #ld-help-button {
+    background-image: url('icons/help.svg');
+}
+
+div#ld-menu #ld-continuous-view-button {
+    background-image: url('icons/continuous-view.svg');
+}
+
+div#ld-menu #ld-continuous-view-with-nr-button {
+    background-image: url('icons/continuous-view-with-nr.svg');
+}
+
+div#ld-menu #ld-light-table-button {
+    background-image: url('icons/light-table.svg');
+}
+
+
+
 /*  ----------------------------------------------------------------------------
 
     Classes with special meaning for LectureDoc. 
