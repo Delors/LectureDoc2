@@ -595,6 +595,14 @@ table.no-column-borders :is(td, th) {
 }
 
 
+.assessment {
+    background-color: var(--the-yellow);
+    padding: 0.5em;
+    margin: 0.5em 0 0.5em 0;
+    border-radius: 0.5em;
+    box-shadow: var(--br-shadow)
+}
+
 :is(ul, ol).li-margin-top-0-75em > li{
     margin-top: calc(var(--li-margin-top-0-5em) * 1.5);
 }
