@@ -308,6 +308,10 @@ a {
 /*  ----------------------------------------------------------------------------
 
     The menu.
+
+    The menu is a DIV element with the id ld-menu. It is placed in the top left and expands when the mouse hovers over it.
+
+    The icons are rendered as background images of DIV elements to make it possible to open the slides from a file.
 */
 
 @media print { /* at least Safari seems to honor this setting...*/
