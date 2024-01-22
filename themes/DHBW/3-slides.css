@@ -138,8 +138,8 @@ div.ld-slide.new-subsection > h2 {
 }
 
 .integrated-exercise h2:first-child {
-    margin: -0.75rem -0.75rem 0.5rem -0.75rem;
-    padding: 0.5rem 0.75rem 0.25rem 0.75rem;
+    margin: -0.5rem -0.75rem 0.5rem -0.75rem;
+    padding: 0.5rem 4.75rem 0.25rem 0.75rem;
     background-color: whitesmoke;
     color: var(--dhbw-red);
 }
@@ -168,6 +168,10 @@ div.ld-slide.new-subsection > h2 {
 }
 
 .integrated-exercise .exercise-solution {
+    color: black;
+}
+
+.integrated-exercise .code {
     color: black;
 }
 
