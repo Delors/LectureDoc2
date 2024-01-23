@@ -500,8 +500,10 @@ const lectureDoc2 = function () {
         */
         document.querySelectorAll("body > .ld-slide").forEach((slideTemplate, i) => {
             const slide = slideTemplate.cloneNode(true);
+            const orig_slide_id = slide.id;
             slide.id = "ld-slide-no-" + i;
             slide.dataset.ldSlideNo = i;
+            slide.dataset.id = orig_slide_id;
             // Let's hide all elements that should be shown incrementally;
             // this is down to get all (new) slides to a well-defined state.
             setupSlideProgress(slide);
@@ -1074,7 +1076,8 @@ const lectureDoc2 = function () {
             hideSlide(state.currentSlideNo);
             showSlide(targetSlideNo);
         } else {
-            console.warn("invalid jump target: "+target);
+            console.warn("invalid jump target: "+id);
+            return;
         }
 
         // ensure that all elements up to the target element are visible.
@@ -1082,9 +1085,35 @@ const lectureDoc2 = function () {
         while (getComputedStyle(target).visibility == "hidden") {
             advancePresentation();
         }
-  }
+    }
+
+    /**
+     * @param str id The original id saved in the data-id attribute of the slide!
+     */
+    function jumpToSlideWithElementWithDataId(id) {
+        const slide = document.querySelector(`#ld-main-pane .ld-slide[data-id="${id}"]`);
+        if (slide) {
+            const targetSlideNo = slide.dataset.ldSlideNo;
+            hideSlide(state.currentSlideNo);
+            showSlide(targetSlideNo);
+        } else {
+            console.warn("invalid jump target: " + id);
+            return;
+        }
+    }
 
     function registerSlideInternalLinkClickedListener() {
+        /*
+            Handle links to other slides.
+        */
+        document.
+            querySelectorAll("#ld-main-pane a.reference.internal").
+            forEach((a) => { a.addEventListener("click",(event) => {
+                event.stopPropagation();
+                const target = a.getAttribute("href");
+                jumpToSlideWithElementWithDataId(target.substring(1));
+            })  });
+
         /*
         Handle links related to the bibliography.
         */
