@@ -68,15 +68,15 @@
 }
 
 :is(#ld-main-pane, #ld-light-table-slides) .supplemental {
-    max-width: 75%;
-    max-height: 70%;
+    max-width: var(--ld-rel-max-supplemental-area-width);
+    max-height: var(--ld-rel-max-supplemental-area-height);
     overflow-y: scroll;
     position: absolute;
     top: 0;
     right: 0;
-    margin:0;
+    margin: 0;
     border-radius: var(--slide-border-radius) 0 0 var(--slide-border-radius);
-    padding: calc(var(--slide-tb-padding) * 0.75) calc(var(--slide-lr-padding) * 0.75); /* the factor has to larger than the factor used by translate (see below) */ 
+    padding: calc(var(--slide-tb-padding) * 0.75) calc(var(--slide-lr-padding) * 0.75); /* the factor has to be larger than the factor used by translate (see below) */ 
     z-index: 1;
     background-color: var(--slide-background-color);
     font-size: 0.75rem;
