@@ -257,17 +257,17 @@ ol {
     padding-left: 1.1em;
 }
 
-
-
 li {
     padding-left: 0.5em;
 }
 
-ul.negative-list {
+ul.negative-list,
+ul > li.negative-list {
     list-style-type: "❗️";
 }
 
-ul.positive-list {
+ul.positive-list,
+ul > li.positive-list {
     list-style-type: "✓";
 }
 
