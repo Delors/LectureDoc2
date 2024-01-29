@@ -182,16 +182,6 @@ div.ld-slide.new-subsection > h2 {
     color: whitesmoke;*/
 }
 
-/* 
-    Styling, which changes the positioning of elements on a slide.
-*/
-
-.ld-slide.center-elements-on-slide {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
 /*
     "Styling" of Animations
