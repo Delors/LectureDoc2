@@ -461,17 +461,15 @@ table.annotated-text :is(td, th):last-child:not(:empty) {
 
     The following provides an option to rotate the title by 90 degrees.
 
-    (This typlically requires the next element to be an inline-block.
 */
 
 .ld-slide.vertical-title {
-    display : flex;
+    display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
 .ld-slide.vertical-title h2 {
-    display: inline-block;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     vertical-align: top;
