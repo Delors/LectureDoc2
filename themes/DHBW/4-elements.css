@@ -80,6 +80,15 @@ div.center-text-in-div {
     padding-left: none;
 }
 
+/*
+    Styling of list where each list item has multiple paragraphs, but all - except of the first one - should be rendered in a smaller font and in gray.
+*/
+
+.list-with-explanations li p:not(:first-child) {
+    color: gray;
+    font-size: smaller;
+}
+
 /*  ----------------------------------------------------------------------------
     Adds the styling for the functionality to copy code to the clipboard.
 
