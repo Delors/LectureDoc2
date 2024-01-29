@@ -16,13 +16,15 @@
     --slide-padding: 0.33rem 0.66rem 0.33rem 0.66rem;
     /*  48px to have roughly 16 lines of text on a 1200px height slide. */
     --slide-font-size: 48px;
+    --slide-font-family: "Helvetica", sans-serif;
+    --slide-font-weight: 300;
+    --slide-line-height: 1.5;
 
     /* Coporate design related colors and images: */
+    --dhbw-logo: url(dhbw_logo.png);
     --dhbw-red: rgb(226, 0, 26);/* red used by the DHBW Logo */    
     --dhbw-gray:  rgb(91,105,113);/* gray used by the text in the DHBW Logo */
     --dhbw-light-gray: rgb(222,226,228); /* as found in some brochures */
-    --dhbw-logo: url(dhbw_logo.png);
-
 
     /* Colors that fit nicely to the colors of the corporate design: */
     --the-blue: rgb(45, 62, 255);
