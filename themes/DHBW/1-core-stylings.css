@@ -5,9 +5,9 @@
     ------------------------------------------------------------------------  */
 
     :root {
-        font: var(--slide-font-size) "Helvetica", sans-serif;
-        line-height: 1.5;
-        font-weight: 300;
+        font: var(--slide-font-size) var(--slide-font-family);
+        line-height: var(--slide-line-height);
+        font-weight: var(--slide-font-weight);
     }
     
     .ld-slide {
