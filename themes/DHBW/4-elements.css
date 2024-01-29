@@ -46,8 +46,9 @@
     border-right: 2px solid gray;
 }
 
+
 /*
-    Styling of Links (A elements).
+    Styling of standard links ("a" elements).
 */
 
 a:link,
@@ -60,16 +61,8 @@ a:hover {
 }
 
 
-div.center-text-in-div {
-    text-align: center;
-    width: 100%;
-}
-
-
-
-
 /*
-    Styling of rst footnotes.
+    Styling of standard rst footnotes.
 */
 
 .footnote-list {
@@ -127,7 +120,8 @@ div.center-text-in-div {
 
 .faded-to-white::after {
     position: absolute;
-    content: " "; /* necessary to make the element visible */
+    content: " ";
+    /* necessary to make the element visible */
     width: 100%;
     height: 100%;
     top: 0;
@@ -140,8 +134,7 @@ div.center-text-in-div {
 /* TODO move the following style definitions in them in the right place*/
 
 
-.center-child-element {
-    height: 100%;
+.center-child-elements {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -207,6 +200,7 @@ p.admonition-title {
 .admonition-definition {
     background-color: var(--the-blue);
 }
+
 aside.admonition-definition p.admonition-title {
     border-bottom: 2px solid white;
 }
@@ -357,7 +351,8 @@ ul.impressive {
     display: grid;
     grid-auto-rows: 1fr;
 }
-ul.impressive li{
+
+ul.impressive li {
     text-align: center;
     background-color: var(--dhbw-light-gray);
     border-radius: 0.5em;
@@ -602,7 +597,8 @@ table.no-column-borders :is(td, th) {
     box-shadow: 4px 4px 8px black;
 }
 
-.foundations a { /* necessary to make links visible! */
+.foundations a {
+    /* necessary to make links visible! */
     color: var(--the-yellow);
 }
 
@@ -615,7 +611,6 @@ table.no-column-borders :is(td, th) {
     box-shadow: var(--br-shadow)
 }
 
-:is(ul, ol).li-margin-top-0-75em > li{
+:is(ul, ol).li-margin-top-0-75em>li {
     margin-top: calc(var(--li-margin-top-0-5em) * 1.5);
 }
-

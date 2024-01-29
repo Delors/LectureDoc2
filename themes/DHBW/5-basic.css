@@ -2,6 +2,10 @@ ul {
     list-style-type: "▫️";
 }
 
+strong {
+    font-weight: 700;
+}
+
 /*
     The CSS classes defined in the following generally style only one property 
     and are intended to enable fine-grained control of the design of a slide 
@@ -29,9 +33,18 @@ img.picture {
     box-shadow: var(--br-shadow);
 }
 
+
+
 /* 
     Styling based CSS classes.
 */
+
+div.text-align-center {
+    text-align: center;
+    width: 100%;
+}
+
+
 
 .xxl {
     font-size: 3rem; /* absolute w.r.t. the "global" font-size */
@@ -69,6 +82,11 @@ img.picture {
     font-size: 0.9em; /* relative to the "current" font size */
 }
 
+.much-smaller {
+    font-size: 0.6em; /* relative to the "current" font size */
+}
+
+
 .monospaced {
     font-family: monospace;
 }
@@ -84,6 +102,8 @@ img.picture {
 .thin {
     font-weight: 200;
 }
+
+
 
 .margin-none {
     margin: 0;
@@ -113,14 +133,13 @@ img.picture {
     margin-bottom: 2em;
 }
 
-.margin-right-2em {
-    margin-right: 2em;
+.margin-right-1em {
+    margin-right: 1em;
 }
 
 .margin-left-1em {
     margin-left: 1em;
 }
-
 
 .padding-none {
     padding: 0;
@@ -130,8 +149,21 @@ img.picture {
     padding: 1em;
 }
 
+.padding-top-1em {
+    padding-top: 1em;
+}
+
+.padding-top-2em {
+    padding-top: 2em;
+}
+
+
 .padding-0-5em {
     padding: 0.5em;
+}
+
+.border-transparent-1em {
+    border: 1em solid transparent;
 }
 
 
@@ -144,12 +176,24 @@ img.picture {
     color: var(--dhbw-gray);
 }
 
-.blue {
+.dhbw-light-gray {
+    color: var(--dhbw-light-gray);
+}
+
+.the-blue {
     color: var(--the-blue);
 }
 
-.green {
+.the-green {
     color: var(--the-green)
+}
+
+.shiny-green {
+    color: green;
+}
+
+.shiny-red {
+    color: red;
 }
 
 .black {
@@ -161,8 +205,17 @@ img.picture {
 }
 
 
+
 .dhbw-red-background {
     background-color: var(--dhbw-red);
+}
+
+.dhbw-gray-background {
+    background-color: var(--dhbw-gray);
+}
+
+.dhbw-light-gray-background {
+    background-color: var(--dhbw-light-gray);
 }
 
 .the-green-background {
@@ -181,9 +234,6 @@ img.picture {
     background-color: var(--light-green);
 }
 
-.white-background {
-    background-color: white;
-}   
 
 
 .line-above {
@@ -194,28 +244,6 @@ img.picture {
     border-bottom: 2px solid rgb(24, 25, 25);
 }
 
-.border-transparent-1em {
-    border: 1em solid transparent;
-}
-
-
-.shadow {
-    box-shadow: var(--br-shadow);
-}
-
-
-
-.inline-block {
-    display: inline-block;
-}
-
-.height-100 {
-    height: 100%;
-} 
-
-.no-default-width {
-    width: unset;
-}
 
 
 /**
