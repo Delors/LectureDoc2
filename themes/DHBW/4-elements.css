@@ -29,6 +29,11 @@
     width: calc(100% / 3);
 }
 
+.three-columns.no-default-width>.column,
+.two-columns.no-default-width>.column {
+    width: unset;
+}
+
 .column {
     box-sizing: border-box;
     margin: 0px;
