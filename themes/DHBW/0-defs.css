@@ -17,6 +17,7 @@
     /*  48px to have roughly 16 lines of text on a 1200px height slide. */
     --slide-font-size: 48px;
     --slide-font-family: "Helvetica", sans-serif;
+    --slide-serif-font-family: "Times New Roman", Times, serif;
     --slide-font-weight: 300;
     --slide-line-height: 1.5;
 
@@ -29,6 +30,7 @@
     /* Colors that fit nicely to the colors of the corporate design: */
     --the-blue: rgb(45, 62, 255);
     --the-yellow: #ff1;
+    --the-orange: rgb(255, 128, 0);
     --the-green: rgb(0, 88, 0);
 
     
