@@ -34,6 +34,11 @@ img.picture {
 }
 
 
+.box-shadow {
+    box-shadow: var(--br-shadow);
+    border-radius: var(--slide-border-radius);;
+}
+
 
 /* 
     Styling based CSS classes.
@@ -44,7 +49,15 @@ div.text-align-center {
     width: 100%;
 }
 
+div.text-align-right {
+    text-align: right;
+    width: 100%;
+}
 
+div.text-align-left {
+    text-align: left;
+    width: 100%;
+}
 
 .xxl {
     font-size: 3rem; /* absolute w.r.t. the "global" font-size */
@@ -89,6 +102,14 @@ div.text-align-center {
 
 .monospaced {
     font-family: monospace;
+}
+
+.serif {
+    font-family: var(--slide-serif-font-family);
+}
+
+.italic {
+    font-style: italic;
 }
 
 .bold {
@@ -188,6 +209,10 @@ div.text-align-center {
     color: var(--the-green)
 }
 
+.the-orange {
+    color: var(--the-orange);
+}
+
 .shiny-green {
     color: green;
 }
@@ -256,3 +281,10 @@ div.text-align-center {
     display: table;
 }
 
+.width-100 {
+    width: 100%;
+}
+
+.width-75 {
+    width: 75%;
+}
