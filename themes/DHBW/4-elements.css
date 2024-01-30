@@ -213,7 +213,7 @@ blockquote {
 }
 
 .epigraph {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: var(--slide-serif-font-family);
     font-style: italic;
     font-variant-ligatures: additional-ligatures;
 }
