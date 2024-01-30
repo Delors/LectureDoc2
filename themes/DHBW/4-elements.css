@@ -602,6 +602,14 @@ table.no-column-borders :is(td, th) {
     color: var(--the-yellow);
 }
 
+.question {
+    background-color: var(--the-blue);
+    color: whitesmoke;
+    padding: 1em;
+    border-radius: var(--slide-border-radius);
+    box-shadow: var(--br-shadow);
+}
+
 
 .assessment {
     background-color: var(--the-yellow);
