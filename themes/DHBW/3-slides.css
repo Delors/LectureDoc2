@@ -27,6 +27,15 @@ div.ld-slide:has(h1)::before {
 }
 
 
+/* 
+    Styling related to a normal title slide
+*/
+
+div.ld-slide.no-title h2:first-child {
+    display: none;
+}
+
+
 /*
     Styling of slides which act as section headers.
 
