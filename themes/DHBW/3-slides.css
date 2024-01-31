@@ -185,10 +185,8 @@ div.ld-slide.new-subsection > h2 {
 }
 
 /* The solution will not be shown when browsing the lecture slides. TODO Handling for encrypting it and making it available later on needs to be developed! */
-.post-lecture-exercise-solution {
+.protected-exercise-solution{
     display: none;
-    /*background-color: var(--dhbw-gray);
-    color: whitesmoke;*/
 }
 
 
