@@ -33,10 +33,12 @@ img.picture {
     box-shadow: var(--br-shadow);
 }
 
-
 .box-shadow {
     box-shadow: var(--br-shadow);
-    border-radius: var(--slide-border-radius);;
+}
+
+.rounded-corners {
+    border-radius: var(--slide-border-radius);
 }
 
 
