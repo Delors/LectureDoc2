@@ -171,6 +171,11 @@ span.ger-quote::after {
 }
 
 
+.ld-slide.smaller-slide-title > h2{
+    font-size: 1.25rem;
+}
+
+
 .admonition {
     padding: 0.55em;
     border: 0;
@@ -485,7 +490,7 @@ div:not(.admonition).note {
     float: right;
     background-color: var(--the-blue);
     color: whitesmoke;
-    max-width: 20%;
+    max-width: 60%;
 }
 
 
@@ -523,6 +528,17 @@ table.highlight-line-on-hover tr:hover {
 table.highlight-line-on-hover tbody td:hover {
     background-color: var(--the-blue);
     color: white;
+}
+
+/*
+Used to markup the first column or the first row of a table as a header row/column.
+*/
+table.fake-header-column tr td:first-child  {
+    border-right: 8px solid var(--dhbw-light-gray);
+}
+
+table.fake-header-row tr:first-child  {
+    border-bottom: 8px solid var(--dhbw-light-gray);
 }
 
 /* 
