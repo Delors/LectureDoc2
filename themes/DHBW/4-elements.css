@@ -171,8 +171,11 @@ span.ger-quote::after {
 }
 
 
+/*
+  Makes the title of a slide smaller.
+*/
 .ld-slide.smaller-slide-title > h2{
-    font-size: 1.25rem;
+    font-size: 1.25rem; /* the default size is 1.5rem */
 }
 
 
