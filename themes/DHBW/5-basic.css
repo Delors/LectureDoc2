@@ -89,6 +89,15 @@ div.text-align-left {
     font-size: 0.7rem; /* absolute w.r.t. the "global" font-size */
 }
 
+.x-tiny {
+    font-size: 0.6rem; /* absolute w.r.t. the "global" font-size */
+}
+
+.xx-tiny {
+    font-size: 0.5rem; /* absolute w.r.t. the "global" font-size */
+}
+
+
 .larger {
     font-size: 1.1em; /* relative to the "current" font size */
 }
@@ -289,4 +298,16 @@ div.text-align-left {
 
 .width-75 {
     width: 75%;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.width-40 {
+    width: 40%;
+}
+
+.width-30 {
+    width: 30%;
 }
