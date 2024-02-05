@@ -457,9 +457,6 @@ table.annotated-text :is(td, th):last-child:not(:empty) {
 }
 
 
-
-
-
 /*
 
     The following provides an option to rotate the title by 90 degrees.
@@ -594,6 +591,26 @@ table.no-column-borders :is(td, th) {
     margin-top: 0em;
     margin-bottom: 0em;
 }
+
+/* 
+
+    Adding "wobble" to the class list of a table makes the last row larger when it is shown.
+    This is a nice effect to draw the attention of the audience to the last revealed line in a table. It is best to combine this with fixed-width columns.
+
+    Only works in combination with the class "incremental"!
+*/
+#ld-main-pane table.incremental.wobble > tbody > tr:has(+ [style*="visibility: visible;"]) {
+    font-size: 0.75em;
+    transition: all 0.5s;
+    color: var(--dhbw-gray);
+}
+
+#ld-main-pane table.incremental.wobble > tbody > :is(tr:has(+ [style*="visibility: hidden;"]), tr:last-child) {
+    font-size: 1.3em;
+    transition: all 0.5s;
+}
+
+
 
 
 .admonition.note {
