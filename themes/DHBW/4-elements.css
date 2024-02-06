@@ -470,7 +470,7 @@ table.annotated-text :is(td, th):last-child:not(:empty) {
 }
 
 .ld-slide.vertical-title h2 {
-    writing-mode: vertical-lr;
+    writing-mode: vertical-rl;
     transform: rotate(180deg);
     vertical-align: top;
     margin: 0;
