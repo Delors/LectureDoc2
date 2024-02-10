@@ -530,15 +530,29 @@ table.highlight-line-on-hover tbody td:hover {
     color: white;
 }
 
+table.highlight-identical-cells tbody td.highlight-identical-cell {
+    opacity: 0.4;
+    background: repeating-linear-gradient( 0deg, #9da1fc, #9da1fc 3px, #e5e5f7 3px, #e5e5f7 25px );    
+}
+
 /*
 Used to markup the first column or the first row of a table as a header row/column.
 */
 table.fake-header-column tr td:first-child  {
     border-right: 8px solid var(--dhbw-light-gray);
 }
+table.fake-header-2nd-column tr td:nth-child(2)  {
+    border-right: 8px solid var(--dhbw-light-gray);
+    background-color: whitesmoke;
+}
 
 table.fake-header-row tr:first-child  {
     border-bottom: 8px solid var(--dhbw-light-gray);
+}
+
+table.fake-header-2nd-row tr:nth-child(2)  {
+    border-bottom: 8px solid var(--dhbw-light-gray);
+    background-color: whitesmoke;
 }
 
 /* 

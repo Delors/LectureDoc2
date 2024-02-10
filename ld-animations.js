@@ -233,6 +233,35 @@ const lectureDoc2Animations = function () {
                 });
             });
         });
+
+
+        document.querySelectorAll("table.highlight-identical-cells").forEach((table) => {
+            const tbody = table.querySelector(":scope tbody")
+            function eq(nl1,nl2){
+                return nl1.length === nl2.length && Array.from(nl1).every((v,i)=>v.isEqualNode(nl2[i]));
+            }
+            function highlightValue(baseTD) {
+                tbody.querySelectorAll(":scope td").forEach((td) => {
+                    if (eq(baseTD.childNodes, td.childNodes)){
+                        td.classList.add("highlight-identical-cell");
+                    } 
+                })
+            };
+            function dehighlightValue(baseTD) {
+                tbody.querySelectorAll(":scope td").forEach((td) => {
+                    if (eq(baseTD.childNodes, td.childNodes)){
+                        td.classList.remove("highlight-identical-cell");
+                    } 
+                })
+            };
+
+
+            tbody.querySelectorAll(":scope td").forEach((td) => {
+                td.addEventListener("mouseover", () => { highlightValue(td) });
+                td.addEventListener("mouseleave", () => { dehighlightValue(td) });
+            });
+
+        });
     }
 
     return {
