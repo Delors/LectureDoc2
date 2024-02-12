@@ -40,6 +40,15 @@ on run argv
 	tell application "System Events" to tell application process "Safari"
 		set frontmost to true
 		
+		# The following resets LectureDoc to ensure that 
+		# we get the expected output!
+		repeat 8 times
+			keystroke "r"
+			delay 0.1
+		end repeat
+		keystroke "h"
+		delay 0.1
+		
 		# window 1
 		tell window 1
 			
@@ -75,7 +84,7 @@ on run argv
 					key code 5 using {command down, shift down} # key code 5 is "g"
 					delay 1
 					
-					key code 51 -- press "delete" (to make the scrip "safer")
+					key code 51 -- press "delete" (to make the script "safer")
 					delay 0.1
 					
 					keystroke thePath
