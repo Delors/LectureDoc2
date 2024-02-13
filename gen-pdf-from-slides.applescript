@@ -40,13 +40,9 @@ on run argv
 	tell application "System Events" to tell application process "Safari"
 		set frontmost to true
 		
-		# The following resets LectureDoc to ensure that 
-		# we get the expected output!
-		repeat 8 times
-			keystroke "r"
-			delay 0.1
-		end repeat
-		keystroke "h"
+		# The following makes sure that LectureDoc uses the printing optimized
+		# view.
+		keystroke "p"
 		delay 0.1
 		
 		# window 1
