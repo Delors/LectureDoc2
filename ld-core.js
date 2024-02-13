@@ -458,6 +458,13 @@ const lectureDoc2 = function () {
         help_dialog.id = "ld-help-dialog"
         help_dialog.className = "ld-dialog"
         try {
+            help_dialog.innerHTML = `
+                <div id="ld-help-header">
+                    <span id="ld-help-title">Help</span>
+                    <div id="ld-help-close">
+                        <button id="ld-help-close-button" type="button">×</button>
+                    </div>
+                </div>`
             help_dialog.appendChild(lectureDoc2Help());
         } catch (error) {
             help_dialog.innerText = 'Help not found. "ld-help.js" probably not loaded.'
@@ -1247,6 +1254,12 @@ const lectureDoc2 = function () {
             addEventListener("click", () => { toggleLightTable(); });
     }
 
+    function registerHelpCloseListener() {
+        document.
+            querySelector("#ld-help-close-button").
+            addEventListener("click", () => { toggleDialog("help"); });
+    }
+
     function registerContinuousViewScrollYListener() {
         document.addEventListener("scroll", () => {
             if (state.showContinuousView) {
@@ -1302,6 +1315,45 @@ const lectureDoc2 = function () {
             querySelector("#ld-light-table-button").
             addEventListener("click", () => { toggleLightTable(); });
     }
+
+    
+    /**
+     * Some initial support for swipe gestures.
+     */
+    function registerSwipeListener() {
+        let xDown = null;
+        let yDown = null;
+
+        document.addEventListener('touchstart', function(evt) {
+            xDown = evt.changedTouches[0].clientX;
+            yDown = evt.changedTouches[0].clientY;
+        }, false);
+
+        document.addEventListener('touchend', function(evt) {
+            let xUp = evt.changedTouches[0].clientX;
+            let yUp = evt.changedTouches[0].clientY;
+
+            let xDiff = xDown - xUp;
+            let yDiff = yDown - yUp;
+            console.log("touch event (x,y): ",xDiff, yDiff);
+            if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                if (xDiff < -10) {
+                    retrogressPresentation();
+                } else if (xDiff > 10){
+                    advancePresentation();
+                }
+            } else {
+                if (yDiff < -10) {
+                    retrogressPresentation();
+                } else if (yDiff > 10){
+                    advancePresentation();
+                }
+            }
+            xDown = null;
+            yDown = null;
+        }, false);
+    }
+
 
     /**
      * Load the advanced animations package if available.
@@ -1375,6 +1427,7 @@ const lectureDoc2 = function () {
         }
     });
 
+
     /**
      * Registers the state (e.g., navigation) related listeners. I.e., we only
      * enable state changes after everything is fully loaded.
@@ -1406,7 +1459,9 @@ const lectureDoc2 = function () {
         registerLightTableSlideSelectionListener();
         registerLightTableSlideSearchListener();
         registerLightTableCloseListener();
+        registerHelpCloseListener();
         registerMenuClickListener();
+        registerSwipeListener();
 
         if(animations) {
             animations.afterLDListenerRegistrations();
