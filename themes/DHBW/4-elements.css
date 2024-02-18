@@ -77,9 +77,22 @@ a:hover {
     Styling of list where each list item has multiple paragraphs, but all - except of the first one - should be rendered in a smaller font and in gray.
 */
 
-.list-with-explanations li p:not(:first-child) {
+.list-with-explanations li *:not(:first-child) {
     color: gray;
     font-size: smaller;
+}
+
+
+/*
+    UPCOMMING FEATURE!
+    
+    Used to markup content that is only shown in presentation mode to the presenter
+    when the presentation mode is used!
+
+    For the time being this information is always hidden!
+*/
+.presentation-notes {
+    display: none;
 }
 
 /*  ----------------------------------------------------------------------------
