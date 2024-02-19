@@ -91,7 +91,7 @@ a:hover {
 
     For the time being this information is always hidden!
 */
-.presentation-notes {
+.presenter-notes {
     display: none;
 }
 
@@ -675,10 +675,12 @@ table.no-column-borders :is(td, th) {
 
 
 .assessment {
-    background-color: var(--the-yellow);
-    padding: 0.5em;
     margin: 0.5em 0 0.5em 0;
     border-radius: 0.5em;
+    padding: 0.5em;
+    text-shadow: -1px -1px 1px black, 1px 1px 1px white;
+    background-color: var(--the-yellow);
+    color: var(--the-blue);
     box-shadow: var(--br-shadow)
 }
 
