@@ -206,7 +206,9 @@ div.text-align-left {
     border: 1em solid transparent;
 }
 
-
+.white {
+    color: white;
+}
 
 .dhbw-red {
     color: var(--dhbw-red);
