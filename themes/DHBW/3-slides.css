@@ -3,6 +3,12 @@
 /*
     Generic styling for per-slide footer elements.
 */
+.footer-left,
+.footer-right,
+.block-footer {
+    font-size: var(--slide-footer-font-size);
+}
+
 .footer-left {
     position: absolute;
     bottom: 36px;
@@ -14,6 +20,23 @@
     right: 36px;
 }
 
+
+.block-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: var(--ld-slide-width);
+    height: var(--slide-footer-height);
+    padding-left: var(--slide-lr-padding);
+}
+
+.block-footer::after {
+    position: absolute;
+    bottom: -75px;
+    right: -65px;
+    content: url("dhbw_symbol.png");
+    scale: 0.25
+}
 
 /* 
     Styling related to __the__ title slide
