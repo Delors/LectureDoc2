@@ -5,10 +5,10 @@
     -   LectureDoc (i.e., the slide set) must be 
         usable without a Server(!); hence, no JavaScript modules :-(...
    
-    -   We store all relevante state information in a state object; this object 
+    -   We store all relevant state information in a state object; this object 
         is then used to re-instantiate a LectureDoc session later on. This object
         is saved in local storage whenever the user leaves the webpage. To make
-        it possible to distinguish document specific state information, a 
+        it possible to distinguish state information with a specific document, a 
         document has to be associated with a unique id. This id has to be 
         set by the user. If no id is configured, no state information will be
         saved.
@@ -25,6 +25,7 @@
  * 
  * lectureDoc2 is an object which contains a reference to the meta-information
  * object (presentation) and a function (getState) to return the current state.
+ * Furthermore, a function to optimize the view for printing is provided.
  */
 const lectureDoc2 = function () {
 
@@ -74,8 +75,8 @@ const lectureDoc2 = function () {
         showLightTable: false,
         /**
          * If true (default), the continuous view mode will be shown when this
-         * presentation is shown for the first time. If false it will not be 
-         * shown.
+         * presentation is shown for the first time. If false the slide view
+         * is used.
          */
         showContinuousView: true,        
         /**
@@ -114,15 +115,16 @@ const lectureDoc2 = function () {
         showContinuousViewSlideNumber: false,
     }
 
+    /* The following information is only short lived and does not need
+     * to be preserved during reloads.
+     */
     let ephermal = { 
-        // The following information is only short lived and does not need
-        // to be preserved during reloads. It is in particular information 
-        // related to animations.
+        // The following information is related to animations.
         previousSlide: undefined,
     }
 
     /**
-     * Creates a document dependent unique id. 
+     * Based on an element id, a document dependent unique id is created.
      * 
      * This enables the storage of document dependent information in local
      * storage, even when all LectureDoc documents have the same origin and 
@@ -135,12 +137,13 @@ const lectureDoc2 = function () {
         if (presentation.id) {
             return "ld-" + presentation.id + "-" + dataId;
         } else {
-            throw new Error("no document id available")
+            throw new Error("no document id available");
         }
     }
 
     /**
-     * Stores the state in local storage, iff the presentation has a unique id.
+     * Stores the state object in local storage, iff the presentation has a 
+     * unique id.
      */
     function storeState() {
         if (presentation.id) {
@@ -171,11 +174,13 @@ const lectureDoc2 = function () {
      */
     function loadState() {
         if (presentation.id) {
-            const jsonState = localStorage.getItem(documentSpecificId("state"))
+            const jsonState = localStorage.getItem(documentSpecificId("state"));
             const newState = JSON.parse(jsonState);
             if (newState) {
                 state = newState;
                 // console.debug(`${presentation.id} state loaded: ${jsonState}`);
+            } else {
+                // console.debug(`${presentation.id} no previous state found`);
             }
         }
     }
@@ -190,9 +195,10 @@ const lectureDoc2 = function () {
     function applyState() {
         reapplySlideProgress();
 
-        if (state.currentSlideNo > lastSlideNo()) {
-            state.currentSlideNo = lastSlideNo();
-            console.info(`slide number: ${lastSlideNo()}`);
+        let slideCount = lastSlideNo();
+        if (state.currentSlideNo > slideCount) {
+            state.currentSlideNo = slideCount;
+            console.info(`slide number: ${slideCount}`);
         }
         showSlide(state.currentSlideNo);
 
@@ -202,15 +208,19 @@ const lectureDoc2 = function () {
         if (state.showHelp) toggleDialog("help");
 
         if (state.showContinuousView) toggleContinuousView();
+        if (state.showContinuousViewSlideNumber) { 
+            showContinuousViewSlideNumber(true); 
+        }
 
-        if (state.showMainSlideNumber) showMainSlideNumber(true);
-        if (state.showContinuousViewSlideNumber) showContinuousViewSlideNumber(true);
+        if (state.showMainSlideNumber) { 
+            showMainSlideNumber(true); 
+        }
     }
 
 
     /**
      * Deletes all permanent state information associated with the current 
-     * document and LectureDoc as a whole.
+     * document as well as global LectureDoc related information.
      */
     function deleteStoredState() {
         localStorage.removeItem("ld-help-was-shown");
@@ -222,8 +232,9 @@ const lectureDoc2 = function () {
 
 
     /**
-     * Deletes all information associated with the current document and 
-     * LectureDoc as such.
+     * Resets LectureDoc for the current document by deleting all associated
+     * state additionally global state associated with LectureDoc is also 
+     * deleted.
      */
     function resetLectureDoc() {
         console.log(`LectureDoc reset initiated`);
@@ -256,24 +267,26 @@ const lectureDoc2 = function () {
     }
 
 
-    function initCopyIt() {
-        /* To make the "copy-it" functionality work in all views, 
-           we simply add it to the DOM before the slides are copied. */
+    /**
+     * Adds a div (button) to the DOM to allow the user to copy the content of
+     * code blocks.
+     * 
+     * To make "copy-to-clipboard" functionality work in all views, this 
+     * function needs to be called before the slides are duplicated per the
+     * respective view.
+     */
+    function initCopyToClipboard() {
         document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
-            const copyItDiv = document.createElement("div");
-            copyItDiv.classList.add("copy-it");
-            code.insertBefore(copyItDiv, code.firstChild);
+            const copyToClipboardButton = document.createElement("div");
+            copyToClipboardButton.classList.add("ld-copy-to-clipboard-button");
+            code.insertBefore(copyToClipboardButton, code.firstChild);
         });
     }
 
 
     /**
-     * The number of the last slide.
+     * Reads the document if from the documents meta information.
      */
-    function lastSlideNo() {
-        return presentation.slideCount - 1;
-    }
-
     function initDocumentId() {
         try {
             presentation.id = document.querySelector('meta[name="id"]').content;
@@ -309,11 +322,20 @@ const lectureDoc2 = function () {
     
     /**
      * Counts the number of slides in the document and initializes `slideCount`.
+     * 
+     * This method has to be called before the slides are copied.
      */
     function initSlideCount() {
         presentation.slideCount = 
             document.querySelectorAll("body>div.ld-slide").length
     }
+
+    /**
+     * The number of the last slide (0-based).
+     */
+    function lastSlideNo() {
+        return presentation.slideCount - 1;
+    } 
 
     /**
      * Initializes the state information regarding the current slide to show and
@@ -1121,8 +1143,8 @@ const lectureDoc2 = function () {
     }
 
     function registerSlideClickedListener() {
-        // we still want to be able to click links and the "copy-it" icon
-        document.querySelectorAll("#ld-main-pane :is(a,div.copy-it)").forEach((a) => {a.addEventListener(
+        // we still want to be able to click links and the "ld-copy-to-clipboard-button" icon
+        document.querySelectorAll("#ld-main-pane :is(a,div.ld-copy-to-clipboard-button)").forEach((a) => {a.addEventListener(
             "click",
             (event) => {
                 event["link_clicked"] = true;
@@ -1219,7 +1241,7 @@ const lectureDoc2 = function () {
     }
 
     function registerCopyItClickedListener() {
-        document.querySelectorAll("div.copy-it").forEach((copyIt) => {
+        document.querySelectorAll("div.ld-copy-to-clipboard-button").forEach((copyIt) => {
             copyIt.addEventListener("click", (event) => {
                 event.stopPropagation();
                 const textToCopy = copyIt.parentNode.innerText
@@ -1413,7 +1435,7 @@ const lectureDoc2 = function () {
         if(animations) {
             animations.beforeLDDOMManipulations();
         }
-        initCopyIt();
+        initCopyToClipboard();
         initDocumentId();
         initSlideDimensions();
         initSlideCount();
