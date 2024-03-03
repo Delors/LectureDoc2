@@ -138,6 +138,7 @@ const lectureDoc2 = function () {
     function postMessage(msg, data) {
         if (ephermal.ldPerDocumentChannel) {
             ephermal.ldPerDocumentChannel.postMessage([msg, data]);
+
         }
     }
 
@@ -828,7 +829,7 @@ const lectureDoc2 = function () {
             }
         }
         // When we reach this point all elements are (already) visible.
-        moveToNextSlide();
+        localMoveToNextSlide();
     }
     function retrogressPresentation() {
         postMessage("retrogressPresentation",undefined);        
@@ -1376,9 +1377,7 @@ const lectureDoc2 = function () {
         document.querySelectorAll(".ld-light-table-slide-overlay").forEach((slideOverlay) => {
             const slideNo = slideOverlay.dataset.ldSlideNo;
             slideOverlay.addEventListener("click", () => {
-                hideSlide(state.currentSlideNo);
-                state.currentSlideNo = slideNo;
-                showSlide(state.currentSlideNo);
+                goToSlide(slideNo);
                 toggleDialog("light-table");
             });
         });
