@@ -33,7 +33,7 @@ const lectureDoc2Help = function () {
                 <tr></tr>
                 <tr><td>l</td><td>toggle light table</td></tr>
                 <tr></tr>
-                <tr><td>s</td><td>toggle slide number</td></tr>
+                <tr><td>n</td><td>toggle slide number</td></tr>
                 <tr class="ld-help-keys-category"><td colspan="2">Help</td></tr>
                 <tr><td>h</td><td>toggle help</td></tr>
                 <tr class="ld-help-keys-category"><td colspan="2">Printing</td></tr>

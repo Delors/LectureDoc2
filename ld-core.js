@@ -20,7 +20,7 @@
 */
 "use strict";
 
-const lectureDoc2_crypto = function () {
+const lectureDoc2Crypto = function () {
 
     // based on code found at https://github.com/themikefuller/Web-Cryptography
 
@@ -604,6 +604,7 @@ const lectureDoc2 = function () {
         document.getElementsByTagName("BODY")[0].prepend(lightTableDialog);
     }
 
+
     function setupHelp() {
         const help_dialog = document.createElement("DIALOG")
         help_dialog.id = "ld-help-dialog"
@@ -698,11 +699,54 @@ const lectureDoc2 = function () {
                 aside.parentElement.removeChild(aside);
                 continuousViewPane.appendChild(aside);
             }
+
+            // Move exercises below the slide:
+            slide.querySelectorAll(":scope .ld-exercise").forEach((e) => {
+                const solution = e.querySelector(":scope .ld-exercise-solution");
+                if (solution) {
+                    solution.parentElement.removeChild(solution);
+                    const task =  e.cloneNode(true);
+                    task.classList.add("ld-extracted-exercise");
+                    const solutionWrapper = document.createElement("DIV");
+                    solutionWrapper.className = "ld-exercise-solution-wrapper";
+                    const passwordField = document.createElement("INPUT");
+                    passwordField.type = "password";
+                    passwordField.placeholder = "🔑";
+                    solutionWrapper.appendChild(passwordField);
+                    solutionWrapper.appendChild(solution);
+                    task.append(solutionWrapper);
+                    continuousViewPane.appendChild(task);
+
+                    passwordField.addEventListener("input", (e) => {
+                        const currentPassword = e.target.value
+                        if (currentPassword.length > 2) {
+                            const decryptedPromise = lectureDoc2Crypto.decryptAESGCMPBKDF(
+                                solution.innerText.trim(), 
+                                currentPassword
+                            )
+                            console.log("trying to decrypt: " + currentPassword);
+                            decryptedPromise.then((decrypted) => {
+                                solution.innerHTML = decrypted;
+                                try {
+                                    MathJax.typeset();
+                                } catch (error) {
+                                    // actually, we don't care...   
+                                }
+                                solutionWrapper.removeChild(passwordField);
+                                solution.removeAttribute("encrypted");
+                            }).catch((error) => {
+                                console.log("wrong password: " + currentPassword);
+                            });
+                            
+                        }
+                    });
+                }
+            });
         });
 
         document.getElementsByTagName("BODY")[0].prepend(continuousViewPane);
     }
-
+    
 
     function setupMenu() {
         const menuPane = document.createElement("DIV");
@@ -729,11 +773,6 @@ const lectureDoc2 = function () {
             </div>
         `
         document.getElementsByTagName("BODY")[0].prepend(menuPane);
-    }
-
-    function setupExerciseSolutionsView() {
-        // Crypto: https://stackblitz.com/edit/webcrypto-encrypt-and-base64?file=index.ts
-        // TODO
     }
 
 
@@ -1304,7 +1343,7 @@ const lectureDoc2 = function () {
 
                     case "h": toggleDialog("help"); break;
 
-                    case "s": toggleSlideNumber(); break;
+                    case "n": toggleSlideNumber(); break;
 
                     case "c": toggleContinuousView(); break;
 
@@ -1682,7 +1721,6 @@ const lectureDoc2 = function () {
         setupJumpTargetDialog();
         setupContinuousView();
         setupMainPane();
-        setupExerciseSolutionsView();
         setupMenu();
 
         /*

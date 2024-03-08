@@ -195,8 +195,16 @@ div.ld-slide.new-subsection > h2 {
 }
 
 /* The solution will only be shown in the respective pane. */
-:is(#ld-continuous-view-pane, #ld-light-table-dialog, #ld-main-pane) .ld-exercise-solution{
+:is(#ld-light-table-dialog, #ld-main-pane) .ld-exercise-solution{
     display: none;
+}
+
+#ld-continuous-view-pane .ld-exercise-solution[encrypted]{
+    display: none;
+}
+
+.ld-exercise {
+    overflow: hidden;
 }
 
 
