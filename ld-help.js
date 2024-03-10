@@ -4,10 +4,9 @@ const lectureDoc2Help = function () {
     var div = document.createElement('div');
     div.id = "ld-help";
     div.innerHTML = `
-        <h1>LectureDoc<sup>2</sup></h1>
+        <h1><a href="https://github.com/Delors/LectureDoc2" target="_blank" rel="external noopener noreferrer">LectureDoc</a><sup>2</sup></h1>
         <p>
             <strong>Developed by M. Eichberg</strong><br>
-            <a href="https://github.com/Delors/LectureDoc" target="_blank" rel="external noopener noreferrer">LectureDoc<sup>2</sup> Website</a>
         </p>
         <p>
             <strong>Mouse Navigation</strong><br>
@@ -28,6 +27,8 @@ const lectureDoc2Help = function () {
                 <tr><td>b</td><td>toggle black screen</td></tr>
                 <tr><td>r</td><td>reset animation progress for current slide</td></tr>
                 <tr><td>r (5 times in a row)</td><td>reset all animations</td></tr>
+                <tr class="ld-help-keys-category"><td colspan="2">Presentation</td></tr>
+                <tr><td>w</td><td>open secondary (linked) window</td></tr>
                 <tr class="ld-help-keys-category"><td colspan="2">View</td></tr>
                 <tr><td>c</td><td>toggle continuous view</td></tr>
                 <tr></tr>
