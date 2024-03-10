@@ -2,7 +2,7 @@ Lecture Doc 2
 =============
 
 LectureDoc 2 is an authoring system for lecture slides which makes use of modern HTML, CSS and JavaScript. Lecture Doc is also very well suited to create normal presentations; its main target is however the creation of lecture slides.
-LectureDoc makes it trivial to embed math and source code by relying on established projects (e.g. MathJax and HiglightJS).
+LectureDoc makes it trivial to embed math and source code by relying on established projects (e.g. MathJax and HighlightJS).
 
 
 
