@@ -585,6 +585,7 @@ const lectureDoc2 = function () {
 
             const slidePane = document.createElement("DIV");
             slidePane.className = "ld-light-table-slide-pane";
+            slidePane.classList.add("ld-slide-context");
             slidePane.appendChild(slideScaler);
             slidePane.appendChild(slideOverlay);
 
@@ -647,6 +648,7 @@ const lectureDoc2 = function () {
     function setupMainPane() {
         const mainPane = document.createElement("DIV");
         mainPane.id = "ld-main-pane";
+        mainPane.className = "ld-slide-context";
 
         /* 
         Copies all slide(-template)s found in the document to the main pane.
@@ -688,6 +690,7 @@ const lectureDoc2 = function () {
                 <span class="ld-continuous-view-slide-number">${i+1}</span>
             `;
             slide_pane.className = "ld-continuous-view-slide-pane"
+            slide_pane.classList.add("ld-slide-context");
             slide_pane.id = "ld-continuous-view-slide-no-" + i;
             slide_pane.prepend(slide_scaler);
 
