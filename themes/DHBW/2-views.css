@@ -167,7 +167,7 @@
 
 /*  We only add numbers when we have more than one layer that is not an overlay layer.
 */
-.stack:has(.layer:not(.overlay):not(:first-child)) .layer:not(.overlay)::before {
+.stack:has(.layer:not(.overlay):not(:first-child)) .layer:not(.overlay):not(.no-number)::before {
     position: absolute;
     right: 0.6em;
     bottom: 0.35em;
