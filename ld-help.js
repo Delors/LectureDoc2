@@ -4,7 +4,7 @@ const lectureDoc2Help = function () {
     var div = document.createElement('div');
     div.id = "ld-help";
     div.innerHTML = `
-        <h1><a href="https://github.com/Delors/LectureDoc2" target="_blank" rel="external noopener noreferrer">LectureDoc</a><sup>2</sup></h1>
+        <h1><a href="https://github.com/Delors/LectureDoc2" target="_blank" rel="external noopener noreferrer" tabindex="1">LectureDoc</a><sup>2</sup></h1>
         <p>
             <strong>Developed by M. Eichberg</strong><br>
         </p>

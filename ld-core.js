@@ -560,7 +560,7 @@ const lectureDoc2 = function () {
                 />
             </div>
             <div id="ld-light-table-close">
-                <button id="ld-light-table-close-button" type="button">×</button>
+                <div id="ld-light-table-close-button" class="ld-close-button"></div>
             </div>
         `
         lightTableDialogContainer.appendChild(lightTableHeader)
@@ -615,7 +615,7 @@ const lectureDoc2 = function () {
                 <div id="ld-help-header">
                     <span id="ld-help-title">Help</span>
                     <div id="ld-help-close">
-                        <button id="ld-help-close-button" type="button">×</button>
+                        <div id="ld-help-close-button" class="ld-close-button"></div>
                     </div>
                 </div>`
             help_dialog.appendChild(lectureDoc2Help());
@@ -756,7 +756,7 @@ const lectureDoc2 = function () {
         menuPane.id = "ld-menu";
         menuPane.innerHTML = `
             <div id="ld-menu-buttons">
-                <!-- The icons are set using css. Using img overhere
+                <!-- The icons are set using css. Using img over here
                     would not work when the slides are opened locally
                     (due to the same-origin-policy) -->
                 <div id="ld-slides-button"></div>
@@ -772,7 +772,7 @@ const lectureDoc2 = function () {
                 <div id="ld-light-table-button"></div>
                 <div class="empty"></div>
                 <div class="empty"></div>
-                <div class="empty"></div>
+                <div id="ld-pwds-button"></div>
             </div>
         `
         document.getElementsByTagName("BODY")[0].prepend(menuPane);

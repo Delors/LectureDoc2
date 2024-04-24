@@ -12,7 +12,7 @@ body {
 }
 
 
-@media print { /* at least Safari seems to honor this setting...*/
+@media print { /* At least Safari seems to honor this setting... */
     :root {
         background-color: white;
         --ld-body-background-color: white;
@@ -57,6 +57,20 @@ body {
     background-color: rgb(193, 242, 69);
     box-shadow: 4px 4px 8px black;
     border-radius: 0.5em;
+}
+
+div.ld-close-button {
+    background-image: url('icons/white-cross.svg');
+    width: 18px;
+    height: 18px;
+    background-size: 18px;
+}
+
+div.ld-close-button:hover {
+    background-image: url('icons/black-cross-on-white.svg');
+    width: 18px;
+    height: 18px;
+    background-size: 18px;
 }
 
 
@@ -158,6 +172,7 @@ body {
     color: white;
 }
 
+/*
 #ld-help-close:hover #ld-help-close-button {
     background-color: white;
     color:  rgb(27, 26, 26);
@@ -166,7 +181,8 @@ body {
 #ld-help-close:hover {
     background-color: white;
     color: rgb(27, 26, 26);
-}   
+}
+*/  
 
 
 /*  ----------------------------------------------------------------------------
@@ -246,16 +262,6 @@ body {
     background-color: rgb(27, 26, 26);
     color: white;
 }
-
-#ld-light-table-close:hover #ld-light-table-close-button {
-    background-color: white;
-    color:  rgb(27, 26, 26);
-}
-
-#ld-light-table-close:hover {
-    background-color: white;
-    color: rgb(27, 26, 26);
-}   
 
 #ld-light-table-header-stretch {
     width: 100%;
