@@ -51,6 +51,8 @@ const lectureDoc2Crypto = function () {
 
     async function decrypt(encrypted, password) {
 
+        // console.log("trying to decrypt: " + encrypted + " with password: " + password);
+
         const parts = encrypted.split(':');
         const rounds = parseInt(atob(parts[0]));
 
