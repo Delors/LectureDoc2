@@ -29,19 +29,31 @@
  * Furthermore, a function to optimize the view for printing is provided.
  * 
  * All `lectureDoc2`related "modules" start with lectureDoc2.
+ * 
+ * @author Michael Eichberg
+ * @license BSD-3-Clause
  */
 const lectureDoc2 = function () {
 
-    function instantiate(library) {
+    /**
+     * A small wrapper to instantiate a LectureDoc2 related library.
+     */
+    function instantiate(library,required) {
         try {
             return library();
         } catch (error) {
             console.error(`LectureDoc2 ${library} missing`);
+            if (required) {
+                alert(`
+                    Cannot instantiate LectureDoc2 library: ${library}; 
+                    please contact the author.
+                `);
+            }
             return undefined;
         }
     }
 
-    const ld = instantiate(lectureDoc2Library);
+    const ld = instantiate(lectureDoc2Library,true);
     const ldCrypto = instantiate(lectureDoc2Crypto);
 
     /**
@@ -129,35 +141,48 @@ const lectureDoc2 = function () {
 
         showMainSlideNumber: false,
         showContinuousViewSlideNumber: false,
+
+        exercisesMasterPassword: "",
     }
 
 
-    /* The following information is only short lived and does not need
+    /**  
+     * Short lived information that does not need
      * to be preserved during reloads.
      */
     let ephermal = {
-        // The following information is related to animations.
+        // The following information is required to enable animations.
         previousSlide: undefined,
+        // The channel to communicate with other windows showing the same document.
         ldPerDocumentChannel: undefined,
     }
+
 
     /**
      * Small helper function to post messages to all windows showing the
      * same document. This enables us to use a second browser window 
      * for presentation purposes on a second screen.
      * 
-     * This is only supported if the webpage was served by a server and 
-     * the document has an id.
+     * The message is a tuple with the first element being the message and the
+     * second element the data.
+     * 
+     * Posting messages is only effective if the webpage was served by a server 
+     * and the document has an id. 
+     * 
+     * @param {string} msg the name of the message.
+     * @param {any} data the data to be sent; the concrete data is defined by the
+     *         message. 
      */
     function postMessage(msg, data) {
         if (ephermal.ldPerDocumentChannel) {
             ephermal.ldPerDocumentChannel.postMessage([msg, data]);
-
         }
     }
 
+
     /**
-     * Based on an element id, a document dependent unique id is created.
+     * Creates a document dependent unique id based on an element id and the
+     * document id.
      * 
      * This enables the storage of document dependent information in local
      * storage, even when all LectureDoc documents have the same origin and 
@@ -183,7 +208,7 @@ const lectureDoc2 = function () {
         if (presentation.id) {
             const jsonState = JSON.stringify(state)
             localStorage.setItem(documentSpecificId("state"), jsonState);
-            // console.debug(`${presentation.id} stated saved: ${jsonState}`)
+            console.debug(`${presentation.id} saved state: ${jsonState}`)
         }
     }
 
@@ -191,10 +216,11 @@ const lectureDoc2 = function () {
     /**
      * Stores the current state, when the page/document is hidden.
      * 
-     * Register this function as a listener of the document's visibility.
      * This enables us to restore the state even if the user "kills" the browser 
      * and therefore other events (e.g., "onunload") are not reliably fired. 
      * (See MDN for more details.)
+     *
+     * This function is registered as a listener of the document's visibility. 
      */
     function storeStateOnVisibilityHidden() {
         if (document.visibilityState === "hidden") {
@@ -225,8 +251,8 @@ const lectureDoc2 = function () {
     /**
      * Applies the current state to the presentation. 
      * 
-     * I.e., based on the state object's information all necessary methods will
-     * be called to ensure that the presentation state (open dialogs, 
+     * I.e., based on the state object's information all methods will be called that
+     * are necessary to ensure that the presentation state (open dialogs, 
      * presentation progress etc.) is as before.
      */
     function applyState() {
@@ -274,7 +300,7 @@ const lectureDoc2 = function () {
      * deleted.
      */
     function resetLectureDoc() {
-        postMessage("resetLectureDoc", undefined);
+        postMessage("resetLectureDoc");
         localResetLectureDoc();
     }
     function localResetLectureDoc() {
@@ -282,29 +308,9 @@ const lectureDoc2 = function () {
 
         // We need to remove the visibility listener first to avoid that 
         // the state is saved before/on a reload.
-        document.removeEventListener(
-            "visibilitychange",
-            storeStateOnVisibilityHidden);
+        document.removeEventListener("visibilitychange", storeStateOnVisibilityHidden);
         deleteStoredState();
         location.reload();
-    }
-
-
-    /**
-     * Converts a string in CSS notation into a variable name as used by
-     * JavaScript except that also the first character is also capitalized.
-     * 
-     * @param {string} a string in css notation; e.g., "light-table". 
-     * @returns The given string where each segment is capitalized. 
-     *      Segments are assumed to be separated using a dash ("-").
-     *      E.g., "light-table" => "LightTable"
-     *          
-     */
-    function capitalizeCSSName(str, separator = "-") {
-        return str.
-            split(separator).
-            map((e) => { return e[0].toUpperCase() + e.slice(1) }).
-            join("")
     }
 
 
@@ -319,15 +325,13 @@ const lectureDoc2 = function () {
     function setupCopyToClipboard() {
         document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
             const copyToClipboardButton = ld.div({ classes: ["ld-copy-to-clipboard-button"] });
-            //const copyToClipboardButton = document.createElement("div");
-            //copyToClipboardButton.classList.add("ld-copy-to-clipboard-button");
             code.insertBefore(copyToClipboardButton, code.firstChild);
         });
     }
 
 
     /**
-     * Reads the document from the documents meta information.
+     * Reads the document id from the documents meta information.
      */
     function initDocumentId() {
         try {
@@ -338,14 +342,6 @@ const lectureDoc2 = function () {
         }
     }
 
-    function getEncryptedExercisesPasswords() {
-        try {
-            return document.querySelector('meta[name="exercises-passwords"]').content;
-        } catch (error) {
-            console.info("no exercises specified or no master password set");
-            return undefined;
-        }
-    }
 
     /**
      * Parses the meta information about slide dimensions and initializes the
@@ -460,6 +456,17 @@ const lectureDoc2 = function () {
         }
     }
 
+
+    function getEncryptedExercisesPasswords() {
+        try {
+            return document.querySelector('meta[name="exercises-passwords"]').content;
+        } catch (error) {
+            console.info("no exercises specified or no master password set");
+            return undefined;
+        }
+    }
+
+
     function setupLightTable() {
         const lightTableDialog = ld.dialog({ id: "ld-light-table-dialog" });
         const lightTableDialogContainer = ld.div({ id: "ld-light-table-dialog-container", parent: lightTableDialog });
@@ -509,7 +516,7 @@ const lectureDoc2 = function () {
             </div>
         `
 
-        document.getElementsByTagName("BODY")[0].prepend(lightTableDialog);
+        ld.getBody().prepend(lightTableDialog);
     }
 
 
@@ -532,12 +539,17 @@ const lectureDoc2 = function () {
     }
 
     function createPasswordInput() {
-        const passwordElement = ld.create("INPUT", { classList: ["passwords"] });
-        //const passwordElement = document.createElement("INPUT");
-        //passwordElement.className = "passwords";
-        passwordElement.type = "password";
-        passwordElement.placeholder = "🔑";
-        return passwordElement
+        const passwordInput = ld.create("INPUT", { classList: ["passwords"] });
+        passwordInput.type = "password";
+        passwordInput.placeholder = "🔑";
+        // When the user has entered a password in the past, it may just be filled 
+        // in automatically. This makes it easier for the user to continue where she left.
+        // However, to make it possible to just press "return" to submit the "old"
+        // password; we simply fake an input event.
+        passwordInput.addEventListener("keydown", (e) => {
+            passwordInput.dispatchEvent(new Event('input',{ target: passwordInput }));
+        });
+        return passwordInput
     }
 
     function setupExercisesPasswordsDialog() {
@@ -551,7 +563,10 @@ const lectureDoc2 = function () {
                 </div>`
         const encryptedExercisesPasswords = getEncryptedExercisesPasswords();
         if (encryptedExercisesPasswords) {
-            const passwordInput = createPasswordInput();
+            const passwordInput = createPasswordInput();            
+            if(state.exercisesMasterPassword) {
+                passwordInput.value = state.exercisesMasterPassword;
+            } 
             const contentArea = ld.div({
                 id: 'ld-exercises-passwords-content',
                 parent: exercisesPasswordsDialog,
@@ -565,12 +580,26 @@ const lectureDoc2 = function () {
                         currentPassword
                     )
                     decryptedPromise.then((decrypted) => {
-                        //contentArea.innerText = decrypted;
+                        state.exercisesMasterPassword = currentPassword;
                         const decryptedPasswords = JSON.parse(decrypted);
-                        const pwds = ld.convertToTable(decryptedPasswords[1]["passwords"]);
+                        const exercisesPasswords = decryptedPasswords[1]["passwords"];
+                        const passwordsTable = 
+                            ld.convertToTable(
+                                exercisesPasswords,
+                                (i) => {
+                                    const div = ld.div({classes:["ld-unlock-global"]});
+                                    div.addEventListener("click",() => decryptExercise(i+1,exercisesPasswords[i][1]));
+                                    const td  = ld.create("td",{children : [div]});
+                                    return [td];
+                                }
+                            );
+                        for (let i = 0; i < exercisesPasswords.length; i++) {
+                            localDecryptExercise(i+1,exercisesPasswords[i][1]);
+                        }
                         contentArea.removeChild(passwordInput);
-                        contentArea.appendChild(pwds);
+                        contentArea.appendChild(passwordsTable);
                     }).catch((error) => {
+                        console.trace();
                         console.log("Decryption using password: " + currentPassword+" failed - "+error);
                     });
                 }
@@ -605,8 +634,75 @@ const lectureDoc2 = function () {
         document.getElementsByTagName("BODY")[0].prepend(slideNumberPane);
     }
 
+    function showsSlide() { 
+        return !state.showContinuousView && !state.showLightTable && !state.showHelp;
+    }
+
+
+    function showLaserPointer(slideX, slideY) {
+        postMessage("showLaserPointer", [slideX, slideY]);
+        localShowLaserPointer(slideX, slideY);
+    }
+
+    function localShowLaserPointer(slideX, slideY) {
+        if (!showsSlide()) return;
+
+        const currentSlide = getCurrentSlide();
+        const laserPointer = document.querySelector("#ld-laser-pointer");
+        const laserPointerStyle = laserPointer.style;
+        laserPointerStyle.left = (currentSlide.offsetLeft + slideX) + "px";
+        laserPointerStyle.top = (currentSlide.offsetTop + slideY) + "px";
+        laserPointer.style.scale = "initial";    
+    }
+
+    function hideLaserPointer() {
+        postMessage("hideLaserPointer", undefined);
+        localHideLaserPointer();
+    }
+
+    function localHideLaserPointer() {
+        document.querySelector("#ld-laser-pointer").style.scale = 0;
+    }
+
     function setupMainPane() {
-        const mainPane = ld.div({ id: "ld-main-pane", classes: ["ld-slide-context"] });
+        const laserPointer = ld.div({ id: "ld-laser-pointer" });
+        const mainPane = ld.div({ 
+            id: "ld-main-pane", 
+            classes: ["ld-slide-context"],
+            children: [laserPointer]});
+
+        mainPane.addEventListener(
+            'mousemove',
+            (event) => {
+                // By default, the laser pointer is positioned in the center and 
+                // also relative to the main pane.
+                const s = mainPane.style.scale
+                const innerW = window.innerWidth;
+                const innerH = window.innerHeight;
+                const w = presentation.slide.width;
+                const h = presentation.slide.height;
+                const sh = h * s;
+                const sw = w * s;
+
+                // Coordinates of the mouse pointer relative to the top left 
+                // corner of the slide. ATTENTION: we can't use the offset
+                // properties of the event object, because they are not
+                // necessarily relative to the main pane.
+                let slideX = (event.clientX - (innerW - sw) / 2) / s;
+                if (slideX < 0 || slideX >= w) slideX = undefined; // outside
+                let slideY = (event.clientY - (innerH - sh) / 2) / s;
+                if (slideY < 0 || slideY >= h) slideY = undefined; // outside
+                if (!slideX || !slideY) return; // outside
+
+                if (event.ctrlKey) {
+                    showLaserPointer(slideX, slideY);
+                    event.preventDefault();
+                }
+                else {
+                    hideLaserPointer();
+                }
+            },
+            false);
 
         /* 
         Copies all slide(-template)s found in the document to the main pane.
@@ -631,7 +727,52 @@ const lectureDoc2 = function () {
         document.getElementsByTagName("BODY")[0].prepend(mainPane);
     }
 
+    function decryptExercise(id,password) {
+        postMessage("decryptExercise", [id, password]);
+        localDecryptExercise(id,password);
+    }
 
+    function localDecryptExercise(id, password) {
+        console.log("decryptExercise: "+id+"; password: "+password);
+        const solutionWrapper = document.querySelector(`.ld-extracted-exercise[data-exercise-id='${id}'] .ld-exercise-solution-wrapper`);
+        const solution = solutionWrapper.querySelector(':scope .ld-exercise-solution');
+        tryDecryptExercise(password,solutionWrapper,solution);
+    }
+
+    /**
+     * Tries to decrypt an exercises solution.
+     * 
+     * @param string password The password that should be tried.
+     * @param element solutionWrapper
+     * @param element solution 
+     * @returns 
+     */
+    function tryDecryptExercise(password, solutionWrapper, solution) {
+        console.assert(solutionWrapper !== null);
+        console.assert(solution !== null);
+
+        if (!solution.hasAttribute("encrypted")) {
+            return;
+        }
+        const decryptedPromise = ldCrypto.decryptAESGCMPBKDF(
+            solution.innerText.trim(),
+            password
+        );
+        decryptedPromise.then((decrypted) => {
+            solution.innerHTML = decrypted;
+            try {
+                MathJax.typeset();
+            } catch (error) {
+                // actually, we don't care...   
+            }
+            // The first child is the input field!
+            solutionWrapper.firstElementChild.remove(); //Child(passwordField);
+            solution.removeAttribute("encrypted");
+        }).catch((error) => {
+            console.log("wrong password: " + password+ " - "+error);
+        });
+    }
+    
 
     function setupContinuousView() {
         const continuousViewPane = ld.div({ id: "ld-continuous-view-pane" });
@@ -680,22 +821,7 @@ const lectureDoc2 = function () {
                     passwordField.addEventListener("input", (e) => {
                         const currentPassword = e.target.value
                         if (currentPassword.length > 2) {
-                            const decryptedPromise = ldCrypto.decryptAESGCMPBKDF(
-                                solution.innerText.trim(),
-                                currentPassword
-                            )
-                            decryptedPromise.then((decrypted) => {
-                                solution.innerHTML = decrypted;
-                                try {
-                                    MathJax.typeset();
-                                } catch (error) {
-                                    // actually, we don't care...   
-                                }
-                                solutionWrapper.removeChild(passwordField);
-                                solution.removeAttribute("encrypted");
-                            }).catch((error) => {
-                                console.log("wrong password: " + currentPassword);
-                            });
+                            tryDecryptExercise(currentPassword, solutionWrapper, solution);
                         }
                     });
                 }
@@ -842,7 +968,8 @@ const lectureDoc2 = function () {
             // We have to clear a potential selection of text to avoid that the
             // user is confused if s(he) copies text to the clipboard (s)he can't 
             // see.
-            window.getSelection().empty()
+            window.getSelection().empty();
+            localHideLaserPointer();
         } else {
             ephermal.previousSlide = undefined;
         }
@@ -1091,7 +1218,7 @@ const lectureDoc2 = function () {
      */
     function toggleDialog(name) {
         const elementId = "ld-" + name + "-dialog"
-        const stateId = "show" + capitalizeCSSName(name)
+        const stateId = "show" + ld.capitalizeCSSName(name)
         let isShown = undefined;
 
         const dialog = document.getElementById(elementId)
@@ -1171,18 +1298,20 @@ const lectureDoc2 = function () {
     /**
      * Optimizes the view for printing purposes (i.e., converting the slides to 
      * PDF).
+     * 
+     * The following steps are performed:
      *
      * 1. close help dialog
      * 2. close light table
      * 3. hide "go to" dialog
-     * 1. use continuous view  
+     * 4. use continuous view  
      * 5. show slide numbers
      * 6. "MOST IMPORTANT" - scroll over the whole document to ensure that
      *    all slides are rendered properly; in particular those with 
-     *    stack-based layouts which are only rendered when they are first 
-     *    shown.
+     *    layouts which are only rendered when they are first shown; e.g, 
+     *    stack-based layouts.
      */
-    function optimizeViewForPrinting() {
+    function prepareForPrinting() {
         if (state.showHelp) toggleDialog("help");
         if (state.showLightTable) toggleLightTable();
         clearJumpTarget();
@@ -1311,7 +1440,7 @@ const lectureDoc2 = function () {
 
                     case "c": toggleContinuousView(); break;
 
-                    case "p": optimizeViewForPrinting(); break;
+                    case "p": prepareForPrinting(); break;
 
                     case "b": if (!wasHidden) hideLectureDoc(); break;
 
@@ -1721,8 +1850,8 @@ const lectureDoc2 = function () {
      */
     window.addEventListener("load", () => {
 
-        // we finally remove the the slide templates (i.e., the original slides)
-        // from the DOM 
+        // We finally remove the the slide templates (i.e., the original slides)
+        // from the DOM.
         document.querySelectorAll("body > div.ld-slide").forEach((slide) => {
             slide.style.display = "none";
         });
@@ -1772,6 +1901,15 @@ const lectureDoc2 = function () {
 
                     case "hideLectureDoc": localHideLectureDoc(); break;
                     case "ensureLectureDocIsVisible": localEnsureLectureDocIsVisible(); break;
+                    case "decryptExercise":
+                        const [id, password] = data;
+                        localDecryptExercise(id, password);
+                        break;
+                    case "showLaserPointer":
+                        const [slideX, slideY] = data;
+                        localShowLaserPointer(slideX, slideY);
+                        break;
+                    case "hideLaserPointer": localHideLaserPointer(); break;
 
                     //case "reset": ; break;
                     default:
@@ -1788,6 +1926,7 @@ const lectureDoc2 = function () {
         'presentation': presentation, // "constant"
         'getState': function () { return state; }, // the state object as a whole may change
         'getEphermal': function () { return ephermal; },
-        'preparePrinting': optimizeViewForPrinting,
+        'preparePrinting': prepareForPrinting,
     };
 }();
+
