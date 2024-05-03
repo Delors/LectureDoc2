@@ -1,3 +1,9 @@
 Icon
 *.rst.html
 *.rst.html.pdf
+
+# Node.js and JSDoc
+node_modules
+package-lock.json
+package.json
+jsdoc
