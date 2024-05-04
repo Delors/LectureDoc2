@@ -35,10 +35,11 @@ const lectureDoc2Library = function () {
         return dialog;
     };
 
-    function div ({ id = undefined, classes = undefined, parent = undefined, children = undefined }) {
+    function div ({ id = undefined, classes = undefined, parent = undefined, children = undefined, innerHTML = undefined}) {
         const div = document.createElement('div');
         if (id) div.id = id;
         if (classes) div.classList.add(...classes);
+        if (innerHTML) div.innerHTML = innerHTML;
         if (parent) parent.appendChild(div);
         if (children) div.append(...children);
         return div;

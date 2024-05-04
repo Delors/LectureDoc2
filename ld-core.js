@@ -24,7 +24,7 @@
 /**
  * The main "module" of LectureDoc2.
  * 
- * lectureDoc2 is an object which contains a reference to the meta-information
+ * `lectureDoc2` is an object which contains a reference to the meta-information
  * object (presentation) and a function (getState) to return the current state.
  * Furthermore, a function to optimize the view for printing is provided.
  * 
@@ -263,7 +263,7 @@ const lectureDoc2 = function () {
             state.currentSlideNo = slideCount;
             console.info(`slide number: ${slideCount}`);
         }
-        showSlide(state.currentSlideNo);
+        showSlideWithNo(state.currentSlideNo);
 
         updateLightTableZoomLevel(state.lightTableZoomLevel);
         if (state.showLightTable) { toggleLightTable(); }
@@ -469,24 +469,28 @@ const lectureDoc2 = function () {
 
     function setupLightTable() {
         const lightTableDialog = ld.dialog({ id: "ld-light-table-dialog" });
-        const lightTableDialogContainer = ld.div({ id: "ld-light-table-dialog-container", parent: lightTableDialog });
+        const lightTableDialogContainer = ld.div({ 
+            id: "ld-light-table-dialog-container", 
+            parent: lightTableDialog });
 
-        const lightTableHeader = ld.div({ classes: ["ld-dialog-header"], parent: lightTableDialogContainer });
-        lightTableHeader.innerHTML = `
-            <span id="ld-light-table-slides-count">${presentation.slideCount} slides</span>
-            <div id="ld-light-table-search" >
-                <input
-                type="search"
-                id="ld-light-table-search-input"
-                name="q"
-                placeholder="Search slide with text..."
-                tabindex ="-1"
-                />
-            </div>
-            <div class="ld-dialog-close">
-                <div id="ld-light-table-close-button" class="ld-dialog-close-button"></div>
-            </div>
-        `
+        const lightTableHeader = ld.div({
+            classes: ["ld-dialog-header"],
+            parent: lightTableDialogContainer,
+            innerHTML: `
+                <span id="ld-light-table-slides-count">${presentation.slideCount} slides</span>
+                <div id="ld-light-table-search" >
+                    <input
+                    type="search"
+                    id="ld-light-table-search-input"
+                    name="q"
+                    placeholder="Find ..."
+                    tabindex ="-1"
+                    />
+                </div>
+                <div class="ld-dialog-close">
+                    <div id="ld-light-table-close-button" class="ld-dialog-close-button"></div>
+                </div>
+            `});
 
         const lightTableSlides = ld.div({ id: "ld-light-table-slides", parent: lightTableDialogContainer });
 
@@ -743,9 +747,8 @@ const lectureDoc2 = function () {
      * Tries to decrypt an exercises solution.
      * 
      * @param string password The password that should be tried.
-     * @param element solutionWrapper
-     * @param element solution 
-     * @returns 
+     * @param HTMLDivElement solutionWrapper
+     * @param HTMLDivElement solution 
      */
     function tryDecryptExercise(password, solutionWrapper, solution) {
         console.assert(solutionWrapper !== null);
@@ -754,11 +757,10 @@ const lectureDoc2 = function () {
         if (!solution.hasAttribute("encrypted")) {
             return;
         }
-        const decryptedPromise = ldCrypto.decryptAESGCMPBKDF(
+        ldCrypto.decryptAESGCMPBKDF(
             solution.innerText.trim(),
             password
-        );
-        decryptedPromise.then((decrypted) => {
+        ).then((decrypted) => {
             solution.innerHTML = decrypted;
             try {
                 MathJax.typeset();
@@ -784,14 +786,13 @@ const lectureDoc2 = function () {
             const slideScaler = ld.div({ classes: ["ld-continuous-view-scaler"] });
             slideScaler.appendChild(slide);
 
-            const slidePane = document.createElement("DIV");
-            slidePane.innerHTML = `
-                <span class="ld-continuous-view-slide-number">${i + 1}</span>
-            `;
-            slidePane.className = "ld-continuous-view-slide-pane"
-            slidePane.classList.add("ld-slide-context");
-            slidePane.id = "ld-continuous-view-slide-no-" + i;
+            const slidePane = ld.div({
+                classes: ["ld-continuous-view-slide-pane", "ld-slide-context"],
+                id: "ld-continuous-view-slide-no-" + i,
+                innerHTML : `<span class="ld-continuous-view-slide-number">${i + 1}</span>`
+            });
             slidePane.prepend(slideScaler);
+            
 
             continuousViewPane.appendChild(slidePane);
 
@@ -898,9 +899,9 @@ const lectureDoc2 = function () {
         document.querySelector("body").prepend(message);
     }
 
-    function showMessage(htmMessage, ms = 3000) {
+    function showMessage(htmlMessage, ms = 3000) {
         const messageBox = document.querySelector("#ld-message-box");
-        messageBox.innerHTML = htmMessage;
+        messageBox.innerHTML = htmlMessage;
         messageBox.show();
         setTimeout(() => { messageBox.close() }, ms);
     }
@@ -931,24 +932,28 @@ const lectureDoc2 = function () {
      * using this and the `hideSlide` method. This ensures that the internal
      * state is correctly updated!
      */
-    function showSlide(slideNo, setNewMarker = false) {
+    function showSlideWithNo(slideNo, setNewMarker = false) {
         if (typeof (slideNo) == "string" || slideNo instanceof String) {
             slideNo = parseInt(slideNo);
         }
-
         const slideId = "ld-slide-no-" + slideNo;
         const ldSlide = document.getElementById(slideId)
+        return showSlide(ldSlide, setNewMarker);
+    }
+
+    function showSlide(ldSlide, setNewMarker = false) {
         /* We now want to use the style based display property again: */
         ldSlide.style.removeProperty("display");
         ldSlide.style.scale = 1;
         if (setNewMarker)
             ldSlide.classList.add("ld-current-slide");
-
+        const slideNo = ldSlide.dataset.ldSlideNo
         state.currentSlideNo = slideNo;
         document.getElementById("ld-slide-number").innerText = slideNo + 1;
+        return ldSlide;
     }
 
-    function hideSlide(slideNo, setOldMarker = false) {
+    function hideSlideWithNo(slideNo, setOldMarker = false) {
         if (ephermal.previousSlide) {
             ephermal.previousSlide.classList.remove("ld-previous-slide");
             /* When we simply "keep" all slides in the DOM, we have a significant
@@ -986,8 +991,8 @@ const lectureDoc2 = function () {
     }
     function localMoveToNextSlide() {
         if (state.currentSlideNo < lastSlideNo()) {
-            hideSlide(state.currentSlideNo, true);
-            showSlide(++state.currentSlideNo, true);
+            hideSlideWithNo(state.currentSlideNo, true);
+            showSlideWithNo(++state.currentSlideNo, true);
         }
     }
 
@@ -997,8 +1002,8 @@ const lectureDoc2 = function () {
     }
     function localMoveToPreviousSlide() {
         if (state.currentSlideNo > 0) {
-            hideSlide(state.currentSlideNo)
-            showSlide(--state.currentSlideNo)
+            hideSlideWithNo(state.currentSlideNo)
+            showSlideWithNo(--state.currentSlideNo)
         }
     }
 
@@ -1158,19 +1163,24 @@ const lectureDoc2 = function () {
             if (state.showContinuousView) {
                 window.scrollTo(0, document.getElementById("ld-continuous-view-slide-no-" + targetSlideNo).offsetTop);
             } else {
-                goToSlide(targetSlideNo);
+                goToSlideWithNo(targetSlideNo);
             }
         }
     }
 
-    function goToSlide(targetSlideNo) {
+    function goToSlideWithNo(targetSlideNo) {
         postMessage("goToSlide", targetSlideNo);
-        localGoToSlide(targetSlideNo);
+        return localGoToSlideWithNo(targetSlideNo);
     }
 
-    function localGoToSlide(targetSlideNo) {
-        hideSlide(state.currentSlideNo);
-        showSlide(targetSlideNo);
+    function localGoToSlideWithNo(targetSlideNo) {
+        hideSlideWithNo(state.currentSlideNo);
+        return showSlideWithNo(targetSlideNo);
+    }
+
+    function localGoToSlide(targetSlide) {
+        hideSlideWithNo(state.currentSlideNo);
+        return showSlide(targetSlide);
     }
 
     function updateLightTableZoomLevel(value) {
@@ -1457,6 +1467,26 @@ const lectureDoc2 = function () {
                         window.open(window.document.URL, "_blank");
                         break;
 
+                    case "t":
+                        // Work in progress:
+                        const topics = document.querySelectorAll("body>div.ld-slide:where(.new-section,.new-subsection)")
+                        let level = 1;
+                        let s = "<ol>"
+                        for (const topic of topics) {
+                            const newLevel = topic.classList.contains("new-section") ? 1 : 2;
+                            if (newLevel > level) {
+                                s += "<ol>";
+                            }
+                            if (newLevel < level) {
+                                s += "</ol>";
+                            }
+                            s += "<li>" + topic.querySelector("h1,h2").innerHTML + "</li>";
+                            level = newLevel;
+                        }
+                        s += "</ol>"
+                        showMessage(s, 10000);
+                        break;
+
                     // for development purposes:
                     default:
                         console.debug("unhandled: " + event.key);
@@ -1489,9 +1519,7 @@ const lectureDoc2 = function () {
         document.querySelectorAll("#ld-main-pane :is(a,div.ld-copy-to-clipboard-button)").forEach((a) => {
             a.addEventListener(
                 "click",
-                (event) => {
-                    event["link_clicked"] = true;
-                },
+                (event) => {event["link_clicked"] = true;},
                 { capture: true }
             )
         });
@@ -1520,78 +1548,96 @@ const lectureDoc2 = function () {
     /**
      * @param str id The unique id of the target element on a slide!
      */
-    function jumpToSlideWithElementWithId(id) {
-        postMessage("jumpToSlideWithElementWithId", id);
-        localJumpToSlideWithElementWithId(id);
-    }
     function localJumpToSlideWithElementWithId(id) {
-        const slide = document.querySelector(`#ld-main-pane .ld-slide:has(${id})`);
-        if (slide) {
-            localGoToSlide(slide.dataset.ldSlideNo);
-        } else {
-            console.warn("invalid jump target: " + id);
-            return;
+
+        const slide = document.querySelector(`#ld-main-pane .ld-slide:has(#${id})`);
+        if (!slide) {
+            return undefined;
         }
+        localGoToSlide(slide);
 
         // ensure that all elements up to the target element are visible.
-        const target = document.querySelector(`#ld-main-pane .ld-slide ${id}`);
+        const target = document.querySelector(`#ld-main-pane .ld-slide #${id}`);
         while (getComputedStyle(target).visibility == "hidden") {
             localAdvancePresentation();
         }
+        return slide;
     }
 
-    function jumpToSlideWithDataId(id) {
-        postMessage("jumpToSlideWithDataId", id);
-        localJumpToSlideWithDataId(id);
-    }
     /**
      * @param str id The original id saved in the data-id attribute of the slide!
      */
-    function localJumpToSlideWithDataId(id) {
+    function localJumpToSlideWithId(id) {
         const slide = document.querySelector(`#ld-main-pane .ld-slide[data-id="${id}"]`);
-        if (slide) {
-            localGoToSlide(slide.dataset.ldSlideNo);
-        } else {
+        if (!slide) {
+            return undefined;
+        }
+        return localGoToSlide(slide);
+    }
+
+
+    function localJumpToId(id) {
+        const slide = (localJumpToSlideWithId(id) || localJumpToSlideWithElementWithId(id));
+        if (!slide) {
             console.warn("invalid jump target: " + id);
-            return;
+            return undefined;
+        }
+        return slide
+    }
+
+    function jumpToId(id) {
+        console.assert(!id.startsWith("#"))
+        console.log("jump to id: " + id);
+
+        if (localJumpToId(id)) {
+            postMessage("jumpToId", id);
         }
     }
 
+
     function registerSlideInternalLinkClickedListener() {
-        /*
-            Handle links to other slides.
-        */
+        // Handle links to "other" slides, the bibliography and also back-links.
         document.
-            querySelectorAll("#ld-main-pane a.reference.internal").
+            querySelectorAll('#ld-main-pane a:where(.reference.internal, .citation-reference, [role="doc-backlink"]').
             forEach((a) => {
                 a.addEventListener("click", (event) => {
                     event.stopPropagation();
-                    const target = a.getAttribute("href");
-                    jumpToSlideWithDataId(target.substring(1));
+                    const target = a.getAttribute("href").substring(1);
+                    jumpToId(target);
                 })
             });
 
-        /*
-        Handle links related to the bibliography.
-        */
-        document.
-            querySelectorAll("#ld-main-pane a.citation-reference").
-            forEach((a) => {
-                a.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    const target = a.getAttribute("href");
-                    jumpToSlideWithElementWithId(target);
-                })
-            });
-        document.
-            querySelectorAll('#ld-main-pane a[role="doc-backlink"]').
-            forEach((a) => {
-                a.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    const target = a.getAttribute("href");
-                    jumpToSlideWithElementWithId(target);
-                })
-            });
+
+        // // Handle links to other slides in the document.
+        // document.
+        //     querySelectorAll("#ld-main-pane a.reference.internal").
+        //     forEach((a) => {
+        //         a.addEventListener("click", (event) => {
+        //             event.stopPropagation();
+        //             const target = a.getAttribute("href");
+        //             jumpToElementWithId(target.substring(1));
+        //         })
+        //     });
+
+        // // Handle links related to the bibliography.
+        // document.
+        //     querySelectorAll("#ld-main-pane a.citation-reference").
+        //     forEach((a) => {
+        //         a.addEventListener("click", (event) => {
+        //             event.stopPropagation();
+        //             const target = a.getAttribute("href");
+        //             jumpToSlideWithElementWithId(target);
+        //         })
+        //     });
+        // document.
+        //     querySelectorAll('#ld-main-pane a[role="doc-backlink"]').
+        //     forEach((a) => {
+        //         a.addEventListener("click", (event) => {
+        //             event.stopPropagation();
+        //             const target = a.getAttribute("href");
+        //             jumpToSlideWithElementWithId(target);
+        //         })
+        //     });
     }
 
     function registerCopyToClipboardClickedListener() {
@@ -1618,7 +1664,7 @@ const lectureDoc2 = function () {
         document.querySelectorAll(".ld-light-table-slide-overlay").forEach((slideOverlay) => {
             const slideNo = slideOverlay.dataset.ldSlideNo;
             slideOverlay.addEventListener("click", () => {
-                goToSlide(slideNo);
+                goToSlideWithNo(slideNo);
                 toggleDialog("light-table");
             });
         });
@@ -1891,9 +1937,8 @@ const lectureDoc2 = function () {
                     case "retrogressPresentation": localRetrogressPresentation(); break;
                     case "moveToPreviousSlide": localMoveToPreviousSlide(); break;
                     case "moveToNextSlide": localMoveToNextSlide(); break;
-                    case "goToSlide": localGoToSlide(data); break;
-                    case "jumpToSlideWithDataId": localJumpToSlideWithDataId(data); break;
-                    case "jumpToSlideWithElementWithId": localJumpToSlideWithElementWithId(data); break;
+                    case "goToSlide": localGoToSlideWithNo(data); break;
+                    case "jumpToId": localJumpToId(data); break;
 
                     case "resetCurrentSlideProgress": localResetCurrentSlideProgress(); break;
                     case "resetAllAnimations": localResetAllAnimations(); break;
