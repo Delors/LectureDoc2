@@ -947,7 +947,7 @@ const lectureDoc2 = function () {
         ldSlide.style.scale = 1;
         if (setNewMarker)
             ldSlide.classList.add("ld-current-slide");
-        const slideNo = ldSlide.dataset.ldSlideNo
+        const slideNo = Number(ldSlide.dataset.ldSlideNo)
         state.currentSlideNo = slideNo;
         document.getElementById("ld-slide-number").innerText = slideNo + 1;
         return ldSlide;
