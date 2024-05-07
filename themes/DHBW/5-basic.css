@@ -221,6 +221,11 @@ div.text-align-left {
     margin-left: 1em;
 }
 
+.margin-left-2em {
+    margin-left: 2em;
+}
+
+
 .no-padding,
 .padding-none {
     padding: 0;
