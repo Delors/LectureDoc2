@@ -301,8 +301,6 @@ div.ld-dialog-close-button:hover {
 
 
 
-
-
 /*  ----------------------------------------------------------------------------
 
     Styling the laser pointer.
@@ -320,4 +318,25 @@ div.ld-dialog-close-button:hover {
     pointer-events: none;
     transition: scale 300ms;
     mix-blend-mode: difference;
+}
+
+
+/*  ----------------------------------------------------------------------------
+
+    Styling the table of contents dialog.
+*/
+
+#ld-table-of-contents-dialog ol {
+    background-color: white;
+    margin: 0.5em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    list-style-position: inside;
+    border-top: 0px;
+    border-bottom: 0px;
+}
+
+#ld-table-of-contents-dialog ol ol {
+    padding-top: 0;
+    padding-bottom: 0;
 }

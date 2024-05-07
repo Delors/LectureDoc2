@@ -57,6 +57,25 @@ const lectureDoc2 = function () {
     const ldCrypto = instantiate(lectureDoc2Crypto);
 
     /**
+     * Load the advanced animations package if available.
+     * 
+     * The animations package is expected to be an object with the following
+     * keys and values:
+     *   "beforeLDDOMManipulations": <function beforeLDDOMManipulations()>,
+     *   "afterLDDOMManipulations": <function afterLDDOMManipulations()>,
+     *   "afterLDListenerRegistrations": <function afterLDListenerRegistrations()>
+     * 
+     * These methods will be called at the appropriate times.
+     */
+    var animations = undefined;
+    try {
+        animations = lectureDoc2Animations;
+    } catch (error) {
+        console.warn("failed loading advanced animations module: " + error)
+    }
+
+
+    /**
      * The meta-information about the document.
      * 
      * The following information is read from the document or initialized
@@ -127,19 +146,20 @@ const lectureDoc2 = function () {
         // stores for each slide the number of executed animation steps
         slideProgress: {},
 
+        showMainSlideNumber: false,
+
         // Help dialog related state
         showHelp: false,
+        showTableOfContents: false,
 
         // Light table related state
         showLightTable: false, // "actually" set by document or by default in presentation
         lightTableZoomLevel: 0.2,
-        lightTableViewScrollY: 0, // FIXME use different approach this one depends on the size of viewport ...
+        lightTableViewScrollY: 0, // FIXME use approach which doesn't depend on viewport size
 
         // Continuous view related state
         showContinuousView: true, // "actually" set by document or by default in presentation
         continuousViewScrollY: 0,
-
-        showMainSlideNumber: false,
         showContinuousViewSlideNumber: false,
 
         exercisesMasterPassword: "",
@@ -269,6 +289,7 @@ const lectureDoc2 = function () {
         if (state.showLightTable) { toggleLightTable(); }
 
         if (state.showHelp) toggleDialog("help");
+        if (state.showTableOfContents) toggleDialog("table-of-contents");
 
         if (state.showContinuousView) toggleContinuousView();
         if (state.showContinuousViewSlideNumber) {
@@ -311,22 +332,6 @@ const lectureDoc2 = function () {
         document.removeEventListener("visibilitychange", storeStateOnVisibilityHidden);
         deleteStoredState();
         location.reload();
-    }
-
-
-    /**
-     * Adds a div (button) to the DOM to allow the user to copy the content of
-     * code blocks.
-     * 
-     * To make "copy-to-clipboard" functionality work in all views, this 
-     * function needs to be called before the slides are duplicated per the
-     * respective view.
-     */
-    function setupCopyToClipboard() {
-        document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
-            const copyToClipboardButton = ld.div({ classes: ["ld-copy-to-clipboard-button"] });
-            code.insertBefore(copyToClipboardButton, code.firstChild);
-        });
     }
 
 
@@ -374,8 +379,7 @@ const lectureDoc2 = function () {
      * This method has to be called before the slides are copied.
      */
     function initSlideCount() {
-        presentation.slideCount =
-            document.querySelectorAll("body>div.ld-slide").length
+        presentation.slideCount = document.querySelectorAll("body>div.ld-slide").length
     }
 
     /**
@@ -458,12 +462,29 @@ const lectureDoc2 = function () {
 
 
     function getEncryptedExercisesPasswords() {
-        try {
-            return document.querySelector('meta[name="exercises-passwords"]').content;
-        } catch (error) {
+        const exercisesPasswords = document.querySelector('meta[name="exercises-passwords"]');
+        if (exercisesPasswords) {
+            return exercisesPasswords.content;
+    }else {
             console.info("no exercises specified or no master password set");
             return undefined;
         }
+    }
+
+
+       /**
+     * Adds a div (button) to the DOM to allow the user to copy the content of
+     * code blocks.
+     * 
+     * To make "copy-to-clipboard" functionality work in all views, this 
+     * function needs to be called before the slides are duplicated per the
+     * respective view.
+     */
+       function setupCopyToClipboard() {
+        document.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
+            const copyToClipboardButton = ld.div({ classes: ["ld-copy-to-clipboard-button"] });
+            code.insertBefore(copyToClipboardButton, code.firstChild);
+        });
     }
 
 
@@ -541,6 +562,47 @@ const lectureDoc2 = function () {
 
         document.getElementsByTagName("BODY")[0].prepend(helpDialog);
     }
+
+    function setupTableOfContents() {
+        const topics = document.querySelectorAll("body>div.ld-slide:where(.new-section,.new-subsection)")
+        let level = 1;
+        let s = "<ol>"
+        for (const topic of topics) {
+            const newLevel = topic.classList.contains("new-section") ? 1 : 2;
+            if (newLevel > level) {
+                s += "<ol>";
+            }
+            if (newLevel < level) {
+                s += "</ol>";
+            }
+            s += `<li><a href="#${topic.id}">`
+            s += topic.querySelector("h1,h2").innerHTML 
+            s += "</a></li>";
+            level = newLevel;
+        }
+        s += "</ol>"
+
+        const tocDialog = ld.dialog({ id: "ld-table-of-contents-dialog" });
+        tocDialog.innerHTML = `
+            <div class="ld-dialog-header">
+                <span class="ld-dialog-title">Table of Contents</span>
+                <div class="ld-dialog-close">
+                    <div id="ld-table-of-contents-close-button" class="ld-dialog-close-button"></div>
+                </div>
+            </div>
+            ${s}`
+
+        document.getElementsByTagName("BODY")[0].prepend(tocDialog);
+        document.
+            querySelector("#ld-table-of-contents-close-button").
+            addEventListener("click", toggleTableOfContents);
+        tocDialog.querySelectorAll(":scope a").
+            forEach((a) => {
+                console.log("registering link listener for: "+a);
+                registerInternalLinkClickListener(a, toggleTableOfContents)
+            });
+    }
+
 
     function createPasswordInput() {
         const passwordInput = ld.create("INPUT", { classList: ["passwords"] });
@@ -691,7 +753,7 @@ const lectureDoc2 = function () {
                 // Coordinates of the mouse pointer relative to the top left 
                 // corner of the slide. ATTENTION: we can't use the offset
                 // properties of the event object, because they are not
-                // necessarily relative to the main pane.
+                // necessarily relative to the slide as a whole.
                 let slideX = (event.clientX - (innerW - sw) / 2) / s;
                 if (slideX < 0 || slideX >= w) slideX = undefined; // outside
                 let slideY = (event.clientY - (innerH - sh) / 2) / s;
@@ -849,7 +911,7 @@ const lectureDoc2 = function () {
                 <div id="ld-continuous-view-button"></div>
                 <div id="ld-continuous-view-with-nr-button"></div>
                 <div class="empty"></div>
-                <div class="empty"></div>
+                <div id="ld-table-of-contents-button"></div>
                     
                 <div id="ld-light-table-button"></div>
                 <div class="empty"></div>
@@ -906,6 +968,7 @@ const lectureDoc2 = function () {
         setTimeout(() => { messageBox.close() }, ms);
     }
 
+    
 
     /**
      * @returns The element ("DIV") with the ID of the current slide.
@@ -1054,6 +1117,11 @@ const lectureDoc2 = function () {
         for (let i = 0; i < elementsCount; i++) {
             if (elements[i].style.visibility == "hidden") {
                 elements[i].style.visibility = "visible";
+                elements[i].scrollIntoView({ // needed by scrollable containers
+                    block: "end", 
+                    inline: "nearest", 
+                    behavior: "smooth"
+                }); 
                 setSlideProgress(slide, i + 1)
                 return;
             }
@@ -1074,9 +1142,21 @@ const lectureDoc2 = function () {
                 i = elementsToAnimate.length - 1;
             }
             if (i > 0) {
-                i = i - 1;
+                i--;
                 elementsToAnimate[i].style.visibility = "hidden";
                 setSlideProgress(slide, i);
+                i--;
+                if (i > 0) {
+                    elementsToAnimate[i].scrollIntoView({ // needed by scrollable containers
+                        block: "end", 
+                        inline: "nearest", 
+                        behavior: "smooth"
+                    }); 
+                } else {
+                    slide.querySelectorAll(":scope .scrollable").forEach((e) => {
+                        e.scrollTo({ top: 0, left: 0, behavior: "smooth", });
+                    });
+                }
                 return;
             }
         }
@@ -1085,6 +1165,8 @@ const lectureDoc2 = function () {
     }
     function hideAllAnimatedElements(slide) {
         getElementsToAnimate(slide).forEach((e) => e.style.visibility = "hidden");
+
+        slide.querySelectorAll(":scope .scrollable").forEach((e) => { e.scrollTo(0, 0); });
     }
 
     function resetCurrentSlideProgress() {
@@ -1216,11 +1298,16 @@ const lectureDoc2 = function () {
         setTimeout(() => { toggleDialog("exercises-passwords") });
     }
 
+    
+
+    function toggleTableOfContents() {
+        toggleDialog("table-of-contents");
+    }
 
     /**
      * Toggles a modal dialog. 
      * 
-     * @param {string} name The name of the dialog in css notation; e.g., "light-table". 
+     * @param {string} name - The name of the dialog in css notation; e.g., "light-table". 
      *      The name is used to identify the dialog element after prepending "ld-" 
      *      and appending "-dialog".
      *      The name is also used to identify the key in the state object that is used
@@ -1468,23 +1555,7 @@ const lectureDoc2 = function () {
                         break;
 
                     case "t":
-                        // Work in progress:
-                        const topics = document.querySelectorAll("body>div.ld-slide:where(.new-section,.new-subsection)")
-                        let level = 1;
-                        let s = "<ol>"
-                        for (const topic of topics) {
-                            const newLevel = topic.classList.contains("new-section") ? 1 : 2;
-                            if (newLevel > level) {
-                                s += "<ol>";
-                            }
-                            if (newLevel < level) {
-                                s += "</ol>";
-                            }
-                            s += "<li>" + topic.querySelector("h1,h2").innerHTML + "</li>";
-                            level = newLevel;
-                        }
-                        s += "</ol>"
-                        showMessage(s, 10000);
+                        toggleTableOfContents();
                         break;
 
                     // for development purposes:
@@ -1594,19 +1665,20 @@ const lectureDoc2 = function () {
         }
     }
 
+    function registerInternalLinkClickListener(a,f) {
+        a.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const target = a.getAttribute("href").substring(1);
+            jumpToId(target);
+            if (f) f();
+        })
+    }
 
     function registerSlideInternalLinkClickedListener() {
         // Handle links to "other" slides, the bibliography and also back-links.
         document.
-            querySelectorAll('#ld-main-pane a:where(.reference.internal, .citation-reference, [role="doc-backlink"]').
-            forEach((a) => {
-                a.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    const target = a.getAttribute("href").substring(1);
-                    jumpToId(target);
-                })
-            });
-
+            querySelectorAll('#ld-main-pane a:where(.reference.internal, .citation-reference, [role="doc-backlink"])').
+            forEach(registerInternalLinkClickListener)
 
         // // Handle links to other slides in the document.
         // document.
@@ -1770,6 +1842,9 @@ const lectureDoc2 = function () {
         document.
             querySelector("#ld-exercises-passwords-button").
             addEventListener("click", toggleExercisesPasswordsDialog);
+
+        document.querySelector("#ld-table-of-contents-button").onclick = toggleTableOfContents;
+            
     }
 
 
@@ -1811,25 +1886,6 @@ const lectureDoc2 = function () {
         }, false);
     }
 
-
-    /**
-     * Load the advanced animations package if available.
-     * 
-     * The animations package is expected to be an object with the following
-     * keys and values:
-     *   "beforeLDDOMManipulations": <function beforeLDDOMManipulations()>,
-     *   "afterLDDOMManipulations": <function afterLDDOMManipulations()>,
-     *   "afterLDListenerRegistrations": <function afterLDListenerRegistrations()>
-     * 
-     * These methods will be called at the appropriate times.
-     */
-    var animations = undefined;
-    try {
-        animations = lectureDoc2Animations;
-    } catch (error) {
-        console.warn("failed loading advanced animations module: " + error)
-    }
-
     /**
      * Queries and manipulates the DOM to setup LectureDoc and bring the 
      * presentation to the last state.
@@ -1868,6 +1924,7 @@ const lectureDoc2 = function () {
         setupMessageBox();
         setupLightTable();
         setupExercisesPasswordsDialog();
+        setupTableOfContents();
         setupHelp();
         setupSlideNumberPane();
         setupJumpTargetDialog();
