@@ -265,6 +265,13 @@ const lectureDoc2 = function () {
                 // console.debug(`${presentation.id} no previous state found`);
             }
         }
+
+        // Check if the user wants to start the presentation at a specific slide.
+        const params = new URL(document.location).searchParams;
+        const ldSlideNo = params.get("ld-slide-no"); 
+        if (ldSlideNo) {
+            state.currentSlideNo = Number(ldSlideNo)-1;
+        }
     }
 
 
@@ -653,9 +660,12 @@ const lectureDoc2 = function () {
                             ld.convertToTable(
                                 exercisesPasswords,
                                 (i) => {
+                                    // FIXME make this a button
                                     const div = ld.div({classes:["ld-unlock-global"]});
-                                    div.addEventListener("click",() => decryptExercise(i+1,exercisesPasswords[i][1]));
-                                    const td  = ld.create("td",{children : [div]});
+                                    div.addEventListener(
+                                        "click",
+                                        () => decryptExercise(i+1,exercisesPasswords[i][1]));
+                                    const td = ld.create("td",{children : [div]});
                                     return [td];
                                 }
                             );
@@ -666,11 +676,12 @@ const lectureDoc2 = function () {
                         contentArea.appendChild(passwordsTable);
                     }).catch((error) => {
                         console.trace();
-                        console.log("Decryption using password: " + currentPassword+" failed - "+error);
+                        console.log("Decryption using: " + currentPassword + " failed - " + error);
                     });
                 }
             });
         } else {
+            // TODO use em instead of b
             ld.div({ parent: exercisesPasswordsDialog }).innerHTML = `
                 <div id="ld-exercises-passwords-content">
                     <b>This document has no exercises or the master password is not set.</b>
@@ -1013,6 +1024,13 @@ const lectureDoc2 = function () {
         const slideNo = Number(ldSlide.dataset.ldSlideNo)
         state.currentSlideNo = slideNo;
         document.getElementById("ld-slide-number").innerText = slideNo + 1;
+
+        // Update the URL to reflect the current slide number. (To make it 
+        // possible to share the URL with others.)
+        const url = new URL(location);
+        url.searchParams.set("ld-slide-no", slideNo+1);
+        history.pushState({}, "", url);
+        
         return ldSlide;
     }
 
@@ -1346,15 +1364,11 @@ const lectureDoc2 = function () {
 
     function showContinuousViewSlideNumber(show) {
         state.showContinuousViewSlideNumber = show;
-
+        const slideNumbers = document.querySelectorAll(".ld-continuous-view-slide-number");
         if (show && state.showContinuousView) {
-            document.querySelectorAll(".ld-continuous-view-slide-number").forEach((e) => {
-                e.style.display = "block";
-            });
+            slideNumbers.forEach((e) => { e.style.display = "block"; });
         } else {
-            document.querySelectorAll(".ld-continuous-view-slide-number").forEach((e) => {
-                e.style.display = "none";
-            });
+            slideNumbers.forEach((e) => { e.style.display = "none"; });
         }
     }
 
@@ -1586,17 +1600,20 @@ const lectureDoc2 = function () {
     }
 
     function registerSlideClickedListener() {
-        // we still want to be able to click links and the "ld-copy-to-clipboard-button" icon
-        document.querySelectorAll("#ld-main-pane :is(a,div.ld-copy-to-clipboard-button)").forEach((a) => {
-            a.addEventListener(
+        // we still want to be able to click:
+        // - links,
+        // - buttons and 
+        // - the "ld-copy-to-clipboard-button" icon // FIXME: make this a button
+        document.querySelectorAll("#ld-main-pane :is(a,button,div.ld-copy-to-clipboard-button)").forEach((e) => {
+            e.addEventListener(
                 "click",
-                (event) => {event["link_clicked"] = true;},
+                (event) => {event["interactive_element_clicked"] = true;},
                 { capture: true }
             )
         });
 
         document.getElementById("ld-main-pane").addEventListener("click", (event) => {
-            if (event.link_clicked)
+            if (event.interactive_element_clicked)
                 return;
 
             // Let's check if the user is currently selecting text - we don't want
