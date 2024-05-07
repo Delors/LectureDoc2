@@ -266,6 +266,24 @@ div.text-align-left {
     padding-left: 2em;
 }
 
+.line-height-1{
+    line-height: 1em;
+}
+
+.line-height-1-1{
+    line-height: 1.1em;
+}
+
+.line-height-1-25{
+    line-height: 1.25em;
+}
+
+
+
+/* 
+    Controlling the colors.
+*/
+
 .white {
     color: white;
 }
