@@ -706,12 +706,12 @@ pre.code.html  {
     color: var(--dhbw-gray);
 }
 
-pre.code.html span.name.tag {
+:is(pre.code.xml, pre.code.html) span.name.tag {
     color: var(--dhbw-red);
 }
 
-pre.code.html span.name.attribute {
-    color: var(--dhbw-red);
+:is(pre.code.xml, pre.code.html) span.name.attribute {
+    color: var(--the-orange);
     font-style: italic;
 }
 
@@ -719,7 +719,7 @@ pre.code.html span.literal.string {
     color: var(--the-blue);
 }
 
-pre.code.html span.operator {
+pre.code:is(.html, .xml) span.operator {
     color: black;
 }
 
@@ -728,7 +728,8 @@ pre.html span.punctuation {
     color: var(--dhbw-dark-gray);
 }
 
-pre.html span.comment {
-    font-weight: lighter;
-    color: var(--dhbw-light-gray);
+pre:is(.html, .xml) span.comment {
+    font-weight: bolder;
+    color: white;
+    text-shadow: 2px 2px 4px black;
 }
