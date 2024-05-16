@@ -111,4 +111,4 @@ Non-Goals
 Broad compatibility
 ___________________
 
-Lecture Doc does not strive for maximum compatibility with all (past) browsers. I.e., it is only regularly tested on the most modern versions of Chrome, Safari and Firefox as of 2023. In general, LectureDoc will not use features not fully supported by one of these browsers. Hence, in practice only mature features are going to be used. However, feel free to open a pull-request if something can be improved without introducing strong dependencies on specific browsers or adding compatibility layers with old browsers.
+Lecture Doc does not strive for maximum compatibility with all (past) browsers. I.e., it is only regularly tested on the most modern versions of Chrome, Safari and Firefox as of 2024. In general, LectureDoc will not use features not fully supported by one of these browsers. Hence, in practice only mature features are going to be used. However, feel free to open a pull-request if something can be improved without introducing strong dependencies on specific browsers or adding compatibility layers with old browsers.
