@@ -367,6 +367,10 @@ div.text-align-left {
     background-color: black;
 }
 
+.white-background {
+    background-color: white;
+}
+
 
 .line-above {
     border-top: 2px solid rgb(24, 25, 25);
