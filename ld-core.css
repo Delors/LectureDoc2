@@ -335,7 +335,7 @@ a {
     }
 }
 
-#ld-menu {
+nav#ld-menu {
     width: 480px;
     height: 360px;
     position: fixed;
@@ -350,84 +350,85 @@ a {
     background-color: white;
     transition: all 0.5s ease-in-out;
     box-shadow: 10px 10px 20px, -1px -1px 2px gray;
-}
 
-/*
-    The menu is nearly visible when we are presenting a slide. 
-    When we are not presenting a slide, the menu is more visible.
-*/
-#ld-menu:not(:has(+ #ld-main-pane[style*="display: none;"])) {
-    opacity: 0.175;
-}
+    /*
+        The menu is nearly visible when we are presenting a slide. 
+        When we are not presenting a slide, the menu is more visible.
+    */
+    &:not(:has(+ #ld-main-pane[style*="display: none;"])) {
+        opacity: 0.175;
+    }
 
-#ld-menu:has(+ #ld-main-pane[style*="display: none;"]) {
-    opacity: 0.5;
-}
+    &:has(+ #ld-main-pane[style*="display: none;"]) {
+        opacity: 0.5;
+    }
 
-#ld-menu:hover {
-    width: calc(480px + 8px);
-    height: calc(360px + 8px);
-    padding: 4px;
-    /*transform: initial;*/
-    border-radius: 16px;
-    transform: translate(calc(-120px + 2px), calc(-90px + 2px)) scale(0.5);
-    opacity: 0.975 !important;
-    box-shadow: 2px 2px 4px, -1px -1px 2px gray;
-    transition: all 0.5s ease-in-out;
-}
+    &:hover {
+        width: calc(480px + 8px);
+        height: calc(360px + 8px);
+        padding: 4px;
+        /*transform: initial;*/
+        border-radius: 16px;
+        transform: translate(calc(-120px + 2px), calc(-90px + 2px)) scale(0.5);
+        opacity: 0.975 !important;
+        box-shadow: 2px 2px 4px, -1px -1px 2px gray;
+        transition: all 0.5s ease-in-out;
+    }
 
-#ld-menu-buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 120px);
-    grid-template-rows: repeat(3, 120px);
-}
+    #ld-menu-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 120px);
+        grid-template-rows: repeat(3, 120px);
+    
 
-div#ld-menu-buttons>div {
-    height: 120px;
-    width: 120px;
-    transition: all 0.5s ease-in-out;
-}
+        > button, > div  {
+            height: 120px;
+            width: 120px;
+            transition: all 0.5s ease-in-out;
+        
+            &:hover {
+                opacity: 0.25;
+                transition: all 0.5s ease-in-out;
+                cursor: pointer;
+            }
+        
+            .empty:hover {
+                cursor: initial;
+            }
 
-div#ld-menu-buttons>div:hover {
-    opacity: 0.25;
-    transition: all 0.5s ease-in-out;
-    cursor: pointer;
-}
+            &#ld-slides-button {
+                background-image: url('icons/slides.svg');
+            }
 
-div#ld-menu-buttons>div.empty:hover {
-    cursor: initial;
-}
+            &#ld-slides-with-nr-button {
+                background-image: url('icons/slides-with-nr.svg');
+            }
 
-div#ld-menu #ld-slides-button {
-    background-image: url('icons/slides.svg');
-}
+            &#ld-help-button {
+                background-image: url('icons/help.svg');
+            }
 
-div#ld-menu #ld-slides-with-nr-button {
-    background-image: url('icons/slides-with-nr.svg');
-}
+            &#ld-continuous-view-button {
+                background-image: url('icons/continuous-view.svg');
+            }
 
-div#ld-menu #ld-help-button {
-    background-image: url('icons/help.svg');
-}
+            &#ld-continuous-view-with-nr-button {
+                background-image: url('icons/continuous-view-with-nr.svg');
+            }
 
-div#ld-menu #ld-continuous-view-button {
-    background-image: url('icons/continuous-view.svg');
-}
+            &#ld-light-table-button {
+                background-image: url('icons/light-table.svg');
+            }
 
-div#ld-menu #ld-continuous-view-with-nr-button {
-    background-image: url('icons/continuous-view-with-nr.svg');
-}
+            &#ld-exercises-passwords-button {
+                background-image: url('icons/pwds.svg');
+            }
 
-div#ld-menu #ld-light-table-button {
-    background-image: url('icons/light-table.svg');
-}
-
-div#ld-menu #ld-exercises-passwords-button {
-    background-image: url('icons/pwds.svg');
-}
-
-div#ld-menu #ld-table-of-contents-button {
-    background-image: url('icons/toc.svg');
+            &#ld-table-of-contents-button {
+                background-image: url('icons/toc.svg');
+            }
+        }
+    }
 }
 
 

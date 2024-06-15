@@ -919,28 +919,28 @@ const lectureDoc2 = function () {
 
 
     function setupMenu() {
-        const menuPane = document.createElement("DIV");
+        const menuPane = document.createElement("nav");
         menuPane.id = "ld-menu";
         menuPane.innerHTML = `
             <div id="ld-menu-buttons">
                 <!-- The icons are set using css. Using img over here
                     would not work when the slides are opened locally
                     (due to the same-origin-policy) -->
-                <div id="ld-slides-button"></div>
-                <div id="ld-slides-with-nr-button"></div>
+                <button type="button" id="ld-slides-button"></button>
+                <button type="button" id="ld-slides-with-nr-button"></button>
                 <div class="empty"></div>
-                <div id="ld-help-button"></div>
+                <button type="button" id="ld-help-button"></button>
 
-                <div id="ld-continuous-view-button"></div>
-                <div id="ld-continuous-view-with-nr-button"></div>
+                <button type="button" id="ld-continuous-view-button"></button>
+                <button type="button" id="ld-continuous-view-with-nr-button"></button>
                 <div class="empty"></div>
-                <div id="ld-table-of-contents-button"></div>
+                <button type="button" id="ld-table-of-contents-button"></button>
                     
-                <div id="ld-light-table-button"></div>
+                <button type="button" id="ld-light-table-button"></button>
                 <div class="empty"></div>
                 <div class="empty"></div>
-                <div id="ld-exercises-passwords-button"></div>
-            </div>
+                <button type="button" id="ld-exercises-passwords-button"></button>
+            </nav>
         `
         document.getElementsByTagName("BODY")[0].prepend(menuPane);
     }
