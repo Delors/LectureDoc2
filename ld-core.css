@@ -327,15 +327,12 @@ a {
     possible to open the slides from a file.
 */
 
-@media print {
-
-    /* At least Safari seems to honor this setting... */
-    #ld-menu {
-        display: none;
-    }
-}
-
 nav#ld-menu {
+       
+    @media print { display: none; }
+
+    --ld-menu-space-around: 4px;
+
     width: 480px;
     height: 360px;
     position: fixed;
@@ -364,9 +361,9 @@ nav#ld-menu {
     }
 
     &:hover {
-        width: calc(480px + 8px);
-        height: calc(360px + 8px);
-        padding: 4px;
+        width: calc(480px + calc(var(--ld-menu-space-around) * 2));
+        height: calc(360px + calc(var(--ld-menu-space-around) * 2));
+        padding: var(--ld-menu-space-around);
         /*transform: initial;*/
         border-radius: 16px;
         transform: translate(calc(-120px + 2px), calc(-90px + 2px)) scale(0.5);
@@ -376,14 +373,13 @@ nav#ld-menu {
     }
 
     #ld-menu-buttons {
+        --ld-menu-button-size: 120px;
         display: grid;
-        grid-template-columns: repeat(4, 120px);
-        grid-template-rows: repeat(3, 120px);
-    
+        grid-template-columns: repeat(4, var(--ld-menu-button-size));
+        grid-template-rows: repeat(3, var(--ld-menu-button-size));
 
         > button, > div  {
-            height: 120px;
-            width: 120px;
+            background-size: var(--ld-menu-button-size) var(--ld-menu-button-size);
             transition: all 0.5s ease-in-out;
         
             &:hover {
