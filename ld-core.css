@@ -328,10 +328,12 @@ a {
 */
 
 nav#ld-menu {
-       
-    @media print { display: none; }
-
+    --ld-menu-columns: 4;
+    --ld-menu-rows: 3;
+    --ld-menu-button-size: 120px;
     --ld-menu-space-around: 4px;
+    
+    @media print { display: none; }
 
     width: 480px;
     height: 360px;
@@ -361,8 +363,12 @@ nav#ld-menu {
     }
 
     &:hover {
-        width: calc(480px + calc(var(--ld-menu-space-around) * 2));
-        height: calc(360px + calc(var(--ld-menu-space-around) * 2));
+        width: calc(
+            var(--ld-menu-columns) * var(--ld-menu-button-size) + 
+            calc(var(--ld-menu-space-around) * 2));
+        height: calc(
+            var(--ld-menu-rows) * var(--ld-menu-button-size) + 
+            calc(var(--ld-menu-space-around) * 2));
         padding: var(--ld-menu-space-around);
         /*transform: initial;*/
         border-radius: 16px;
@@ -373,55 +379,66 @@ nav#ld-menu {
     }
 
     #ld-menu-buttons {
-        --ld-menu-button-size: 120px;
         display: grid;
-        grid-template-columns: repeat(4, var(--ld-menu-button-size));
-        grid-template-rows: repeat(3, var(--ld-menu-button-size));
+        grid-template-columns: repeat(var(--ld-menu-columns), var(--ld-menu-button-size));
+        grid-template-rows: repeat(var(--ld-menu-rows), var(--ld-menu-button-size));
 
         > button, > div  {
             background-size: var(--ld-menu-button-size) var(--ld-menu-button-size);
             transition: all 0.5s ease-in-out;
         
-            &:hover {
-                opacity: 0.25;
+            &:not(.empty):hover {
+                opacity: 0.15;
                 transition: all 0.5s ease-in-out;
                 cursor: pointer;
-            }
-        
-            .empty:hover {
-                cursor: initial;
             }
 
             &#ld-slides-button {
                 background-image: url('icons/slides.svg');
+                grid-column: 1;
+                grid-row: 1;
             }
 
             &#ld-slides-with-nr-button {
                 background-image: url('icons/slides-with-nr.svg');
+                grid-column: 2;
+                grid-row: 1;
             }
 
             &#ld-help-button {
                 background-image: url('icons/help.svg');
+                grid-column: 4;
+                grid-row: 1;
             }
 
             &#ld-continuous-view-button {
                 background-image: url('icons/continuous-view.svg');
+                grid-column: 1;
+                grid-row: 2;
             }
 
             &#ld-continuous-view-with-nr-button {
                 background-image: url('icons/continuous-view-with-nr.svg');
-            }
-
-            &#ld-light-table-button {
-                background-image: url('icons/light-table.svg');
-            }
-
-            &#ld-exercises-passwords-button {
-                background-image: url('icons/pwds.svg');
+                grid-column: 2;
+                grid-row: 2;
             }
 
             &#ld-table-of-contents-button {
                 background-image: url('icons/toc.svg');
+                grid-column: 4;
+                grid-row: 2;
+            }
+
+            &#ld-light-table-button {
+                background-image: url('icons/light-table.svg');
+                grid-column: 1;
+                grid-row: 3;
+            }
+
+            &#ld-exercises-passwords-button {
+                background-image: url('icons/pwds.svg');
+                grid-column: 4;
+                grid-row: 3;
             }
         }
     }

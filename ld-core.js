@@ -926,20 +926,22 @@ const lectureDoc2 = function () {
                 <!-- The icons are set using css. Using img over here
                     would not work when the slides are opened locally
                     (due to the same-origin-policy) -->
-                <button type="button" id="ld-slides-button" aria-label="show slides"></button>
-                <button type="button" id="ld-slides-with-nr-button" aria-label="show slides with numbers"></button>
-                <div class="empty"></div>
-                <button type="button" id="ld-help-button" aria-label="show help"></button>
-
-                <button type="button" id="ld-continuous-view-button" aria-label="show continuous view"></button>
-                <button type="button" id="ld-continuous-view-with-nr-button" aria-label="show continuous view with slide numbers"></button>
-                <div class="empty"></div>
-                <button type="button" id="ld-table-of-contents-button" aria-label="show table of contents"></button>
-                    
-                <button type="button" id="ld-light-table-button" aria-label="show light-table"></button>
-                <div class="empty"></div>
-                <div class="empty"></div>
-                <button type="button" id="ld-exercises-passwords-button" aria-label="show exercises passwords dialog"></button>
+                <button type="button" id="ld-slides-button" 
+                        aria-label="show slides"></button>
+                <button type="button" id="ld-slides-with-nr-button" 
+                        aria-label="show slides with numbers"></button>
+                <button type="button" id="ld-help-button" 
+                        aria-label="show help"></button>
+                <button type="button" id="ld-continuous-view-button" 
+                        aria-label="show continuous view"></button>
+                <button type="button" id="ld-continuous-view-with-nr-button" 
+                        aria-label="show continuous view with slide numbers"></button>
+                <button type="button" id="ld-table-of-contents-button" 
+                        aria-label="show table of contents"></button>                    
+                <button type="button" id="ld-light-table-button" 
+                        aria-label="show light-table"></button>
+                <button type="button" id="ld-exercises-passwords-button" 
+                        aria-label="show exercises passwords dialog"></button>
             </nav>
         `
         document.getElementsByTagName("BODY")[0].prepend(menuPane);
