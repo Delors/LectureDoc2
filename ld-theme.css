@@ -315,15 +315,18 @@ div.ld-dialog-close-button:hover {
 
 #ld-laser-pointer {
     position: fixed;
-    /* top and left are set programmatically */
-    scale: 0; 
-    background-color: rgba(0, 255, 234, 0.75);
-    border-radius: 50%;
+    /* top and left are set using JavaScript */
+    z-index: 1000; 
     width: 32px;
     height: 32px;
-    z-index: 1000;
-    pointer-events: none;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    scale: 0; /* changed by JavaScript */
     transition: scale 300ms;
+
+    pointer-events: none;
+    background-color: rgba(0, 255, 234, 0.75);
     mix-blend-mode: difference;
 }
 
