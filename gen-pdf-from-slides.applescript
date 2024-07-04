@@ -30,16 +30,23 @@ on run argv
 	
 	-- split filename into directory and filename parts
 	set theFile to item 1 of argv
-	set thePOSIXFile to POSIX file theFile as alias
-	tell application "Finder" to set filename to name of thePOSIXFile as text
-	set thePath to characters 1 thru ((length of theFile) - (length of filename)) of theFile as text
 	
-	log "Target path: " & thePath
-	log "Filename:    " & filename
+	set theURL to ("http://localhost:8000/" & theFile)
+	log "URL:               " & theURL
+
+	set workingDirectory to (do shell script "pwd") & "/"
+	log "Working Directory: " & workingDirectory
+
+	set filename to (do shell script "basename " & quoted form of theFile) 
+	log "Filename:          " & filename
+
+	set thePath to workingDirectory & (characters 1 thru ((length of theFile) - (length of filename)) of theFile as text)
+	log "Target path:       " & thePath
 	
 	tell application "Safari" to activate
 	tell application "Safari"
-		open thePath & filename
+		-- open thePath & filename
+		open location theURL
 		
 		set theScript to "lectureDoc2.preparePrinting();"
 		delay 1 -- the script sometimes needs some time to execute

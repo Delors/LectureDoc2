@@ -13,7 +13,10 @@ css/icons/slides.svg
 css/icons/toc.svg
 css/icons/unlock-global.svg
 css/icons/white-cross.svg
+css/docutils/minimal.css
+css/docutils/plain.css
 css/ld-core.css
+css/ld-normalize.css
 css/ld-core.document-view.css
 css/ld-core.help.css
 css/ld-core.light-table.css
@@ -68,5 +71,9 @@ themes/DHBW/component-stacks.css
 themes/DHBW/component-supplemental.css
 themes/DHBW/copy_to_clipboard.svg
 themes/DHBW/dhbw_logo.png
+themes/DHBW/dhbw_text.png
 themes/DHBW/dhbw_symbol.png
+themes/DHBW/lists.css
+themes/DHBW/admonitions.css
+themes/DHBW/colors.css
 themes/DHBW/theme.css
