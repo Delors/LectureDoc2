@@ -41,26 +41,10 @@ dhbw-background-color,
     }
 }
 
-/* 
-    Adds the logo to the title-slide.
-*/
-div.ld-slide:has(h1)::before {
-    content: var(--dhbw-logo);
-    position: absolute;
-    right: 48px;
-    bottom: 32px;
-}
 
-div.ld-slide:has(h1).text-logo::before {
-    content: var(--dhbw-text);
-    mix-blend-mode: multiply;
-    position: absolute;
-    right: 48px;
-    bottom: 32px;
-}
 
 /* 
-    Styling related to a normal title slide.
+    Styling related to a normal slide.
 */
 div.ld-slide.no-title h2:first-child {
     display: none;

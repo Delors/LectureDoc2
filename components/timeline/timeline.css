@@ -17,33 +17,23 @@
 /*
 	THIS DOCUMENT DEFINES STYLES FOR AN INLINE SVG DOCUMENT AND NOT AN HTML DOCUMENT!
 */
-@namespace "http://www.w3.org/2000/svg";
+
 
 svg.ld-timeline {
-	background-color: #ffffff;
-	/*font-size: 44px;
-	line-height: 0.75em;*/
-	/* Setting a concrete absolute/realtive value is required by the corresponding JavaScript. Otherwise the text's height will not be correctly calculated. */
 
-	@namespace "http://www.w3.org/2000/svg";
+	/* Exposed to user styling by means of a corresponding ::part declaration 
+	text.date {	}
+	text.description { }	
+	*/
 
-	text.event-date {
-		/*font-size: 0.8em;*/
-		fill: #006;
-	}
-
-	text.event-description {
-		/*font-family: Helvetica, Geneva, sans-serif;*/
-	}
-
-	line.date-line {
+	line.date-marker {
 		stroke: #006;
 		stroke-width: 0.1em;
 	}
 
 	line.timeline-prefix {
 		stroke: #666;
-		stroke-width: 1px;
+		stroke-width: 1px;		stroke-dasharray: 1%;
 	}
 
 	line.timeline-main {
@@ -52,8 +42,8 @@ svg.ld-timeline {
 	}
 
 	polygon.timeline-suffix {
-		stroke: #666;
-		fill: #666;
+		stroke: #f66;
+		fill: #f66;
 		stroke-width: 1px;
 	}
 

@@ -48,7 +48,7 @@ on run argv
 		-- open thePath & filename
 		open location theURL
 		
-		set theScript to "lectureDoc2.preparePrinting();"
+		set theScript to "lectureDoc2.prepareForPrinting();"
 		delay 1 -- the script sometimes needs some time to execute
 		set slidesCount to (do JavaScript theScript in document 1)
 		delay 3 -- the script sometimes needs some time to execute

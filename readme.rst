@@ -4,6 +4,15 @@ Lecture Doc 2
 LectureDoc 2 is an authoring system for lecture slides which makes use of modern HTML, CSS and JavaScript. Lecture Doc is also very well suited to create normal presentations; its main target is however the creation of lecture slides.
 LectureDoc makes it trivial to embed math and source code by relying on established projects (e.g. MathJax and HighlightJS).
 
+LectureDoc documents have to be served by a web server, because it makes use of modern JavaScript features which are not available when opening the document directly in a browser due to security reasons.
+
+Starting a simple webserver which is sufficient for most use can be done using Python 3:
+
+.. code:: bash
+
+    python3 -m http.server  -d <PATH TO ROOT FOLDER>
+
+
 
 
 How To
