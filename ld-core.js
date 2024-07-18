@@ -81,7 +81,7 @@ const lectureDoc2 = function () {
     function typesetMath(element) {
         mathJaxPromise = mathJaxPromise.
             then(() => MathJax.typesetPromise([element])).
-            then(() => console.log(`typesetting ${element} done`)).
+            then(() => console.log(`MathJax done`)).
             catch(() => console.log('MathJax not found/used'));
       return mathJaxPromise;
     }
