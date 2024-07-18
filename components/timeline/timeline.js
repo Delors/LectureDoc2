@@ -161,13 +161,14 @@ class LDTimeline extends HTMLElement {
 		css.setAttribute("href", import.meta.resolve("./timeline.css"));
 		shadow.appendChild(css);
 
-		setTimeout(() => { // deferred to make the DOM content (i.e. the timeline) accessible
-			let spread = parseFloat(this.dataset.spread);
-			if (!spread) {
-				spread = 1.0;
+		const renderTimeline = () => {
+			const dataset = this.dataset;
+			let spread = 1.0;
+			if (dataset.spread) {
+				spread = parseFloat(dataset.spread);
 			}
 			let spec = `[${this.textContent.trim()}]`;
-			console.log(spec);
+			console.log("timeline-specification: " + spec);
 			const timeline = JSON.parse(spec);
 			const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 			svg.setAttribute("part", "pane");
@@ -177,7 +178,21 @@ class LDTimeline extends HTMLElement {
 			const [width, height] = this.#createDOM(svg, timeline, spread);
 			//this.style.width = width + "px";
 			//this.style.height = height + "px";
+		};
+
+		// We can only render the timeline if it is visible (i. e., its display
+		// property is not none)
+		const observer = new IntersectionObserver((events) => {
+			events.forEach((event) => {
+				console.log("timeline is intersecting:" + event);
+				if (event.isIntersecting) {
+					//setTimeout(() => renderTimeline());
+					renderTimeline();
+					observer.disconnect();
+				}
+			});
 		});
+		observer.observe(this);
 	}
 }
 
