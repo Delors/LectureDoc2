@@ -82,6 +82,7 @@ themes/DHBW/logo.css
 themes/DHBW/logo.js
 themes/DHBW/theme.css
 
+components/ld-timeline.js
 components/timeline/timeline.js
 components/timeline/timeline.css
 components/timeline/timeline-example.html
