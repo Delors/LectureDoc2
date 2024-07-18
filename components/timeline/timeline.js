@@ -158,7 +158,7 @@ class LDTimeline extends HTMLElement {
 		const shadow = this.attachShadow({ mode: "open" });
 		const css = document.createElement("link");
 		css.setAttribute("rel", "stylesheet");
-		css.setAttribute("href", "timeline.css");
+		css.setAttribute("href", import.meta.resolve("./timeline.css"));
 		shadow.appendChild(css);
 
 		setTimeout(() => { // deferred to make the DOM content (i.e. the timeline) accessible
