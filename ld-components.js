@@ -288,9 +288,9 @@ function afterLDListenerRegistrations() {
                     null,
                     XPathResult.ANY_TYPE,
                     null).iterateNext()) {
-                    adaptHeightOfSlideToStack(stack);
+                    setTimeout(() => adaptHeightOfSlideToStack(stack));
                 } else {
-                    adaptHeightOfLayersAndStack(stack);
+                    setTimeout(() => adaptHeightOfLayersAndStack(stack));
                 }
             }
         });
@@ -312,9 +312,9 @@ function afterLDListenerRegistrations() {
                     null,
                     XPathResult.ANY_TYPE,
                     null).iterateNext()) {
-                    adaptHeightOfSlideToScrollable(scrollable);
+                    setTimeout(() => adaptHeightOfSlideToScrollable(scrollable));
                 } else {
-                    adaptHeightOfScrollableToRemainingSpace(scrollable);
+                    setTimeout(() => adaptHeightOfScrollableToRemainingSpace(scrollable));
                 }
             }
         });

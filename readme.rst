@@ -1,17 +1,19 @@
 Lecture Doc 2
 =============
 
-LectureDoc 2 is an authoring system for lecture slides which makes use of modern HTML, CSS and JavaScript. Lecture Doc is also very well suited to create normal presentations; its main target is however the creation of lecture slides.
+LectureDoc 2 is an authoring system for lecture material which makes use of modern HTML, CSS and JavaScript. Lecture Doc is also very well suited to create normal presentations; its main target is however the creation of lecture material.
+
 LectureDoc makes it trivial to embed math and source code by relying on established projects (e.g. MathJax and HighlightJS).
 
 LectureDoc documents have to be served by a web server, because it makes use of modern JavaScript features which are not available when opening the document directly in a browser due to security reasons.
 
-Starting a simple webserver which is sufficient for most use can be done using Python 3:
+Starting a simple webserver, which is sufficient for most use cases, can be done using Python 3:
 
 .. code:: bash
 
     python3 -m http.server  -d <PATH TO ROOT FOLDER>
 
+Alternatively, `http-server <https://www.npmjs.com/package/http-server>`__ (from npm) can be used:
 
 
 
@@ -20,7 +22,7 @@ How To
 
 .. container:: scrollable
 
-    A Lecture Doc document is basically a plain HTML5 document, which has a very simple structure. All functionality is enabled using CSS and JavaScript. The most basic presentation would be:
+    A LectureDoc document is basically a plain HTML5 document with a very simple structure. All functionality is enabled using CSS and JavaScript. The most basic presentation would be:
 
     .. code:: html
         :class: far-smaller
@@ -32,16 +34,13 @@ How To
             <meta charset="UTF-8">
             <meta name="viewport" 
                 content="width=device-width, initial-scale=1.0, user-scalable=no">
-            <link rel="stylesheet" href="ld/normalize.css" type="text/css">
             <link rel="stylesheet" href="ld/ld.css" type="text/css">
-            <script src="ld-help.js"></script>
-            <script src="ld-lib.js"></script>
-            <script src="ld-crypto.js"></script>
-            <script src="ld-animation.js"></script>
-            <script src="ld-core.js"></script>
+            <script src="../LectureDoc2/ld-core.js" type="module"></script>
+            <script src="../LectureDoc2/ld-components.js" type="module"></script>
         </head>
 
         <body>
+        <template>
             <div class="ld-slide">
                 <strong>Title of your presentation.</strong>
             </div>
@@ -69,11 +68,12 @@ How To
                     <li>- a Test</li>
                 </ul>
             </div>
+        <template> 
         </body>
 
         </html>
 
-    As seen in the above example, two stylesheets related to the rendering of the controls need to be imported and some JavaScript files which enable the base functionality. Support for math equations and syntax highlighting of code needs additional imports. See the advanced example for that.
+    As seen in the above example, a stylesheet related to the rendering of the controls need to be imported along with some JavaScript files which enable the base functionality. Support for math equations and syntax highlighting of code needs additional imports. See the advanced example for that.
 
     The body of the HTML document should have only slides as child elements. The slides are div elements with the class ``ld-slide``. When LectureDoc is initialized further ``div``\ s will automatically be created for the control elements.
 
@@ -100,7 +100,7 @@ Controlling the initial appearance
 
   .. container:: smaller
 
-    - if content is an int then the corresponding slide will be shown. (The first slide has the value 1).
+    - if content is an int value then the corresponding slide will be shown. (The first slide has the value 1).
     - if content is "`last`" the last slide will be shown.
     - if content is "`last-viewed`" the last viewed slide will be shown. Uses the browser's local storage for storing the slide number; may not work in all situations. Requires that the document has a unique id. The id can be set using: :code:`<meta name="id" content="(unique id)">`.
 

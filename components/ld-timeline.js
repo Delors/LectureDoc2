@@ -15,7 +15,6 @@ lectureDoc2.ldEvents.addEventListener(
             .content
             .querySelectorAll(".module.timeline");
 
-
         timelines.forEach((timeline) => {
             try {
                 const timelineObject = JSON.parse(timeline.textContent)
@@ -28,8 +27,7 @@ lectureDoc2.ldEvents.addEventListener(
                 }
                 timelineElement.textContent = JSON.stringify(timelineData).substring(1, JSON.stringify(timelineData).length - 1)
                 timeline.replaceChildren(timelineElement);
-                console.log("timeline processed: " + cssClass);
-
+                console.log("timeline preprocessing completed: " + cssClass);
             } catch (error) {
                 console.error("Error processing timeline: " + error + " ( " + timeline.textContent + " )");
             }
