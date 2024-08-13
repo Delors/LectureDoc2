@@ -2,19 +2,24 @@
        
    Core Ideas: 
    
-    -   LectureDoc documents are always served by a server. This is enables us to
-        use modern JavaScript features.
+    -   LectureDoc documents are always served by a server and only target 
+        up-to-date browsers. This is enables us to use modern JavaScript 
+        features (e.g., modules).
    
     -   We store all relevant state information in a state object; this object 
         is then used to re-instantiate a LectureDoc session later on. This object
         is saved in local storage whenever the user leaves the webpage. To make
         it possible to associate state information with a specific document, a 
-        document has to have a unique id. This id has to be set by the user. 
+        document has to have a unique id. This id has to be set by the user 
+        using corresponding meta information.
         If no id is configured, no state information will be saved.
         Saved states always overrides information found in the document.
 
     -   Meta information about the presentation is stored in the presentation 
         object. This object is - after initialization - not mutated.
+
+    -   Information that does not need to be retained is stored in the 
+        ephemeral object.
 
 */
 
@@ -2071,5 +2076,5 @@ const lectureDoc2 = function () {
 }();
 
 export default lectureDoc2;
-/* For debugging purposes only! */
+/* For debugging purposes and interoperability with Applescript only! */
 window.lectureDoc2 = lectureDoc2;
