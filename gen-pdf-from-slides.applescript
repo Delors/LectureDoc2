@@ -1,7 +1,7 @@
 # Converts an HTML file to PDF using "Safari's" "Save to PDF..." Functionality.
 # Reads from the command line the path of the HTML document.
 #
-# Example: 	osascript GeneratePDFs.scpt ~/Sites/delors.github.io/lab-shell/folien.rst.html
+# Example: 	osascript gen-pdf-from-slides.applescript ~/Sites/delors.github.io/lab-shell/folien.rst.html
 #
 # Remark: 		Safari's "Export as PDF" generates PDFs which does not honor 
 # 				media settings and we don't want that!
@@ -10,16 +10,18 @@
 # 				"Keycodes:"    http://macbiblioblog.blogspot.com/2014/12/key-codes-for-function-and-special-keys.html
 # 				"Inspired by:" https://www.macscripter.net/t/scripting-a-full-path-from-standard-save-as-dialog-box/75178/4
 #
-# Version:		1.0
-#				Feb. 2024
+# Version:		1.0.1
+#				Aug. 2024
 #				Michael Eichberg
 #
 # Further Ideas/TODOs:
 #				- Ensure that a Generic Printer is selected to get colored PDFs
+#				  (Up until then a printer which supports color output has to be the
+#				  default printer)
 #				- Ensure that "Print Backgrounds" is enabled to get colored Boxes!
 #
 # Dependencies:
-# 				Safari 17.3
+# 				Safari 17.3, 17.4
 on run argv
 	
 	if length of argv is less than 1 then
@@ -31,7 +33,7 @@ on run argv
 	-- split filename into directory and filename parts
 	set theFile to item 1 of argv
 	
-	set theURL to ("http://localhost:8000/" & theFile)
+	set theURL to ("http://localhost:8888/" & theFile)
 	log "URL:               " & theURL
 
 	set workingDirectory to (do shell script "pwd") & "/"
@@ -40,8 +42,14 @@ on run argv
 	set filename to (do shell script "basename " & quoted form of theFile) 
 	log "Filename:          " & filename
 
-	set thePath to workingDirectory & (characters 1 thru ((length of theFile) - (length of filename)) of theFile as text)
+	set thePathLength to (length of theFile) - (length of filename)
+	if thePathLength is 0 then
+		set thePath to workingDirectory
+	else
+		set thePath to workingDirectory & (characters 1 thru thePathLength of theFile as text)
+	end if
 	log "Target path:       " & thePath
+	
 	
 	tell application "Safari" to activate
 	tell application "Safari"
@@ -51,10 +59,11 @@ on run argv
 		set theScript to "lectureDoc2.prepareForPrinting();"
 		delay 1 -- the script sometimes needs some time to execute
 		set slidesCount to (do JavaScript theScript in document 1)
+		log "Number of slides:  " & slidesCount
 		delay 3 -- the script sometimes needs some time to execute
 
 		delay slidesCount * 0.15 -- required to wait until all slides are rendered
- 
+		
 	end tell
 	
 	tell application "System Events" to tell application process "Safari"
