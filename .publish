@@ -60,8 +60,8 @@ ld-help.frag.html
 ld-lib.js
 ld.css
 
-readme.rst.html
-readme.rst.html.pdf
+readme.en.rst.html
+readme.en.rst.html.pdf
 
 themes/DHBW/0-defs.css
 themes/DHBW/1-core-stylings.css
