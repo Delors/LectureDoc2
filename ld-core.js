@@ -1655,7 +1655,7 @@ const lectureDoc2 = function () {
         // - links,
         // - buttons and 
         // - the "ld-copy-to-clipboard-button" icon // FIXME: make this a button
-        document.querySelectorAll("#ld-main-pane :is(a,button,div.ld-copy-to-clipboard-button)").forEach((e) => {
+        document.querySelectorAll("#ld-main-pane :is(a,button,div.ld-copy-to-clipboard-button,video)").forEach((e) => {
             e.addEventListener(
                 "click",
                 (event) => {event["interactive_element_clicked"] = true;},
@@ -1879,7 +1879,7 @@ const lectureDoc2 = function () {
             });
 
         document.
-        getElementById("ld-continuous-view-with-nr-button").
+            getElementById("ld-continuous-view-with-nr-button").
             addEventListener("click", () => {
                 if (!state.showContinuousView) {
                     toggleContinuousView();
@@ -1888,15 +1888,15 @@ const lectureDoc2 = function () {
             });
 
         document.
-        getElementById("ld-help-button").
+            getElementById("ld-help-button").
             addEventListener("click", () => { toggleDialog("help"); });
 
         document.
-        getElementById("ld-light-table-button").
+            getElementById("ld-light-table-button").
             addEventListener("click", toggleLightTable);
 
         document.
-        getElementById("ld-exercises-passwords-button").
+            getElementById("ld-exercises-passwords-button").
             addEventListener("click", toggleExercisesPasswordsDialog);
 
         document.
