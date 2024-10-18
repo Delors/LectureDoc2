@@ -1800,30 +1800,32 @@ function registerSlideInternalLinkClickedListener() {
 }
 
 
+function addScrollingEventListener (eventTitle,scrollableElement, id) {
+    let handled = false;
+    scrollableElement.addEventListener("scroll", (event) => {
+        if (handled) {
+            return;
+        }
+        handled = true;
+        setTimeout(() => {
+            postMessage(eventTitle, [id, event.target.scrollTop]);
+            console.log(eventTitle + id + " " + event.target.scrollTop);
+            handled = false;
+        }, 500);
+    });
+}
+
+
 function registerScrollableElementListener() {
     let scrollableId = 1;
     document.querySelectorAll("#ld-main-pane .scrollable").forEach((scrollable) => {
         const id = scrollableId++;
         scrollable.dataset.scrollableId = id;
-
         // We want to collapse multiple events into one, but ensure that we
         // never miss the "final" event.
-        let handled = false
-        scrollable.addEventListener("scroll", (event) => {
-            if (handled) {
-                return;
-            }
-            handled = true;
-            setTimeout(() => {
-                postMessage("elementScrolled", [id, event.target.scrollTop]);
-                console.log("elementScrolled" + id + " " + event.target.scrollTop);
-                handled = false;
-            }, 500);
-        });
+        addScrollingEventListener("elementScrolled",scrollable, id);
     });
 }
-
-
 
 function registerHoverSupplementalListener() {
     let supplementalId = 1;
@@ -1843,7 +1845,7 @@ function registerHoverSupplementalListener() {
             postMessage("removeHoverSupplemental", id);
             supplemental.classList.remove("hover:supplemental");
         }
-        let handled = false;
+        /*let handled = false;
         const supplementalScrolled = () => {
             console.log("scroll event"+id);
             // TODO Merge with code from registerScrollableElementListener
@@ -1857,10 +1859,11 @@ function registerHoverSupplementalListener() {
                 handled = false;
             }, 500);
             
-        }
+        }*/
         supplemental.addEventListener("mouseenter", addHoverSupplemental);
         supplemental.addEventListener("mouseleave", removeHoverSupplemental);
-        supplemental.addEventListener("scroll", supplementalScrolled);
+        addScrollingEventListener("supplementalScrolled",supplemental, id);
+        //supplemental.addEventListener("scroll", supplementalScrolled);
         // TODO Complete scrolling support for supplemental elements.
     });
 }
