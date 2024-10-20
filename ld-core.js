@@ -1106,6 +1106,8 @@ function hideSlideWithNo(slideNo, setOldMarker = false) {
     }
 }
 
+// TODO MAKE MORE RESILIENT AGAINST ERRORS WHEN THE SYNCRONIZATION FAILED
+
 /**
  * Advances the presentation by moving to the next slide.
  * 
@@ -1178,9 +1180,10 @@ function localAdvancePresentation() {
     const elements = getElementsToAnimate(slide)
     const elementsCount = elements.length;
     for (let i = 0; i < elementsCount; i++) {
-        if (elements[i].style.visibility == "hidden") {
-            elements[i].style.visibility = "visible";
-            elements[i].scrollIntoView({ // needed by scrollable containers
+        const element = elements[i];
+        if (element.style.visibility == "hidden") {
+            element.style.visibility = "visible";
+            element.scrollIntoView({ // needed by scrollable containers
                 block: "end",
                 inline: "nearest",
                 behavior: "smooth"
@@ -1734,22 +1737,28 @@ function jumpToId(id) {
 
 
 /**
- * Called when a scrollable element in a different, but connected window, has
- * been scrolled.
+ * Called when a scrollable element in a different, but connected window (i.e., 
+ * a secondary window), has been scrolled.
  * 
  * @param {*} scrollableId 
  * @param {*} scrollTop 
  */
-function localScrollElement(scrollableId, scrollTop) {
-    document.querySelector(
-        `#ld-main-pane .scrollable[data-scrollable-id="${scrollableId}"]`).
-        scrollTo(0, scrollTop);
+function localScrollScrollable(scrollableId, scrollTop) {
+    const scrollable = document.querySelector(
+        `#ld-main-pane .scrollable[data-scrollable-id="${scrollableId}"]`);
+
+    if (scrollable.scrollTop !== scrollTop) {
+        scrollable.scrollTo(0, scrollTop);
+    }
 }
 
 function localScrollSupplemental(supplementalId, scrollTop) {
-    document.querySelector(
-        `#ld-main-pane .supplemental[data-supplemental-id="${supplementalId}"]`).
-        scrollTo(0, scrollTop);
+    const supplemental = document.querySelector(
+        `#ld-main-pane .supplemental[data-supplemental-id="${supplementalId}"]`);
+
+    if (supplemental.scrollTop !== scrollTop) {
+        supplemental.scrollTo(0, scrollTop);
+    }
 }
 
 function registerInternalLinkClickListener(a, f) {
@@ -1800,18 +1809,37 @@ function registerSlideInternalLinkClickedListener() {
 }
 
 
-function addScrollingEventListener (eventTitle,scrollableElement, id) {
-    let handled = false;
+function addScrollingEventListener(eventTitle, scrollableElement, id) {
+    // We will relay a scroll event to a secondary window, when there was no
+    // more scrolling for at least TIMEOUTms. Additionally, if there is already an
+    // event handler scheduled, we will not schedule another one. 
+    //
+    // If we would directly relay the event, it may be possible that it will 
+    // result in all kinds of strange behaviors, because we cannot easily 
+    // distinguish between a programmatic and a user initiated scroll event. 
+    // This could result in a nasty ping-pong effect where scrolling between
+    // two different position would happen indefinitely.
+    const TIMEOUT = 50;
+    let lastEvent = undefined;
+    let eventHandlerScheduled = false;
     scrollableElement.addEventListener("scroll", (event) => {
-        if (handled) {
-            return;
+        lastEvent = new Date().getTime();
+        function scheduleEventHandler(timeout) {
+            setTimeout(() => {
+                const currentTime = new Date().getTime();
+                if (currentTime - lastEvent < TIMEOUT) {
+                    scheduleEventHandler(TIMEOUT - (currentTime - lastEvent));
+                    return;
+                }
+                postMessage(eventTitle, [id, event.target.scrollTop]);
+                console.log(eventTitle + id + " " + event.target.scrollTop);
+                eventHandlerScheduled = false;
+            }, timeout);
+        };
+        if(!eventHandlerScheduled) {
+            eventHandlerScheduled = true;
+            scheduleEventHandler(TIMEOUT);
         }
-        handled = true;
-        setTimeout(() => {
-            postMessage(eventTitle, [id, event.target.scrollTop]);
-            console.log(eventTitle + id + " " + event.target.scrollTop);
-            handled = false;
-        }, 500);
     });
 }
 
@@ -1823,7 +1851,7 @@ function registerScrollableElementListener() {
         scrollable.dataset.scrollableId = id;
         // We want to collapse multiple events into one, but ensure that we
         // never miss the "final" event.
-        addScrollingEventListener("elementScrolled",scrollable, id);
+        addScrollingEventListener("scrollableScrolled",scrollable, id);
     });
 }
 
@@ -1845,26 +1873,9 @@ function registerHoverSupplementalListener() {
             postMessage("removeHoverSupplemental", id);
             supplemental.classList.remove("hover:supplemental");
         }
-        /*let handled = false;
-        const supplementalScrolled = () => {
-            console.log("scroll event"+id);
-            // TODO Merge with code from registerScrollableElementListener
-            if (handled) {
-                return;
-            }
-            handled = true;
-            setTimeout((event) => {
-                postMessage("supplementalScrolled", [id, supplemental.scrollTop]);
-                console.log("supplementalScrolled" + id + " " + supplemental.scrollTop);
-                handled = false;
-            }, 500);
-            
-        }*/
         supplemental.addEventListener("mouseenter", addHoverSupplemental);
         supplemental.addEventListener("mouseleave", removeHoverSupplemental);
         addScrollingEventListener("supplementalScrolled",supplemental, id);
-        //supplemental.addEventListener("scroll", supplementalScrolled);
-        // TODO Complete scrolling support for supplemental elements.
     });
 }
 
@@ -2148,9 +2159,9 @@ window.addEventListener("load", () => {
                 }
                 case "hideLaserPointer": localHideLaserPointer(); break;
 
-                case "elementScrolled": {
+                case "scrollableScrolled": {
                     const [scrollableId, scrollTop] = data;
-                    localScrollElement(scrollableId, scrollTop);
+                    localScrollScrollable(scrollableId, scrollTop);
                     break;
                 }
 
