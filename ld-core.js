@@ -1840,7 +1840,7 @@ function addScrollingEventListener(eventTitle, scrollableElement, id) {
             eventHandlerScheduled = true;
             scheduleEventHandler(TIMEOUT);
         }
-    });
+    },{passive: true});
 }
 
 
