@@ -12,7 +12,6 @@
 
 .. role:: eng
 .. role:: ger
-.. role:: ger-quote
 
 .. role:: smaller
 .. role:: far-smaller
