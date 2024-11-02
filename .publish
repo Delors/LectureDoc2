@@ -17,6 +17,7 @@ css/docutils/minimal.css
 css/docutils/plain.css
 css/ld-core.css
 css/ld-normalize.css
+css/ld-ui.css
 css/ld-core.document-view.css
 css/ld-core.help.css
 css/ld-core.light-table.css
@@ -59,6 +60,7 @@ ld-crypto.js
 ld-help.frag.html
 ld-lib.js
 ld.css
+ld-ui.css
 
 readme.en.rst.html
 readme.en.rst.html.pdf
