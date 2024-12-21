@@ -136,6 +136,12 @@ a:hover {
 }
 
 
+.title {
+    font-family: var(--slide-large-serif-font-family);
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
 .center-child-elements {
     display: flex;
     flex-direction: column;

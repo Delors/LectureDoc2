@@ -149,7 +149,7 @@ dl.docinfo {
 dl.field-list>dt,
 dl.option-list>dt,
 dl.docinfo>dt {
-    font-weight: bold;
+    font-weight: 500;
     clear: left;
     float: left;
     margin: 0;

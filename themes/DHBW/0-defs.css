@@ -27,8 +27,11 @@
     --slide-font-size: 48px;
     --slide-footer-height: 48px;
     --slide-footer-font-size: 36px;
-    --slide-font-family: "Helvetica", sans-serif;
-    --slide-serif-font-family: "Times New Roman", Times, serif;
+    --slide-font-family: "Noto Sans Display", "Helvetica", sans-serif;
+    --slide-large-serif-font-family: "Noto Serif Display", "Times New Roman", Times, serif;
+    --slide-serif-font-family: "Noto Serif", "Times New Roman", Times, serif;
+    --slide-monospaced-font-family: "Monospace", "Courier New", monospace;
+    --slide-code-font-family: "Victor Mono", "Fira Code", "Monospace", monospace;
     --slide-font-weight: 300;
     --slide-line-height: 1.5;
     --supplemental-font-size: 18px;

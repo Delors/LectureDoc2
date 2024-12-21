@@ -173,7 +173,7 @@ div.text-align-left {
 }
 
 .monospaced {
-    font-family: monospace;
+    font-family: var(--slide-monospaced-font-family);
 }
 
 .serif {
@@ -217,6 +217,7 @@ div.text-align-left {
 }
 
 .no-margin,
+.margin-0,
 .margin-none {
     margin: 0;
 }
@@ -303,15 +304,15 @@ div.text-align-left {
     padding-left: 2em;
 }
 
-.line-height-1{
+.line-height-1em {
     line-height: 1em;
 }
 
-.line-height-1-1{
+.line-height-1-1em {
     line-height: 1.1em;
 }
 
-.line-height-1-25{
+.line-height-1-25em {
     line-height: 1.25em;
 }
 
@@ -485,7 +486,8 @@ div.text-align-left {
 }   
 
 /**
- * Used in particular in combination with containers when multiple classes should be attached to an "inline" element.
+ * Used in particular in combination with "generic containers"
+ * when multiple classes should be attached to an "inline" element.
  */
 div.inline-block {
     display: inline-block;

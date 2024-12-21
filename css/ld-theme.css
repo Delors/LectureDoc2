@@ -11,7 +11,7 @@ html {
     /* The following is the definition used by the LectureDoc UI / 
             all UI content that is not found on the slides. */
     font-size: 14px;
-    font-family: Helvetica, sans-serif;
+    font-family: "Noto Sans Display", Helvetica, sans-serif;
     font-weight: 300;
 }
 

@@ -17,6 +17,7 @@
     ____________________________________________________________________________
 */
 
+@import url("fonts/ld-fonts.css");
 
 :root {
     /*  Specifies the width and height of slides in pixels. This has proven
@@ -42,7 +43,11 @@
     --ld-body-background-color: rgb(25, 25, 30);
 
     --ld-font-size: 14px;
-    --ld-font-family: Helvetica, sans-serif;
+    --ld-font-family: "Noto Sans Display",Helvetica, sans-serif;
+    --ld-headings-font-family: "Noto Serif Display",Helvetica, sans-serif; /* for (larger) headings */
+    --ld-text-font-family: "Noto Serif",Helvetica, sans-serif; /* for (smaller) text */
+    --ld-monospaced-font-family: "Monospace", "Courier New", monospace;
+    --ld-code-font-family: "Victor Mono", "Fira Code", "Monospace", monospace;
     --ld-font-weight: 300;
 }
 
