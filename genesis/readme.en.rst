@@ -5,6 +5,11 @@ LectureDoc 2 is an authoring system for lecture material which makes use of mode
 
 LectureDoc makes it trivial to embed math and source code by relying on established projects (e.g. MathJax and HighlightJS).
 
+
+
+Using LectureDoc
+-------------------
+
 LectureDoc documents have to be served by a web server, because it makes use of modern JavaScript features which are not available when opening the document directly in a browser due to security reasons.
 
 Starting a simple webserver, which is sufficient for most use cases, can be done using Python 3:
@@ -33,10 +38,12 @@ How To
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" 
-                content="width=device-width, initial-scale=1.0, user-scalable=no">
-            <link rel="stylesheet" href="ld/ld.css" type="text/css">
-            <script src="../LectureDoc2/ld-core.js" type="module"></script>
-            <script src="../LectureDoc2/ld-components.js" type="module"></script>
+                content="width=device-width, initial-scale=1.0">
+            <script src="ld-core.js" type="module"></script>
+            <script src="ld-components.js" type="module"></script>
+            <link rel="stylesheet" href="ld.css" />
+            <link rel="stylesheet" href="themes/DHBW/theme.css"/>
+            <link rel="stylesheet" href="ld-ui.css"/>
         </head>
 
         <body>
@@ -53,20 +60,20 @@ How To
                 </p>
             </div>
             <div class="ld-slide">
-                <div style="height: 100%;
-                            width: 100%; 
-                            background-color: black; 
-                            color: white ;">
-                    Final page.
-                </div>
-            </div>
-            <div class="ld-slide">
                 The following list is shown incrementally.
                 <ul class="incremental">
                     <li>This</li>
                     <li>is it</li>
                     <li>- a Test</li>
                 </ul>
+            </div>
+            <div class="ld-slide">
+                <div style="height: 100%;
+                            width: 100%; 
+                            background-color: black; 
+                            color: white ;">
+                    Final page.
+                </div>
             </div>
         <template> 
         </body>

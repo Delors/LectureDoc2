@@ -17,7 +17,7 @@
     ____________________________________________________________________________
 */
 
-@import url("fonts/ld-fonts.css");
+@import url("../../ext/fonts/ld-fonts.css");
 
 :root {
     /*  Specifies the width and height of slides in pixels. This has proven

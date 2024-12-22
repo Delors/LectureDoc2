@@ -20,8 +20,8 @@
 #				  default printer)
 #				- Ensure that "Print Backgrounds" is enabled to get colored Boxes!
 #
-# Dependencies:
-# 				Safari 17.3, 17.4
+# Dependencies/Tested with:
+# 				Safari 17.3, 17.4, 18.2
 on run argv
 	
 	if length of argv is less than 1 then
