@@ -1165,7 +1165,7 @@ function getElementsToAnimate(slide) {
     const elementsToAnimate =
         ':scope :is(ul,ol).incremental>li, ' +
         ':scope :is(table).incremental>tbody>tr, ' +
-        ':scope :not( :is(ul,ol,table)).incremental'
+        ':scope :not(:is(ul,ol,table)).incremental'
     return slide.querySelectorAll(elementsToAnimate);
 }
 /**
