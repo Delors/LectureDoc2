@@ -1,0 +1,42 @@
+/* LAYER: ui.element */
+
+#ld-help {
+    min-width: 45vw;
+    max-width: 75vw;
+    max-height: 75vh;
+    margin: 1em;
+
+    overflow-y: scroll;
+    overflow-x: scroll;
+
+    color: var(--ld-ui-color);
+
+    table {
+        width: 100%;
+        border: 1px solid var(--ld-ui-border-color);
+        background-color: var(--ld-ui-table-background-color);
+        border-spacing: 20px 10px;
+        border-radius: 10px;
+
+        td {
+            vertical-align: top;
+
+            p {
+                font-size: smaller;
+                filter: brightness(0.7);
+            }
+        }
+
+        th {
+            border-bottom: 1px solid var(--ld-ui-border-color);
+            text-align: left;
+        }
+
+        tr.ld-help-keys-category {
+            font-weight: 700;
+            text-align: center;
+            background-color: var(--ld-ui-table-highlight-cell-background-color);
+            line-height: 170%;
+        }
+    }
+}

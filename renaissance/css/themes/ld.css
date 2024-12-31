@@ -1,0 +1,5 @@
+/* LAYER: theme */
+
+/* Theming related to the content of LectureDoc documents. */
+@import url("LD/defs.css") layer(ld);
+@import url("LD/utilities.css") layer(ld);

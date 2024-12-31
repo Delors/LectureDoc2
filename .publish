@@ -1,4 +1,7 @@
+################################################################################
+#
 # RELEASE INDEPENDENT FILES
+#
 
 ext/mathjax/es5/tex-chtml-full.js
 ext/mathjax/es5/tex-chtml.js
@@ -26,11 +29,6 @@ ext/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff
 ext/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff
 ext/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff
 
-components/ld-timeline.js
-components/timeline/timeline.js
-components/timeline/timeline.css
-components/timeline/timeline-example.html
-
 ext/fonts/ld-fonts.css
 ext/fonts/ld-fonts.html
 ext/fonts/Monospace.bold.woff2
@@ -48,7 +46,15 @@ ext/fonts/VictorMono-LICENSE.txt
 ext/fonts/Noto-LICENSE-OFL.txt
 ext/fonts/Monospace-LICENSE.html
 
+components/ld-timeline.js
+components/timeline/timeline.js
+components/timeline/timeline.css
+components/timeline/timeline-example.html
+
+################################################################################
+#
 # LectureDoc2 - Genesis
+#
 
 genesis/css/icons/black-cross-on-white.svg
 genesis/css/icons/continuous-view-with-nr.svg
@@ -111,61 +117,80 @@ genesis/themes/DHBW/logo.js
 genesis/themes/DHBW/theme.css
 
 
-
+################################################################################
+#
 # LectureDoc2 - Renaissance
 
-renaissance/css/icons/black-cross-on-white.svg
-renaissance/css/icons/continuous-view-with-nr.svg
-renaissance/css/icons/continuous-view.svg
-renaissance/css/icons/help.svg
-renaissance/css/icons/light-table.svg
-renaissance/css/icons/lock-global.svg
-renaissance/css/icons/menu.svg
-renaissance/css/icons/pwds.svg
-renaissance/css/icons/slides-with-nr.svg
-renaissance/css/icons/slides.svg
-renaissance/css/icons/toc.svg
-renaissance/css/icons/unlock-global.svg
-renaissance/css/icons/white-cross.svg
-renaissance/css/docutils/minimal.css
-renaissance/css/docutils/plain.css
-renaissance/css/ld-core.css
-renaissance/css/ld-normalize.css
-renaissance/css/ld-ui.css
-renaissance/css/ld-core.document-view.css
-renaissance/css/ld-core.help.css
-renaissance/css/ld-core.light-table.css
-renaissance/css/ld-core.nav.css
-renaissance/css/ld-core.slides-view.css
-renaissance/css/ld-theme.css
-renaissance/css/normalize.css
+renaissance/ld.js
+renaissance/js/ld-components.js
+renaissance/js/ld-crypto.js
+renaissance/js/ld-help.frag.html
+renaissance/js/ld-lib.js
 
-renaissance/ld-components.js
-renaissance/ld-core.js
-renaissance/ld-crypto.js
-renaissance/ld-help.frag.html
-renaissance/ld-lib.js
 renaissance/ld.css
-renaissance/ld-ui.css
+renaissance/css/defs.css
+renaissance/css/normalize.css
+renaissance/css/common.css
+renaissance/css/themes/ld.css
+renaissance/css/ui/ui.css
+renaissance/css/ui/defs.css
+renaissance/css/ui/common.css
+renaissance/css/ui/exercises-passwords-dialog.css
+renaissance/css/ui/table-of-contents-dialog.css
+renaissance/css/ui/help-dialog.css
+renaissance/css/ui/nav.css
+renaissance/css/ui/jump-target-dialog.css
+renaissance/css/ui/messagebox.css
+renaissance/css/ui/laser-pointer.css
+renaissance/css/ui/light-table-dialog.css
+renaissance/css/ui/icons/black-cross-on-white.svg
+renaissance/css/ui/icons/black-cross-on-whitesmoke.svg
+renaissance/css/ui/icons/continuous-view-with-nr.svg
+renaissance/css/ui/icons/continuous-view.svg
+renaissance/css/ui/icons/help.svg
+renaissance/css/ui/icons/light-table.svg
+renaissance/css/ui/icons/lock-global.svg
+renaissance/css/ui/icons/menu.svg
+renaissance/css/ui/icons/pwds.svg
+renaissance/css/ui/icons/slides-with-nr.svg
+renaissance/css/ui/icons/slides.svg
+renaissance/css/ui/icons/toc.svg
+renaissance/css/ui/icons/unlock-global.svg
+renaissance/css/ui/icons/white-cross-on-black.svg
+renaissance/css/ui/icons/white-cross.svg
+renaissance/css/core/behavior.css
+renaissance/css/core/slides-view.css
+renaissance/css/core/document-view.css
 
-renaissance/themes/DHBW/0-defs.css
-renaissance/themes/DHBW/1-core-stylings.css
-renaissance/themes/DHBW/2-views.css
-renaissance/themes/DHBW/3-slides.css
-renaissance/themes/DHBW/4-elements.css
-renaissance/themes/DHBW/5-basic.css
-renaissance/themes/DHBW/component-stacks.css
-renaissance/themes/DHBW/component-supplemental.css
-renaissance/themes/DHBW/copy_to_clipboard.svg
-renaissance/themes/DHBW/dhbw_logo.png
-renaissance/themes/DHBW/dhbw_text.png
-renaissance/themes/DHBW/dhbw_symbol.png
-renaissance/themes/DHBW/lists.css
-renaissance/themes/DHBW/admonitions.css
-renaissance/themes/DHBW/colors.css
-renaissance/themes/DHBW/logo.css
-renaissance/themes/DHBW/logo.js
-renaissance/themes/DHBW/theme.css
+renaissance/css/themes/utilities.css
+
+renaissance/css/themes/ld.css
+renaissance/css/themes/LD/utilities.css
+renaissance/css/themes/LD/defs.css
+
+renaissance/css/themes/dhbw.css
+renaissance/css/themes/DHBW/defs.css
+renaissance/css/themes/DHBW/utilities.css
+renaissance/css/themes/DHBW/dhbw_logo.png
+renaissance/css/themes/DHBW/dhbw_text.png
+renaissance/css/themes/DHBW/dhbw_symbol.png
+renaissance/css/themes/DHBW/dhbw_symbol-sharp.png
+
+
+
+renaissance/css/themes/DHBW/OLD/1-core-stylings.css
+renaissance/css/themes/DHBW/OLD/2-views.css
+renaissance/css/themes/DHBW/OLD/3-slides.css
+renaissance/css/themes/DHBW/OLD/4-elements.css
+renaissance/css/themes/DHBW/OLD/component-stacks.css
+renaissance/css/themes/DHBW/OLD/component-supplemental.css
+renaissance/css/themes/DHBW/OLD/copy_to_clipboard.svg
+renaissance/css/themes/DHBW/OLD/lists.css
+renaissance/css/themes/DHBW/OLD/admonitions.css
+renaissance/css/themes/DHBW/OLD/colors.css
+renaissance/css/themes/DHBW/OLD/logo.css
+renaissance/css/themes/DHBW/OLD/logo.js
+renaissance/css/themes/DHBW/OLD/theme.css
 
 
 
