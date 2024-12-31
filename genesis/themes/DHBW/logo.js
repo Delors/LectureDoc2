@@ -1,7 +1,7 @@
 /**
  * This module adds an animated DHBW logo to the title slide.
  * 
- * When importing this module it will automatically register with LectureDoc's
+ * When importing this module, it will automatically register with LectureDoc's
  * basic events registry.
  * 
  * @author Michael Eichberg 
