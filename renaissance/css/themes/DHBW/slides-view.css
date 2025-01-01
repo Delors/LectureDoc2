@@ -1,0 +1,40 @@
+.block-footer {
+    &::after {
+        position: absolute;
+        bottom: -45px;
+        right: -35px;
+        content: var(--dhbw-symbol);
+        scale: 0.5
+    }
+}
+
+
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+
+/*
+
+    Styling of Slides with content that is not covered.
+
+*/
+
+#ld-main-pane, #ld-light-table-dialog {
+
+    .ld-slide.not-covered-topics {
+        background-color: black;
+        color: var(--dhbw-gray);
+        
+        
+        &::before {
+            position: absolute;
+            content: var(--dhbw-symbol-sharp);
+            filter: blur(2px) opacity(0.25);
+            scale: 2.75;
+            top: 200px;
+            right: 250px;
+        }
+    }
+}

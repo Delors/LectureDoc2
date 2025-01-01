@@ -6,4 +6,6 @@
     --pre-font-family: "Monospace", monospace;
     --text-font-family: "Noto Serif", "Times New Roman", serif;
     --large-text-font-family: "Noto Serif Display", "Times New Roman", serif;
+
+    --code-background-color: #eeeeee;
 }

@@ -1,10 +1,14 @@
-/* 
-    This style collects all styles related to ordered and unordered lists.
-*/
+/* LAYER: theme.DHBW */
 
-ul {
-    list-style-type: "▫️";
+a:link,
+a:visited {
+    color: var(--dhbw-dark-red);
 }
+
+a:hover {
+    text-decoration: underline;
+}
+
 
 /*
  * Styling of lists where the content is shown in a table-like manner. The
@@ -13,7 +17,7 @@ ul {
  * and white text color. The content uses a light gray background and black
  * text.
  */
-ol.arabic.dhbw {
+ ol.arabic.dhbw {
     --item-counter-width: 3ch;
     --item-counter-offset: calc(var(--item-counter-width) + 0.5ch);
 
@@ -23,7 +27,7 @@ ol.arabic.dhbw {
 
     counter-reset: item;
     
-    >li {
+    > li {
         position: relative;
         padding: 0.25em;
         margin: 0.25em;
@@ -67,32 +71,12 @@ ol.arabic.dhbw {
     }
 }
 
-/*
-    This style is complementary to the previous one and adds a pop-out effect 
-    on hover.
-*/
-:is(ol,ul).pop-out-on-hover{
-    perspective: 500px;
-    transform-style: preserve-3d;
-    overflow: visible;
-    
-    >li {
-        transition: 0.5s;
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
+/*************************** LEGACY ***************************/
 
-        &::before {
-            transition: 0.5s;
-        }
-
-        &:hover {
-            transform: translateZ(15px);
-            transition: 0.5s;
-
-            &::before {
-                transition: 0.5s;
-            }
-        }
-    }
-}
 
 ul.columns {
     width: 100%;
@@ -134,66 +118,6 @@ ul.columns {
 
 
 
-
-
-
-
-/*
-    Styling of lists where each list item has multiple paragraphs, but all - except of the first one (rst wraps each block of text belonging to a list item in a div/p element) - should be rendered in a smaller font and in gray.
-*/
-/* TODO remove list-with-explanations*/
-:is(.list-with-explanations,.with-explanations)>li>*:not(:first-child) {
-    font-size: smaller;
-    color: var(--dhbw-dark-gray);
-    mix-blend-mode: hard-light;
-}
-
-
-ul {
-    list-style-position: outside;
-    padding-left: 0.85em;
-}
-
-ol.loweralpha {
-    list-style-position: outside;
-    padding-left: 0em;
-    margin-left: 1.5em;
-}
-
-ol.upperroman {
-    list-style-position: outside;
-    padding-left: 0em;
-    margin-left: 1.5em;
-}
-
-ol.arabic {
-    list-style-position: outside;
-    padding-left: 1.5em;
-}
-
-ol.arabic.long-list {
-    list-style-position: outside;
-    padding-left: 2.25em;
-}
-
-li {
-    padding-left: 0em;
-}
-
-ul.negative-list > li,
-ul > li.negative-list {
-    list-style-type: "❗️";
-}
-
-ul.positive-list > li,
-ul > li.positive-list {
-    list-style-type: "✓";
-}
-
-ul.attention-list > li,
-ul > li.attention-list {
-    list-style-type: "⚡️";
-}
 
 
 

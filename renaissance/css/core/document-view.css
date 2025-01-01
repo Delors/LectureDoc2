@@ -1,7 +1,8 @@
-/*  ----------------------------------------------------------------------------
+/* LAYER: behavior */
 
-    Core styles for the continuous view 
-*/
+:root {
+    --ld-continuous-view-zoom-level: 0.5; /* hard coded - cannot be changed by the user */
+}
 
 #ld-continuous-view-pane { /* TODO Rename to document-view*/
     width: calc(var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));

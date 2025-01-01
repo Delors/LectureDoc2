@@ -12,8 +12,9 @@
     --black: rgb(0, 0, 0);
     
     --shiny-green: rgb(0, 255, 0);
-    --light-green: rgb(0, 128, 0);
-    --green: rgb(0, 88, 0);    
+    --light-green: rgb(0, 200, 0);
+    --green: rgb(0, 150, 0);    
+    --dark-green: rgb(0, 88, 0);    
     --light-transparent-green: rgb(0, 88, 0, 0.1);
 
     --light-blue: rgb(165, 172, 255);
@@ -50,67 +51,71 @@
             rgba(170, 21, 20, 1) 35%,
             rgba(115, 0, 0, 1) 100%);
 
-    --separator-border: 2px solid var(--dark-gray);
+    
+    --separator-border: 2px solid var(--dark-gray); /* TODO: rename default border*/
+    
+    
+    
+    /*  We are using absolute sizes for the padding to enable footers and 
+        headers independent of the current font size of a slide (e. g.,
+        if the size of the font for a single slide is decreased, the footer 
+        should not be affected to retain a consistent look and feel). */
+    --slide-tb-padding: 20px; /* top and bottom padding */
+    --slide-lr-padding: 36px; /* left and right padding */
+    --slide-padding: var(--slide-tb-padding) var(--slide-lr-padding) var(--slide-tb-padding) var(--slide-lr-padding);
+    --slide-border-radius: 24px;    
 
     --slide-background-color: var(--white);
-    --slide-border-radius: 24px;
 
-    /*
-    We are using absolute sizes for the padding to enable footers and 
-    headers that do not depend on the current font size of a slide (e. g.,
-    if the size of the font for a single slide is decreased, the footer 
-    should not be affected to retain a consisten look and feel).
-    */
-    --slide-tb-padding: 20px;
-    /* top and bottom padding */
-    --slide-lr-padding: 36px;
-    /* left and right padding */
-    --slide-padding: var(--slide-tb-padding) var(--slide-lr-padding) var(--slide-tb-padding) var(--slide-lr-padding);
-    /*  48px to have roughly 16 lines of text on a 1200px height slide. */
+    /*  48px results in ~16 lines of text on a 1200px height slide. */
     --slide-font-size: 48px;
+    --supplemental-font-size: 18px; /* TODO rename slide-supplemental-font-size */
+    --slide-font-weight: 300; /* TODO check if old ld-font-weight still exist...*/
+    --slide-line-height: 1.5;
+
     --slide-footer-height: 48px;
     --slide-footer-font-size: 36px;
 
-    --slide-font-family: "Noto Sans Display", "Helvetica", sans-serif;
-    --slide-serif-font-family: "Noto Serif", "Times New Roman", Times, serif;
-    --slide-large-serif-font-family: "Noto Serif Display", "Times New Roman", Times, serif;
-    --slide-monospaced-font-family: "Monospace", "Courier New", monospace;
-    --slide-code-font-family: "Victor Mono", "Fira Code", "Monospace", monospace;
-    --slide-font-weight: 300;
-    --slide-line-height: 1.5;
-
-    --supplemental-font-size: 18px;
-    /* Reference size w.r.t. the continuous view. */
-    --extracted-exercises-font-size: 18px;
-    --extracted-exercises-line-height: 1.33;
-
-
-
-
-
+   
+    --theme-font-family: var(--default-font-family);
+    --theme-serif-font-family: var(--text-font-family);
+    --theme-large-serif-font-family: var(--large-text-font-family);
+    --theme-monospaced-font-family: var(--pre-font-family);
+    --theme-code-font-family: var(--code-font-family);
+   
+     /* TODO get rid of it (use theme...) */
+    --slide-font-family: var(--theme-font-family);
+    --slide-serif-font-family: var(--theme-serif-font-family);
+    --slide-large-serif-font-family: var(--theme-large-serif-font-family);
+    --slide-monospaced-font-family: var(--theme-monospaced-font-family);
+    --slide-code-font-family: var(--theme-code-font-family);
+    
+    /* Reference size w.r.t. the document view. */
+    --extracted-exercises-font-size: 18px; /* TODO rename dv-extracted-exercises-font-size */
+    --extracted-exercises-line-height: 1.33; /* TODO rename dv-extracted-exercises-line-height */
 
 
     /* Shadows */
-    --br-shadow: 4px 4px 8px var(--dhbw-gray);
+    --br-shadow: 4px 4px 8px var(--dhbw-light-gray);
     /* br = bottom - right*/
     --trbl-shadow: 4px -4px 18px 0px var(--dhbw-light-gray),
         -4px 4px 18px 0px var(--dhbw-light-gray),
         4px 4px 18px 0px var(--dhbw-light-gray),
         -4px -4px 18px 0px var(--dhbw-light-gray);
-    --trbl-shadow-dark: 4px -4px 18px 0px var(--dhbw-gray),
+    --trbl-shadow-dark: 4px -4px 18px 0px var(--dhbw-gray), /*TODO rename trbl-dark-shadow*/
         -4px 4px 18px 0px var(--dhbw-gray),
         4px 4px 18px 0px var(--dhbw-gray),
         -4px -4px 18px 0px var(--dhbw-gray);
 
 
-    --minimal-black-shadow: 
+    --minimal-black-shadow:  /*TODO ged rid of it...*/
         1px 2px 2px rgba(0,0,0,0.7), 
         -1px 0px 2px rgba(0,0,0,0.7);
 
-    --full-black-shadow: 
+    --full-black-shadow: /*TODO ged rid of it...*/
         2px 3px 4px 2px rgba(0,0,0,0.7), 
         -1px 0px 4px 1px rgba(0,0,0,0.7);
 
-
+    --field-indent: 5em;
     
 }

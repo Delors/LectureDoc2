@@ -3,6 +3,11 @@
 
 :root {
     
+    /* SHARED PROPERTIES */
+    --ld-ui-message-font-size: 24px;
+    --ld-ui-font-weight: 300;
+    --ld-ui-font-size: 14px;
+    
     /*  COLOR SCHEME
 
         The default color scheme is the dark scheme. 
@@ -23,9 +28,6 @@
     --ld-ui-close-button-hover: url('icons/black-cross-on-white.svg');
     --ld-ui-message-color: var(--white);
     --ld-ui-message-background-color: var(--dark-red);
-
-    /* SHARED PROPERTIES */
-    --ld-ui-message-font-size: 24px;
 }
 
 @media (prefers-color-scheme: light) {

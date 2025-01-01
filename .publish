@@ -158,6 +158,7 @@ renaissance/css/ui/icons/toc.svg
 renaissance/css/ui/icons/unlock-global.svg
 renaissance/css/ui/icons/white-cross-on-black.svg
 renaissance/css/ui/icons/white-cross.svg
+
 renaissance/css/core/behavior.css
 renaissance/css/core/slides-view.css
 renaissance/css/core/document-view.css
@@ -165,11 +166,15 @@ renaissance/css/core/document-view.css
 renaissance/css/themes/utilities.css
 
 renaissance/css/themes/ld.css
-renaissance/css/themes/LD/utilities.css
 renaissance/css/themes/LD/defs.css
+renaissance/css/themes/LD/common.css
+renaissance/css/themes/LD/document-view.css
+renaissance/css/themes/LD/slides-view.css
+renaissance/css/themes/LD/utilities.css
 
 renaissance/css/themes/dhbw.css
 renaissance/css/themes/DHBW/defs.css
+renaissance/css/themes/DHBW/common.css
 renaissance/css/themes/DHBW/utilities.css
 renaissance/css/themes/DHBW/dhbw_logo.png
 renaissance/css/themes/DHBW/dhbw_text.png
@@ -190,7 +195,7 @@ renaissance/css/themes/DHBW/OLD/admonitions.css
 renaissance/css/themes/DHBW/OLD/colors.css
 renaissance/css/themes/DHBW/OLD/logo.css
 renaissance/css/themes/DHBW/OLD/logo.js
-renaissance/css/themes/DHBW/OLD/theme.css
+
 
 
 

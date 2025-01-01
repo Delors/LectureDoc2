@@ -2,4 +2,8 @@
 
 /* Theming related to the content of LectureDoc documents. */
 @import url("LD/defs.css") layer(ld);
+@import url("LD/common.css") layer(ld);
+@import url("LD/slides-view.css") layer(ld.slides);
+@import url("LD/light-table.css") layer(ld.light-table);
+@import url("LD/document-view.css") layer(ld.document);
 @import url("LD/utilities.css") layer(ld);
