@@ -128,6 +128,8 @@ renaissance/js/ld-help.frag.html
 renaissance/js/ld-lib.js
 
 renaissance/ld.css
+renaissance/ld.css.md
+
 renaissance/css/defs.css
 renaissance/css/normalize.css
 renaissance/css/common.css
@@ -145,8 +147,8 @@ renaissance/css/ui/laser-pointer.css
 renaissance/css/ui/light-table-dialog.css
 renaissance/css/ui/icons/black-cross-on-white.svg
 renaissance/css/ui/icons/black-cross-on-whitesmoke.svg
-renaissance/css/ui/icons/continuous-view-with-nr.svg
-renaissance/css/ui/icons/continuous-view.svg
+renaissance/css/ui/icons/document-view-with-nr.svg
+renaissance/css/ui/icons/document-view.svg
 renaissance/css/ui/icons/help.svg
 renaissance/css/ui/icons/light-table.svg
 renaissance/css/ui/icons/lock-global.svg
@@ -162,19 +164,24 @@ renaissance/css/ui/icons/white-cross.svg
 renaissance/css/core/behavior.css
 renaissance/css/core/slides-view.css
 renaissance/css/core/document-view.css
+renaissance/css/core/light-table.css
 
 renaissance/css/themes/utilities.css
 
 renaissance/css/themes/ld.css
 renaissance/css/themes/LD/defs.css
 renaissance/css/themes/LD/common.css
+renaissance/css/themes/LD/copy_to_clipboard.svg
 renaissance/css/themes/LD/document-view.css
 renaissance/css/themes/LD/slides-view.css
+renaissance/css/themes/LD/light-table.css
 renaissance/css/themes/LD/utilities.css
 
 renaissance/css/themes/dhbw.css
 renaissance/css/themes/DHBW/defs.css
 renaissance/css/themes/DHBW/common.css
+renaissance/css/themes/DHBW/document-view.css
+renaissance/css/themes/DHBW/slides-view.css
 renaissance/css/themes/DHBW/utilities.css
 renaissance/css/themes/DHBW/dhbw_logo.png
 renaissance/css/themes/DHBW/dhbw_text.png
