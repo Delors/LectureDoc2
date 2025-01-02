@@ -545,7 +545,9 @@ function setupLightTable() {
         classes: ["ld-dialog-header"],
         parent: lightTableDialog,
         innerHTML: `
-            <span id="ld-light-table-slides-count">${presentation.slideCount} slides</span>
+            <span id="ld-light-table-slides-count" class="ld-dialog-title">
+                Light Table: ${presentation.slideCount} slides
+            </span>
             <input
                 type="search"
                 id="ld-light-table-search-input"
@@ -645,9 +647,7 @@ function setupTableOfContents() {
     tocDialog.innerHTML = `
         <div class="ld-dialog-header">
             <span class="ld-dialog-title">Table of Contents</span>
-            <div class="ld-dialog-close">
-                <div id="ld-table-of-contents-close-button" class="ld-dialog-close-button"></div>
-            </div>
+            <button type="button" id="ld-table-of-contents-close-button" class="ld-dialog-close-button" ></button>
         </div>
         ${s}`
 
@@ -664,7 +664,7 @@ function setupTableOfContents() {
 
 
 function createPasswordInput() {
-    const passwordInput = ld.create("INPUT", { classList: ["passwords"] });
+    const passwordInput = ld.create("INPUT", {});
     passwordInput.type = "password";
     passwordInput.placeholder = "🔑";
     // When the user has entered a password in the past, it may just be filled 
@@ -682,9 +682,7 @@ function setupExercisesPasswordsDialog() {
     exercisesPasswordsDialog.innerHTML = `
             <div class="ld-dialog-header">
                 <span class="ld-dialog-title">Exercises Passwords</span>
-                <div id="ld-dialog-close">
-                    <div id="ld-exercises-passwords-close-button" class="ld-dialog-close-button"></div>
-                </div>
+                <button type="button" class="ld-dialog-close-button" id="ld-exercises-passwords-close-button" ></button>
             </div>`
     const encryptedExercisesPasswords = getEncryptedExercisesPasswords();
     if (encryptedExercisesPasswords) {
@@ -1973,7 +1971,7 @@ function registerLightTableCloseListener() {
 
 function registerHelpCloseListener() {
     document.
-        getElementById( "ld-help-close-button").
+        getElementById("ld-help-close-button").
         addEventListener("click", () => { toggleDialog("help"); });
 }
 
