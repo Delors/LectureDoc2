@@ -15,8 +15,8 @@
     }
 
     & > ol {
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
         overflow-y: scroll;        
     }
 }

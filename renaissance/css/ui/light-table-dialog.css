@@ -28,9 +28,7 @@
             margin-right: 10px;
 
             border-radius: 0.2em;
-            padding: 2px 4px 2px 4px;
-
-            background-color: var(--ld-ui-background-color);
+            padding: 4px 4px 4px 4px;
         }
 
         #ld-light-table-close-button {

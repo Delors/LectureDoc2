@@ -15,7 +15,14 @@
         margin-top: 0.75em;
         margin-bottom: 0.4em;
     }
+
+    input {   
+        /* The color is otherwise explicitly set by user-agent stylesheets. */        
+        background-color: var(--ld-ui-background-color);
+        color: var(--ld-ui-color);
+    }
 }
+
 
 /*******************************************************************************
     
@@ -87,6 +94,7 @@ dialog.ld-ui {
     width: 22px;
     text-align: center;
     border-radius: 0.2em;
+    flex-grow: 0;
 }
 
 .ld-dialog-close-button {
@@ -123,3 +131,4 @@ dialog.ld-ui {
         opacity: 0;
     }
 }
+

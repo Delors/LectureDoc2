@@ -50,14 +50,6 @@ with other classes to style the block footer.
     padding-left: var(--slide-lr-padding);
     padding-right: var(--slide-lr-padding);
     padding-bottom: 1.5em;
-
-    &::after {
-        position: absolute;
-        bottom: -45px;
-        right: -35px;
-        content: var(--dhbw-symbol);
-        scale: 0.5
-    }
 }
 
 .ld-slide {

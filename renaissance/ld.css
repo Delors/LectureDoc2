@@ -1,6 +1,6 @@
 @layer normalize, common, theme, utilities, ui, behavior;
 
-@import url("../ext/fonts/ld-fonts.css");
+@import url("../ext/fonts/ld-fonts.css") /* No Layer: only contains font definitions */;
 
 @import url(./css/normalize.css) layer(normalize);
 @import url(./css/defs.css) layer(common);

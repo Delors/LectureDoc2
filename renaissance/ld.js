@@ -600,8 +600,7 @@ function setupHelp() {
     helpDialog.innerHTML = `
         <div class="ld-dialog-header">
             <span class="ld-dialog-title">Help</span>
-            <button type="button" class="ld-dialog-close">
-                <div id="ld-help-close-button" class="ld-dialog-close-button"></div>
+            <button type="button" id="ld-help-close-button" class="ld-dialog-close-button" >
             </button>
         </div>`
 
@@ -1974,7 +1973,7 @@ function registerLightTableCloseListener() {
 
 function registerHelpCloseListener() {
     document.
-        getElementById("ld-help-close-button").
+        getElementById( "ld-help-close-button").
         addEventListener("click", () => { toggleDialog("help"); });
 }
 
