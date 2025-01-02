@@ -12,7 +12,7 @@
 
 /*  Rendering of the slide numbers.    
 */
-.ld-continuous-view-slide-number {
+.ld-document-view-slide-number {
     bottom: 0px;
     right: 5px;
     font-size: 18px;
@@ -35,7 +35,7 @@
         <div|aside class="supplemental">...</>
 */
 
-.ld-continuous-view-slide-pane {
+.ld-document-view-slide-pane {
 
     &:not(:has(+.supplemental)) {
         margin-bottom: 2px;
@@ -49,10 +49,10 @@
     +.supplemental {
         margin-bottom: 2px;
         border-top: 1px dashed #333;
-        padding: calc(var(--slide-lr-padding) * var(--ld-continuous-view-zoom-level));
+        padding: calc(var(--slide-lr-padding) * var(--ld-document-view-zoom-level));
 
         border-radius:
-            0 0 calc(var(--slide-border-radius) * var(--ld-continuous-view-zoom-level)) calc(var(--slide-border-radius) * var(--ld-continuous-view-zoom-level));
+            0 0 calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level)) calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level));
         box-shadow: none;
         
         font-size: var(--supplemental-font-size);
@@ -61,15 +61,15 @@
     }
 }
 
-#ld-continuous-view-pane .ld-exercise-solution[data-encrypted] {
+#ld-document-view-pane .ld-exercise-solution[data-encrypted] {
     display: none;
 }
 
 .ld-extracted-exercise {
     background-color: white;
     padding:
-        calc(var(--ld-continuous-view-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-continuous-view-zoom-level) * var(--slide-lr-padding)) calc(var(--ld-continuous-view-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-continuous-view-zoom-level) * var(--slide-lr-padding));
-    border-radius: calc(var(--slide-border-radius) * var(--ld-continuous-view-zoom-level)) calc(var(--slide-border-radius) * var(--ld-continuous-view-zoom-level));
+        calc(var(--ld-document-view-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-document-view-zoom-level) * var(--slide-lr-padding)) calc(var(--ld-document-view-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-document-view-zoom-level) * var(--slide-lr-padding));
+    border-radius: calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level)) calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level));
     margin-bottom: 2px;
 }
 
@@ -93,7 +93,7 @@
 }
 
 
-#ld-continuous-view-pane {
+#ld-document-view-pane {
 
     @media screen {
         .ld-slide.not-covered-topics {
@@ -112,7 +112,7 @@
 
 
 
-#ld-continuous-view-pane .stack {
+#ld-document-view-pane .stack {
 
     /* Unfortunately, the final positioning needs to be done in JavaScript! 
     .layer {  

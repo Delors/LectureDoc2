@@ -1,17 +1,17 @@
 /* LAYER: behavior */
 
 :root {
-    --ld-continuous-view-zoom-level: 0.5; /* hard coded - cannot be changed by the user */
+    --ld-document-view-zoom-level: 0.5; /* hard coded - cannot be changed by the user */
 }
 
-#ld-continuous-view-pane { /* TODO Rename to document-view*/
-    width: calc(var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
-    max-width: calc(var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
+#ld-document-view-pane { /* TODO Rename to document-view*/
+    width: calc(var(--ld-slide-width) * var(--ld-document-view-zoom-level));
+    max-width: calc(var(--ld-slide-width) * var(--ld-document-view-zoom-level));
     margin: auto;
 
     display: none;
     /*
-    ATTENTION:  When the continuous view pane becomes the "scroll container", 
+    ATTENTION:  When the document view pane becomes the "scroll container", 
                 printing the slide set/generating a PDF slide set becomes 
                 virtually impossible. (Most?) Browsers can only handle the
                 situation where the whole document directly belongs to the
@@ -21,21 +21,21 @@
     scroll-snap-type: y mandatory;    
     */
 
-    .ld-continuous-view-slide-pane {
+    .ld-document-view-slide-pane {
         box-sizing: border-box;
-        width: calc(var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
-        max-width: calc(var(--ld-slide-width) * var(--ld-continuous-view-zoom-level));
-        height: calc(var(--ld-slide-height) * var(--ld-continuous-view-zoom-level));
-        max-height: calc(var(--ld-slide-height) * var(--ld-continuous-view-zoom-level));
+        width: calc(var(--ld-slide-width) * var(--ld-document-view-zoom-level));
+        max-width: calc(var(--ld-slide-width) * var(--ld-document-view-zoom-level));
+        height: calc(var(--ld-slide-height) * var(--ld-document-view-zoom-level));
+        max-height: calc(var(--ld-slide-height) * var(--ld-document-view-zoom-level));
         position: relative;
         /*
             ATTENTION:  SEE ABOVE!
             scroll-snap-align: start;
         */
 
-        .ld-continuous-view-scaler {
+        .ld-document-view-scaler {
             position: absolute;
-            scale: var(--ld-continuous-view-zoom-level);
+            scale: var(--ld-document-view-zoom-level);
 
             .ld-slide {
                 position: absolute;
@@ -44,7 +44,7 @@
             }
         }
 
-        .ld-continuous-view-slide-number {
+        .ld-document-view-slide-number {
             position: absolute;
         }
 
@@ -62,7 +62,7 @@
     */
     .supplemental img {
         /* TODO: find better formula for scaling images in the supplemental area in
-                continuous view mode.
+                document view mode.
             Conceptually we would like to use a calculation that ensures that the image
             is always appropriately scaled, but this doesn't work at the moment.
         */
@@ -74,7 +74,7 @@
 
 /* The following is a workaround to avoid that the last row is not fully shown.
    It is done in the JavaScript (ld-animation.js):
-ld-continuous-view-pane .scrollable {
+ld-document-view-pane .scrollable {
     overflow-y: unset;
     margin-bottom: 1.5em;
 }

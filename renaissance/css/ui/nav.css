@@ -112,13 +112,13 @@ nav#ld-menu {
             grid-row: 1;
         }
 
-        &#ld-continuous-view-button {
+        &#ld-document-view-button {
             background-image: url('icons/document-view.svg');
             grid-column: 1;
             grid-row: 2;
         }
 
-        &#ld-continuous-view-with-nr-button {
+        &#ld-document-view-with-nr-button {
             background-image: url('icons/document-view-with-nr.svg');
             grid-column: 2;
             grid-row: 2;

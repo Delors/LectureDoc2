@@ -144,7 +144,7 @@ const presentation = {
      */
     showLightTable: false,
     /**
-     * If true (default), the continuous view mode will be shown when this
+     * If true (default), the document view mode will be shown when this
      * presentation is shown for the first time. If false the slide view
      * is used.
      */
@@ -181,7 +181,7 @@ let state = { // the (default) state
     lightTableZoomLevel: 0.2,
     lightTableViewScrollY: 0, // FIXME use approach which doesn't depend on viewport size
 
-    // Continuous view related state
+    // Document view related state
     showContinuousView: true, // set in the document or by default in presentation
     continuousViewScrollY: 0,
     showContinuousViewSlideNumber: false,
@@ -910,7 +910,7 @@ function tryDecryptExercise(password, solutionWrapper, solution) {
 
 
 function setupContinuousView() {
-    const continuousViewPane = ld.div({ id: "ld-continuous-view-pane" });
+    const continuousViewPane = ld.div({ id: "ld-document-view-pane" });
 
     slideTemplates.querySelectorAll(".ld-slide").forEach((slideTemplate, i) => {
         const slide = slideTemplate.cloneNode(true);
@@ -918,13 +918,13 @@ function setupContinuousView() {
         setupCopyToClipboard(slide);
 
 
-        const slideScaler = ld.div({ classes: ["ld-continuous-view-scaler"] });
+        const slideScaler = ld.div({ classes: ["ld-document-view-scaler"] });
         slideScaler.appendChild(slide);
 
         const slidePane = ld.div({
-            classes: ["ld-continuous-view-slide-pane", "ld-slide-context"],
-            id: "ld-continuous-view-slide-no-" + i,
-            innerHTML: `<span class="ld-continuous-view-slide-number">${i + 1}</span>`
+            classes: ["ld-document-view-slide-pane", "ld-slide-context"],
+            id: "ld-document-view-slide-no-" + i,
+            innerHTML: `<span class="ld-document-view-slide-number">${i + 1}</span>`
         });
         slidePane.prepend(slideScaler);
 
@@ -983,10 +983,10 @@ function setupMenu() {
                 aria-label="show slides with numbers"></button>
         <button type="button" id="ld-help-button" 
                 aria-label="show help"></button>
-        <button type="button" id="ld-continuous-view-button" 
-                aria-label="show continuous view"></button>
-        <button type="button" id="ld-continuous-view-with-nr-button" 
-                aria-label="show continuous view with slide numbers"></button>
+        <button type="button" id="ld-document-view-button" 
+                aria-label="show document view"></button>
+        <button type="button" id="ld-document-view-with-nr-button" 
+                aria-label="show document view with slide numbers"></button>
         <button type="button" id="ld-table-of-contents-button" 
                 aria-label="show table of contents"></button>                    
         <button type="button" id="ld-light-table-button" 
@@ -1340,7 +1340,7 @@ function jumpToSlide() {
         const targetSlideNo = slideNo > lastSlideNo() ? lastSlideNo() : slideNo;
 
         if (state.showContinuousView) {
-            window.scrollTo(0, document.getElementById("ld-continuous-view-slide-no-" + targetSlideNo).offsetTop);
+            window.scrollTo(0, document.getElementById("ld-document-view-slide-no-" + targetSlideNo).offsetTop);
         } else {
             goToSlideWithNo(targetSlideNo);
         }
@@ -1448,7 +1448,7 @@ function showMainSlideNumber(show) {
 function showContinuousViewSlideNumber(show) {
     state.showContinuousViewSlideNumber = show;
     const slideNumbers =
-        document.querySelectorAll(".ld-continuous-view-slide-number");
+        document.querySelectorAll(".ld-document-view-slide-number");
     if (show && state.showContinuousView) {
         slideNumbers.forEach((e) => { e.style.display = "block"; });
     } else {
@@ -1465,12 +1465,12 @@ function toggleSlideNumber() {
 }
 
 /**
- * Shows/hides the continuous view. 
+ * Shows/hides the document view. 
  * 
  * This view shows all slides in its final rendering.
  */
 function toggleContinuousView() {
-    const continuousViewPane = document.getElementById("ld-continuous-view-pane");
+    const continuousViewPane = document.getElementById("ld-document-view-pane");
     const mainPane = document.getElementById("ld-slides-pane");
     // If we currently show the slides, we update the state for `showContinuousView`
     // and then actually perform the change.
@@ -1480,7 +1480,7 @@ function toggleContinuousView() {
         continuousViewPane.style.display = "block";
         setTimeout(() => {
             // We have to defer the scrollTo to make sure that the browser has
-            // rendered the continuous view and the scroll position makes
+            // rendered the document view and the scroll position makes
             // sense to the browser.
             window.scrollTo(0, state.continuousViewScrollY);
         });
@@ -1503,7 +1503,7 @@ function toggleContinuousView() {
  * 1. close help dialog
  * 2. close light table
  * 3. hide "go to" dialog
- * 4. use continuous view  
+ * 4. use document view  
  * 5. show slide numbers
  * 6. "MOST IMPORTANT" - scroll over the whole document to ensure that
  *    all slides are rendered properly; in particular those with 
@@ -1518,7 +1518,7 @@ function prepareForPrinting() {
     if (!state.showContinuousView) toggleContinuousView();
     if (!state.showContinuousViewSlideNumber) showContinuousViewSlideNumber(true);
 
-    const slideList = document.querySelectorAll("#ld-continuous-view-pane .ld-slide")
+    const slideList = document.querySelectorAll("#ld-document-view-pane .ld-slide")
     const slideCount = slideList.length;
     const slidesIterator = slideList.values()
     let slidesIteratorResult = slidesIterator.next();
@@ -2004,7 +2004,7 @@ function registerMenuClickListener() {
         });
 
     document.
-        getElementById("ld-continuous-view-button").
+        getElementById("ld-document-view-button").
         addEventListener("click", () => {
             if (!state.showContinuousView) {
                 toggleContinuousView();
@@ -2013,7 +2013,7 @@ function registerMenuClickListener() {
         });
 
     document.
-        getElementById("ld-continuous-view-with-nr-button").
+        getElementById("ld-document-view-with-nr-button").
         addEventListener("click", () => {
             if (!state.showContinuousView) {
                 toggleContinuousView();
