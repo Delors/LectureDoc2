@@ -7,15 +7,12 @@
     position: fixed;
     
     .ld-dialog-header {
-        flex-grow: 0;
-
         max-width: initial;
         
         justify-content: space-between;
         align-items: center;
 
         #ld-light-table-slides-count {
-            flex-grow: 1;
             color: var(--ld-ui-color);
         }
         
@@ -23,16 +20,12 @@
             flex-grow: 1;
             flex-shrink: 1;
 
-            max-width: 40ch;
+            max-width: 60ch;
             min-width: 20ch;
             margin-right: 10px;
 
             border-radius: 0.2em;
-            padding: 4px 4px 4px 4px;
-        }
-
-        #ld-light-table-close-button {
-            flex-grow: 0;
+            padding: 3px 4px 3px 4px;
         }
     }
 
@@ -85,8 +78,11 @@
                 top: 0px;
                 left: 0px;
             
-                background-color: rgba(0, 0, 0, 0.33);
+                background-color: rgba(0, 0, 0, 0.2);
                 opacity: 1;
+                &:hover {
+                    opacity: 0;
+                }
                 transition: opacity 333ms ease-in;
 
                 /* We use flex here, to make it easy to align slide number: */
@@ -94,15 +90,11 @@
                 align-items: end; 
                 justify-content: right;
 
-                &:hover {
-                    opacity: 0;
-                }
-
                 > .ld-light-table-slide-number {
                     display: block; 
                     color: rgba(0,0,0,0.5); 
                     text-shadow: 1px 2px 1px rgba(255,255,255,0.25); 
-                    font-size: 18px;
+                    font-size: 16px;
                     margin-right: 0.25em;
                 }
             }
@@ -110,10 +102,6 @@
     }
 
     .ld-dialog-footer {
-        flex-grow: 0;
-
-        max-width: initial;
-    
         justify-content: right;
 
         #ld-light-table-zoom {

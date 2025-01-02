@@ -84,7 +84,7 @@ nav#ld-menu {
         transition-timing-function: ease-in-out;
     }
 
-    >button {
+    > button {
         background-color: transparent;
         background-size: cover;
 
@@ -113,13 +113,13 @@ nav#ld-menu {
         }
 
         &#ld-continuous-view-button {
-            background-image: url('icons/continuous-view.svg');
+            background-image: url('icons/document-view.svg');
             grid-column: 1;
             grid-row: 2;
         }
 
         &#ld-continuous-view-with-nr-button {
-            background-image: url('icons/continuous-view-with-nr.svg');
+            background-image: url('icons/document-view-with-nr.svg');
             grid-column: 2;
             grid-row: 2;
         }

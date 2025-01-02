@@ -36,6 +36,10 @@ body {
   }
 }
 
+h1 {
+  font-family: var(--large-text-font-family);
+}
+
 h1,
 h2,
 h3,
