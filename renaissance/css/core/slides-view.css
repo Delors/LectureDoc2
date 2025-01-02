@@ -13,7 +13,7 @@
     --ld-slide-height: 1200px; /* cf. lectureDoc2.presentation.slide.height */
 }
 
-#ld-main-pane {
+#ld-slides-pane {
     height: 100dvh;
 
     display: flex;

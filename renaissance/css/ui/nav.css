@@ -65,12 +65,12 @@ nav#ld-menu {
         The menu is nearly invisible when we are presenting a slide. 
         When we are not presenting a slide, the menu is more visible.
     */
-    &:not(:has(+ #ld-main-pane[style*="display: none;"])) {
+    &:not(:has(+ #ld-slides-pane[style*="display: none;"])) {
         opacity: 0.175;
     }
 
     /*  The ":where" selector is required by the :hover below! */
-    &:has(+ :where(#ld-main-pane[style*="display: none;"])) {
+    &:has(+ :where(#ld-slides-pane[style*="display: none;"])) {
         opacity: 0.5;
         --ld-menu-current-scale: 0.1;
     }

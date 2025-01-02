@@ -19,7 +19,7 @@
     @author Michael Eichberg
     @version 2024-07-18
 */
-#ld-main-pane .ld-slide:has(h1) {
+#ld-slides-pane .ld-slide:has(h1) {
 
     &:not(.animated-symbol)::before {
         position: absolute;
@@ -52,7 +52,7 @@
 
 */
 
-#ld-main-pane, #ld-light-table-dialog {
+#ld-slides-pane, #ld-light-table-dialog {
 
     .ld-slide.not-covered-topics {
         background-color: black;

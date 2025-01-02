@@ -799,7 +799,7 @@ function localHideLaserPointer() {
 
 function setupMainPane() {
     const mainPane = ld.div({
-        id: "ld-main-pane",
+        id: "ld-slides-pane",
         classes: ["ld-slide-context"],
         children: [ld.div({ id: "ld-laser-pointer" })]
     });
@@ -1063,7 +1063,7 @@ function getCurrentSlide() {
 function setPaneScale() {
     const w_scale = window.innerWidth / presentation.slide.width;
     const h_scale = window.innerHeight / presentation.slide.height;
-    document.getElementById("ld-main-pane").style.scale = Math.min(w_scale, h_scale);
+    document.getElementById("ld-slides-pane").style.scale = Math.min(w_scale, h_scale);
 }
 
 /**
@@ -1286,7 +1286,7 @@ function reapplySlideProgress() {
         state.slideProgress = {};
         return;
     }
-    document.querySelectorAll("#ld-main-pane .ld-slide").forEach((slide) => {
+    document.querySelectorAll("#ld-slides-pane .ld-slide").forEach((slide) => {
         const visibleElements = getSlideProgress(slide);
         if (visibleElements > 0) {
             const elements = getElementsToAnimate(slide);
@@ -1303,7 +1303,7 @@ function resetAllAnimations() {
     localResetAllAnimations();
 }
 function localResetAllAnimations() {
-    document.querySelectorAll("#ld-main-pane .ld-slide").forEach((slide) => {
+    document.querySelectorAll("#ld-slides-pane .ld-slide").forEach((slide) => {
         localResetSlideProgress(slide);
     });
     showMessage("Reset all animation progress.");
@@ -1471,7 +1471,7 @@ function toggleSlideNumber() {
  */
 function toggleContinuousView() {
     const continuousViewPane = document.getElementById("ld-continuous-view-pane");
-    const mainPane = document.getElementById("ld-main-pane");
+    const mainPane = document.getElementById("ld-slides-pane");
     // If we currently show the slides, we update the state for `showContinuousView`
     // and then actually perform the change.
     state.showContinuousView = getComputedStyle(mainPane).display == "flex"
@@ -1692,7 +1692,7 @@ function registerSlideClickedListener() {
     // - links,
     // - buttons and 
     // - the "ld-copy-to-clipboard-button" icon // FIXME: make this a button
-    document.querySelectorAll("#ld-main-pane :is(a,button,div.ld-copy-to-clipboard-button,video)").forEach((e) => {
+    document.querySelectorAll("#ld-slides-pane :is(a,button,div.ld-copy-to-clipboard-button,video)").forEach((e) => {
         e.addEventListener(
             "click",
             (event) => { event["interactive_element_clicked"] = true; },
@@ -1700,7 +1700,7 @@ function registerSlideClickedListener() {
         )
     });
 
-    document.getElementById("ld-main-pane").addEventListener("click", (event) => {
+    document.getElementById("ld-slides-pane").addEventListener("click", (event) => {
         if (event.interactive_element_clicked)
             return;
 
@@ -1726,14 +1726,14 @@ function registerSlideClickedListener() {
  */
 function localJumpToSlideWithElementWithId(id) {
 
-    const slide = document.querySelector(`#ld-main-pane .ld-slide:has(#${id})`);
+    const slide = document.querySelector(`#ld-slides-pane .ld-slide:has(#${id})`);
     if (!slide) {
         return undefined;
     }
     localGoToSlide(slide);
 
     // ensure that all elements up to the target element are visible.
-    const target = document.querySelector(`#ld-main-pane .ld-slide #${id}`);
+    const target = document.querySelector(`#ld-slides-pane .ld-slide #${id}`);
     while (getComputedStyle(target).visibility == "hidden") {
         localAdvancePresentation();
     }
@@ -1744,7 +1744,7 @@ function localJumpToSlideWithElementWithId(id) {
  * @param str id The original id saved in the data-id attribute of the slide!
  */
 function localJumpToSlideWithId(id) {
-    const slide = document.querySelector(`#ld-main-pane .ld-slide[data-id="${id}"]`);
+    const slide = document.querySelector(`#ld-slides-pane .ld-slide[data-id="${id}"]`);
     if (!slide) {
         return undefined;
     }
@@ -1780,7 +1780,7 @@ function jumpToId(id) {
  */
 function localScrollScrollable(scrollableId, scrollTop) {
     const scrollable = document.querySelector(
-        `#ld-main-pane .scrollable[data-scrollable-id="${scrollableId}"]`);
+        `#ld-slides-pane .scrollable[data-scrollable-id="${scrollableId}"]`);
 
     if (scrollable.scrollTop !== scrollTop) {
         scrollable.scrollTo(0, scrollTop);
@@ -1789,7 +1789,7 @@ function localScrollScrollable(scrollableId, scrollTop) {
 
 function localScrollSupplemental(supplementalId, scrollTop) {
     const supplemental = document.querySelector(
-        `#ld-main-pane .supplemental[data-supplemental-id="${supplementalId}"]`);
+        `#ld-slides-pane .supplemental[data-supplemental-id="${supplementalId}"]`);
 
     if (supplemental.scrollTop !== scrollTop) {
         supplemental.scrollTo(0, scrollTop);
@@ -1808,12 +1808,12 @@ function registerInternalLinkClickListener(a, f) {
 function registerSlideInternalLinkClickedListener() {
     // Handle links to "other" slides, the bibliography and also back-links.
     document.
-        querySelectorAll('#ld-main-pane a:where(.reference.internal, .citation-reference, [role="doc-backlink"])').
+        querySelectorAll('#ld-slides-pane a:where(.reference.internal, .citation-reference, [role="doc-backlink"])').
         forEach((e) => registerInternalLinkClickListener(e));
 
     // // Handle links to other slides in the document.
     // document.
-    //     querySelectorAll("#ld-main-pane a.reference.internal").
+    //     querySelectorAll("#ld-slides-pane a.reference.internal").
     //     forEach((a) => {
     //         a.addEventListener("click", (event) => {
     //             event.stopPropagation();
@@ -1824,7 +1824,7 @@ function registerSlideInternalLinkClickedListener() {
 
     // // Handle links related to the bibliography.
     // document.
-    //     querySelectorAll("#ld-main-pane a.citation-reference").
+    //     querySelectorAll("#ld-slides-pane a.citation-reference").
     //     forEach((a) => {
     //         a.addEventListener("click", (event) => {
     //             event.stopPropagation();
@@ -1833,7 +1833,7 @@ function registerSlideInternalLinkClickedListener() {
     //         })
     //     });
     // document.
-    //     querySelectorAll('#ld-main-pane a[role="doc-backlink"]').
+    //     querySelectorAll('#ld-slides-pane a[role="doc-backlink"]').
     //     forEach((a) => {
     //         a.addEventListener("click", (event) => {
     //             event.stopPropagation();
@@ -1881,7 +1881,7 @@ function addScrollingEventListener(eventTitle, scrollableElement, id) {
 
 function registerScrollableElementListener() {
     let scrollableId = 1;
-    document.querySelectorAll("#ld-main-pane .scrollable").forEach((scrollable) => {
+    document.querySelectorAll("#ld-slides-pane .scrollable").forEach((scrollable) => {
         const id = scrollableId++;
         scrollable.dataset.scrollableId = id;
         // We want to collapse multiple events into one, but ensure that we
@@ -1892,7 +1892,7 @@ function registerScrollableElementListener() {
 
 function registerHoverSupplementalListener() {
     let supplementalId = 1;
-    document.querySelectorAll("#ld-main-pane .supplemental").forEach((supplemental) => {
+    document.querySelectorAll("#ld-slides-pane .supplemental").forEach((supplemental) => {
         const id = supplementalId++;
         supplemental.dataset.supplementalId = id;
         const addHoverSupplemental = (event) => {
@@ -2205,12 +2205,12 @@ const onLoad = () => {
 
                 case "addHoverSupplemental": {
                     const id = data;
-                    document.querySelector(`#ld-main-pane .supplemental[data-supplemental-id="${id}"]`).classList.add("hover:supplemental");
+                    document.querySelector(`#ld-slides-pane .supplemental[data-supplemental-id="${id}"]`).classList.add("hover:supplemental");
                     break;
                 }
                 case "removeHoverSupplemental": {
                     const id = data;
-                    document.querySelector(`#ld-main-pane .supplemental[data-supplemental-id="${id}"]`).classList.remove("hover:supplemental");
+                    document.querySelector(`#ld-slides-pane .supplemental[data-supplemental-id="${id}"]`).classList.remove("hover:supplemental");
                     break;
                 }
                 case "supplementalScrolled": {

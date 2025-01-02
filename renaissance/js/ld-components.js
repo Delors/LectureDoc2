@@ -283,7 +283,7 @@ function afterLDListenerRegistrations() {
             }
         });
     });
-    document.querySelectorAll(":is(#ld-main-pane, #ld-light-table-dialog, #ld-continuous-view-pane) .ld-slide .stack").forEach((stack) => {
+    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-continuous-view-pane) .ld-slide .stack").forEach((stack) => {
         stackObserver.observe(stack);
     });
 
@@ -307,7 +307,7 @@ function afterLDListenerRegistrations() {
             }
         });
     });
-    document.querySelectorAll(":is(#ld-main-pane, #ld-light-table-dialog, #ld-continuous-view-pane) .scrollable").forEach((scrollable) => {
+    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-continuous-view-pane) .scrollable").forEach((scrollable) => {
         scrollableObserver.observe(scrollable);
     });
 

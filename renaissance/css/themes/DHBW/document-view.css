@@ -1,4 +1,4 @@
-:not(#ld-main-pane) .ld-slide:has(h1)::before {
+:not(#ld-slides-pane) .ld-slide:has(h1)::before {
     content: var(--dhbw-logo);
     position: absolute;
     right: 48px;

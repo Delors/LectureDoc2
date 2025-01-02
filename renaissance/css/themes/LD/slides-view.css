@@ -59,7 +59,7 @@ with other classes to style the block footer.
 }
 
 
-:is(#ld-main-pane, #ld-light-table-slides){
+:is(#ld-slides-pane, #ld-light-table-slides){
     
     .supplemental {
         font-size: calc(var(--supplemental-font-size) * 2.5);
@@ -80,7 +80,7 @@ with other classes to style the block footer.
 */
 
 
-:is(#ld-main-pane, #ld-light-table-slides) .supplemental {
+:is(#ld-slides-pane, #ld-light-table-slides) .supplemental {
     max-width: var(--ld-rel-max-supplemental-area-width);
     max-height: var(--ld-rel-max-supplemental-area-height);
     margin: 0;
@@ -107,7 +107,7 @@ with other classes to style the block footer.
 
 /* We can't use the :hover pseudo class here, because we want to be able to apply
    the styling in the non-primary window. */
-#ld-main-pane .supplemental.hover\:supplemental { /* the selector needs to be more specific than the general .supplemental selector. */
+#ld-slides-pane .supplemental.hover\:supplemental { /* the selector needs to be more specific than the general .supplemental selector. */
     transform:
         translateX(0%) translateY(calc(var(--ld-slide-height) * 0.5 - (100% * 0.5)));
     transition: 0.75s;
@@ -118,7 +118,7 @@ with other classes to style the block footer.
     Select all supplementals that have one child and this child is an 
     admonition.
 */
-#ld-main-pane .supplemental:not(:has(> * + *)):has( > aside.admonition):hover {
+#ld-slides-pane .supplemental:not(:has(> * + *)):has( > aside.admonition):hover {
     box-shadow: initial;
     background-color: initial;
 }
@@ -158,7 +158,7 @@ with other classes to style the block footer.
 }
 
 /* The solution will only be shown in the respective pane. */
-:is(#ld-light-table-dialog, #ld-main-pane) .ld-exercise-solution {
+:is(#ld-light-table-dialog, #ld-slides-pane) .ld-exercise-solution {
     display: none;
 }
 
@@ -189,11 +189,11 @@ with other classes to style the block footer.
     }
 }
 
-#ld-main-pane .ld-current-slide.transition-move-left {
+#ld-slides-pane .ld-current-slide.transition-move-left {
     animation: 3s slide-move-left-in;
 }
 
-#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-move-left.ld-current-slide) {
+#ld-slides-pane .ld-previous-slide:has(+.ld-slide.transition-move-left.ld-current-slide) {
     animation: 3s slide-move-left-out, 0s 3s scale-to-zero;
 }
 
@@ -232,11 +232,11 @@ with other classes to style the block footer.
     }
 }
 
-#ld-main-pane .ld-current-slide.transition-scale {
+#ld-slides-pane .ld-current-slide.transition-scale {
     animation: 3s slide-scale-in;
 }
 
-#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-scale.ld-current-slide) {
+#ld-slides-pane .ld-previous-slide:has(+.ld-slide.transition-scale.ld-current-slide) {
     animation: 3s slide-scale-out;
 }
 
@@ -265,7 +265,7 @@ with other classes to style the block footer.
     }
 }
 
-#ld-main-pane {
+#ld-slides-pane {
 
     .ld-current-slide.transition-flip {
         perspective: 3000px;
@@ -315,11 +315,11 @@ with other classes to style the block footer.
 
 
 
-#ld-main-pane .ld-current-slide.transition-fade {
+#ld-slides-pane .ld-current-slide.transition-fade {
     animation: 2s slide-fade-in;
 }
 
-#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-fade.ld-current-slide) {
+#ld-slides-pane .ld-previous-slide:has(+.ld-slide.transition-fade.ld-current-slide) {
     animation: 2s slide-fade-out, 0s 2s scale-to-zero;
 }
 
@@ -346,11 +346,11 @@ with other classes to style the block footer.
     }
 }
 
-#ld-main-pane .ld-current-slide.transition-move-to-top {
+#ld-slides-pane .ld-current-slide.transition-move-to-top {
     animation: 3s slide-move-old-to-top;
 }
 
-#ld-main-pane .ld-previous-slide:has(+.ld-slide.transition-move-to-top.ld-current-slide) {
+#ld-slides-pane .ld-previous-slide:has(+.ld-slide.transition-move-to-top.ld-current-slide) {
     animation: 3s slide-move-bottom-to-center, 0s 3s scale-to-zero;
 }
 
@@ -568,7 +568,7 @@ with other classes to style the block footer.
     }
 }
 
-:where(#ld-main-pane, #ld-light-table-dialog) .stack>.layer {
+:where(#ld-slides-pane, #ld-light-table-dialog) .stack>.layer {
     width: 100%;
     /* DON'T ADD: height: 100%; !!! */
 
