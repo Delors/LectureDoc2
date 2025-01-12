@@ -148,7 +148,7 @@ const presentation = {
      * presentation is shown for the first time. If false the slide view
      * is used.
      */
-    showContinuousView: true,
+    showDocumentView: true,
     /**
      * If true the help dialog will be shown when this presentation is
      * shown for the first time.
@@ -182,9 +182,8 @@ let state = { // the (default) state
     lightTableViewScrollY: 0, // FIXME use approach which doesn't depend on viewport size
 
     // Document view related state
-    showContinuousView: true, // set in the document or by default in presentation
+    showDocumentView: true, // set in the document or by default in presentation
     continuousViewScrollY: 0,
-    showContinuousViewSlideNumber: false,
 
     exercisesMasterPassword: "",
 }
@@ -298,9 +297,9 @@ function loadState() {
     const ldView = params.get("ld-view");
     if (ldView) {
         if (ldView === "continuous")
-            state.showContinuousView = true;
+            state.showDocumentView = true;
         else if (ldView === "slides")
-            state.showContinuousView = false;
+            state.showDocumentView = false;
         else
             console.error(`URL contains invalid view: ${ldView}`);
     }
@@ -330,10 +329,7 @@ function applyState() {
     if (state.showHelp) toggleDialog("help");
     if (state.showTableOfContents) toggleDialog("table-of-contents");
 
-    if (state.showContinuousView) toggleContinuousView();
-    if (state.showContinuousViewSlideNumber) {
-        showContinuousViewSlideNumber(true);
-    }
+    if (state.showDocumentView) toggleDocumentView();
 
     if (state.showMainSlideNumber) {
         showMainSlideNumber(true);
@@ -489,18 +485,18 @@ function initShowLightTable() {
     }
 }
 
-function initShowContinuousView() {
-    // recall that the default for presentations which are opened for
-    // the first time is true
-    const showContinuousView =
+function initShowDocumentView() {
+    // recall that the default is true, when a document is opened for
+    // the first time 
+    const showDocumentView =
         document.querySelector('meta[name="ld-show-continuous-view"]');
-    if (showContinuousView) {
-        presentation.showContinuousView =
-            showContinuousView.content.trim().toLowerCase();
-        state.showContinuousView =
-            (presentation.showContinuousView === "true");
+    if (showDocumentView) {
+        presentation.showDocumentView =
+            showDocumentView.content.trim().toLowerCase();
+        state.showDocumentView =
+            (presentation.showDocumentView === "true");
     } else {
-        state.showContinuousView = presentation.showContinuousView;
+        state.showDocumentView = presentation.showDocumentView;
     }
 }
 
@@ -784,7 +780,7 @@ function setupSlideNumberPane() {
 }
 
 function showsSlide() {
-    return !state.showContinuousView && !state.showLightTable && !state.showHelp;
+    return !state.showDocumentView && !state.showLightTable && !state.showHelp;
 }
 
 
@@ -863,6 +859,18 @@ function setupMainPane() {
     slideTemplates.querySelectorAll(".ld-slide").forEach((slideTemplate, i) => {
         const slide = slideTemplate.cloneNode(true);
         setupCopyToClipboard(slide);
+
+        // Move supplemental infos at the end.
+        const allSupplementals = slide.querySelectorAll(":scope .supplemental");
+        if (allSupplementals.length > 0) {
+            const ldSupplementals = ld.create("ld-supplementals",{});
+            for (const supplemental of allSupplementals) {
+                //            supplemental.parentElement.removeChild(supplemental);
+                ldSupplementals.appendChild(supplemental);
+            }
+            slide.appendChild(ldSupplementals);
+        }
+
         const orig_slide_id = slide.id;
         slide.id = "ld-slide-no-" + i;
         slide.dataset.ldSlideNo = i;
@@ -1368,7 +1376,7 @@ function jumpToSlide() {
     if (slideNo >= 0) {
         const targetSlideNo = slideNo > lastSlideNo() ? lastSlideNo() : slideNo;
 
-        if (state.showContinuousView) {
+        if (state.showDocumentView) {
             window.scrollTo(0, document.getElementById("ld-dv-slide-no-" + targetSlideNo).offsetTop);
         } else {
             goToSlideWithNo(targetSlideNo);
@@ -1467,7 +1475,7 @@ function toggleDialog(name) {
 function showMainSlideNumber(show) {
     state.showMainSlideNumber = show;
 
-    if (show && !state.showContinuousView) {
+    if (show && !state.showDocumentView) {
         document.getElementById("ld-slide-number-pane").style.display = "table";
     } else {
         document.getElementById("ld-slide-number-pane").style.display = "none";
@@ -1475,7 +1483,7 @@ function showMainSlideNumber(show) {
 }
 
 function toggleSlideNumber() {
-    if (!state.showContinuousView) {
+    if (!state.showDocumentView) {
         showMainSlideNumber(!state.showMainSlideNumber);
     }
 }
@@ -1485,13 +1493,13 @@ function toggleSlideNumber() {
  * 
  * This view shows all slides in its final rendering.
  */
-function toggleContinuousView() {
+function toggleDocumentView() {
     const continuousViewPane = document.getElementById("ld-document-view");
     const mainPane = document.getElementById("ld-slides-pane");
-    // If we currently show the slides, we update the state for `showContinuousView`
+    // If we currently show the slides, we update the state for `showDocumentView`
     // and then actually perform the change.
-    state.showContinuousView = getComputedStyle(mainPane).display == "flex"
-    if (state.showContinuousView) {
+    state.showDocumentView = getComputedStyle(mainPane).display == "flex"
+    if (state.showDocumentView) {
         mainPane.style.display = "none";
         continuousViewPane.style.display = "block";
         setTimeout(() => {
@@ -1530,7 +1538,7 @@ function prepareForPrinting() {
     if (state.showLightTable) toggleLightTable();
     clearJumpTarget();
 
-    if (!state.showContinuousView) toggleContinuousView();
+    if (!state.showDocumentView) toggleDocumentView();
 
     const sectionList = document.querySelectorAll("#ld-document-view>ld-section")
     const sectionCount = sectionList.length;
@@ -1541,6 +1549,7 @@ function prepareForPrinting() {
         if (!sectionIteratorResult.done) {
             const section = sectionIteratorResult.value;
             section.scrollIntoView({ behavior: "smooth" });
+            
             sectionIteratorResult = sectionIterator.next();
             setTimeout(scrollToNextSection, 100);
         }
@@ -1651,7 +1660,7 @@ function registerKeyboardEventListener() {
 
                 case "m": toggleExercisesPasswordsDialog(); break;
 
-                case "c": toggleContinuousView(); break;
+                case "c": toggleDocumentView(); break;
 
                 case "p": prepareForPrinting(); break;
 
@@ -1906,21 +1915,21 @@ function registerScrollableElementListener() {
 
 function registerHoverSupplementalListener() {
     let supplementalId = 1;
-    document.querySelectorAll("#ld-slides-pane .supplemental").forEach((supplemental) => {
+    document.querySelectorAll("#ld-slides-pane ld-supplementals").forEach((supplemental) => {
         const id = supplementalId++;
         supplemental.dataset.supplementalId = id;
         const addHoverSupplemental = (event) => {
             if (event.ctrlKey) {
                 postMessage("addHoverSupplemental", id);
             }
-            supplemental.classList.add("hover:supplemental");
+            supplemental.classList.add("hover:ld-supplementals");
         }
         const removeHoverSupplemental = () => {
             // We always send the message to remove the hover class.
             // The effect is idempotent, i.e., it can be applied multiple times
             // and this way, we don't have to keep track of the state.
             postMessage("removeHoverSupplemental", id);
-            supplemental.classList.remove("hover:supplemental");
+            supplemental.classList.remove("hover:ld-supplementals");
         }
         supplemental.addEventListener("mouseenter", addHoverSupplemental);
         supplemental.addEventListener("mouseleave", removeHoverSupplemental);
@@ -1989,9 +1998,9 @@ function registerHelpCloseListener() {
         addEventListener("click", () => { toggleDialog("help"); });
 }
 
-function registerContinuousViewScrollYListener() {
+function registerDocumentViewScrollYListener() {
     document.addEventListener("scroll", () => {
-        if (state.showContinuousView) {
+        if (state.showDocumentView) {
             const scrollY = window.scrollY;
             state.continuousViewScrollY = scrollY;
         }
@@ -2003,8 +2012,8 @@ function registerMenuClickListener() {
     document.
         getElementById("ld-slides-button").
         addEventListener("click", () => {
-            if (state.showContinuousView) {
-                toggleContinuousView();
+            if (state.showDocumentView) {
+                toggleDocumentView();
             }
             showMainSlideNumber(false);
         });
@@ -2012,8 +2021,8 @@ function registerMenuClickListener() {
     document.
         getElementById("ld-slides-with-nr-button").
         addEventListener("click", () => {
-            if (state.showContinuousView) {
-                toggleContinuousView();
+            if (state.showDocumentView) {
+                toggleDocumentView();
             }
             showMainSlideNumber(true);
         });
@@ -2021,8 +2030,8 @@ function registerMenuClickListener() {
     document.
         getElementById("ld-dv-button").
         addEventListener("click", () => {
-            if (!state.showContinuousView) {
-                toggleContinuousView();
+            if (!state.showDocumentView) {
+                toggleDocumentView();
             }
         });
 
@@ -2099,7 +2108,7 @@ const onDOMContentLoaded = async () => {
     initSlideCount();   // We need to do this here, because the animations 
     initCurrentSlide(); // package may add slides!
     initShowLightTable();
-    initShowContinuousView();
+    initShowDocumentView();
     initShowHelp();
 
     /**
@@ -2157,7 +2166,7 @@ const onLoad = () => {
 
     document.addEventListener("visibilitychange", storeStateOnVisibilityHidden);
 
-    registerContinuousViewScrollYListener();
+    registerDocumentViewScrollYListener();
     registerLightTableViewScrollYListener();
     registerKeyboardEventListener();
     registerViewportResizeListener();

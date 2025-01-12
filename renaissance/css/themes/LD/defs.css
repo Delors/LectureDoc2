@@ -52,6 +52,7 @@
             rgba(115, 0, 0, 1) 100%);
     
     --sv-font-size: 48px;
+    --sv-supplemental-font-size: 40px;
     --dv-font-size: 14px;
     --dv-line-height: 1.3;
     --dv-supplemental-font-size: var(--cv-font-size);

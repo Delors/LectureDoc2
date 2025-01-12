@@ -5,10 +5,10 @@
     overflow: hidden;
 
     >ld-section {
-        display:block;
+        display: block;
         margin-bottom: calc(var(--dv-font-size) * 0.5);
         padding: var(--dv-font-size);
-        border-radius: 0.25em ;
+        border-radius: 0.25em;
         background-color: var(--white);
 
         >footer {
@@ -17,29 +17,39 @@
         }
 
         &.new-section {
-            > h2 {
+            >h2 {
                 padding: 0.25em;
-                
+
                 font-family: var(--large-text-font-family);
                 font-size: 2em;
                 text-align: center;
 
-                border-radius: 0.25em ;
+                border-radius: 0.25em;
                 background-color: var(--dark-gray);
                 color: var(--white);
             }
         }
-    }
 
-    .supplemental {
-        border-top: 1px dashed #333;
-        padding: calc(var(--dv-font-size) * 0.5) 0 calc(var(--dv-font-size) * 0.5) 0;
-        font-size: var(--dv-supplemental-font-size);
-        line-height: var(--dv-supplemental-line-height);
+
+        >footer>.ld-dv-section-number {
+            width: 100%;
+            text-align: right;
+        }
+
+
+        .supplemental {
+            margin-top: 1em;
+            border-top: 1px dashed #333;
+            padding: calc(var(--dv-font-size) * 0.5) 0 calc(var(--dv-font-size) * 0.5) 0;
+            font-size: var(--dv-supplemental-font-size);
+            line-height: var(--dv-supplemental-line-height);
+
+            &+.supplemental {
+                margin-top: 0em;
+            }
+        }
     }
 }
-
-
 
 
 
@@ -48,34 +58,6 @@
     line-height: var(--extracted-exercises-line-height);
 }
 
-
-
-
-.ld-dv-slide-pane {
-
-    &:not(:has(+.supplemental)) {
-        margin-bottom: 2px;
-    }
-
-    &:has(+.supplemental) .ld-slide {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-
-    +.supplemental {
-        margin-bottom: 2px;
-        border-top: 1px dashed #333;
-        padding: calc(var(--slide-lr-padding) * var(--ld-dv-zoom-level));
-
-        border-radius:
-            0 0 calc(var(--slide-border-radius) * var(--ld-dv-zoom-level)) calc(var(--slide-border-radius) * var(--ld-dv-zoom-level));
-        box-shadow: none;
-        
-        font-size: var(--supplemental-font-size);
-
-        background-color: var(--slide-background-color);
-    }
-}
 
 #ld-document-view .ld-exercise-solution[data-encrypted] {
     display: none;
@@ -107,9 +89,6 @@
     box-shadow: var(--br-shadow);
     border-radius: 0.5em;
 }
-
-
-
 
 #ld-document-view .stack {
 

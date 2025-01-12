@@ -35,31 +35,9 @@
     }
 
 
-    /*  We need a fixed size for slides to make the content as a whole 
-        scalable using the scale property. The scale property is set/updated 
-        using Javascript. 
 
-        Conceptually, - for the slides view - we would like to have some CSS like:
-        
-            scale: min(calc(100vh/1080px),calc(100vw/1920px)); 
-        
-        But such CSS computations are not yet supported at least until 2024.
 
-        The actual (fixed) size, however, doesn't really matter, because the content
-        is scaled anyway. Nevertheless, when external content is embededd (in 
-        particular images) it makes sense to have a size that resembles a "natural"
-        screen resolution to avoid having the creator to scale everything up or down
-        when adding media content. 
-        Nevertheless, in the end all that matters is the aspect ratio.
-    */
-    .ld-slide {
-        width: var(--ld-slide-width);
-        height: var(--ld-slide-height);
-
-        overflow: hidden;
-    }
-
-        /*
+    /*
     .scrollable
     _________________
 
