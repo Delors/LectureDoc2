@@ -7,6 +7,7 @@
 @import url(./css/common.css) layer(common);
 
 @import url(./css/themes/ld.css) layer(theme);
+@import url(./css/themes/utilities-slides.css) layer(utilities);
 @import url(./css/themes/utilities.css) layer(utilities);
 
 @import url(./css/ui/ui.css) layer(ui);
