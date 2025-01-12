@@ -17,7 +17,9 @@
     }
 
     input {   
-        /* The following properties are usually set by user-agent stylesheets. */        
+        /*  The following properties are potentially, explicitly set by 
+            user-agent stylesheets. 
+        */        
         background-color: var(--ld-ui-background-color);
         color: var(--ld-ui-color);
         font-weight: var(--ld-ui-font-weight);
