@@ -1,0 +1,30 @@
+/* LAYER: theme.ld.slide */
+
+/* 
+    Styling related to slides independent of the view mode.
+*/
+.ld-slide{
+
+    background-color: var(--slide-background-color);
+    padding: var(--slide-padding);
+    border-radius: var(--slide-border-radius);
+    font-size: var(--slide-font-size);
+
+    .supplemental {
+        font-size: var(--sv-supplemental-font-size);
+    }
+
+    h2 {
+        font-weight: 600;
+    }
+
+    &.no-title h2:first-child {
+        display: none;
+    }
+
+    >.footnote-list {
+        position: absolute;
+        bottom: 0px;
+        font-size: 0.7em;
+    }
+}

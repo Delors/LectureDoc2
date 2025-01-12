@@ -1,21 +1,66 @@
+/* LAYER: theme.ld.slide-view */
+
 :root {
     --ld-rel-max-supplemental-area-width: 85%;
     --ld-rel-max-supplemental-area-height: 85%;
 }
 
-/* 
-    Styling related to a normal slide.
+/*  Styling of supplemental information.
+
+    Each slide can only have one block with supplemental information. The 
+    supplemental information is placed differently in the DOM in the different 
+    views.
+    
+    In the slide view the element remains in the DOM at it is original place. 
+    
+    In the slide view the DIV with the supplemental information is positioned at the
+    right side in the slide mode.
 */
-.ld-slide{
+#ld-slides-pane {
 
-    font-size: var(--slide-font-size);
+    /*  Done by Javascript: Aggregation of all supplemental information in one 
+        ld-supplemental element: */
+    .ld-slide ld-supplementals {
+        display: block;
+        max-width: var(--ld-rel-max-supplemental-area-width);
+        max-height: var(--ld-rel-max-supplemental-area-height);
+        margin: 0;
+        border-radius: var(--slide-border-radius) 0 0 var(--slide-border-radius);
+        padding: calc(var(--slide-tb-padding) * 0.75) calc(var(--slide-lr-padding) * 0.75);
+        /* the factor has to be larger than the factor used by translate (see below) */
 
-    h2 {
-        font-weight: 600;
-    }
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
 
-    &.no-title h2:first-child {
-        display: none;
+        overflow-y: scroll;
+
+        background-color: rgb(from var(--slide-background-color) r g b / 0.5);
+        -webkit-backdrop-filter: blur(25px);
+        backdrop-filter: blur(25px);
+
+        transform:
+            translateX(calc(100% - var(--slide-lr-padding) * 0.5)) translateY(calc(var(--ld-slide-height) * 0.5 - (100% * 0.5)));
+        box-shadow: var(--trbl-shadow);
+        transition: 0.75s;
+
+
+        /*  We can't use the :hover pseudo class here, because we want to be able to 
+        apply the styling in the non-primary window. */
+        &.hover\:ld-supplementals {
+            /* the selector needs to be more specific than the general .supplemental selector. */
+            transform:
+                translateX(0%) translateY(calc(var(--ld-slide-height) * 0.5 - (100% * 0.5)));
+            transition: 0.75s;
+            box-shadow: var(--trbl-shadow-dark);
+        }
+
+        .supplemental + .supplemental {
+            margin-top: 0.5em;
+            border-top: 1px dashed var(--dhbw-dark-gray);
+            padding-top: 0.5em;
+        }
     }
 }
 
@@ -53,76 +98,6 @@ with other classes to style the block footer.
     padding-bottom: 1.5em;
 }
 
-.ld-slide {
-    background-color: var(--slide-background-color);
-    padding: var(--slide-padding);
-    border-radius: var(--slide-border-radius);
-}
-
-
-:is(#ld-slides-pane, #ld-light-table-slides){
-    
-    .supplemental {
-        font-size: calc(var(--supplemental-font-size) * 2.5);
-    }
-}
-
-
-/*  Styling of supplemental information.
-
-    Each slide can only have one block with supplemental information. The 
-    supplemental information is placed differently in the DOM in the different 
-    views.
-    
-    In the slide view the element remains in the DOM at it is original place. 
-    
-    In the slide view the DIV with the supplemental information is positioned at the
-    right side in the slide mode.
-*/
-
-
-:is(#ld-slides-pane, #ld-light-table-slides) .supplemental {
-    max-width: var(--ld-rel-max-supplemental-area-width);
-    max-height: var(--ld-rel-max-supplemental-area-height);
-    margin: 0;
-    border-radius: var(--slide-border-radius) 0 0 var(--slide-border-radius);
-    padding: calc(var(--slide-tb-padding) * 0.75) calc(var(--slide-lr-padding) * 0.75);
-    /* the factor has to be larger than the factor used by translate (see below) */
-    
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
-    
-    overflow-y: scroll;
-    
-    background-color: rgb(from var(--slide-background-color) r g b / 0.5);
-    -webkit-backdrop-filter: blur(25px);
-    backdrop-filter: blur(25px);
-
-    transform:
-        translateX(calc(100% - var(--slide-lr-padding) * 0.5)) translateY(calc(var(--ld-slide-height) * 0.5 - (100% * 0.5)));
-    box-shadow: var(--trbl-shadow);
-    transition: 0.75s;
-}
-
-/* We can't use the :hover pseudo class here, because we want to be able to apply
-   the styling in the non-primary window. */
-#ld-slides-pane .supplemental.hover\:supplemental { /* the selector needs to be more specific than the general .supplemental selector. */
-    transform:
-        translateX(0%) translateY(calc(var(--ld-slide-height) * 0.5 - (100% * 0.5)));
-    transition: 0.75s;
-    box-shadow: var(--trbl-shadow-dark);
-}
-
-/*
-    Select all supplementals that have one child and this child is an 
-    admonition.
-*/
-#ld-slides-pane .supplemental:not(:has(> * + *)):has( > aside.admonition):hover {
-    box-shadow: initial;
-    background-color: initial;
-}
 
 
 
@@ -149,7 +124,8 @@ with other classes to style the block footer.
     position: absolute;
     top: 28px;
     right: var(--slide-lr-padding);
-    mix-blend-mode: multiply; /* makes it easier to use it on various backgrounds */
+    mix-blend-mode: multiply;
+    /* makes it easier to use it on various backgrounds */
     transform: translateX(30%) translateY(-35%) scale(0.4);
 }
 
@@ -284,8 +260,11 @@ with other classes to style the block footer.
         animation: 3s flip-out;
     }
 }
+
 @keyframes flip-in {
-    0%, 50% {
+
+    0%,
+    50% {
         transform: rotateY(90deg);
         scale: 1;
         opacity: 25%;
@@ -299,8 +278,9 @@ with other classes to style the block footer.
 
 @keyframes flip-out {
     0% {
-        scale : 1;
+        scale: 1;
     }
+
     0.1% {
         transform: rotateY(0deg);
         opacity: 100%;
@@ -310,7 +290,7 @@ with other classes to style the block footer.
     100% {
         transform: rotateY(-180deg);
         opacity: 0%;
-        scale : 1;
+        scale: 1;
     }
 }
 
@@ -395,10 +375,10 @@ with other classes to style the block footer.
 
 */
 .ld-slide.excursion {
-    border-top: 15px solid darkgray; 
-    padding-top: calc(var(--slide-tb-padding) - 15px ) ;
-    border-bottom: 15px solid darkgray; 
-    padding-bottom: calc(var(--slide-tb-padding) - 15px ) ;
+    border-top: 15px solid darkgray;
+    padding-top: calc(var(--slide-tb-padding) - 15px);
+    border-bottom: 15px solid darkgray;
+    padding-bottom: calc(var(--slide-tb-padding) - 15px);
 
     &::before {
         content: "📝";
@@ -408,7 +388,8 @@ with other classes to style the block footer.
         right: 15px;
         font-size: 80px;
         text-shadow: 2px 2px 4px var(--dhbw-dark-gray);
-        mix-blend-mode: multiply; /* makes it easier to use it on various backgrounds */
+        mix-blend-mode: multiply;
+        /* makes it easier to use it on various backgrounds */
 
     }
 }
@@ -445,7 +426,7 @@ with other classes to style the block footer.
         border-radius: 4px;
         overflow: hidden;
         background-color: white;
-    
+
         &.title {
             margin: 0;
             padding: 4px;
@@ -546,7 +527,7 @@ with other classes to style the block footer.
     /*  We only add numbers when we have a stack with more than one layer that
         is not an overlay layer.
     */
-    &:not(.invisible,.no-numbers):has(.layer:not(.overlay, .no-number, :first-child)) > .layer:not(.overlay, .no-number)::before {
+    &:not(.invisible, .no-numbers):has(.layer:not(.overlay, .no-number, :first-child))>.layer:not(.overlay, .no-number)::before {
         position: absolute;
         right: 0.6em;
         bottom: 0.35em;
@@ -611,7 +592,7 @@ div.ld-slide.new-subsection {
         translate: 60px -25px;
     }
 
-    > h2 {
+    >h2 {
         width: 100%;
         padding: var(--slide-padding);
         /*border: 1px solid var(--dhbw-gray);*/

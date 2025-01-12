@@ -161,7 +161,8 @@ renaissance/css/ui/icons/white-cross-on-black.svg
 renaissance/css/ui/icons/white-cross.svg
 
 renaissance/css/core/behavior.css
-renaissance/css/core/slides-view.css
+renaissance/css/core/slide-view.css
+renaissance/css/core/slide.css
 renaissance/css/core/document-view.css
 renaissance/css/core/light-table.css
 
@@ -173,7 +174,8 @@ renaissance/css/themes/LD/defs.css
 renaissance/css/themes/LD/common.css
 renaissance/css/themes/LD/copy_to_clipboard.svg
 renaissance/css/themes/LD/document-view.css
-renaissance/css/themes/LD/slides-view.css
+renaissance/css/themes/LD/slide-view.css
+renaissance/css/themes/LD/slide.css
 renaissance/css/themes/LD/light-table.css
 renaissance/css/themes/LD/utilities.css
 
