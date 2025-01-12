@@ -45,8 +45,8 @@
         /* facilitates saving the scroll-position */
 
         .ld-light-table-slide-pane {
-            width: calc(var(--ld-slide-width) * var(--ld-light-table-zoom-level));
-            height: calc(var(--ld-slide-height) * var(--ld-light-table-zoom-level));
+            width: calc(var(--ld-slide-width) * var(--ld-lt-zoom-level));
+            height: calc(var(--ld-slide-height) * var(--ld-lt-zoom-level));
             position: relative;
             margin: 3px;
             overflow: hidden;
@@ -63,7 +63,7 @@
 
             .ld-light-table-slide-scaler {
                 position: absolute;
-                scale: var(--ld-light-table-zoom-level);
+                scale: var(--ld-lt-zoom-level);
 
                 .ld-slide {
                     position: absolute;
@@ -71,8 +71,8 @@
             }
         
             .ld-light-table-slide-overlay {
-                width: calc(var(--ld-slide-width) * var(--ld-light-table-zoom-level));
-                height: calc(var(--ld-slide-height) * var(--ld-light-table-zoom-level));
+                width: calc(var(--ld-slide-width) * var(--ld-lt-zoom-level));
+                height: calc(var(--ld-slide-height) * var(--ld-lt-zoom-level));
 
                 position: absolute;
                 top: 0px;
