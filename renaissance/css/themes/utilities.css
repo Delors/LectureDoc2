@@ -1,9 +1,9 @@
-/* LAYER: theme */
+/* LAYER: utilities */
 
 /*
     The CSS classes defined in the following generally style only one property 
-    and are intended to enable fine-grained control of the design of a slide 
-    when needed. 
+    and are intended to enable fine-grained control of the design of the content 
+    when needed.
     
     Hence, it is best to minimize the usage of these styles to avoid 
     interference with a specific theme. That is, the stylings defined in this
