@@ -36,12 +36,13 @@ ul {
     font-variant-ligatures: additional-ligatures;
 }
 
-
+/*
 .ld-slide-context {
     font: var(--slide-font-size) var(--slide-font-family);
     line-height: var(--slide-line-height);
     font-weight: var(--slide-font-weight);
 }
+*/
 
 /*  ----------------------------------------------------------------------------
     Adds the styling for the functionality to copy code to the clipboard.
