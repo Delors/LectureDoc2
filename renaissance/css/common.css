@@ -206,11 +206,6 @@ table.numbered>caption:before {
   font-weight: bold;
 }
 
-.footnote-list {
-  border-left: solid thin;
-  padding-left: 0.25em;
-}
-
 figure.align-left,
 img.align-left,
 video.align-left,
