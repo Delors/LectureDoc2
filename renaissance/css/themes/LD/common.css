@@ -522,9 +522,8 @@ table.align-right {
 .sidebar,
 .admonition,
 .system-message {
-    margin: 1em 2em;
     border: thin solid;
-    padding: 0.5em 1em;
+    padding: 0.5em 0.75em;
 }
 
 div.line-block {
