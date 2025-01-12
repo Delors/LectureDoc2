@@ -983,9 +983,7 @@ function setupDocumentView() {
         });
 
         const footer = ld.create("footer", {
-            classes: ["ld-dv-slide-footer"],
-            id: "ld-dv-slide-no-" + i,
-            innerHTML: `<span class="ld-dv-slide-number">${i + 1}</span>`
+            innerHTML: `<div class="ld-dv-section-number">${i + 1}</div>`
         });
         section.append(footer);
 
