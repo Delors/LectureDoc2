@@ -985,8 +985,6 @@ function setupMenu() {
                 aria-label="show help"></button>
         <button type="button" id="ld-document-view-button" 
                 aria-label="show document view"></button>
-        <button type="button" id="ld-document-view-with-nr-button" 
-                aria-label="show document view with slide numbers"></button>
         <button type="button" id="ld-table-of-contents-button" 
                 aria-label="show table of contents"></button>                    
         <button type="button" id="ld-light-table-button" 
@@ -1445,17 +1443,6 @@ function showMainSlideNumber(show) {
     }
 }
 
-function showContinuousViewSlideNumber(show) {
-    state.showContinuousViewSlideNumber = show;
-    const slideNumbers =
-        document.querySelectorAll(".ld-document-view-slide-number");
-    if (show && state.showContinuousView) {
-        slideNumbers.forEach((e) => { e.style.display = "block"; });
-    } else {
-        slideNumbers.forEach((e) => { e.style.display = "none"; });
-    }
-}
-
 function toggleSlideNumber() {
     if (state.showContinuousView) {
         showContinuousViewSlideNumber(!state.showContinuousViewSlideNumber);
@@ -1504,7 +1491,6 @@ function toggleContinuousView() {
  * 2. close light table
  * 3. hide "go to" dialog
  * 4. use document view  
- * 5. show slide numbers
  * 6. "MOST IMPORTANT" - scroll over the whole document to ensure that
  *    all slides are rendered properly; in particular those with 
  *    layouts which are only rendered when they are first shown; e.g, 
@@ -1516,7 +1502,6 @@ function prepareForPrinting() {
     clearJumpTarget();
 
     if (!state.showContinuousView) toggleContinuousView();
-    if (!state.showContinuousViewSlideNumber) showContinuousViewSlideNumber(true);
 
     const slideList = document.querySelectorAll("#ld-document-view-pane .ld-slide")
     const slideCount = slideList.length;
@@ -2009,16 +1994,6 @@ function registerMenuClickListener() {
             if (!state.showContinuousView) {
                 toggleContinuousView();
             }
-            showContinuousViewSlideNumber(false);
-        });
-
-    document.
-        getElementById("ld-document-view-with-nr-button").
-        addEventListener("click", () => {
-            if (!state.showContinuousView) {
-                toggleContinuousView();
-            }
-            showContinuousViewSlideNumber(true);
         });
 
     document.

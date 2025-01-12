@@ -118,12 +118,6 @@ nav#ld-menu {
             grid-row: 2;
         }
 
-        &#ld-document-view-with-nr-button {
-            background-image: url('icons/document-view-with-nr.svg');
-            grid-column: 2;
-            grid-row: 2;
-        }
-
         &#ld-table-of-contents-button {
             background-image: url('icons/toc.svg');
             grid-column: 4;

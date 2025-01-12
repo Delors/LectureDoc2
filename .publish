@@ -147,7 +147,6 @@ renaissance/css/ui/laser-pointer.css
 renaissance/css/ui/light-table-dialog.css
 renaissance/css/ui/icons/black-cross-on-white.svg
 renaissance/css/ui/icons/black-cross-on-whitesmoke.svg
-renaissance/css/ui/icons/document-view-with-nr.svg
 renaissance/css/ui/icons/document-view.svg
 renaissance/css/ui/icons/help.svg
 renaissance/css/ui/icons/light-table.svg
@@ -167,6 +166,7 @@ renaissance/css/core/document-view.css
 renaissance/css/core/light-table.css
 
 renaissance/css/themes/utilities.css
+renaissance/css/themes/utilities-slides.css
 
 renaissance/css/themes/ld.css
 renaissance/css/themes/LD/defs.css
