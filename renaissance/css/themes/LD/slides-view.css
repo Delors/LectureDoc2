@@ -3,11 +3,12 @@
     --ld-rel-max-supplemental-area-height: 85%;
 }
 
-
 /* 
     Styling related to a normal slide.
 */
 .ld-slide{
+
+    font-size: var(--slide-font-size);
 
     h2 {
         font-weight: 600;
