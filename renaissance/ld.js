@@ -942,9 +942,9 @@ function setupDocumentView() {
         slide.classList.remove("ld-slide"); // not needed anymore
         setupCopyToClipboard(slide);
 
-        let options = {};
+        let options = {id: "ld-dv-slide-no-" + i};
         if (slide.classList.length > 0)
-            options = { classList: slide.classList };
+            options.classList = slide.classList;
         const section = ld.create("ld-section",options);
         const children = slide.children;
         section.append(...children);
