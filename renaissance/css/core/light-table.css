@@ -1,3 +1,16 @@
 :root {
-    --ld-light-table-zoom-level: 0.2; /* may be overridden from within LectureDoc */
+    --ld-lt-zoom-level: 0.2;
+    /* may be overridden from within LectureDoc */
+}
+
+#ld-light-table-slides {
+
+    .ld-slide {
+
+        /* We don't show supplemental information in the light-table view. */
+        &>.supplemental {
+            display: none
+        }
+    }
+
 }

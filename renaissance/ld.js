@@ -377,6 +377,22 @@ function localResetLectureDoc() {
 }
 
 
+function scaleSlideImages() {
+    const slideImages = document.querySelectorAll(".ld-slide img");
+    for (const img of slideImages) {
+        if (img.complete) {
+            console.log("image" + img.naturalWidth + "x" + img.naturalHeight);
+        } else {
+            console.log("waiting for image " + img.src+ " to load");
+            img.addEventListener("load", () => {
+                console.log(img.src +": " + img.naturalWidth + "x" + img.naturalHeight);
+                img.style.width = (img.naturalWidth * 3) + "px";
+                img.style.height = (img.naturalHeight * 3) + "px";
+            });
+        }
+    }
+}
+
 /**
  * Reads the document id from the documents meta information.
  */
@@ -909,37 +925,40 @@ function tryDecryptExercise(password, solutionWrapper, solution) {
 }
 
 
-function setupContinuousView() {
-    const continuousViewPane = ld.div({ id: "ld-document-view-pane" });
+function setupDocumentView() {
+    /* The documents will be rearranged in a continuous view as follows:
+     * <section>
+     *   Content
+     *   [div class="supplemental"]?
+     *   <footer>
+     *    <div class="ld-exercise-solution-wrapper">
+     *   </footer>
+     * </sectiosn>
+     */
+    const documentView = ld.div({ id: "ld-document-view" });
 
     slideTemplates.querySelectorAll(".ld-slide").forEach((slideTemplate, i) => {
         const slide = slideTemplate.cloneNode(true);
-        slide.removeAttribute("id"); // not needed anymore (in case it was set)
+        slide.classList.remove("ld-slide"); // not needed anymore
         setupCopyToClipboard(slide);
 
+        let options = {};
+        if (slide.classList.length > 0)
+            options = { classList: slide.classList };
+        const section = ld.create("ld-section",options);
+        const children = slide.children;
+        section.append(...children);
 
-        const slideScaler = ld.div({ classes: ["ld-document-view-scaler"] });
-        slideScaler.appendChild(slide);
+        documentView.appendChild(section);
 
-        const slidePane = ld.div({
-            classes: ["ld-document-view-slide-pane", "ld-slide-context"],
-            id: "ld-document-view-slide-no-" + i,
-            innerHTML: `<span class="ld-document-view-slide-number">${i + 1}</span>`
-        });
-        slidePane.prepend(slideScaler);
-
-
-        continuousViewPane.appendChild(slidePane);
-
-        // Move DIVs and ASIDEs with supplemental infos below the slide:
-        const supplemental = slide.querySelector(":scope .supplemental");
-        if (supplemental) {
+        // Move supplemental infos at the end.
+        for(const supplemental of section.querySelectorAll(":scope .supplemental")) {
             supplemental.parentElement.removeChild(supplemental);
-            continuousViewPane.appendChild(supplemental);
+            section.appendChild(supplemental);
         }
 
         // Move exercises below the slide:
-        slide.querySelectorAll(":scope .ld-exercise").forEach((e) => {
+        section.querySelectorAll(":scope .ld-exercise").forEach((e) => {
             const solution = e.querySelector(":scope .ld-exercise-solution");
             if (solution) {
                 solution.parentElement.removeChild(solution);
@@ -952,7 +971,7 @@ function setupContinuousView() {
                     parent: task,
                     children: [passwordField, solution]
                 });
-                continuousViewPane.appendChild(task);
+                documentView.appendChild(task);
 
                 passwordField.addEventListener("input", (e) => {
                     const currentPassword = e.target.value
@@ -962,10 +981,24 @@ function setupContinuousView() {
                 });
             }
         });
+
+        const footer = ld.create("footer", {
+            classes: ["ld-dv-slide-footer"],
+            id: "ld-dv-slide-no-" + i,
+            innerHTML: `<span class="ld-dv-slide-number">${i + 1}</span>`
+        });
+        section.append(footer);
+
+        // Move footnotes to the footer.
+        for(const footnotes of section.querySelectorAll(":scope aside.footnote-list")) {
+            footnotes.parentElement.removeChild(footnotes);
+            footer.prepend(footnotes);
+        }
+
     });
 
-    typesetMath(continuousViewPane);
-    document.querySelector("body").prepend(continuousViewPane);
+    typesetMath(documentView);
+    document.querySelector("body").prepend(documentView);
 }
 
 
@@ -983,7 +1016,7 @@ function setupMenu() {
                 aria-label="show slides with numbers"></button>
         <button type="button" id="ld-help-button" 
                 aria-label="show help"></button>
-        <button type="button" id="ld-document-view-button" 
+        <button type="button" id="ld-dv-button" 
                 aria-label="show document view"></button>
         <button type="button" id="ld-table-of-contents-button" 
                 aria-label="show table of contents"></button>                    
@@ -1338,7 +1371,7 @@ function jumpToSlide() {
         const targetSlideNo = slideNo > lastSlideNo() ? lastSlideNo() : slideNo;
 
         if (state.showContinuousView) {
-            window.scrollTo(0, document.getElementById("ld-document-view-slide-no-" + targetSlideNo).offsetTop);
+            window.scrollTo(0, document.getElementById("ld-dv-slide-no-" + targetSlideNo).offsetTop);
         } else {
             goToSlideWithNo(targetSlideNo);
         }
@@ -1366,7 +1399,7 @@ function updateLightTableZoomLevel(value) {
     document.getElementById("ld-light-table-zoom-slider").value = value
 
     const root = document.querySelector(":root");
-    root.style.setProperty("--ld-light-table-zoom-level", value);
+    root.style.setProperty("--ld-lt-zoom-level", value);
 
     state.lightTableZoomLevel = value;
 }
@@ -1444,9 +1477,7 @@ function showMainSlideNumber(show) {
 }
 
 function toggleSlideNumber() {
-    if (state.showContinuousView) {
-        showContinuousViewSlideNumber(!state.showContinuousViewSlideNumber);
-    } else {
+    if (!state.showContinuousView) {
         showMainSlideNumber(!state.showMainSlideNumber);
     }
 }
@@ -1457,7 +1488,7 @@ function toggleSlideNumber() {
  * This view shows all slides in its final rendering.
  */
 function toggleContinuousView() {
-    const continuousViewPane = document.getElementById("ld-document-view-pane");
+    const continuousViewPane = document.getElementById("ld-document-view");
     const mainPane = document.getElementById("ld-slides-pane");
     // If we currently show the slides, we update the state for `showContinuousView`
     // and then actually perform the change.
@@ -1503,21 +1534,21 @@ function prepareForPrinting() {
 
     if (!state.showContinuousView) toggleContinuousView();
 
-    const slideList = document.querySelectorAll("#ld-document-view-pane .ld-slide")
-    const slideCount = slideList.length;
-    const slidesIterator = slideList.values()
-    let slidesIteratorResult = slidesIterator.next();
+    const sectionList = document.querySelectorAll("#ld-document-view>ld-section")
+    const sectionCount = sectionList.length;
+    const sectionIterator = sectionList.values()
+    let sectionIteratorResult = sectionIterator.next();
 
-    function scrollToNextSlide() {
-        if (!slidesIteratorResult.done) {
-            const slide = slidesIteratorResult.value;
-            slide.scrollIntoView({ behavior: "smooth" });
-            slidesIteratorResult = slidesIterator.next();
-            setTimeout(scrollToNextSlide, 100);
+    function scrollToNextSection() {
+        if (!sectionIteratorResult.done) {
+            const section = sectionIteratorResult.value;
+            section.scrollIntoView({ behavior: "smooth" });
+            sectionIteratorResult = sectionIterator.next();
+            setTimeout(scrollToNextSection, 100);
         }
     }
-    scrollToNextSlide();
-    return slideCount;
+    scrollToNextSection();
+    return sectionCount;
 }
 
 
@@ -1979,6 +2010,7 @@ function registerMenuClickListener() {
             }
             showMainSlideNumber(false);
         });
+
     document.
         getElementById("ld-slides-with-nr-button").
         addEventListener("click", () => {
@@ -1989,7 +2021,7 @@ function registerMenuClickListener() {
         });
 
     document.
-        getElementById("ld-document-view-button").
+        getElementById("ld-dv-button").
         addEventListener("click", () => {
             if (!state.showContinuousView) {
                 toggleContinuousView();
@@ -2093,10 +2125,13 @@ const onDOMContentLoaded = async () => {
     setupTableOfContents();
     setupHelp();
     setupJumpTargetDialog();
-    setupContinuousView();
+    setupDocumentView();
     setupSlideNumberPane();
     setupMainPane();
     setupMenu();
+
+    scaleSlideImages();
+
 
     /*
     Update rendering related information.
@@ -2221,7 +2256,7 @@ window.addEventListener("load", () => {
         .catch((e) => console.log("Event transformations failed."+ e));
 });
 
-/* Finish initialization of the lectureDoc2 object. */
+/* Finish initialization of the LectureDoc2 object. */
 lectureDoc2.presentation = presentation; // "constant state"
 lectureDoc2.getState = function () { return state; }; // the state object as a whole may change
 lectureDoc2.getEphemeral = function () { return ephemeral; };

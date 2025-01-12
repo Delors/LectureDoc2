@@ -1,6 +1,19 @@
+# Sizing elements
+
+In general, we assume that slides are designed with standard projectors in mind.
+Therefore, the native resolution of a slide is expected to be 1920px ⨉ 1200px or something similar.
+
+Therefore the standard font size should be around 48px. Assuming a line height of 48px ⨉ 1,5, it is possible to put roughly 16 lines of text on a slide. The font size on a slide should never be smaller than 30 pixels (0,625). Given a reduced line height of 30px ⨉ 1,3 it is then possible to have more than 30 lines of text on a slide which is in general already way to much.
+
+However, in the document view, the standard font size should be around 12px with the smallest font size being 9px. The latter should only be used in rare cases.
+
+To make it possible to use the same image in both modes, LectureDoc assumes that the standard font size used in the image will be 12px and therefore, will scale every image by 3 when put on a slide. In other words, the size of an original image should not be larger than 590px by 390px and should use font sizes in the range of 10-18 pixels with 12px being the primary font size.
+
+The default font size for supplemental information on slide is 42px.
+
 # Central CSS Classes 
 
-# incremental
+## incremental
 
 ```css
 .incremental
@@ -9,7 +22,7 @@
 Elements marked with the class "incremental" are rendered one-step-after-another.
 
 
-# copy-to-clipboard
+## copy-to-clipboard
 
 ```css
 .code.copy-to-clipboard div.ld-copy-to-clipboard-button 
@@ -21,20 +34,24 @@ If a code block (i.e., a DIV or PRE element with the class "code" and also
 block by means of a div with the class ld-copy-to-clipboard-button.
 
 Example:
+```html
 <div class="code copy-to-clipboard">
     <div class="ld-copy-to-clipboard-button">Copy</div> <!-- added by LectureDoc -->
     <pre><code>...</code></pre>
 </div>
+```
 
 or
 
+```html
 <pre class="code copy-to-clipboard">
     <div class="ld-copy-to-clipboard-button">Copy</div> <!-- added by LectureDoc -->
     <code>...</code>
 </pre>
+```
 
 
-# paragraph
+## paragraph
 
 (previously .stack and .layer (.overlay)) 
 
