@@ -18,7 +18,13 @@
     inherits: true;
 }
 
-nav#ld-menu {
+@media print {
+    nav#ld-menu {
+        display: none;
+    }
+}
+
+#ld-menu {
 
     @media print {
         display: none;
@@ -112,7 +118,7 @@ nav#ld-menu {
             grid-row: 1;
         }
 
-        &#ld-document-view-button {
+        &#ld-dv-button {
             background-image: url('icons/document-view.svg');
             grid-column: 1;
             grid-row: 2;

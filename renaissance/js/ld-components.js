@@ -105,7 +105,7 @@ function adaptHeightOfSlideToStack(stack) {
 
     // 3. adapt the height of the slide to accommodate the unfolded stack
     const root = getComputedStyle(document.querySelector(":root"));
-    const zoomFactor = root.getPropertyValue("--ld-document-view-zoom-level");
+    const zoomFactor = root.getPropertyValue("--ld-dv-zoom-level");
     // extraHeight is the height of the stack minus the height of the largest
     // layer
     //const extraHeight = overallHeight - maxOuterHeight; 
@@ -139,7 +139,7 @@ function adaptHeightOfSlideToStack(stack) {
     //const slidePaneHeight = (oldSlideHeight + extraHeight);
     slide.style.height = newHeight + "px";
 
-    const slidePane = ld.getParent(stack, "ld-document-view-slide-pane");
+    const slidePane = ld.getParent(stack, "ld-dv-slide-pane");
     const slidePaneStyle = slidePane.style;
     slidePaneStyle.height = slidePaneStyle.maxHeight = (newHeight * zoomFactor) + "px";
 }
@@ -173,7 +173,7 @@ function adaptHeightOfLayersAndStack(stack) {
 
 function adaptHeightOfSlideToScrollable(scrollable) {
     const root = getComputedStyle(document.querySelector(":root"));
-    const zoomFactor = root.getPropertyValue("--ld-document-view-zoom-level");
+    const zoomFactor = root.getPropertyValue("--ld-dv-zoom-level");
 
     const scrollableStyle = window.getComputedStyle(scrollable);
     const requiredHeight =
@@ -198,7 +198,7 @@ function adaptHeightOfSlideToScrollable(scrollable) {
 
         slide.style.height = slide.style.maxheight = (slideHeight + additionalHeight) + "px";
 
-        const slidePaneStyle = ld.getParent(scrollable, "ld-document-view-slide-pane").style;
+        const slidePaneStyle = ld.getParent(scrollable, "ld-dv-slide-pane").style;
         slidePaneStyle.height = slidePaneStyle.maxHeight =
             Math.ceil((slideHeight + additionalHeight) * zoomFactor) + "px";
 
@@ -271,7 +271,7 @@ function afterLDListenerRegistrations() {
                 stackObserver.unobserve(stack);
 
                 if (document.evaluate(
-                    `*/ancestor::*[@id='ld-document-view-pane']`,
+                    `*/ancestor::*[@id='ld-document-view']`,
                     stack,
                     null,
                     XPathResult.ANY_TYPE,
@@ -283,7 +283,7 @@ function afterLDListenerRegistrations() {
             }
         });
     });
-    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-document-view-pane) .ld-slide .stack").forEach((stack) => {
+    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-document-view) .ld-slide .stack").forEach((stack) => {
         stackObserver.observe(stack);
     });
 
@@ -295,7 +295,7 @@ function afterLDListenerRegistrations() {
                 scrollableObserver.unobserve(scrollable);
                 // console.log("intersection with scrollable: " + scrollable);
                 if (document.evaluate(
-                    `*/ancestor::*[@id='ld-document-view-pane']`,
+                    `*/ancestor::*[@id='ld-document-view']`,
                     scrollable,
                     null,
                     XPathResult.ANY_TYPE,
@@ -307,7 +307,7 @@ function afterLDListenerRegistrations() {
             }
         });
     });
-    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-document-view-pane) .scrollable").forEach((scrollable) => {
+    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-document-view) .scrollable").forEach((scrollable) => {
         scrollableObserver.observe(scrollable);
     });
 

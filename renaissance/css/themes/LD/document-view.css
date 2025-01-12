@@ -1,41 +1,57 @@
+#ld-document-view {
+
+    font-size: var(--dv-font-size);
+
+    overflow: hidden;
+
+    >ld-section {
+        display:block;
+        margin-bottom: calc(var(--dv-font-size) * 0.5);
+        padding: var(--dv-font-size);
+        border-radius: 0.25em ;
+        background-color: var(--white);
+
+        >footer {
+            border-bottom: 1px solid var(--gray);
+            border-top: 1px solid var(--red);
+        }
+
+        &.new-section {
+            > h2 {
+                padding: 0.25em;
+                
+                font-family: var(--large-text-font-family);
+                font-size: 2em;
+                text-align: center;
+
+                border-radius: 0.25em ;
+                background-color: var(--dark-gray);
+                color: var(--white);
+            }
+        }
+    }
+
+    .supplemental {
+        border-top: 1px dashed #333;
+        padding: calc(var(--dv-font-size) * 0.5) 0 calc(var(--dv-font-size) * 0.5) 0;
+        font-size: var(--dv-supplemental-font-size);
+        line-height: var(--dv-supplemental-line-height);
+    }
+}
+
+
+
+
+
 .ld-extracted-exercise {
     font-size: var(--extracted-exercises-font-size);
     line-height: var(--extracted-exercises-line-height);
 }
 
-/* Used for supplemental information that is rendered outside of a slide; i. e.,
-   in the document view. */
-   .supplemental {
-    font-size: var(--supplemental-font-size);
-    line-height: var(--slide-line-height);
-}
-
-/*  Rendering of the slide numbers.    
-*/
-.ld-document-view-slide-number {
-    bottom: 0px;
-    right: 5px;
-    font-size: 18px;
-    /* We want to ensure that the number is always readable: */
-    color: rgb(25, 25, 25);
-    text-shadow: 1px 1px 1px white;
-}
 
 
-/*  Styling of supplemental information.
 
-    Each slide can only have one block with supplemental information. The 
-    supplemental information is placed differently in the DOM in the different 
-    views.
-    
-    In the document view the supplemental information element is moved below
-    the element for the slide:
-    
-        <div class="ld-slide">...</>
-        <div|aside class="supplemental">...</>
-*/
-
-.ld-document-view-slide-pane {
+.ld-dv-slide-pane {
 
     &:not(:has(+.supplemental)) {
         margin-bottom: 2px;
@@ -49,10 +65,10 @@
     +.supplemental {
         margin-bottom: 2px;
         border-top: 1px dashed #333;
-        padding: calc(var(--slide-lr-padding) * var(--ld-document-view-zoom-level));
+        padding: calc(var(--slide-lr-padding) * var(--ld-dv-zoom-level));
 
         border-radius:
-            0 0 calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level)) calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level));
+            0 0 calc(var(--slide-border-radius) * var(--ld-dv-zoom-level)) calc(var(--slide-border-radius) * var(--ld-dv-zoom-level));
         box-shadow: none;
         
         font-size: var(--supplemental-font-size);
@@ -61,15 +77,15 @@
     }
 }
 
-#ld-document-view-pane .ld-exercise-solution[data-encrypted] {
+#ld-document-view .ld-exercise-solution[data-encrypted] {
     display: none;
 }
 
 .ld-extracted-exercise {
     background-color: white;
     padding:
-        calc(var(--ld-document-view-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-document-view-zoom-level) * var(--slide-lr-padding)) calc(var(--ld-document-view-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-document-view-zoom-level) * var(--slide-lr-padding));
-    border-radius: calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level)) calc(var(--slide-border-radius) * var(--ld-document-view-zoom-level));
+        calc(var(--ld-dv-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-dv-zoom-level) * var(--slide-lr-padding)) calc(var(--ld-dv-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-dv-zoom-level) * var(--slide-lr-padding));
+    border-radius: calc(var(--slide-border-radius) * var(--ld-dv-zoom-level)) calc(var(--slide-border-radius) * var(--ld-dv-zoom-level));
     margin-bottom: 2px;
 }
 
@@ -93,26 +109,9 @@
 }
 
 
-#ld-document-view-pane {
-
-    @media screen {
-        .ld-slide.not-covered-topics {
-            background-color: black;
-            color: var(--dhbw-gray);
-        }
-    }
-
-    @media print {
-        .ld-slide.not-covered-topics {
-            text-shadow: 2px 2px 4px black, -2px -2px 4px black;
-            color: white;
-        }
-    }
-}
 
 
-
-#ld-document-view-pane .stack {
+#ld-document-view .stack {
 
     /* Unfortunately, the final positioning needs to be done in JavaScript! 
     .layer {  
