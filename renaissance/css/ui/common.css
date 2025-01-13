@@ -89,6 +89,7 @@ dialog.ld-ui {
     .ld-dialog-header {
 
         span.ld-dialog-title {
+            margin-right: 2em;
             flex-grow: 2;
             font-weight: bolder;
         }
