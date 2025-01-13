@@ -2,9 +2,13 @@ Icon
 *.rst.html
 *.rst.html.pdf
 
+# The base64 files are generated for embedding in the SVG images
+*.woff2.b64
+
 # Node.js and JSDoc
 node_modules
 package-lock.json
 package.json
 jsdoc
 favicon/site.webmanifest
+
