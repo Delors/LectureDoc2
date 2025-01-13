@@ -62,8 +62,8 @@ samp {
   font-size: 0.9em;
 }
 
-code,
-kbd {
+:not(pre)>code,
+:not(pre)>kbd {
   font-family: var(--code-font-family);
   font-size: 0.9em;
 }
