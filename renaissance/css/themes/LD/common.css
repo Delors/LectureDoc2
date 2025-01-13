@@ -530,9 +530,8 @@ div.line-block {
     display: block;
 }
 
-div.line-block div.line-block,
-pre {
-    margin-left: 2em;
+div.line-block div.line-block {
+    margin-left: 0em;
 }
 
 
