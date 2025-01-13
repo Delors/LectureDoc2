@@ -945,50 +945,52 @@ function setupDocumentView() {
      */
     const documentView = ld.div({ id: "ld-document-view" });
 
-    slideTemplates.querySelectorAll(".ld-slide").forEach((slideTemplate, i) => {
-        const slide = slideTemplate.cloneNode(true);
-        slide.classList.remove("ld-slide"); // not needed anymore
-        setupCopyToClipboard(slide);
+    slideTemplates.querySelectorAll(".ld-slide").forEach((t, i) => {
+        const template = t.cloneNode(true);
+        template.classList.remove("ld-slide"); // not needed anymore
+        setupCopyToClipboard(template);
 
-        let options = {id: "ld-dv-slide-no-" + i};
-        if (slide.classList.length > 0)
-            options.classList = slide.classList;
-        const section = ld.create("ld-section",options);
-        const children = slide.children;
-        section.append(...children);
+        let options = { id: "ld-dv-slide-no-" + i };
+        if (template.classList.length > 0)
+            options.classList = template.classList;
+        
+        const section = ld.create("ld-section", options);
+        if (template.classList.contains("exercises")) {
+            // Just extract the exercises and their solutions.
+            // Keep supplemental infos where they are!
+            template.querySelectorAll(":scope .ld-exercise").forEach((e) => {
+                const solution = e.querySelector(":scope .ld-exercise-solution");
+                if (solution) {
+                    solution.parentElement.removeChild(solution);
+                    const task = e.cloneNode(true);
+                    task.classList.add("ld-extracted-exercise");
 
-        documentView.appendChild(section);
+                    const passwordField = createPasswordInput();
+                    const solutionWrapper = ld.div({
+                        classes: ["ld-exercise-solution-wrapper"],
+                        parent: task,
+                        children: [passwordField, solution]
+                    });
+                    section.appendChild(task);
 
-        // Move supplemental infos at the end.
-        for(const supplemental of section.querySelectorAll(":scope .supplemental")) {
-            supplemental.parentElement.removeChild(supplemental);
-            section.appendChild(supplemental);
+                    passwordField.addEventListener("input", (e) => {
+                        const currentPassword = e.target.value
+                        if (currentPassword.length > 2) {
+                            tryDecryptExercise(currentPassword, solutionWrapper, solution);
+                        }
+                    });
+                }
+            });
+        } else {
+            const children = template.children;
+            section.append(...children);
+    
+            // Move supplemental infos at the end.
+           /* for (const supplemental of section.querySelectorAll(":scope .supplemental")) {
+                supplemental.parentElement.removeChild(supplemental);
+                section.appendChild(supplemental);
+            }*/
         }
-
-        // Move exercises below the slide:
-        section.querySelectorAll(":scope .ld-exercise").forEach((e) => {
-            const solution = e.querySelector(":scope .ld-exercise-solution");
-            if (solution) {
-                solution.parentElement.removeChild(solution);
-                const task = e.cloneNode(true);
-                task.classList.add("ld-extracted-exercise");
-
-                const passwordField = createPasswordInput();
-                const solutionWrapper = ld.div({
-                    classes: ["ld-exercise-solution-wrapper"],
-                    parent: task,
-                    children: [passwordField, solution]
-                });
-                documentView.appendChild(task);
-
-                passwordField.addEventListener("input", (e) => {
-                    const currentPassword = e.target.value
-                    if (currentPassword.length > 2) {
-                        tryDecryptExercise(currentPassword, solutionWrapper, solution);
-                    }
-                });
-            }
-        });
 
         const footer = ld.create("footer", {
             innerHTML: `<div class="ld-dv-section-number">${i + 1}</div>`
@@ -996,12 +998,15 @@ function setupDocumentView() {
         section.append(footer);
 
         // Move footnotes to the footer.
-        for(const footnotes of section.querySelectorAll(":scope aside.footnote-list")) {
+        for (const footnotes of section.querySelectorAll(":scope aside.footnote-list")) {
             footnotes.parentElement.removeChild(footnotes);
             footer.prepend(footnotes);
         }
 
+        documentView.appendChild(section);
     });
+
+    
 
     typesetMath(documentView);
     document.querySelector("body").prepend(documentView);
