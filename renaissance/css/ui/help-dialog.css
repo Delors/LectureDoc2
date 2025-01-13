@@ -9,6 +9,11 @@
     overflow-y: scroll;
     overflow-x: scroll;
 
+    h2 {
+        margin-top: 0.75em;
+        margin-bottom: 0.4em;
+    }
+
     table {
         background-color: var(--ld-ui-table-background-color);
 

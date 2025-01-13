@@ -11,11 +11,6 @@
         color: var(--ld-ui-link-color);
     }
 
-    h2 {
-        margin-top: 0.75em;
-        margin-bottom: 0.4em;
-    }
-
     input {   
         /*  The following properties are potentially, explicitly set by 
             user-agent stylesheets. 
