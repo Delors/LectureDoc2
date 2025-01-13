@@ -97,11 +97,6 @@
     --slide-monospaced-font-family: var(--theme-monospaced-font-family);
     --slide-code-font-family: var(--theme-code-font-family);
     
-    /* Reference size w.r.t. the document view. */
-    --extracted-exercises-font-size: 18px; /* TODO rename dv-extracted-exercises-font-size */
-    --extracted-exercises-line-height: 1.33; /* TODO rename dv-extracted-exercises-line-height */
-
-
     /* Shadows */
     --br-shadow: 4px 4px 8px var(--dhbw-light-gray);
     /* br = bottom - right*/
