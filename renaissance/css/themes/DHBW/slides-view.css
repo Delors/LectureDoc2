@@ -40,6 +40,18 @@
 }
 
 
+.exercises::before {
+    content: var(--dhbw-logo);
+    display: block;
+    position: absolute;
+    top: 28px;
+    right: var(--slide-lr-padding);
+    mix-blend-mode: multiply;
+    /* makes it easier to use it on various backgrounds */
+    transform: translateX(30%) translateY(-35%) scale(0.4);
+}
+
+
 /*************************** LEGACY ***************************/
 /*************************** LEGACY ***************************/
 /*************************** LEGACY ***************************/
