@@ -19,5 +19,21 @@
         }
     }
 
+    ld-card {
+        display: block;
+        clear: both;
+    }
 
+    ld-deck {
+        display: block;
+
+        >ld-card-group {
+            display: block;
+            position: relative;
+
+            >ld-card {
+                position: absolute;
+            }
+        }
+    }
 }

@@ -57,15 +57,16 @@
 }
 
 .ld-extracted-exercise {
-    background-color: white;
-    padding:
-        calc(var(--ld-dv-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-dv-zoom-level) * var(--slide-lr-padding)) calc(var(--ld-dv-zoom-level) * var(--slide-tb-padding)) calc(var(--ld-dv-zoom-level) * var(--slide-lr-padding));
-    border-radius: calc(var(--slide-border-radius) * var(--ld-dv-zoom-level)) calc(var(--slide-border-radius) * var(--ld-dv-zoom-level));
     margin-bottom: 0.5em;
+
+   + .ld-extracted-exercise {
+        border-top: solid 1px var(--dhbw-light-gray);
+        padding-top: 0.5em;
+   } 
 }
 
 @media print {
-    .ld-extracted-exercise {
+    .ld-extracted-exercise + .ld-extracted-exercise {
         page-break-before: always;
     }
 
@@ -86,13 +87,6 @@
 }
 
 #ld-document-view .stack {
-
-    /* Unfortunately, the final positioning needs to be done in JavaScript! 
-    .layer {  
-        position: absolute;  for all layers, unless the next layer is not an overlay layer.
-        position: relative;  for a non-overlay layer following an overlay layer.
-    }
-    */
 
     display: flex;
     flex-direction: column;

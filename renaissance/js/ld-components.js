@@ -31,10 +31,59 @@ function getSlide(element) {
 }
 
 /**
- * Handles the rendering of a "stacked layout" in the document view.
+ * Handles the rendering of a "deck" with overlay cards in the document view.
  */
-function adaptHeightOfSlideToStack(stack) {
-    const stackWidth = parseInt(window.getComputedStyle(stack).width);
+function adaptHeightOfDeckInDocumentView(deck) {
+
+    const cards = deck.querySelectorAll(":scope >ld-card");
+   
+    // 1.   Segment cards in groups of one non-overlay card and its overlay cards.
+    let groupedCards = [];
+    for (const card of cards) {
+        card.parentNode.removeChild(card);
+        if (!card.classList.contains("overlay")) {
+            groupedCards.push([card]);
+        } else {
+            groupedCards[groupedCards.length - 1].push(card);
+        }
+    }
+
+    // 2.   Compute the widths and - in particular - the heights of groups
+    //      with overlay cards. Regroup the cards in a ld-card-group element
+    //      if the group contains overlay cards.
+    for (const group of groupedCards) {
+        if (group.length === 1) {
+            deck.appendChild(group[0]);
+            continue;
+        }
+
+        const ldCardGroup = ld.create("ld-card-group", { children: group });
+        deck.appendChild(ldCardGroup);
+
+        function sizeGroupOfCards(group) {
+            const deckWidth = window.getComputedStyle(deck).width;
+
+            // Clear all explizit heights and widths to enable the rendering
+            // engine to compute the "default" sizes.
+            ldCardGroup.style.height = "auto";
+            console.log("sizing group of cards");
+            group.forEach(card => {
+                card.style.height = "auto";
+                card.style.width = deckWidth;
+            });
+
+            const maxHeight = Math.max(...group.map(card => card.offsetHeight));
+            group.forEach(card => card.style.height = maxHeight + "px");
+            ldCardGroup.style.height = maxHeight + "px";
+        }
+        sizeGroupOfCards(group);
+
+        new ResizeObserver(() => { sizeGroupOfCards(group) }).observe(deck);
+    }
+
+
+    /*
+    const deckWidth = parseInt(window.getComputedStyle(deck).width);
 
     // Given that there is no standard method to get the height of an
     // element including its margin, we have to query the element to get its
@@ -68,7 +117,7 @@ function adaptHeightOfSlideToStack(stack) {
         });
     }
 
-    const layers = stack.querySelectorAll(":scope >.layer");
+    const layers = deck.querySelectorAll(":scope >ld-card");
     layers.forEach((layer, i) => {
         const layerOffsetHeight = layer.offsetHeight
         const layerOuterHeight = layerOffsetHeight + getTopAndBottomMargin(layer);
@@ -87,13 +136,11 @@ function adaptHeightOfSlideToStack(stack) {
             // or any of the stacked overlay layers.
             maxGroupedLayersOuterHeight = Math.max(maxGroupedLayersOuterHeight, layerOuterHeight);
         }
-        /*
-        console.log(
-            "layerOuterHeight: " + layerOuterHeight +
-            " maxGrouped: " + maxGroupedLayersOuterHeight +
-            " maxOuterHeight: " + maxOuterHeight +
-            " overallHeight: " + overallHeight);
-        */
+        //console.log(
+        //    "layerOuterHeight: " + layerOuterHeight +
+        //    " maxGrouped: " + maxGroupedLayersOuterHeight +
+        //    " maxOuterHeight: " + maxOuterHeight +
+        //    " overallHeight: " + overallHeight);
     });
     processLastGroupedLayers(true);
     // console.log("[Done] maxOuterHeight: " + maxOuterHeight+" overallHeight: " + overallHeight);
@@ -101,7 +148,7 @@ function adaptHeightOfSlideToStack(stack) {
 
     // 2. set the height of the stack to the sum of the heights of all 
     //    non-overlay layers (after adapting the heights of them if necessary)
-    stack.style.height = stack.style.maxHeight = overallHeight + "px";
+    deck.style.height = deck.style.maxHeight = overallHeight + "px";
 
     // 3. adapt the height of the slide to accommodate the unfolded stack
     const root = getComputedStyle(document.querySelector(":root"));
@@ -111,7 +158,7 @@ function adaptHeightOfSlideToStack(stack) {
     //const extraHeight = overallHeight - maxOuterHeight; 
 
     // we have to compute how much content fits on the "original" slide...
-    const slide = getSlide(stack);
+    const slide = getSlide(deck);
 
     // get bottom offset of the highest element in the slide
     let maxOffsetBottom = 0;
@@ -142,31 +189,34 @@ function adaptHeightOfSlideToStack(stack) {
     const slidePane = ld.getParent(stack, "ld-dv-slide-pane");
     const slidePaneStyle = slidePane.style;
     slidePaneStyle.height = slidePaneStyle.maxHeight = (newHeight * zoomFactor) + "px";
+    */
 }
 
 /**
- * Handles the rendering of a stack based layout in the standard slides view.
+ * Handles the rendering of a deck in the slide view.
  * 
  * In pure CSS it is not possible to adapt the height of an element to 
  * the height of its tallest child when all children are positioned 
- * absolutely. 
+ * absolutely. The later is necessary to enable the overlay effect.
  * 
- * Hence, we have to observe each ".stack" element and, when one 
+ * Hence, we have to observe each deck and, when one 
  * intersects with the viewport, we stop observing it and set the 
- * height of the stack and all its ".layer" children to the height of 
- * the tallest layer. 
+ * height of the deck and all its cards to the height of 
+ * the tallest card. 
  */
-function adaptHeightOfLayersAndStack(stack) {
-    // 1. query all layers for the necessary height
+function adaptHeightOfDeckInSlideView(deck) {
+    const deckWidth = window.getComputedStyle(deck).width; 
+    // 1. query all cards for the necessary height
     var maxHeight = 0
-    stack.querySelectorAll(":scope >.layer").forEach((layer, i) => {
-        maxHeight = Math.max(maxHeight, layer.offsetHeight);
+    deck.querySelectorAll(":scope >ld-card").forEach((card) => {
+        maxHeight = Math.max(maxHeight, card.offsetHeight);
     });
-    // 2. set the height of all layers and the stack to maxHeight
-    stack.querySelectorAll(":scope >.layer").forEach((layer, i) => {
-        layer.style.height = maxHeight + "px";
+    // 2. set the height of all cards and the deck to maxHeight
+    deck.querySelectorAll(":scope >ld-card").forEach((card) => {
+        card.style.height = maxHeight + "px";
+        card.style.width = deckWidth;
     });
-    stack.style.height = maxHeight + "px";
+    deck.style.height = maxHeight + "px";
 }
 
 
@@ -208,7 +258,7 @@ function adaptHeightOfSlideToScrollable(scrollable) {
 }
 
 /**
- * Handles the rendering of a ".scrollable" element in the standard slides view
+ * Handles the rendering of a ".scrollable" element in the slides view
  * and the light-table view.
  * 
  * Currently, we only support ".scrollable" elements that are direct child
@@ -261,30 +311,30 @@ function afterLDListenerRegistrations() {
      * Elements which are not visible because their parent has a 
      * display:none property will not be layed out and have no size. 
      * 
-     * Hence, to compute the size of a .stack we have to wait until it is 
-     * visible.
+     * Hence, to compute the size of a deck with overlay cards we have to wait 
+     * until it is visible.
      */
-    const stackObserver = new IntersectionObserver((events) => {
+    const deckObserver = new IntersectionObserver((events) => {
         events.forEach((event) => {
             if (event.isIntersecting) {
-                const stack = event.target;
-                stackObserver.unobserve(stack);
+                const deck = event.target;
+                deckObserver.unobserve(deck);
 
                 if (document.evaluate(
                     `*/ancestor::*[@id='ld-document-view']`,
-                    stack,
+                    deck,
                     null,
                     XPathResult.ANY_TYPE,
                     null).iterateNext()) {
-                    setTimeout(() => adaptHeightOfSlideToStack(stack));
+                    setTimeout(() => adaptHeightOfDeckInDocumentView(deck));
                 } else {
-                    setTimeout(() => adaptHeightOfLayersAndStack(stack));
+                    setTimeout(() => adaptHeightOfDeckInSlideView(deck));
                 }
             }
         });
     });
-    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-document-view) .ld-slide .stack").forEach((stack) => {
-        stackObserver.observe(stack);
+    document.querySelectorAll("ld-deck").forEach((deck) => {
+        deckObserver.observe(deck);
     });
 
 
