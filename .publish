@@ -34,17 +34,17 @@ ext/fonts/ld-fonts.html
 ext/fonts/Monospace.bold.woff2
 ext/fonts/Monospace.medium.woff2
 ext/fonts/Monospace.oblique.woff2
+ext/fonts/Monospace-LICENSE.html
 ext/fonts/NotoSansDisplay-Italic-VariableFont_wdth,wght.woff2
 ext/fonts/NotoSansDisplay-VariableFont_wdth,wght.woff2
 ext/fonts/NotoSerif-Italic-VariableFont_wdth,wght.woff2
 ext/fonts/NotoSerif-VariableFont_wdth,wght.woff2
 ext/fonts/NotoSerifDisplay-Italic-VariableFont_wdth,wght.woff2
 ext/fonts/NotoSerifDisplay-VariableFont_wdth,wght.woff2
+ext/fonts/Noto-LICENSE-OFL.txt
 ext/fonts/VictorMono-Italic[wght].woff2
 ext/fonts/VictorMono[wght].woff2
 ext/fonts/VictorMono-LICENSE.txt
-ext/fonts/Noto-LICENSE-OFL.txt
-ext/fonts/Monospace-LICENSE.html
 
 components/ld-timeline.js
 components/timeline/timeline.js
@@ -120,6 +120,9 @@ genesis/themes/DHBW/theme.css
 ################################################################################
 #
 # LectureDoc2 - Renaissance
+
+renaissance/folien.en.rst.html
+renaissance/readme.en.rst.html
 
 renaissance/ld.js
 renaissance/js/ld-components.js
