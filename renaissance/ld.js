@@ -950,7 +950,7 @@ function setupDocumentView() {
         template.classList.remove("ld-slide"); // not needed anymore
         setupCopyToClipboard(template);
 
-        let options = { id: "ld-dv-slide-no-" + i };
+        let options = { id: "ld-section-no-" + i };
         if (template.classList.length > 0)
             options.classList = template.classList;
         
@@ -986,7 +986,7 @@ function setupDocumentView() {
             section.append(...children);
     
             // Move supplemental infos at the end.
-           /* for (const supplemental of section.querySelectorAll(":scope .supplemental")) {
+            /* for (const supplemental of section.querySelectorAll(":scope .supplemental")) {
                 supplemental.parentElement.removeChild(supplemental);
                 section.appendChild(supplemental);
             }*/
@@ -1382,7 +1382,7 @@ function jumpToSlide() {
         const targetSlideNo = slideNo > lastSlideNo() ? lastSlideNo() : slideNo;
 
         if (state.showDocumentView) {
-            window.scrollTo(0, document.getElementById("ld-dv-slide-no-" + targetSlideNo).offsetTop);
+            window.scrollTo(0, document.getElementById("ld-section-no-" + targetSlideNo).offsetTop);
         } else {
             goToSlideWithNo(targetSlideNo);
         }
