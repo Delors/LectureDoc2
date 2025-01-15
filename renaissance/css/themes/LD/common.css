@@ -31,7 +31,7 @@ ul {
 }
 
 .epigraph {
-    font-family: var(--theme-text-font-family);
+    font-family: var(--theme-serif-font-family);
     font-style: italic;
     font-variant-ligatures: additional-ligatures;
 }
@@ -76,6 +76,7 @@ ul {
 /* Lists */
 
 /* compact and simple lists: no margin between items */
+li,
 .simple li,
 .simple ul,
 .simple ol,
@@ -86,8 +87,8 @@ ul {
 dl.simple>dd,
 .compact>li p,
 dl.compact>dd {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 0em;
+    margin-bottom: 0.25em;
 }
 
 /*
@@ -134,6 +135,7 @@ ul > li.attention-list {
 
 
 :is(.list-with-explanations,.with-explanations) > li > *:not(:first-child) {
+    margin-top: -0.3em;
     font-size: smaller;
     color: var(--dark-gray);
     mix-blend-mode: hard-light;
@@ -406,6 +408,11 @@ aside.admonition.tip {
     code {
         background-color: var(--dhbw-light-red);
     }
+}
+
+.admonition.note {
+    background-color: var(--slide-background-color);
+    float: right;
 }
 
 
