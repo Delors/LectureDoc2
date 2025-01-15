@@ -1,6 +1,9 @@
-:not(#ld-slides-pane) .ld-slide:has(h1)::before {
+ld-section>h1:first-child::before {
     content: var(--dhbw-logo);
-    position: absolute;
-    right: 48px;
-    bottom: 32px;
+    width: 245px;
+    height: 120px;
+    padding: 20px;
+    float: right;
+    transform-origin: top left;
+    transform: scale(0.45);
 }
