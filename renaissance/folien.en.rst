@@ -38,6 +38,7 @@ LectureDoc2 Renaissance
 Introduction
 --------------------------------------------------------
 
+
 Text and Supplementation information [#]_
 --------------------------------------------------------
 
@@ -54,3 +55,82 @@ Some more text.
     This is some more additional information that is not shown in the main text.
 
 .. [#] Supplemental information is not immediately shown on the slide, but always shown in the document view.
+
+
+Decks and Cards
+--------------------------------------------------------
+
+.. deck::
+
+    .. card::
+    
+        A deck is a collection of cards.
+
+    .. card::
+
+        Where each card replaces the previous cards belonging to the same deck.
+
+    .. card::
+
+        And where the height of the deck as a whole is determined by the tallest card.
+
+    .. card::
+
+        .. epigraph::
+
+            **The Tallest One**
+
+            Above the crowd, I stand so high,
+            A bridge between the ground and sky.
+            I see the world in a broader frame,
+            Yet hear the jokes—they’re all the same.
+
+            -- Jan. 2025 ChatGPT (Prompt: I need a short poem about being the tallest one.)
+
+    .. card::
+
+        Decks can be nested and overlay each other!
+
+        .. deck::
+
+            .. card::
+            
+                ::
+
+                    The first sentence of the first card in the nested deck.
+
+
+
+                    The last sentence of the first card in the nested deck.
+
+            .. card:: overlay
+
+                ::
+
+                    T
+
+                    A sentence in between.
+
+                    T
+
+            .. card::
+
+                .. hint:: 
+
+                    This is the last meaningful card in the nested deck. The next two ones are a technical detail.
+
+
+            .. card::
+            
+                #------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ----
+
+            .. card:: overlay
+
+                xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx 
+
+    .. card::
+
+        .. hint:: 
+
+            This is the last card nested in the top-level deck.
+
