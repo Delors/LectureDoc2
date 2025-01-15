@@ -956,6 +956,8 @@ function setupDocumentView() {
         
         const section = ld.create("ld-section", options);
         if (template.classList.contains("exercises")) {
+            section.appendChild(template.querySelector("h2"));
+
             // Just extract the exercises and their solutions.
             // Keep supplemental infos where they are!
             template.querySelectorAll(":scope .ld-exercise").forEach((e) => {
