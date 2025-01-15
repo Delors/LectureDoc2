@@ -72,7 +72,11 @@ Decks and Cards
 
     .. card::
 
-        And where the height of the deck as a whole is determined by the tallest card.
+        .. note:: 
+
+            This is a simple note.
+
+        And This is a simple note.where the height of the deck as a whole is determined by the tallest card.
 
     .. card::
 
@@ -89,7 +93,9 @@ Decks and Cards
 
     .. card::
 
-        Decks can be nested and overlay each other!
+        Decks can be nested and can overlay each other!
+
+        However, a card with a nested deck is not allowed to also use floating elements (e.g. notes). In general, the use of floating elements in combination with overlays is discouraged.
 
         .. deck::
 
@@ -114,6 +120,10 @@ Decks and Cards
                     T
 
             .. card::
+
+                .. note:: 
+
+                    This is another simple note.
 
                 .. hint:: 
 
