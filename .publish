@@ -186,7 +186,8 @@ renaissance/css/themes/dhbw.css
 renaissance/css/themes/DHBW/defs.css
 renaissance/css/themes/DHBW/common.css
 renaissance/css/themes/DHBW/document-view.css
-renaissance/css/themes/DHBW/slides-view.css
+renaissance/css/themes/DHBW/slide-view.css
+renaissance/css/themes/DHBW/slide.css
 renaissance/css/themes/DHBW/utilities.css
 renaissance/css/themes/DHBW/dhbw_logo.png
 renaissance/css/themes/DHBW/dhbw_text.png
