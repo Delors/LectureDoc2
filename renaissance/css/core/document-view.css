@@ -19,21 +19,25 @@
         }
     }
 
-    ld-card {
-        display: block;
-        clear: both;
-    }
-
     ld-deck {
         display: block;
+        /* width and height must not be set! */
 
         >ld-card-group {
             display: block;
             position: relative;
-
-            >ld-card {
-                position: absolute;
-            }
+            /* width and height must not be set! */
         }
+    }
+
+    ld-card {
+        display: block;
+        /* width and height must not be set! */        
+
+        /*position: relative / absolute is done by JavaScript*/
+        top: 0;
+        left: 0;
+
+        clear: both;
     }
 }
