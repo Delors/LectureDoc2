@@ -3,7 +3,7 @@
     :lang: en
     :author: Michael Eichberg
     :keywords: Demo, Showcase
-    :description lang=de: Demonstrates LectureDoc2 - Renaissance
+    :description lang=en: Demonstrates LectureDoc2 - Renaissance
     :id: LectureDoc2-Renaissance-Showcase
     :first-slide: last-viewed
 
