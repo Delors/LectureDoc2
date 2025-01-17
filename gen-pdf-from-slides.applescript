@@ -10,7 +10,7 @@
 # 				"Keycodes:"    http://macbiblioblog.blogspot.com/2014/12/key-codes-for-function-and-special-keys.html
 # 				"Inspired by:" https://www.macscripter.net/t/scripting-a-full-path-from-standard-save-as-dialog-box/75178/4
 #
-# Version:		1.0.1
+# Version:		1.0.2
 #				Aug. 2024
 #				Michael Eichberg
 #
@@ -111,13 +111,13 @@ on run argv
 					delay 0.1
 					
 					key code 36 -- press "return"
-					delay 0.5
-					
+					delay 0.75
 					
 					click (every button whose name is "Save")
-					
-					# if the file esists, replace it
-					# check if "Repace Existing" sheet appears
+					delay 0.3
+
+					# if the file exists, replace it
+					# check if "Replace Existing" sheet appears
 					
 					if exists sheet 1 then
 						log "Replaced     " & filename & ".pdf"
@@ -125,7 +125,8 @@ on run argv
 					else
 						log "Saved:       " & filename & ".pdf"
 					end if
-					
+					delay 0.3
+
 				end tell -- "Save as PDF" sheet
 				
 			end tell -- # PRINT sheet
