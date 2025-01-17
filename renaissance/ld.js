@@ -937,9 +937,8 @@ function setupDocumentView() {
     /* The documents will be rearranged in a continuous view as follows:
      * <section>
      *   Content
-     *   [div class="supplemental"]?
      *   <footer>
-     *    <div class="ld-exercise-solution-wrapper">
+     *    <div class="ld-dv-section-number">...</div>
      *   </footer>
      * </sectiosn>
      */
@@ -965,6 +964,7 @@ function setupDocumentView() {
                 if (solution) {
                     solution.parentElement.removeChild(solution);
                     const task = e.cloneNode(true);
+                    section.appendChild(task);
                     task.classList.add("ld-extracted-exercise");
 
                     const passwordField = createPasswordInput();
@@ -973,7 +973,6 @@ function setupDocumentView() {
                         parent: task,
                         children: [passwordField, solution]
                     });
-                    section.appendChild(task);
 
                     passwordField.addEventListener("input", (e) => {
                         const currentPassword = e.target.value
@@ -981,17 +980,15 @@ function setupDocumentView() {
                             tryDecryptExercise(currentPassword, solutionWrapper, solution);
                         }
                     });
+                } else{
+                    const task = e.cloneNode(true);
+                    task.classList.add("ld-extracted-exercise");
+                    section.appendChild(task);
                 }
             });
         } else {
             const children = template.children;
             section.append(...children);
-    
-            // Move supplemental infos at the end.
-            /* for (const supplemental of section.querySelectorAll(":scope .supplemental")) {
-                supplemental.parentElement.removeChild(supplemental);
-                section.appendChild(supplemental);
-            }*/
         }
 
         const footer = ld.create("footer", {
