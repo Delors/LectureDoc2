@@ -51,7 +51,7 @@ or
 ```
 
 
-## paragraph
+## decks and cards
 
 (previously .stack and .layer (.overlay)) 
 
