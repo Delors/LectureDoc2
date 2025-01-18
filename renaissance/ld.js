@@ -861,10 +861,22 @@ function setupMainPane() {
         if (allSupplementals.length > 0) {
             const ldSupplementals = ld.create("ld-supplementals",{});
             for (const supplemental of allSupplementals) {
-                //            supplemental.parentElement.removeChild(supplemental);
                 ldSupplementals.appendChild(supplemental);
             }
             slide.appendChild(ldSupplementals);
+        }
+        // Collect and move presenter notes as a whole at the end.
+        const presenterNotes = slide.querySelectorAll(":scope ld-presenter-note");
+        if (presenterNotes.length > 0) {
+            let presenterNoteId = 0;
+            const ldPresenterNotes = ld.create("ld-presenter-notes", {});
+            for (const presenterNote of presenterNotes) {
+                const clonedPresenterNote = presenterNote.cloneNode(true);
+                clonedPresenterNote.id = "ld-presenter-note-" + presenterNoteId++;
+                ldPresenterNotes.appendChild(clonedPresenterNote);
+                presenterNote.innerText = presenterNoteId;
+            }
+            slide.appendChild(ldPresenterNotes);
         }
 
         const orig_slide_id = slide.id;
@@ -1814,7 +1826,7 @@ function localScrollScrollable(scrollableId, scrollTop) {
 
 function localScrollSupplemental(supplementalId, scrollTop) {
     const supplemental = document.querySelector(
-        `#ld-slides-pane .supplemental[data-supplemental-id="${supplementalId}"]`);
+        `#ld-slides-pane ld-supplementals[data-supplementals-id="${supplementalId}"]`);
 
     if (supplemental.scrollTop !== scrollTop) {
         supplemental.scrollTo(0, scrollTop);
@@ -1916,10 +1928,11 @@ function registerScrollableElementListener() {
 }
 
 function registerHoverSupplementalListener() {
-    let supplementalId = 1;
+    let supplementalsId = 1;
     document.querySelectorAll("#ld-slides-pane ld-supplementals").forEach((supplemental) => {
-        const id = supplementalId++;
-        supplemental.dataset.supplementalId = id;
+        console.log("registering hover listener for supplemental",supplemental);
+        const id = supplementalsId++;
+        supplemental.dataset.supplementalsId = id;
         const addHoverSupplemental = (event) => {
             if (event.ctrlKey) {
                 postMessage("addHoverSupplemental", id);
@@ -2223,12 +2236,12 @@ const onLoad = () => {
 
                 case "addHoverSupplemental": {
                     const id = data;
-                    document.querySelector(`#ld-slides-pane .supplemental[data-supplemental-id="${id}"]`).classList.add("hover:supplemental");
+                    document.querySelector(`#ld-slides-pane ld-supplementals[data-supplementals-id="${id}"]`).classList.add("hover:ld-supplementals");
                     break;
                 }
                 case "removeHoverSupplemental": {
                     const id = data;
-                    document.querySelector(`#ld-slides-pane .supplemental[data-supplemental-id="${id}"]`).classList.remove("hover:supplemental");
+                    document.querySelector(`#ld-slides-pane ld-supplementals[data-supplementals-id="${id}"]`).classList.remove("hover:ld-supplementals");
                     break;
                 }
                 case "supplementalScrolled": {
