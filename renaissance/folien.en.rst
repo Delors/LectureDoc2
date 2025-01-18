@@ -39,7 +39,7 @@ Introduction
 --------------------------------------------------------
 
 
-Text and Supplementation information [#]_
+Supplementation Information and Presenter Notes\ [#]_
 --------------------------------------------------------
 
 Some text.
@@ -48,13 +48,26 @@ Some text.
     
     This is additional information that is not shown in the main text.
 
+.. presenter-note::
+
+    This is a small presenter note. Which is displayed, when you hover over it.
+
 Some more text.
+
+.. presenter-note::
+
+    This is another presenter note. Which is also displayed, when you hover over it.
 
 .. supplemental:: 
     
     This is some more additional information that is not shown in the main text.
 
-.. [#] Supplemental information is not immediately shown on the slide, but always shown in the document view.
+    .. presenter-note::
+
+        This is a nested presenter note. Which is probably displayed, when you hover over it :-).
+
+
+.. [#] Supplemental information and presenter notes are not immediately shown on the slide.
 
 
 Decks and Cards
@@ -68,7 +81,7 @@ Decks and Cards
 
     .. card::
 
-        Where each card replaces the previous cards belonging to the same deck.
+        Where each card "replaces" the previous cards during the presentation belonging to the same deck.
 
     .. card::
 
@@ -76,7 +89,7 @@ Decks and Cards
 
             This is a simple note.
 
-        And This is a simple note.where the height of the deck as a whole is determined by the tallest card.
+        This card contains a simple note. Where the height of the deck as a whole is determined by the tallest card.
 
     .. card::
 
@@ -131,10 +144,12 @@ Decks and Cards
 
 
             .. card::
+                :class: monospaced
             
-                #------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ----
+                _------ ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------_
 
             .. card:: overlay
+                :class: monospaced
 
                 xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx 
 
@@ -142,5 +157,5 @@ Decks and Cards
 
         .. hint:: 
 
-            This is the last card nested in the top-level deck.
+            This is the last card in the top-level deck.
 
