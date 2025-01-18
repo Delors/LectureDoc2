@@ -124,7 +124,6 @@ function layoutDecksInSlideView(slide) {
             card.style.width = deckWidth;
         });
         deck.style.height = maxHeight + maxMargin + "px";
-        console.log("deck: " + deck + " height: " + maxHeight);
     });
 }
 
