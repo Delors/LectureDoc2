@@ -47,4 +47,8 @@
 
         clear: both;
     }
+
+    ld-presenter-note {
+        display: none;
+    }
 }
