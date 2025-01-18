@@ -793,7 +793,7 @@ function localShowLaserPointer(slideX, slideY) {
     if (!showsSlide()) return;
 
     const currentSlide = getCurrentSlide();
-    const laserPointer = document.getElementById("ld-laser-pointer");
+    const laserPointer = document.querySelector("ld-laser-pointer");
     const laserPointerStyle = laserPointer.style;
     laserPointerStyle.left = (currentSlide.offsetLeft + slideX) + "px";
     laserPointerStyle.top = (currentSlide.offsetTop + slideY) + "px";
@@ -806,22 +806,22 @@ function hideLaserPointer() {
 }
 
 function localHideLaserPointer() {
-    document.getElementById("ld-laser-pointer").style.scale = 0;
+    document.querySelector("ld-laser-pointer").style.scale = 0;
 }
 
 function setupMainPane() {
-    const mainPane = ld.div({
+    const slidesPane = ld.div({
         id: "ld-slides-pane",
         classes: ["ld-slide-context"],
-        children: [ld.div({ id: "ld-laser-pointer" })]
+        children: [ld.create("ld-laser-pointer",{ })]
     });
 
-    mainPane.addEventListener(
+    slidesPane.addEventListener(
         'mousemove',
         (event) => {
             // By default, the laser pointer is positioned in the center and 
             // also relative to the main pane.
-            const s = mainPane.style.scale
+            const s = slidesPane.style.scale
             const innerW = window.innerWidth;
             const innerH = window.innerHeight;
             const w = presentation.slide.width;
@@ -879,11 +879,11 @@ function setupMainPane() {
         // this is down to get all (new) slides to a well-defined state.
         hideAllAnimatedElements(slide);
         slide.style.display = "none";
-        mainPane.appendChild(slide);
+        slidesPane.appendChild(slide);
     })
 
-    typesetMath(mainPane);
-    document.querySelector("BODY").prepend(mainPane);
+    typesetMath(slidesPane);
+    document.querySelector("BODY").prepend(slidesPane);
 }
 
 function decryptExercise(title, password) {
