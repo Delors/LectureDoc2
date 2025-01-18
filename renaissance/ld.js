@@ -772,12 +772,6 @@ function setupJumpTargetDialog() {
     document.getElementsByTagName("BODY")[0].prepend(jumpTargetDialog);
 }
 
-function setupSlideNumberPane() {
-    const slideNumberPane = ld.div({ id: "ld-slide-number-pane" });
-    slideNumberPane.innerHTML = `<span id="ld-slide-number">/</span>`
-
-    document.getElementsByTagName("BODY")[0].prepend(slideNumberPane);
-}
 
 function showsSlide() {
     return !state.showDocumentView && !state.showLightTable && !state.showHelp;
@@ -813,7 +807,9 @@ function setupMainPane() {
     const slidesPane = ld.div({
         id: "ld-slides-pane",
         classes: ["ld-slide-context"],
-        children: [ld.create("ld-laser-pointer",{ })]
+        children: [
+            ld.create("ld-laser-pointer",{ })
+        ]
     });
 
     slidesPane.addEventListener(
@@ -883,7 +879,9 @@ function setupMainPane() {
     })
 
     typesetMath(slidesPane);
-    document.querySelector("BODY").prepend(slidesPane);
+    const body = document.querySelector("BODY");
+    body.prepend(ld.create("ld-slide-number",{ }))    
+    body.prepend(slidesPane);
 }
 
 function decryptExercise(title, password) {
@@ -1133,7 +1131,7 @@ function showSlide(ldSlide, setNewMarker = false) {
         ldSlide.classList.add("ld-current-slide");
     const slideNo = Number(ldSlide.dataset.ldSlideNo)
     state.currentSlideNo = slideNo;
-    document.getElementById("ld-slide-number").innerText = slideNo + 1;
+    document.querySelector("ld-slide-number").innerText = slideNo + 1;
 
     // Update the URL to reflect the current slide number. (To make it 
     // possible to share the URL with others.)
@@ -1480,9 +1478,9 @@ function showMainSlideNumber(show) {
     state.showMainSlideNumber = show;
 
     if (show && !state.showDocumentView) {
-        document.getElementById("ld-slide-number-pane").style.display = "table";
+        document.querySelector("ld-slide-number").style.display = "block";
     } else {
-        document.getElementById("ld-slide-number-pane").style.display = "none";
+        document.querySelector("ld-slide-number").style.display = "none";
     }
 }
 
@@ -2137,7 +2135,6 @@ const onDOMContentLoaded = async () => {
     setupHelp();
     setupJumpTargetDialog();
     setupDocumentView();
-    setupSlideNumberPane();
     setupMainPane();
     setupMenu();
 
