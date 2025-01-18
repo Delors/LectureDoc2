@@ -18,9 +18,13 @@
 */
 #ld-slides-pane {
 
-    /*  Done by Javascript: Aggregation of all supplemental information in one 
-        ld-supplemental element: */
+
     .ld-slide {
+
+        /*  Done by Javascript: 
+            Aggregation of all supplemental information in one 
+            ld-supplemental element: 
+        */
         ld-supplementals {
             display: block;
             max-width: var(--ld-rel-max-supplemental-area-width);
@@ -61,6 +65,65 @@
                 margin-top: 0.5em;
                 border-top: 1px dashed var(--dhbw-dark-gray);
                 padding-top: 0.5em;
+            }
+        }
+
+        ld-presenter-note-marker {
+            >div {
+                display: block;
+                position: absolute;
+                translate: 0 -1.33lh;
+                font-size: 24px;
+                /* We don't want to have it dependent on the current font-size that is "accidentally" in effect. */
+                font-weight: bolder;
+                width: 1.5em;
+                height: 1.5em;
+                text-align: center;
+                border-radius: 25% 25%;
+                background-color: rgba(200, 200, 200, 0.5);
+                mix-blend-mode: multiply;
+                color: black;
+                text-shadow: 1px 1px 2px white;
+            }
+        }
+        /* The custom class .hover is added programmatically. */
+        ld-presenter-notes {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+
+            >ld-presenter-note {
+                padding: 0.25em 0.5em;
+
+                font-size: 38px;
+                background-color: rgba(200, 200, 200, 0.5);
+                color: black;
+                text-shadow: 1px 1px 2px white;
+
+                &::before {
+                    content: attr(data-presenter-note-id);
+                    display: block;
+                    width:100%;
+                    padding-bottom: 0.1em;
+                    margin-bottom: 0.1em;
+                    border-bottom: thin solid var(--dark-gray);
+
+                    text-align: center;
+                    font-size: smaller;
+                }
+
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+
+                &.hover\:ld-presenter-note {
+                    display: block;
+                }
+
+                &:not(.hover\:ld-presenter-note) {
+                    display: none;
+                }
             }
         }
 

@@ -865,6 +865,7 @@ function setupMainPane() {
             }
             slide.appendChild(ldSupplementals);
         }
+
         // Collect and move presenter notes as a whole at the end.
         const presenterNotes = slide.querySelectorAll(":scope ld-presenter-note");
         if (presenterNotes.length > 0) {
@@ -872,9 +873,15 @@ function setupMainPane() {
             const ldPresenterNotes = ld.create("ld-presenter-notes", {});
             for (const presenterNote of presenterNotes) {
                 const clonedPresenterNote = presenterNote.cloneNode(true);
-                clonedPresenterNote.id = "ld-presenter-note-" + presenterNoteId++;
+                clonedPresenterNote.id = "ld-presenter-note-" + ++presenterNoteId;
+                clonedPresenterNote.dataset.presenterNoteId = presenterNoteId;
                 ldPresenterNotes.appendChild(clonedPresenterNote);
-                presenterNote.innerText = presenterNoteId;
+
+                // Create a marker element instead of the "full" presenter note.
+                const presenterNoteMarker = ld.create("ld-presenter-note-marker", {});
+                presenterNoteMarker.dataset.presenterNoteId = presenterNoteId;
+                presenterNoteMarker.innerHTML = `<div>${presenterNoteId}</div>`;
+                presenterNote.parentElement.replaceChild(presenterNoteMarker, presenterNote);
             }
             slide.appendChild(ldPresenterNotes);
         }
@@ -1933,22 +1940,41 @@ function registerHoverSupplementalListener() {
         console.log("registering hover listener for supplemental",supplemental);
         const id = supplementalsId++;
         supplemental.dataset.supplementalsId = id;
-        const addHoverSupplemental = (event) => {
+        const addHover = (event) => {
             if (event.ctrlKey) {
                 postMessage("addHoverSupplemental", id);
             }
             supplemental.classList.add("hover:ld-supplementals");
         }
-        const removeHoverSupplemental = () => {
+        const removeHover = () => {
             // We always send the message to remove the hover class.
             // The effect is idempotent, i.e., it can be applied multiple times
             // and this way, we don't have to keep track of the state.
             postMessage("removeHoverSupplemental", id);
             supplemental.classList.remove("hover:ld-supplementals");
         }
-        supplemental.addEventListener("mouseenter", addHoverSupplemental);
-        supplemental.addEventListener("mouseleave", removeHoverSupplemental);
+        supplemental.addEventListener("mouseenter", addHover);
+        supplemental.addEventListener("mouseleave", removeHover);
         addScrollingEventListener("supplementalScrolled",supplemental, id);
+    });
+}
+
+function registerHoverPresenterNoteListener() {
+    document.querySelectorAll("#ld-slides-pane ld-presenter-note-marker").forEach((note) => {
+        console.log("registering hover listener for presenter note",note);
+
+        const noteId = note.dataset.presenterNoteId;
+
+        const ldSlide = note.closest(".ld-slide");
+        const ldPresenterNote = ldSlide.querySelector(`:scope #ld-presenter-note-${noteId}`)
+        function addHover(){
+            ldPresenterNote.classList.add("hover:ld-presenter-note");
+        }
+        function removeHover(){
+            ldPresenterNote.classList.remove("hover:ld-presenter-note");
+        }
+        note.addEventListener("mouseenter", addHover);
+        note.addEventListener("mouseleave", removeHover);
     });
 }
 
@@ -2195,6 +2221,7 @@ const onLoad = () => {
     registerSwipeListener();
     registerScrollableElementListener();
     registerHoverSupplementalListener();
+    registerHoverPresenterNoteListener();
 
     ldEvents.afterLDListenerRegistrations.forEach((f) => f());
 
