@@ -185,7 +185,7 @@ let state = { // the (default) state
     showDocumentView: true, // set in the document or by default in presentation
     continuousViewScrollY: 0,
 
-    exercisesMasterPassword: "",
+    masterPassword: "",
 }
 
 
@@ -714,22 +714,22 @@ function createPasswordInput() {
     return passwordInput
 }
 
-function setupExercisesPasswordsDialog() {
-    const exercisesPasswordsDialog = ld.dialog({ id: "ld-exercises-passwords-dialog", classes: ["ld-ui"]  });
-    exercisesPasswordsDialog.innerHTML = `
+function setupUnlockPresenterNotesAndSolutionsDialog() {
+    const unlockDialog = ld.dialog({ id: "ld-exercises-passwords-dialog", classes: ["ld-ui"] });
+    unlockDialog.innerHTML = `
             <div class="ld-dialog-header">
-                <span class="ld-dialog-title">Exercises Passwords</span>
+                <span class="ld-dialog-title">Unlock Presenter Notes and Solutions</span>
                 <button type="button" class="ld-dialog-close-button" id="ld-exercises-passwords-close-button" ></button>
             </div>`
     const encryptedExercisesPasswords = getEncryptedExercisesPasswords();
     if (encryptedExercisesPasswords) {
         const passwordInput = createPasswordInput();
-        if (state.exercisesMasterPassword) {
-            passwordInput.value = state.exercisesMasterPassword;
+        if (state.masterPassword) {
+            passwordInput.value = state.masterPassword;
         }
         const contentArea = ld.div({
             id: 'ld-exercises-passwords-content',
-            parent: exercisesPasswordsDialog,
+            parent: unlockDialog,
             children: [passwordInput]
         });
         passwordInput.addEventListener("input", async (e) => {
@@ -742,9 +742,12 @@ function setupExercisesPasswordsDialog() {
                             currentPassword
                         )
                     }).then((decrypted) => {
-                        state.exercisesMasterPassword = currentPassword;
+                        state.masterPassword = currentPassword;
+
+                        localDecryptPresenterNotes(currentPassword);
+
                         const decryptedPasswords = JSON.parse(decrypted);
-                        const exercisesPasswords = decryptedPasswords[1]["passwords"];
+                        const exercisesPasswords = decryptedPasswords[0]["passwords"];
                         const passwordsTable =
                             ld.convertToTable(
                                 exercisesPasswords,
@@ -758,11 +761,13 @@ function setupExercisesPasswordsDialog() {
                                     return [td];
                                 }
                             );
+                        
                         for (let i = 0; i < exercisesPasswords.length; i++) {
                             localDecryptExercise(exercisesPasswords[i][0], exercisesPasswords[i][1]);
                         }
                         contentArea.removeChild(passwordInput);
                         contentArea.appendChild(passwordsTable);
+                        unlockDialog.querySelector(":scope .ld-dialog-title").innerHTML = "Exercises Passwords";
                     }).catch((error) => {
                         console.trace();
                         console.log("Decryption using: " + currentPassword + " failed - " + error);
@@ -770,13 +775,13 @@ function setupExercisesPasswordsDialog() {
             }
         });
     } else {
-        ld.div({ parent: exercisesPasswordsDialog }).innerHTML = `
+        ld.div({ parent: unlockDialog }).innerHTML = `
             <div id="ld-exercises-passwords-content">
                 <strong>This document has no exercises or the master password is not set.</strong>
             </div>`
     }
 
-    document.getElementsByTagName("BODY")[0].prepend(exercisesPasswordsDialog);
+    document.getElementsByTagName("BODY")[0].prepend(unlockDialog);
     document.
         getElementById("ld-exercises-passwords-close-button").
         addEventListener("click", toggleExercisesPasswordsDialog);
@@ -904,6 +909,7 @@ function setupMainPane() {
 
                 // Create a marker element instead of the "full" presenter note.
                 const presenterNoteMarker = ld.create("ld-presenter-note-marker", {});
+                presenterNoteMarker.dataset.encrypted = true;
                 presenterNoteMarker.dataset.presenterNoteId = presenterNoteId;
                 presenterNoteMarker.innerHTML = `<div>${presenterNoteId}</div>`;
                 presenterNote.parentElement.replaceChild(presenterNoteMarker, presenterNote);
@@ -916,7 +922,7 @@ function setupMainPane() {
         slide.dataset.ldSlideNo = i;
         slide.dataset.id = orig_slide_id;
         // Let's hide all elements that should be shown incrementally;
-        // this is down to get all (new) slides to a well-defined state.
+        // this is done to get all (new) slides to a well-defined state.
         hideAllAnimatedElements(slide);
         slide.style.display = "none";
         slidesPane.appendChild(slide);
@@ -933,8 +939,25 @@ function decryptExercise(title, password) {
     localDecryptExercise(title, password);
 }
 
+function localDecryptPresenterNotes(password) {
+    
+    document.querySelectorAll(":scope ld-presenter-note-marker").forEach((presenterNoteMarker) => {
+        delete presenterNoteMarker.dataset.encrypted;
+    });
+
+    document.querySelectorAll(":scope ld-presenter-note[data-encrypted='true']").forEach(async (presenterNote) => {
+        console.info("decrypting presenter notes: " + presenterNote);
+
+        const crypto = await ldCrypto();
+        const html = await crypto.decryptAESGCMPBKDF(presenterNote.innerText.trim(), password);
+        presenterNote.innerHTML = html;
+        typesetMath(presenterNote);
+        delete presenterNote.dataset.encrypted;
+    });
+}
+
 function localDecryptExercise(title, password) {
-    console.log("decryptExercise: " + title + "; password: " + password);
+    console.info("decrypting exercise: " + title + "; password: " + password);
     const solutionWrapper = document.querySelector(`.ld-extracted-exercise[data-exercise-title='${title}'] .ld-exercise-solution-wrapper`);
     if (!solutionWrapper) {
         console.error("No solution wrapper found for exercise: " + title);
@@ -2194,7 +2217,7 @@ const onDOMContentLoaded = async () => {
     */
     setupMessageBox();
     setupLightTable();
-    setupExercisesPasswordsDialog();
+    setupUnlockPresenterNotesAndSolutionsDialog();
     setupTableOfContents();
     setupHelp();
     setupJumpTargetDialog();
