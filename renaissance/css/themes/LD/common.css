@@ -49,6 +49,19 @@ ld-deck.numbered {
     }
 }
 
+/*  Depending on how the table is created,  the class "highlight-cell-on-hover" 
+    may only be found on the surrounding div. 
+    TODO Add functionality to reply in secondary browser(s).
+    TODO Check for duplication with ldcomponents...
+*/
+div:has(>table),
+table {
+    &.highlight-cell-on-hover td:hover {
+        background-color: var(--light-gray);
+    }
+}
+
+
 /*  ----------------------------------------------------------------------------
     Adds the styling for the functionality to copy code to the clipboard.
 
