@@ -25,10 +25,24 @@
         display: none;
     }
 
+    .footnote-list {
+        font-size: 0.7em;
+    } 
     >.footnote-list {
         position: absolute;
         bottom: 0px;
-        font-size: 0.7em;
+    }
+    * > .footnote-list {
+        margin-top: 0.75em;
+        border-top: thin solid var(--dark-gray);
+        padding-top: 0.2em;
+        > .footnote {
+            margin-bottom: 0;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
     }
 
     /*
