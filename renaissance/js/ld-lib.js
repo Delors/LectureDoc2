@@ -72,7 +72,10 @@ export function div(
 /**
  * Converts a 2D array into an HTML table.
  * 
- * @param {Object[][]} data - The content of the cells. The first index identifies the row, the *         second the column. E.g., data[1][2] is the cell in the second row (1) and third *         column (2).
+ * @param {Object[][]} data - The content of the cells. The first index 
+ *                            identifies the row, the second the column. 
+ *                            E.g., data[1][2] is the cell in the second row 
+ *                            (1) and third column (2).
  * @param {generateCells} [rowExt] - The row will be extended by the
  *          cells (td elements) returned by the function. If the function is 
  *          defined and a list of cells is actually returned.
@@ -86,7 +89,7 @@ export function convertToTable(data, rowExt) {
         tbody.appendChild(row);
         for (let j = 0; j < data[i].length; j++) {
             const cell = document.createElement('td');
-            cell.textContent = data[i][j];
+            cell.innerHTML = data[i][j];
             row.appendChild(cell);
         }
         if (rowExt) {
