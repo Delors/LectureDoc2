@@ -394,8 +394,10 @@ function scaleSlideImages() {
             () => {
                 const svg = obj.contentDocument.querySelector("svg");
                 svg.style.overflow = "visible";
-                const width = svg.scrollWidth;
-                const height = svg.scrollHeight;
+                // const width = svg.scrollWidth; <== doesn't work with Firefox
+                // const height = svg.scrollHeight; <== doesn't work with Firefox
+                const width = svg.width.baseVal.value;
+                const height = svg.height.baseVal.value;
                 console.info("svg " + obj.data + " has been loaded: " + width + "x" + height);
                 obj.style.width = width * 3 + "px";
                 obj.style.height = height * 3 + "px";
