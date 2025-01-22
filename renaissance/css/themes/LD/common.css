@@ -7,6 +7,10 @@
    David Goodger (2015, 2021) 
 */
 
+object[role="img"] {
+    display: block;
+}
+
 ul {
     list-style-type: "▫️";
 }
