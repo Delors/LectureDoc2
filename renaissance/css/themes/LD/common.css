@@ -26,7 +26,7 @@ ld-deck.numbered {
         position: relative;
         margin-top: 1em;
 
-        border-top: thin solid var(--dhbw-gray);
+        border-top: thin solid var(--dark-gray);
         padding-top: 0.75em;
 
         &::before {
@@ -36,7 +36,11 @@ ld-deck.numbered {
             right: 0em;
             padding: 0.05em 0.25em;
             content: counter(deck);
-            border-right: thin solid var(--dhbw-gray);
+            border-right: thin solid var(--dark-gray);
+            background-color: var(--dark-gray);
+            color: var(--white);
+            text-shadow: -1px -1px 2px var(--light-gray);
+            border-radius: 0 0 0 0.5em;
         }
     }
 }
