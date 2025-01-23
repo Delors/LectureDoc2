@@ -376,8 +376,12 @@ function localResetLectureDoc() {
 function scaleSlideImages() {
     const imgs = document.querySelectorAll(".ld-slide img");
     for (const img of imgs) {
+        if (img.style.width || img.style.height) 
+            // if we have explicit sizing of the image, we don't want to change it
+            continue;
         if (img.complete) {
-            console.info("image " + img.src + " is already loaded: " + img.naturalWidth + "x" + img.naturalHeight);
+            console.error("image " + img.src + " is already loaded: " + img.naturalWidth + "x" + img.naturalHeight);
+            // TODO Implement when required.
         } else {
             console.info("waiting for image " + img.src + " to load");
             img.addEventListener("load", () => {
