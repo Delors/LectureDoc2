@@ -80,7 +80,6 @@ table {
         position: absolute;
         right: 18px;
         top: 18px;
-        scale: 1.5;
         
         opacity: 0;
         transition: 500ms;
@@ -93,6 +92,19 @@ table {
 }
 
 /* Lists */
+
+/* Provides a very simple means to arrange items in columns. */
+ul.column-list {
+    list-style: none;
+
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
+}
 
 /* compact and simple lists: no margin between items */
 li,
@@ -456,12 +468,15 @@ p.admonition-title {
 
 p.sidebar-title,
 p.rubric {
-    font-weight: bolder;
-    font-size: larger;
+    font-weight: normal;
+    font-size: 1.15em;
 }
 
 p.rubric {
-    color: var(--dark-gray);
+    color: var(--white);
+    text-shadow: 1px 1px 2px var(--black);
+    background-color: var(--semi-light-gray);
+    padding: 0 0.2em;
 }
 
 p.subtitle,

@@ -156,7 +156,15 @@
                 position: relative;
             }
         }
-
+        
+        /*  The DIV with the class ".ld-copy-to-clipboard-button" is added by 
+            programmatically by LectureDoc. */
+        .ld-copy-to-clipboard-button {
+            scale: 3;
+            
+            transform-origin: top right;
+        }
+                
 
         /*
         &.excursion { 
