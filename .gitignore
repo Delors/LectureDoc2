@@ -1,11 +1,13 @@
 Icon
 *.rst.html
 *.rst.html.pdf
+*.rst.html.passwords.txt
 
 # The base64 files are generated for embedding in the SVG images
 *.woff2.b64
 *.woff2.css
 ext/fonts/ld-fonts-embedded.css
+
 
 # Node.js and JSDoc
 node_modules
