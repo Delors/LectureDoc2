@@ -6,13 +6,13 @@
     :description lang=en: Demonstrates LectureDoc2 - Renaissance
     :id: LectureDoc2-Renaissance-Showcase
     :first-slide: last-viewed
+    :exercises-master-password: Demo!
 
 .. |html-source| source::
     :prefix: https://delors.github.io/
     :suffix: .html 
 
 
-.. class .. :: animated-symbol 
 
 LectureDoc2 Renaissance
 ======================================================
@@ -39,10 +39,11 @@ Introduction
 --------------------------------------------------------
 
 
-Supplementation Information and Presenter Notes\ [#]_
+
+Supplemental Information and Presenter Notes\ [#]_
 --------------------------------------------------------
 
-Some text.
+You first have to enter the master password (press M and then enter Demo!) to see the presenter notes.
 
 .. supplemental:: 
     
@@ -143,13 +144,11 @@ Decks and Cards
                     This is the last meaningful card in the nested deck. The next two ones are a technical detail.
 
 
-            .. card::
-                :class: monospaced
+            .. card:: monospaced
             
                 _------ ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------_
 
-            .. card:: overlay
-                :class: monospaced
+            .. card:: overlay monospaced
 
                 xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx 
 
