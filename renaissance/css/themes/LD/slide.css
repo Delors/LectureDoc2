@@ -21,10 +21,6 @@
         font-weight: 600;
     }
 
-    &.no-title h2:first-child {
-        display: none;
-    }
-
     .footnote-list {
         font-size: 0.7em;
     } 

@@ -285,6 +285,12 @@ dl.option-list>dt {
     font-weight: normal;
 }
 
+
+.no-title h2:first-child {
+    display: none;
+}
+
+
 .footnote,
 .citation {
     margin: 1em 0;
