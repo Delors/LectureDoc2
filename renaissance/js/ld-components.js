@@ -169,43 +169,6 @@ function layoutDecksInSlideView(slide) {
 }
 
 
-
-function adaptHeightOfSlideToScrollable(scrollable) {
-    const root = getComputedStyle(document.querySelector(":root"));
-    const zoomFactor = root.getPropertyValue("--ld-dv-zoom-level");
-
-    const scrollableStyle = window.getComputedStyle(scrollable);
-    const requiredHeight =
-        parseInt(scrollableStyle.height, 10) +
-        // the following is a REAL hack to make sure that the last
-        // line of the scrollable is fully visible in Safari.
-        // Chrome and Firefox currently don't work at all...
-        parseInt(scrollableStyle.lineHeight);
-    const parentNodeStyle = window.getComputedStyle(scrollable.parentNode)
-    const parentHeight = parseInt(parentNodeStyle.height, 10);
-    const paddingBottom = parseInt(parentNodeStyle.paddingBottom, 10);
-    const offsetTop = scrollable.offsetTop
-
-    const availableHeight = parentHeight - offsetTop - paddingBottom;
-    const additionalHeight = requiredHeight - availableHeight;
-    if (additionalHeight > 0) {
-        const slide = getSlide(scrollable);
-        // We can either use the height of the computed style for the 
-        // slide or the value from the root.
-        // const slideHeight = parseInt(window.getComputedStyle(slide).height,10);
-        const slideHeight = parseInt(root.getPropertyValue("--ld-slide-height"), 10);
-
-        slide.style.height = slide.style.maxheight = (slideHeight + additionalHeight) + "px";
-
-        const slidePaneStyle = ld.getParent(scrollable, "ld-dv-slide-pane").style;
-        slidePaneStyle.height = slidePaneStyle.maxHeight =
-            Math.ceil((slideHeight + additionalHeight) * zoomFactor) + "px";
-
-        scrollable.style.height = requiredHeight + "px";
-        scrollable.classList.remove("scrollable");
-    }
-}
-
 /**
  * Handles the rendering of a ".scrollable" element in the slides view
  * and the light-table view.
@@ -285,20 +248,11 @@ function afterLDListenerRegistrations() {
                 const scrollable = event.target;
                 scrollableObserver.unobserve(scrollable);
                 // console.log("intersection with scrollable: " + scrollable);
-                if (document.evaluate(
-                    `*/ancestor::*[@id='ld-document-view']`,
-                    scrollable,
-                    null,
-                    XPathResult.ANY_TYPE,
-                    null).iterateNext()) {
-                    setTimeout(() => adaptHeightOfSlideToScrollable(scrollable));
-                } else {
-                    setTimeout(() => adaptHeightOfScrollableToRemainingSpace(scrollable));
-                }
+                setTimeout(() => adaptHeightOfScrollableToRemainingSpace(scrollable));
             }
         });
     });
-    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog, #ld-document-view) .scrollable").forEach((scrollable) => {
+    document.querySelectorAll(":is(#ld-slides-pane, #ld-light-table-dialog) .scrollable").forEach((scrollable) => {
         scrollableObserver.observe(scrollable);
     });
 
