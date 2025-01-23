@@ -747,11 +747,19 @@ function setupUnlockPresenterNotesAndSolutionsDialog() {
                             currentPassword
                         )
                     }).then((decrypted) => {
+                        contentArea.removeChild(passwordInput);
+
                         state.masterPassword = currentPassword;
 
                         localDecryptPresenterNotes(currentPassword);
 
                         const decryptedPasswords = JSON.parse(decrypted);
+                        if (decryptedPasswords.length === 0) {
+                            console.info("No exercise passwords unlocked.");
+                            unlockDialog.querySelector(":scope .ld-dialog-title").innerHTML = "Presenter Notes";
+                            contentArea.innerHTML = "<strong>Unlocked.</strong>"; 
+                            return;
+                        }
                         const exercisesPasswords = decryptedPasswords[0]["passwords"];
                         const passwordsTable =
                             ld.convertToTable(
@@ -770,7 +778,6 @@ function setupUnlockPresenterNotesAndSolutionsDialog() {
                         for (let i = 0; i < exercisesPasswords.length; i++) {
                             localDecryptExercise(exercisesPasswords[i][0], exercisesPasswords[i][1]);
                         }
-                        contentArea.removeChild(passwordInput);
                         contentArea.appendChild(passwordsTable);
                         unlockDialog.querySelector(":scope .ld-dialog-title").innerHTML = "Exercises Passwords";
                     }).catch((error) => {
@@ -890,7 +897,7 @@ function setupMainPane() {
     topicTemplates.querySelectorAll("ld-topic").forEach((t, i) => {
         const slide = t.cloneNode(true);
         slide.classList.add("ld-slide");
-        
+
         setupCopyToClipboard(slide);
 
         // Move supplemental infos at the end.
@@ -953,8 +960,6 @@ function localDecryptPresenterNotes(password) {
     });
 
     document.querySelectorAll(":scope ld-presenter-note[data-encrypted='true']").forEach(async (presenterNote) => {
-        console.info("decrypting presenter notes: " + presenterNote);
-
         const crypto = await ldCrypto();
         const html = await crypto.decryptAESGCMPBKDF(presenterNote.innerText.trim(), password);
         presenterNote.innerHTML = html;
