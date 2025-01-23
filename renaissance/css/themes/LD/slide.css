@@ -109,4 +109,24 @@
             margin-top: 0.5em;
         }
     }
+
+    &.new-subsection {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        >h2 {
+            width: 100%;
+            margin-left: calc(-2 * var(--slide-lr-padding));            
+            padding: 0.4em 0;
+            border-radius: 0 var(--slide-border-radius) var(--slide-border-radius) 0;
+            
+            color: var(--light-gray);
+            background-color: var(--dark-gray);
+
+            font-size: 1.666em;
+            text-align: center;
+        }
+    }
 }
