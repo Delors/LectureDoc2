@@ -7,6 +7,7 @@
     /* Definition of all colors. */
     --white: rgb(255, 255, 255);    
     --light-gray: rgb(222, 226, 228);
+    --semi-light-gray: rgb(184, 186, 188);
     --gray: rgb(91, 105, 113); 
     --dark-gray: rgb(51, 65, 73); 
     --black: rgb(0, 0, 0);
