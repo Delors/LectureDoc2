@@ -93,17 +93,26 @@ table {
 
 /* Lists */
 
-/* Provides a very simple means to arrange items in columns. */
+/* Provides a very simple means to arrange content in columns. */
 ul.column-list {
     list-style: none;
 
     display: flex;
     padding: 0;
     margin: 0;
+    
+    gap: 1em;
+
+    align-items: flex-start;
 
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 1em;
+
+    &.evenly-spaced-columns {
+        justify-content: space-evenly;
+    }
+    &.left-aligned-columns {
+        justify-content: flex-start;
+    }
 }
 
 /* compact and simple lists: no margin between items */
@@ -468,6 +477,11 @@ p.admonition-title {
 .admonition.note {
     background-color: var(--slide-background-color);
     float: right;
+    margin-left: 1em;
+
+    &:has(+) {
+        margin-bottom: 1em;
+    }
 }
 
 
