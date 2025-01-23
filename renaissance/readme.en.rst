@@ -1,5 +1,9 @@
 .. meta::
     :version: renaissance
+    :lang: en
+    :author: Michael Eichberg
+
+
 
 LectureDoc2
 =============
