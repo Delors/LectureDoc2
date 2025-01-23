@@ -46,6 +46,10 @@ ext/fonts/VictorMono-Italic[wght].woff2
 ext/fonts/VictorMono[wght].woff2
 ext/fonts/VictorMono-LICENSE.txt
 
+ext/icons/python-logo-only.svg
+ext/icons/duke.svg
+ext/icons/duke-LICENSE.txt
+
 components/ld-timeline.js
 components/timeline/timeline.js
 components/timeline/timeline.css
