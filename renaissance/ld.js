@@ -80,7 +80,7 @@ const lectureDoc2 = {
 };
 export default lectureDoc2;
 
-const slideTemplates = document.querySelector("body > template").content;
+const topicTemplates = document.querySelector("body > template").content;
 
 /*
     We use a "promise chain" to call MathJax multiple times and don't
@@ -463,7 +463,7 @@ function initSlideDimensions() {
  * This method has to be called before the slides are copied.
  */
 function initSlideCount() {
-    presentation.slideCount = slideTemplates.querySelectorAll(".ld-slide").length
+    presentation.slideCount = topicTemplates.querySelectorAll("ld-topic").length
 }
 
 /**
@@ -614,8 +614,9 @@ function setupLightTable() {
         </div>`
     });
 
-    slideTemplates.querySelectorAll(".ld-slide").forEach((slideTemplate, i) => {
-        const slide = slideTemplate.cloneNode(true);
+    topicTemplates.querySelectorAll("ld-topic").forEach((topic, i) => {
+        const slide = topic.cloneNode(true);
+        slide.classList.add("ld-slide");
         slide.removeAttribute("id"); // not needed anymore (in case it was set)
 
         const slideScaler = ld.div({ classes: ["ld-light-table-slide-scaler"] });
@@ -666,7 +667,7 @@ function setupHelp() {
 
 function setupTableOfContents() {
     const topics =
-        slideTemplates.querySelectorAll(".ld-slide:where(.new-section,.new-subsection)");
+        topicTemplates.querySelectorAll(".ld-slide:where(.new-section,.new-subsection)");
     let level = 1;
     let s = "<ol>"
     for (const topic of topics) {
@@ -886,8 +887,10 @@ function setupMainPane() {
     Internally the numbering of slides starts with 0. However, user-facing
     functions assume that the first slide has the id 1.
     */
-    slideTemplates.querySelectorAll(".ld-slide").forEach((slideTemplate, i) => {
-        const slide = slideTemplate.cloneNode(true);
+    topicTemplates.querySelectorAll("ld-topic").forEach((t, i) => {
+        const slide = t.cloneNode(true);
+        slide.classList.add("ld-slide");
+        
         setupCopyToClipboard(slide);
 
         // Move supplemental infos at the end.
@@ -1003,38 +1006,36 @@ function tryDecryptExercise(password, solutionWrapper, solution) {
 
 
 function setupDocumentView() {
-    /* The documents will be rearranged in a continuous view as follows:
+    /* The documents will be rearranged in the document view as follows:
      * <section>
      *   Content
      *   <footer>
      *    <div class="ld-dv-section-number">...</div>
      *   </footer>
-     * </sectiosn>
+     * </section>
      */
     const documentView = ld.div({ id: "ld-document-view" });
 
-    slideTemplates.querySelectorAll(".ld-slide").forEach((t, i) => {
+    topicTemplates.querySelectorAll("ld-topic").forEach((t, i) => {
         const template = t.cloneNode(true);
         template.classList.remove("ld-slide"); // not needed anymore
+
         setupCopyToClipboard(template);
 
-        let options = { id: "ld-section-no-" + i };
-        if (template.classList.length > 0)
-            options.classList = template.classList;
-        
-        const section = ld.create("ld-section", options);
-        if (template.classList.contains("exercises")) {
-            section.appendChild(template.querySelector("h2"));
+        const section = ld.create(
+            "ld-section", { 
+                id: "ld-section-no-" + i, 
+                classList : template.classList,
+                children: template.children
+            });
 
-            // Just extract the exercises and their solutions.
-            // Keep supplemental infos where they are!
-            template.querySelectorAll(":scope .ld-exercise").forEach((e) => {
-                const solution = e.querySelector(":scope .ld-exercise-solution");
+        if (template.classList.contains("exercises")) {
+            // Replace the encrypted solutions with password fields.
+            section.querySelectorAll(":scope .ld-exercise").forEach((task) => {
+                task.classList.add("ld-extracted-exercise");
+                const solution = task.querySelector(":scope .ld-exercise-solution");
                 if (solution) {
                     solution.parentElement.removeChild(solution);
-                    const task = e.cloneNode(true);
-                    section.appendChild(task);
-                    task.classList.add("ld-extracted-exercise");
 
                     const passwordField = createPasswordInput();
                     const solutionWrapper = ld.div({
@@ -1049,21 +1050,14 @@ function setupDocumentView() {
                             tryDecryptExercise(currentPassword, solutionWrapper, solution);
                         }
                     });
-                } else{
-                    const task = e.cloneNode(true);
-                    task.classList.add("ld-extracted-exercise");
-                    section.appendChild(task);
-                }
+                } 
             });
-        } else {
-            const children = template.children;
-            section.append(...children);
-        }
+        } 
 
         const footer = ld.create("footer", {
-            innerHTML: `<div class="ld-dv-section-number">${i + 1}</div>`
+            innerHTML: `<div class="ld-dv-section-number">${i + 1}</div>`,
+            parent: section
         });
-        section.append(footer);
 
         // Move footnotes to the footer.
         for (const footnotes of section.querySelectorAll(":scope aside.footnote-list")) {
@@ -1073,8 +1067,6 @@ function setupDocumentView() {
 
         documentView.appendChild(section);
     });
-
-    
 
     typesetMath(documentView);
     document.querySelector("body").prepend(documentView);
