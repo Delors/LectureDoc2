@@ -9,6 +9,10 @@
 
 object[role="img"] {
     display: block;
+
+    &.opaque {
+        background-color: var(--current-background-color);
+    }
 }
 
 ul {
@@ -400,10 +404,6 @@ span.option {
 }
 
 
-.admonition{
-    margin: 0.75em 0;
-    position: relative;
-} 
 
 .admonition.tip {
 
@@ -460,31 +460,60 @@ p.system-message-title {
     font-weight: bold;
 }
 
-p.admonition-title {
-    position: absolute;
-    top: -0.75em;
-    left: 0.25em;
-    padding: 0 0.25em;
-    background-color: white;
-}
+
 
 .admonition.hint {
     code {
         background-color: var(--dhbw-light-red);
     }
 }
+.admonition {
 
-.admonition.note {
-    background-color: var(--slide-background-color);
-    float: right;
-    margin-left: 1em;
+    margin: 0.75em 0;
+    position: relative;
+    background-color: var(--current-background-color);
 
-    &:has(+) {
-        margin-bottom: 1em;
+    >p:first-child.admonition-title {
+        position: absolute;
+        top: -0.75em;
+        left: 0.25em;
+        padding: 0 0.25em;
+        background-color: var(--current-background-color);
+        border-radius: var(--small-border-radius);
+    }
+    &.summary {
+        >p:first-child.admonition-title {
+            width: 20ch;
+            left: 0;
+            margin: 0 calc((100% - 20ch) / 2);
+            text-align: center;
+        }   
+    }
+
+    &.note {
+        float: right;
+        margin-left: 1em;
+
+        &:has(+) {
+            margin-bottom: 1em;
+        }
+
+        background-color: inherit;
+    }
+
+    &.proof {
+        position: relative;
+
+        &::after {
+            position: absolute;
+            bottom: 0.35em;
+            right: 0.3em;
+
+            /* End an end of proof marker at the end. */
+            content: "∎";
+        }
     }
 }
-
-
 
 p.sidebar-title,
 p.rubric {
@@ -496,7 +525,8 @@ p.rubric {
     color: var(--white);
     text-shadow: 1px 1px 2px var(--black);
     background-color: var(--semi-light-gray);
-    padding: 0 0.2em;
+    border-radius: var(--small-border-radius);
+    padding: 0.1em 0.2em;
 }
 
 p.subtitle,
