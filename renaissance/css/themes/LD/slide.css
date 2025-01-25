@@ -125,4 +125,11 @@
             text-align: center;
         }
     }
+
+    &.s-center-child-elements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
