@@ -41,7 +41,8 @@
 
             overflow-y: scroll;
 
-            background-color: rgb(from var(--slide-background-color) r g b / 0.5);
+            --current-background-color: rgb(from var(--slide-background-color) r g b / 0.5);
+            background-color: var(--current-background-color);
             -webkit-backdrop-filter: blur(25px);
             backdrop-filter: blur(25px);
 
@@ -98,7 +99,8 @@
                 padding: 0.25em 0.5em;
 
                 font-size: 38px;
-                background-color: rgba(200, 200, 200, 0.5);
+                --current-background-color: rgba(200, 200, 200, 0.5);
+                background-color: var(--current-background-color);
                 color: black;
                 text-shadow: 1px 1px 2px white;
 
