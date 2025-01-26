@@ -667,7 +667,7 @@ function setupHelp() {
 
 function setupTableOfContents() {
     const topics =
-        topicTemplates.querySelectorAll(".ld-slide:where(.new-section,.new-subsection)");
+        topicTemplates.querySelectorAll("ld-topic:where(.new-section,.new-subsection)");
     let level = 1;
     let s = "<ol>"
     for (const topic of topics) {
