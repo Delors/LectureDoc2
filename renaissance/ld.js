@@ -1654,6 +1654,22 @@ function localEnsureLectureDocIsVisible() {
     }
 }
 
+function redrawSlide() {
+    postMessage("redrawSlide", undefined);
+    localRedrawSlide();
+}
+function localRedrawSlide() {
+    if (!state.showDocumentView) {
+        console.log("forced rerendering of the current slide [" + state.currentSlideNo + "]");
+        // Sometimes the current slide is not shown properly after
+        // resetting the slide progress. This is a workaround to
+        // ensure that the current slide is shown properly.
+        const slideStyle = getCurrentSlide().style;
+        const slideState = slideStyle.display;
+        slideStyle.display = "none";
+        setTimeout(() => { slideStyle.display = slideState; });
+    }
+}
 
 /** 
  * Central keyboard event handler.
@@ -1751,6 +1767,10 @@ function registerKeyboardEventListener() {
 
                 case "t":
                     toggleTableOfContents();
+                    break;
+
+                case "d":
+                    redrawSlide();
                     break;
 
                 // for development purposes:
@@ -2302,6 +2322,8 @@ const onLoad = () => {
                     break;
                 }
                 case "hideLaserPointer": localHideLaserPointer(); break;
+
+                case "redrawSlide": localRedrawSlide(); break;
 
                 case "scrollableScrolled": {
                     const [scrollableId, scrollTop] = data;
