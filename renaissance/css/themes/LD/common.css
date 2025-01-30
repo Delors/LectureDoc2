@@ -307,6 +307,11 @@ dl.option-list>dt {
     display: none;
 }
 
+.emph {
+    font-weight: bolder;
+    color: var(--emph-color);
+}
+
 
 .footnote,
 .citation {
