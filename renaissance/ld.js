@@ -662,7 +662,7 @@ function setupHelp() {
             helpDialog.innerHTML = `<p>Help not found: ${error}</p>`;
         });
 
-    document.querySelector("body").prepend(helpDialog);
+    document.body.prepend(helpDialog);
 }
 
 function setupTableOfContents() {
@@ -693,7 +693,7 @@ function setupTableOfContents() {
         </div>
         ${s}`
 
-    document.querySelector("body").prepend(tocDialog);
+    document.body.prepend(tocDialog);
     document.
         getElementById("ld-table-of-contents-close-button").
         addEventListener("click", toggleTableOfContents);
@@ -1074,7 +1074,7 @@ function setupDocumentView() {
     });
 
     typesetMath(documentView);
-    document.querySelector("body").prepend(documentView);
+    document.body.prepend(documentView);
 }
 
 
@@ -1141,7 +1141,7 @@ function setupMessageBox() {
     const message = document.createElement("DIALOG");
     message.id = "ld-message-box";
     message.className = "ld-ui";
-    document.querySelector("body").prepend(message);
+    document.body.prepend(message);
 }
 
 function showMessage(htmlMessage, ms = 3000) {
@@ -2346,7 +2346,7 @@ const onLoad = () => {
                     localScrollSupplemental(supplementalId, scrollTop);
                     break;
                 }
-                //case "reset": ; break;
+
                 default:
                     console.warn("unknown message: " + event.data);
                     console.dir(event);
