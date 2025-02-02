@@ -101,7 +101,16 @@ table {
 
 /* Lists */
 
-/* Provides a very simple means to arrange content in columns. */
+/* Provides a very simple means to arrange content in columns. 
+
+   In rst it has to be used like so:
+   
+   .. class:: column-list (left-aligned-columns|evenly-spaced-columns)?
+
+   - first column
+   - second column
+   - ...
+*/
 ul.column-list {
     list-style: none;
 
@@ -120,6 +129,10 @@ ul.column-list {
     }
     &.left-aligned-columns {
         justify-content: flex-start;
+    }
+
+    li {
+        margin-bottom: 0;
     }
 }
 
