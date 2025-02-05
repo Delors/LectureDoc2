@@ -29,3 +29,16 @@
 }
 
 
+.transparent {
+    background-color: transparent;
+}
+
+/*  Intended to be used with elements which define some kind of visual border
+    and which contain floating elements which should not escape their parent 
+    container.
+ */
+.encapsulate-floats::after {
+    content: "";
+    clear: both;
+    display: table;
+}
