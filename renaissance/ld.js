@@ -890,12 +890,11 @@ function setupMainPane() {
         },
         false);
 
-    /* 
-    Copies all slide(-template)s found in the document to the slide pane.
-    Additionally, associates every slide with a unique id based on the
-    number of the slide (ld-slide-no-*). 
-    Internally, the numbering of slides starts with 0. However, user-facing
-    functions assume that the first slide has the id 1.
+    /*  Creates slides (by means of ld-slide elements) from the defined topics.
+        Associates every slide with a unique id based on the number of the 
+        slide (data-ld-slide-no-*). Internally, the numbering of slides starts
+        with 0. However, user-facing functions assume that the first slide has
+        the id 1.
     */
     topicTemplates.querySelectorAll("ld-topic").forEach((t, i) => {
         const slide = ld.create(
@@ -906,7 +905,7 @@ function setupMainPane() {
             });
         slide.classList.add("ld-slide");
         slide.dataset.ldSlideNo = i;
-        slide.dataset.id = t.id;
+        slide.dataset.id = t.id; /* The original ID! */
 
         setupCopyToClipboard(slide);
 
