@@ -88,7 +88,7 @@
         local('Victor Mono Regular'),
         local('VictorMono-Regular'),
         url('VictorMono[wght].woff2') format('woff2-variations');
-    font-weight: 100 900;
+    font-weight: 100 700;
     font-style: normal;
 }
 
@@ -99,7 +99,7 @@
     src: local('Victor Mono Italic'),
         local('VictorMono-Italic'),
         url('VictorMono-Italic[wght].woff2') format('woff2-variations');
-    font-weight: 100 900;
+    font-weight: 100 700;
     font-style: italic;
 }
 
