@@ -250,17 +250,18 @@ kbd {
 
 /* Code */
 pre.code {
-  padding: 0.7ex
+  padding: 0;
 }
 
 /* basic highlighting: for a complete scheme, see */
 /* https://docutils.sourceforge.io/sandbox/stylesheets/ */
 pre.code,
 code {
+  /*
   --current-background-color: var(--code-background-color);
-
   background-color: var(--current-background-color);
   border-radius: var(--small-border-radius);
+  */
 
   .keyword {
     color: #3B0D06;
