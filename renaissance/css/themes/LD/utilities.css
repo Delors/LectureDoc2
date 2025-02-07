@@ -42,3 +42,76 @@
     clear: both;
     display: table;
 }
+
+
+
+/*******************************************************************************
+    
+    Colors
+    
+*******************************************************************************/
+
+
+.white {
+    color:var(--white);
+}
+
+.blue {
+    color: var(--blue);
+}
+
+.orange {
+    color: var(--orange);
+}
+
+.dark-orange {
+    color: var(--dark-orange);
+}
+
+.green {
+    color: var(--green)
+}
+
+.shiny-green {
+    color: var(--shiny-green);
+}
+
+.shiny-red {
+    color: var(--shiny-red);
+}
+
+.dark-red {
+    color: var(--dark-red);
+}
+
+.the-green-background {
+    background-color: var(--the-green);
+}
+
+.the-blue-background {
+    background-color: var(--the-blue);
+}
+
+.the-yellow-background {
+    background-color: var(--the-yellow);
+}
+
+.light-green-background {
+    background-color: var(--light-green);
+}
+
+.light-gray-background {
+    background-color: var(--light-gray);
+}
+
+.very-light-gray-background {
+    background-color: var(--very-light-gray);
+}
+
+.black-background {
+    background-color: var(--black);
+}
+
+.white-background {
+    background-color: var(--white);
+}
