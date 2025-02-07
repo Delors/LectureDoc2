@@ -50,5 +50,10 @@
             }
         }
     }
+
+    ld-scrollable {
+        display: block;
+        overflow: auto;
+    }
 }
 

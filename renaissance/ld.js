@@ -217,7 +217,7 @@ let ephemeral = {
  */
 function postMessage(msg, data) {
     if (ephemeral.ldPerDocumentChannel) {
-        ephemeral.ldPerDocumentChannel.postMessage([msg, data]);
+        ld.postMessage(ephemeral.ldPerDocumentChannel, msg, data);
     }
 }
 
@@ -784,8 +784,7 @@ function setupUnlockPresenterNotesAndSolutionsDialog() {
                         contentArea.appendChild(passwordsTable);
                         unlockDialog.querySelector(":scope .ld-dialog-title").innerHTML = "Exercises Passwords";
                     }).catch((error) => {
-                        console.trace();
-                        console.log("Decryption using: " + currentPassword + " failed - " + error);
+                        console.log("decryption using: " + currentPassword + " failed - " + error);
                     });
             }
         });
@@ -1888,29 +1887,12 @@ function jumpToId(id) {
     }
 }
 
-
-/**
- * Called when a scrollable element in a different, but connected window (i.e., 
- * a secondary window), has been scrolled.
- * 
- * @param {*} scrollableId 
- * @param {*} scrollTop 
- */
-function localScrollScrollable(scrollableId, scrollTop) {
-    const scrollable = document.querySelector(
-        `#ld-slides-pane .scrollable[data-scrollable-id="${scrollableId}"]`);
-
-    if (scrollable.scrollTop !== scrollTop) {
-        scrollable.scrollTo(0, scrollTop);
-    }
-}
-
 function localScrollSupplemental(supplementalId, scrollTop) {
     const supplemental = document.querySelector(
         `#ld-slides-pane ld-supplementals[data-supplementals-id="${supplementalId}"]`);
 
     if (supplemental.scrollTop !== scrollTop) {
-        supplemental.scrollTo(0, scrollTop);
+        supplemental.scrollTo({top:scrollTop, scrollTop, behavior:"smooth"});
     }
 }
 
@@ -1962,51 +1944,6 @@ function registerSlideInternalLinkClickedListener() {
 }
 
 
-function addScrollingEventListener(eventTitle, scrollableElement, id) {
-    // We will relay a scroll event to a secondary window, when there was no
-    // more scrolling for at least TIMEOUTms. Additionally, if there is already an
-    // event handler scheduled, we will not schedule another one. 
-    //
-    // If we would directly relay the event, it may be possible that it will 
-    // result in all kinds of strange behaviors, because we cannot easily 
-    // distinguish between a programmatic and a user initiated scroll event. 
-    // This could result in a nasty ping-pong effect where scrolling between
-    // two different position would happen indefinitely.
-    const TIMEOUT = 50;
-    let lastEvent = undefined;
-    let eventHandlerScheduled = false;
-    scrollableElement.addEventListener("scroll", (event) => {
-        lastEvent = new Date().getTime();
-        function scheduleEventHandler(timeout) {
-            setTimeout(() => {
-                const currentTime = new Date().getTime();
-                if (currentTime - lastEvent < TIMEOUT) {
-                    scheduleEventHandler(TIMEOUT - (currentTime - lastEvent));
-                    return;
-                }
-                postMessage(eventTitle, [id, event.target.scrollTop]);
-                console.log(eventTitle + id + " " + event.target.scrollTop);
-                eventHandlerScheduled = false;
-            }, timeout);
-        };
-        if(!eventHandlerScheduled) {
-            eventHandlerScheduled = true;
-            scheduleEventHandler(TIMEOUT);
-        }
-    },{passive: true});
-}
-
-
-function registerScrollableElementListener() {
-    let scrollableId = 1;
-    document.querySelectorAll("#ld-slides-pane .scrollable").forEach((scrollable) => {
-        const id = scrollableId++;
-        scrollable.dataset.scrollableId = id;
-        // We want to collapse multiple events into one, but ensure that we
-        // never miss the "final" event.
-        addScrollingEventListener("scrollableScrolled",scrollable, id);
-    });
-}
 
 function registerHoverSupplementalListener() {
     let supplementalsId = 1;
@@ -2029,7 +1966,13 @@ function registerHoverSupplementalListener() {
         }
         supplemental.addEventListener("mouseenter", addHover);
         supplemental.addEventListener("mouseleave", removeHover);
-        addScrollingEventListener("supplementalScrolled",supplemental, id);
+        if (ephemeral.ldPerDocumentChannel) {
+            ld.addScrollingEventListener(
+                ephemeral.ldPerDocumentChannel,
+                "supplementalScrolled",
+                supplemental, 
+                id);
+        }
     });
 }
 
@@ -2224,6 +2167,8 @@ const onDOMContentLoaded = async () => {
     initSlideDimensions();
 
     await import("./js/ld-components.js");
+    await import("./js/ld-decks.js");
+    await import("./js/ld-scrollables.js");
 
     ldEvents.beforeLDDOMManipulations.forEach(f => f());
 
@@ -2299,13 +2244,12 @@ const onLoad = () => {
     registerHelpCloseListener();
     registerMenuClickListener();
     registerSwipeListener();
-    registerScrollableElementListener();
     registerHoverSupplementalListener();
     registerHoverPresenterNoteListener();
 
     ldEvents.afterLDListenerRegistrations.forEach((f) => f());
 
-    if (ephemeral.ldPerDocumentChannel) {
+    if (ephemeral.ldPerDocumentChannel /* no document id - no channel */) {
         ephemeral.ldPerDocumentChannel.addEventListener("message", (event) => {
             const [msg, data] = event.data;
             switch (msg) {
@@ -2336,12 +2280,6 @@ const onLoad = () => {
                 case "hideLaserPointer": localHideLaserPointer(); break;
 
                 case "redrawSlide": localRedrawSlide(); break;
-
-                case "scrollableScrolled": {
-                    const [scrollableId, scrollTop] = data;
-                    localScrollScrollable(scrollableId, scrollTop);
-                    break;
-                }
 
                 case "addHoverSupplemental": {
                     const id = data;

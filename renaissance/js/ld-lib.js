@@ -162,3 +162,63 @@ export function isElementFullyVisible(element) {
         rect.right <= windowWidth
     );
 }
+
+
+// Given that there is no standard method to get the height of an
+// element including its margin, we have to query the element to get its
+// margin...
+export function getTopAndBottomMargin(e) {
+    const style = window.getComputedStyle(e);
+    return parseInt(style.marginTop) + parseInt(style.marginBottom);
+}
+export function getLeftAndRightMargin(e) {
+    const style = window.getComputedStyle(e);
+    return parseInt(style.marginLeft) + parseInt(style.marginRight);
+}
+export function getLeftAndRightPadding(e) {
+    const style = window.getComputedStyle(e);
+    return parseInt(style.paddingLeft) + parseInt(style.paddingRight);
+}
+export function getLeftAndRightMarginAndPadding(e) {
+    return getLeftAndRightMargin(e) + getLeftAndRightPadding(e);
+}
+
+export function postMessage(channel, msg, data) {
+    channel.postMessage([msg, data]);
+
+}
+
+export function addScrollingEventListener(channel, eventTitle, scrollableElement, id) {
+    // We will relay a scroll event to a secondary window, when there was no
+    // more scrolling for at least TIMEOUTms. Additionally, if there is already an
+    // event handler scheduled, we will not schedule another one. 
+    //
+    // If we would directly relay the event, it may be possible that it will 
+    // result in all kinds of strange behaviors, because we cannot easily 
+    // distinguish between a programmatic and a user initiated scroll event. 
+    // This could result in a nasty ping-pong effect where scrolling between
+    // two different position would happen indefinitely.
+    const TIMEOUT = 50;
+    let lastEvent = undefined;
+    let eventHandlerScheduled = false;
+    scrollableElement.addEventListener("scroll", (event) => {
+        lastEvent = new Date().getTime();
+        function scheduleEventHandler(timeout) {
+            setTimeout(() => {
+                const currentTime = new Date().getTime();
+                if (currentTime - lastEvent < TIMEOUT) {
+                    scheduleEventHandler(TIMEOUT - (currentTime - lastEvent));
+                    return;
+                }
+                postMessage(channel, eventTitle, [id, event.target.scrollTop]);
+                console.log(eventTitle + " " + id + " " + event.target.scrollTop);
+                eventHandlerScheduled = false;
+            }, timeout);
+        };
+        if(!eventHandlerScheduled) {
+            eventHandlerScheduled = true;
+            scheduleEventHandler(TIMEOUT);
+        }
+    },{passive: true});
+}
+
