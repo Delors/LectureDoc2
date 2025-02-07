@@ -877,19 +877,22 @@ pre.code {
         color: var(--punctuation-color);
     }
 
+    /*  Whitespace is identified differently in different languages. 
+        Hence, decent support requires language dependent styling. 
     .whitespace {
         text-decoration-style: dashed;
         text-decoration-line: underline;
         text-decoration-color: var(--builtin-color);
         text-decoration-thickness: 1px;
 
-        /*
+        / *
         &:not(:empty):not(:last-child)::before {
             display: inline;
             content: "␣";
         }
-        */
+        * /
     }
+    */
 }
 
 
