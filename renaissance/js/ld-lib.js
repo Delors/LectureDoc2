@@ -121,9 +121,6 @@ export function capitalizeCSSName(str, separator = "-") {
 }
 
 
-export function getBody() { return document.getElementsByTagName("BODY")[0]; }
-
-
 /** @deprecated Use closest()! */
 export function getParent(element, className) {
     if (!element) return null;

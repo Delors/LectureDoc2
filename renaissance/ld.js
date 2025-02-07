@@ -637,7 +637,7 @@ function setupLightTable() {
     });
 
     typesetMath(lightTableDialog);
-    ld.getBody().prepend(lightTableDialog);
+    document.body.prepend(lightTableDialog);
 }
 
 
