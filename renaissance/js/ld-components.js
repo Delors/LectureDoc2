@@ -9,13 +9,6 @@ import lectureDoc2 from "./../ld.js";
 console.log("loading ld-components.js");
 
 
-/* -------------------------------------------------------------------------
-
-   The following functions are called by LectureDoc at different points in 
-   time.
-
-*/
-
 /**
  * This method is called before the DOM is manipulated by LectureDoc.
  * 
