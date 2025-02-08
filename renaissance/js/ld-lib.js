@@ -121,7 +121,6 @@ export function capitalizeCSSName(str, separator = "-") {
 }
 
 
-/** @deprecated Use closest()! */
 export function getParent(element, className) {
     if (!element) return null;
     return getParentOrThis(element.parentNode, className);
@@ -185,9 +184,26 @@ export function getLeftAndRightMarginAndPadding(e) {
 
 export function postMessage(channel, msg, data) {
     channel.postMessage([msg, data]);
-
 }
 
+/**
+ * Adds an event listener to the scrollable element that fires when the element
+ * is scrolled. In that case, the event is sent to the specified channel to
+ * make secondary windows aware of the scrolling event in the primary window.
+ * 
+ * The data is sent using the {@link postMessage} method where the msg is the event title
+ * and the data is a two element array where the first element is the id of the
+ * element that is being scrolled and the second element is the current scrollTop.
+ * 
+ * The primary window is always the window that user interacts with. The secondary
+ * is every other window showing the same site.
+ * 
+ * @param {Channel} channel - The channel that will be used to send the event. 
+ * @param {string} eventTitle - The title of the event that will be sent to the channel. The
+ *                            title has to be unique w.r.t. to the channel.
+ * @param {HTMLElement} scrollableElement - The element that is being scrolled.
+ * @param {string} id - The id of the element that is being scrolled.
+ */
 export function addScrollingEventListener(channel, eventTitle, scrollableElement, id) {
     // We will relay a scroll event to a secondary window, when there was no
     // more scrolling for at least TIMEOUTms. Additionally, if there is already an
@@ -196,6 +212,7 @@ export function addScrollingEventListener(channel, eventTitle, scrollableElement
     // If we would directly relay the event, it may be possible that it will 
     // result in all kinds of strange behaviors, because we cannot easily 
     // distinguish between a programmatic and a user initiated scroll event. 
+    // (Using window blur and focus events didn't work reliably.)
     // This could result in a nasty ping-pong effect where scrolling between
     // two different position would happen indefinitely.
     const TIMEOUT = 50;
@@ -211,7 +228,7 @@ export function addScrollingEventListener(channel, eventTitle, scrollableElement
                     return;
                 }
                 postMessage(channel, eventTitle, [id, event.target.scrollTop]);
-                console.log(eventTitle + " " + id + " " + event.target.scrollTop);
+                // console.log(eventTitle + " " + id + " " + event.target.scrollTop);
                 eventHandlerScheduled = false;
             }, timeout);
         };

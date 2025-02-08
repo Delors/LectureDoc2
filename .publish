@@ -131,6 +131,7 @@ renaissance/readme.en.rst.html
 renaissance/ld.js
 renaissance/js/ld-components.js
 renaissance/js/ld-decks.js
+renaissance/js/ld-stories.js
 renaissance/js/ld-scrollables.js
 renaissance/js/ld-crypto.js
 renaissance/js/ld-help.frag.html
