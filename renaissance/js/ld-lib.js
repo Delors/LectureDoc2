@@ -139,9 +139,9 @@ export function getParentOrThis(element, className) {
 }
 
 
-export function isElementFullyVisibleInContainer(element, scrollableContainer) {
+export function isElementFullyVisibleInContainer(element, container) {
     const elementRect = element.getBoundingClientRect();
-    const containerRect = scrollableContainer.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
 
     return (
         elementRect.top >= containerRect.top &&
