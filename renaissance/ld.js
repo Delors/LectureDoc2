@@ -591,11 +591,39 @@ function setupCopyToClipboard(rootNode) {
 }
 
 function setupIncrementalElements(slide) {
-    slide.querySelectorAll(":scope .incremental-list").forEach((incrementalList) => {
-        const items = incrementalList.querySelectorAll(":scope > li");
-        items.forEach((item) => {
-            item.classList.add("incremental");  
-        });
+    slide.querySelectorAll(":scope .incremental-list").forEach((list) => {
+        if(list.tagName === "DL") {
+            /*  The following does not work, because a single "line" consists
+                of a dt and a dd element. 
+            
+                const items = list.querySelectorAll(":scope > dt");
+                items.forEach((item) => {
+                    item.classList.add("incremental");  
+                });
+
+                Therefore, we split up the list in multiple lists which are
+                then made incremental as a whole.
+             */
+            const div = ld.div({});
+            list.parentElement.replaceChild(div, list);
+            const items = list.querySelectorAll(":scope > *");
+            let currentList = undefined;
+            items.forEach((item) => {
+                if(item.tagName === "DT") {
+                    currentList = list.cloneNode(false);
+                    div.appendChild(currentList);
+                    currentList.classList.add("incremental");
+                } 
+                currentList.appendChild(item);
+            });
+            
+        } else {
+            // ul and ol lists
+            const items = list.querySelectorAll(":scope > li");
+            items.forEach((item) => {
+                item.classList.add("incremental");  
+            });
+        }
     });
     slide.querySelectorAll(":scope .incremental-table-rows").forEach((incrementalTableRows) => {
         const items = incrementalTableRows.querySelectorAll(":scope > tbody > tr");
@@ -604,7 +632,7 @@ function setupIncrementalElements(slide) {
         });
     });
 
-    // Bring everything to a well-defined state
+    // Bring everything to the base-state
     slide.querySelectorAll(":scope .incremental").forEach((e) => {
         e.style.visibility = "hidden"
     });
