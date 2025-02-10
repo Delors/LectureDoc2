@@ -43,6 +43,7 @@ LectureDoc2 Renaissance
 Introduction
 --------------------------------------------------------
 
+This slide set primarily serves as a testbed for various features of the `LectureDoc2` system. It also demonstrates how to use the system to create slides for a lecture.
 
 
 Supplemental Information and Presenter Notes\ [#]_
@@ -462,8 +463,49 @@ A scrollable can have an explicit height that will be used for the slide view.
         }
 
 
+Simple column-based Layouts
+--------------------------------------------------------
 
-Slide Layouts
+One way to create a multi-column layout consists of a list with the class ``column-list``.
+
+.. example::
+        
+    **Default layout:**
+
+    .. class:: column-list
+
+    - This first column.
+    
+      1. a nested list.
+    - The second column.
+
+      1. a nested list.
+
+    **Left-aligned layout:**
+
+    .. class:: column-list left-aligned-columns
+
+    - This first column.
+    
+      1. a nested list.
+    - The second column.
+
+      1. a nested list.
+
+    **Evenly-spaced layout:**
+
+    .. class:: column-list evenly-spaced-columns
+
+    - This first column.
+    
+      1. a nested list.
+    - The second column.
+
+      1. a nested list.
+
+
+
+Advanced Slide Layouts
 --------------------------------------------------------
 
 .. grid:: 
