@@ -14,6 +14,60 @@
 */
 @font-face {
     font-display: swap;
+    font-family: "MathJax Main";
+    src: local("MathJax Main"),
+        local("MathJaxMain-Regular"),
+        url("../mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-display: swap;
+    font-family: "MathJax Main";
+    src: local("MathJax Main"),
+        local("MathJaxMain-Italic"),
+        url("../mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-display: swap;
+    font-family: "MathJax Main";
+    src: local("MathJax Main"),
+        local("MathJaxMain-Bold"),
+        url("../mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff2");
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-display: swap;
+    font-family: "MathJax Math";
+    src: local("MathJax Math"),
+        local("MathJaxMath-BoldItalic"),
+        url("../mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff2");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-display: swap;
+    font-family: "MathJax Math";
+    src: local("MathJax Math"),
+        local("MathJaxMath-Regular"),
+        url("../mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-Regular.woff") format("woff2");
+    font-weight: normal;
+}
+@font-face {
+    font-display: swap;
+    font-family: "MathJax Math";
+    src: local("MathJax Math"),
+        local("MathJaxMath-Italic"),
+        url("../mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff2");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-display: swap;
     font-family: "Noto Serif Display";
     src: local("Noto Serif Display"),
         local("NotoSerifDisplay-Regular"),
