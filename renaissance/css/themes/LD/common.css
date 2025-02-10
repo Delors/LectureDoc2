@@ -278,7 +278,19 @@ dt .classifier:before {
 
 /* Field Lists and similar */
 /* bold field name, content starts on the same line */
-dl.field-list,
+dl.field-list {
+    display: flow-root;
+
+    /* There will be no extra-margin between two field-lists. */
+    
+    &:has(+dl.field-list) {
+        margin-bottom: 0;
+    }
+
+    + dl.field-list {
+        margin-top: 0;
+    }
+}
 dl.option-list,
 dl.docinfo {
     display: flow-root;
