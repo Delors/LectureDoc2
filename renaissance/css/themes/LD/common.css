@@ -57,6 +57,24 @@ ld-deck.numbered {
     }
 }
 
+ld-grid {
+
+    /*  The default layout is (at the moment) a flex based layout. */
+    &.default-layout {
+
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1em;
+
+        > ld-cell {
+            display: block;
+        }
+    }
+
+}
+
 /*  Depending on how the table is created,  the class "highlight-cell-on-hover" 
     may only be found on the surrounding div. 
     TODO Add functionality to reply in secondary browser(s).
@@ -642,6 +660,20 @@ table.align-left,
 table.align-center,
 table.align-right {
     text-align: inherit;
+}
+
+figcaption {
+    font-size: smaller;
+    font-style: italic;
+    color: var(--dark-gray);    
+    padding: 0.5em;
+
+    > .legend {
+        font-style: normal;
+        font-size: smaller;
+        color: var(--gray);   
+        text-align: left; 
+    }
 }
 
 

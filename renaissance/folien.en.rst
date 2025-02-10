@@ -455,3 +455,39 @@ A scrollable can have an explicit height that will be used for the slide view.
         export function postMessage(channel, msg, data) {
             channel.postMessage([msg, data]);
         }
+
+
+
+Slide Layouts
+--------------------------------------------------------
+
+.. grid:: 
+
+    .. cell::
+        :align: stretch
+        :class: black-background white
+
+        Using Grids it is possible to design advanced slide layouts.
+
+        When you don't specify a specific layout for a grid a simple multi-column layout is used.
+
+    .. cell::
+
+        .. code:: rst
+            :class: copy-to-clipboard
+            :number-lines:
+
+            .. grid::
+                :class: very-light-gray-background
+
+                .. cell::
+
+                    Using Grids it is possible to 
+                    design advanced slide layouts.
+
+                .. cell::
+
+                    .. code:: rst
+                        :class: copy-to-clipboard
+
+                        **The Code**
