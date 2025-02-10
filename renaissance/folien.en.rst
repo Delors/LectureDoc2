@@ -13,6 +13,11 @@
     :suffix: .html 
 
 
+.. role:: math-r
+.. role:: math-i
+.. role:: math-b
+
+
 
 LectureDoc2 Renaissance
 ======================================================
@@ -491,3 +496,34 @@ Slide Layouts
                         :class: copy-to-clipboard
 
                         **The Code**
+
+
+
+Math
+------
+
+.. grid::
+
+    .. cell::
+
+        Adding math (e.g. :math:`a^2+b^2=c^2`) to a slide is done using the math directive or role.
+
+        .. math::
+
+            e = mc^2
+
+        Poor Man's Math: :math-i:`e = mc`\ :math-r:`²`.
+
+    .. cell::
+
+        .. example::
+
+            .. code:: rst
+
+                Adding math (e.g. :math:`a^2+b^2=c^2`) 
+                to a slide is done using the math 
+                directive or role.
+
+                .. math::
+
+                    e = mc^2
