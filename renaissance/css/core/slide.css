@@ -62,5 +62,9 @@
         height: 100%; /* will be set to the remaining height by JavaScript */
         overflow: hidden;
     }
+
+    object[role="img"][type="image/svg+xml"] {
+        pointer-events: none;
+    }
 }
 
