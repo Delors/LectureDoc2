@@ -401,6 +401,10 @@ function scaleSlideImages() {
     for (const obj of objects) {
         const loadListener =
             () => {
+                if (obj.width) {
+                    console.error(obj.data + " has an explicit width: " + obj.width+"; no scaling performed");    
+                    return;
+                }
                 const svg = obj.contentDocument.querySelector("svg");
                 svg.style.overflow = "visible";
                 // const width = svg.scrollWidth; <== doesn't work with Firefox
@@ -601,7 +605,7 @@ function setupIncrementalElements(slide) {
     });
 
     // Bring everything to a well-defined state
-    document.querySelectorAll("#ld-slides-pane .incremental").forEach((e) => {
+    slide.querySelectorAll(":scope .incremental").forEach((e) => {
         e.style.visibility = "hidden"
     });
 } 
