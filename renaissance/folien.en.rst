@@ -569,3 +569,28 @@ Math
                 .. math::
 
                     e = mc^2
+
+
+Tables
+--------------------------------------------------------
+
+.. rubric:: .highlight-identical-cells-on-hover
+
+.. csv-table::
+    :class: highlight-identical-cells-on-hover
+    :header: " ",r,s,t, u,v,w,x,y,z
+    :stub-columns: 1
+
+    a, 1,2,3, 4,5,6, 7,8,9
+    b, 4,5,6, 7,8,9, 1,2,3
+    c, 7,8,9, 1,2,3, 4,5,6 
+
+.. rubric:: .highlight-row-on-hover
+
+.. csv-table::
+    :class: highlight-row-on-hover
+    :header: " ",r,s,t, u,v,w,x,y,z
+    :stub-columns: 1
+
+    a, 1,2,3, 4,5,6, 7,8,9
+    b, 4,5,6, 7,8,9, 1,2,3
