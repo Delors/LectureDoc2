@@ -1,10 +1,10 @@
 /**
  * This JavaScript module implements advanced functionality related to tables. 
  * 
- * In particular, selective highlighting of cells
- * - Highlighting rows
- * - Highlighting identical cells
- * - Highlighting the "row" and "column" headers of a cell
+ * In particular, selective highlighting of...
+ * - cells
+ * - rows
+ * - identical cells
  * 
  * The highlighting is also relayed to secondary windows.
  */
@@ -51,10 +51,9 @@ function afterLDListenerRegistrations() {
      * Currently, we only support basic tables without cells which span 
      * multiple columns or rows. Also tables which have a header row are not
      * yet supported.
-     */
     // TODO add support to handle colspan and rowspan...
     // TODO add support to handle header rows (and header columns?)
-    document.querySelectorAll("table.highlight-on-hover").forEach((table) => {
+    document.querySelectorAll("#ld-slides-pane table.highlight-on-hover").forEach((table) => {
         const tbody = table.querySelector(":scope tbody")
         function highlight(row, column) {
             const headerRowTD = tbody.querySelector(`:scope tr td:nth-of-type(${column + 1})`)
@@ -82,28 +81,41 @@ function afterLDListenerRegistrations() {
             });
         });
     });
+    */
 
 
-    document.querySelectorAll("table.highlight-identical-cells").forEach((table) => {
+    // See 
+    //      https://html.spec.whatwg.org/#tables
+    //      https://html.spec.whatwg.org/#dom-tr-rowindex
+    //      https://html.spec.whatwg.org/#dom-tr-sectionrowindex
+    //      https://html.spec.whatwg.org/#dom-tdth-cellindex
+    // for the precise definition of cellIndex, rowIndex, and sectionRowIndex
+
+    // TODO Relay the highlighting to secondary windows!
+
+    document.querySelectorAll("#ld-slides-pane table.highlight-identical-cells-on-hover").forEach((table) => {
         const tbody = table.querySelector(":scope tbody")
         function eq(nl1, nl2) {
-            return nl1.length === nl2.length && Array.from(nl1).every((v, i) => v.isEqualNode(nl2[i]));
+            return nl1.length === nl2.length && 
+                Array.from(nl1).every((v, i) => v.isEqualNode(nl2[i]));
         }
         function highlightValue(baseTD) {
+            console.log(baseTD.cellIndex + " " + baseTD.parentNode.rowIndex+" "+ baseTD.parentNode.sectionRowIndex);
+            baseTD.classList.add(":hover");
             tbody.querySelectorAll(":scope td").forEach((td) => {
                 if (eq(baseTD.childNodes, td.childNodes)) {
-                    td.classList.add("highlight-identical-cell");
+                    td.classList.add(":hover-related");
                 }
             })
         };
         function dehighlightValue(baseTD) {
             tbody.querySelectorAll(":scope td").forEach((td) => {
                 if (eq(baseTD.childNodes, td.childNodes)) {
-                    td.classList.remove("highlight-identical-cell");
+                    td.classList.remove(":hover-related");
                 }
             })
+            baseTD.classList.remove(":hover");
         };
-
 
         tbody.querySelectorAll(":scope td").forEach((td) => {
             td.addEventListener("mouseover", () => { highlightValue(td) });
@@ -111,12 +123,30 @@ function afterLDListenerRegistrations() {
         });
 
     });
+
+    document.querySelectorAll("#ld-slides-pane table.highlight-row-on-hover").forEach((table) => {
+        function highlightRow(baseTD) {
+            baseTD.classList.add(":hover");
+            const tr = baseTD.parentNode;
+            const tds = Array.from(tr.cells);
+            tds.forEach((td) => 
+                td.classList.add(":hover-related")
+            )
+        };
+        function dehighlightRow(baseTD) {
+            Array.from(baseTD.parentNode.cells).forEach((td) => {
+                td.classList.remove(":hover-related");
+            })
+            baseTD.classList.remove(":hover");
+        };
+
+        table.querySelectorAll(":scope td").forEach((td) => {
+            td.addEventListener("mouseover", () => { highlightRow(td) });
+            td.addEventListener("mouseleave", () => { dehighlightRow(td) });
+        });
+
+    });
 }
 
-/**
- * Register with LectureDoc's basic events.
- */
 const ldEvents = lectureDoc2.ldEvents
-ldEvents.addEventListener("beforeLDDOMManipulations", beforeLDDOMManipulations);
-ldEvents.addEventListener("afterLDDOMManipulations", afterLDDOMManipulations);
 ldEvents.addEventListener("afterLDListenerRegistrations", afterLDListenerRegistrations);
