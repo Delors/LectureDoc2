@@ -6,7 +6,7 @@
     :description lang=en: Demonstrates LectureDoc2 - Renaissance
     :id: LectureDoc2-Renaissance-Showcase
     :first-slide: last-viewed
-    :exercises-master-password: Demo!
+    :master-password: Demo!
 
 .. |html-source| source::
     :prefix: https://delors.github.io/
