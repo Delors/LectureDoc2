@@ -1,12 +1,16 @@
 /**
- * JavaScript module related to the core components of LectureDoc:
- * - Tables
- *      - Highlighting identical cells
- *      - Highlighting the "row" and "column" headers of a cell
+ * This JavaScript module implements advanced functionality related to tables. 
+ * 
+ * In particular, selective highlighting of cells
+ * - Highlighting rows
+ * - Highlighting identical cells
+ * - Highlighting the "row" and "column" headers of a cell
+ * 
+ * The highlighting is also relayed to secondary windows.
  */
 import lectureDoc2 from "./../ld.js";
 
-console.log("loading ld-components.js");
+console.log("loading ld-tables.js");
 
 
 /**
@@ -35,7 +39,6 @@ function afterLDDOMManipulations() {
 function afterLDListenerRegistrations() {
     console.log("performing ld-components.afterLDListenerRegistrations");
 
-  
     /**
      * The following highlights the current element and the element in 
      * the first row with the same column and in the first column with the 

@@ -129,7 +129,7 @@ renaissance/folien.en.rst.html
 renaissance/readme.en.rst.html
 
 renaissance/ld.js
-renaissance/js/ld-components.js
+renaissance/js/ld-tables.js
 renaissance/js/ld-decks.js
 renaissance/js/ld-stories.js
 renaissance/js/ld-scrollables.js
