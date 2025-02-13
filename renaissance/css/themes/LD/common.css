@@ -457,6 +457,15 @@ span.option {
 
 
 
+
+
+p.topic-title,
+p.admonition-title,
+p.system-message-title {
+    font-weight: bold;
+}
+
+
 .admonition.tip.dhbw {
 
     /* The first two elements ("p"s) markup the generic title (e.g., "Tip")
@@ -478,14 +487,6 @@ span.option {
         color: white;
     }
 }
-
-
-p.topic-title,
-p.admonition-title,
-p.system-message-title {
-    font-weight: bold;
-}
-
 
 
 .admonition.hint {
@@ -975,7 +976,68 @@ table {
     }
 }
 
+/* Intended to be used with a container or container-like structure (e.g. a slide) */
+.center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+
+/* 
+    Intended to be used with a container (e.g., a div) to mark it up that it contains an important message.
+*/
+.exclamation-mark {
+    position: relative;
+
+    padding: calc(0.5 * var(--s-font-size));
+    padding-left: calc(3 * var(--s-font-size));
+    
+    background-color: var(--light-gray);
+
+    border-radius: 0.5em;
+
+    &::before {
+        position: absolute;
+        left: 0;
+        top:0;
+        background-color: var(--dark-red);
+        height: 100%;
+        width: calc(2.5 * var(--s-font-size)) ;
+        text-align: center;
+        content: "!";
+        color: var(--white);
+        font-size: 2lh;
+        font-weight: bold;        
+    }
+}
+
+
+ul.important {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+
+    >li {
+        position: relative;
+        background-color: var(--very-light-red);
+        border-radius: 0.5em;
+        margin-top: 0.5em;
+        padding: 0.5em;
+        padding-left: 1.5em;
+
+        &::before{
+            position:absolute;
+            content: " ";
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 1em;
+            background-color: var(--dark-red);
+        }
+    }
+}
 
 /* Images are block-level by default in Docutils */
 /* New HTML5 block elements: set display for older browsers */

@@ -30,7 +30,8 @@
 
     --shiny-red: rgb(255, 0, 0);
     --red: rgb(226, 0, 26); 
-    --light-red: rgb(255, 178, 178);
+    --very-light-red: rgb(255, 178, 178);
+    --light-red: rgb(255, 158, 158);
     --dark-red: rgb(140, 0, 17); 
     --light-transparent-red: rgb(131, 0, 0, 0.1);
     --organic-red:
