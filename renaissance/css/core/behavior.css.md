@@ -11,7 +11,7 @@ To make it possible to use the same image in both modes, LectureDoc assumes that
 
 The default font size for supplemental information on slide is 42px.
 
-# Central CSS Classes 
+# Central (CSS) Classes and Custom Elements
 
 ## incremental
 
@@ -59,4 +59,11 @@ LectureDoc has special support for creating layouts which consists of multiple
 paragraphs which replace each other on a slide.
 
 
+## scrollables
 
+A part of a slide which can be scrolled. Intended to be used for content that does not easily fit on a slide.
+
+
+## stories
+
+Similar to a scrollable, but the content is unveiled in a step-by-step manner. Scrolling is not possible.
