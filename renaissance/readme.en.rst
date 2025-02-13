@@ -25,70 +25,28 @@ Starting a simple webserver, which is sufficient for most use cases, can be done
 
     python3 -m http.server -d <PATH TO ROOT FOLDER>
 
-Alternatively, `http-server <https://www.npmjs.com/package/http-server>`__ (from npm) can be used:
+Alternatively, the node.js
+`http-server <https://www.npmjs.com/package/http-server>`__ (from npm) can be used:
+
+.. code:: bash
+
+    http-server -p 8888 -c-1 -g --cors="Access-Control-Allow-Origin:*" --no-dotfiles  <PATH/TO/ROOT/FOLDER> 
 
 
 
 How To
 ---------------------
 
-.. container:: scrollable
+.. scrollable:: 
 
     A LectureDoc document is basically a plain HTML5 document with a very simple structure. All functionality is enabled using CSS and JavaScript. The most basic presentation would be:
 
-    .. code:: html
-        :class: far-smaller
-
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" 
-                content="width=device-width, initial-scale=1.0">
-            <script src="ld.js" type="module"></script>
-            <script src="ld-components.js" type="module"></script>
-            <link rel="stylesheet" href="ld.css" />
-            <link rel="stylesheet" href="css/themes/dhbw.css"/>
-        </head>
-
-        <body>
-        <template>
-            <div class="ld-slide">
-                <strong>Title of your presentation.</strong>
-            </div>
-            <div class="ld-slide">
-                <h1>A Slide!</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Esse asperiores eos facilis quod, veritatis blanditiis 
-                    aut delectus doloremque minima voluptate id ipsa sapiente. 
-                </p>
-            </div>
-            <div class="ld-slide">
-                The following list is shown incrementally.
-                <ul class="incremental">
-                    <li>This</li>
-                    <li>is it</li>
-                    <li>- a Test</li>
-                </ul>
-            </div>
-            <div class="ld-slide">
-                <div style="height: 100%;
-                            width: 100%; 
-                            background-color: black; 
-                            color: white ;">
-                    Final page.
-                </div>
-            </div>
-        <template> 
-        </body>
-
-        </html>
+    .. include:: docs/minimal-example.html
+        :code: html
 
     As seen in the above example, a stylesheet related to the rendering of the controls need to be imported along with some JavaScript files which enable the base functionality. Support for math equations and syntax highlighting of code needs additional imports. See the advanced example for that.
 
-    The body of the HTML document should have only slides as child elements. The slides are div elements with the class ``ld-slide``. When LectureDoc is initialized further ``div``\ s will automatically be created for the control elements.
+    The body of the HTML document should have only one template element with topics as child elements. The slides and the document view is created based on the ld-topic elements. When LectureDoc is initialized, the user-interface related elements will automatically be created.
 
     In general, we highly recommend to author your slides in reStructuredText and use ``rst2ld`` to create your slide set. ``rst2ld`` offers a wide range of features that makes using LectureDoc fun to use.
 
