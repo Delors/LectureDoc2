@@ -51,7 +51,7 @@ or
 ```
 
 
-## decks and cards
+## ld-deck and ld-card
 
 (previously .stack and .layer (.overlay)) 
 
@@ -59,11 +59,11 @@ LectureDoc has special support for creating layouts which consists of multiple
 paragraphs which replace each other on a slide.
 
 
-## scrollables
+## ld-scrollable
 
 A part of a slide which can be scrolled. Intended to be used for content that does not easily fit on a slide.
 
 
-## stories
+## ld-story
 
 Similar to a scrollable, but the content is unveiled in a step-by-step manner. Scrolling is not possible.
