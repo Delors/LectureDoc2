@@ -1021,6 +1021,19 @@ table {
 }
 
 
+/* 
+    Intended to be used with a container (e.g., a div) to visually accentuate it.
+*/
+.accentuate {
+    border: thin solid var(--light-gray);
+    padding: 0.25em;
+
+    border-radius: var(--small-border-radius);
+    
+    font-weight: 600;
+    background-color: var(--very-light-gray);
+}
+
 ul.important {
     list-style-type: none;
     margin-left: 0;
