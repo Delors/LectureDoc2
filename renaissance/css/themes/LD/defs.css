@@ -4,6 +4,14 @@
 
     --author: "Prof. Dr. Michael Eichberg";
 
+    &[lang="de"] {
+        --repetition: "Wiederholung";
+    }
+
+    &[lang="en"] {
+        --repetition: "Repetition";
+    }
+
     /* Definition of all colors. */
     --white: rgb(255, 255, 255);    
     --very-light-gray: rgb(245, 243, 248);
@@ -108,4 +116,6 @@
         -4px -4px 18px 0px var(--gray);
 
     --field-indent: 5em;
+
+
 }
