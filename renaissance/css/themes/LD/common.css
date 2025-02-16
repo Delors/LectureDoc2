@@ -1023,13 +1023,14 @@ table {
 
 
 /* 
-    Intended to be used with a container (e.g., a div) to mark it up that it contains an important message.
+    Intended to be used with a container (e.g., a div) to signify that it contains an important message.
 */
 .exclamation-mark {
     position: relative;
+    min-height: 2.75lh;
 
-    padding: calc(0.5 * var(--s-font-size));
-    padding-left: calc(3 * var(--s-font-size));
+    padding: calc(0.5 * var(--current-base-font-size));
+    padding-left: calc(3 * var(--current-base-font-size));
     
     background-color: var(--light-gray);
 
@@ -1041,7 +1042,7 @@ table {
         top:0;
         background-color: var(--dark-red);
         height: 100%;
-        width: calc(2.5 * var(--s-font-size)) ;
+        width: calc(2.5 * var(--current-base-font-size)) ;
         text-align: center;
         content: "!";
         color: var(--white);
@@ -1049,6 +1050,26 @@ table {
         font-weight: bold;        
     }
 }
+
+/*
+    Intended to be used with a container (e.g., a div) or a container like structure (e.g. a slide) to show that is done, completed of less importance. 
+*/
+.fade-out {
+    position: relative;
+
+    &::after {
+        content : " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background-color: var(--current-background-color);
+        opacity: 0.5;
+    }
+}
+
 
 
 /* 
