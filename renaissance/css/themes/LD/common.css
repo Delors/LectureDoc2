@@ -470,18 +470,28 @@ p.system-message-title {
 
 
 .admonition {
+    position: relative;
 
     margin: 0.75em 0;
-    position: relative;
+    border: thin solid var(--dark-gray);
+    padding: 0.5em;
+
+    border-radius: var(--small-border-radius);
     background-color: var(--current-background-color);
 
     >p:first-child.admonition-title {
         position: absolute;
         top: -0.75em;
         left: 0.25em;
+
         padding: 0 0.25em;
+
         background-color: var(--current-background-color);
         border-radius: var(--small-border-radius);
+
+        & + * {
+            margin-top: 0.25em;
+        }
     }
     &.summary {
         >p:first-child.admonition-title {
@@ -522,15 +532,13 @@ p.system-message-title {
         }
     }
 
+    &.attention,
     &.warning {
-
         margin: 0;
-        padding: 0 0.5em 0.5em 0.5em;
         border: none;
+        padding: 0 0.5em 0.5em 0.5em;
+        
         border-radius: var(--small-border-radius);
-
-        --current-background-color: var(--very-light-red);  
-        background-color: var(--current-background-color);
 
         >p:first-child.admonition-title {
             position: initial;
@@ -540,10 +548,32 @@ p.system-message-title {
 
             border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
 
+            & + * {
+                margin-top: 0.25em;
+            }
+        }
+    }
+    &.warning {
+        --current-background-color: var(--very-light-red);  
+        background-color: var(--current-background-color);
+
+        >p:first-child.admonition-title {
             font-weight: 600;
             --current-color: var(--white);
             color: var(--current-color);
             --current-background-color: var(--dark-red);
+            background-color: var(--current-background-color);
+        }
+    }
+    &.attention {
+        --current-background-color: var(--light-orange);  
+        background-color: var(--current-background-color);
+
+        >p:first-child.admonition-title {
+            font-weight: 500;
+            --current-color: var(--white);
+            color: var(--current-color);
+            --current-background-color: var(--dark-orange);
             background-color: var(--current-background-color);
         }
     }
