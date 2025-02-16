@@ -2,14 +2,15 @@
 
 #ld-document-view {
 
-    font-size: var(--d-font-size);
+    --current-base-font-size: var(--d-font-size);
+    font-size: var(--current-base-font-size);
     line-height: var(--d-line-height);
 
     >ld-section {
         display: block;
         
-        margin-bottom: calc(var(--d-font-size) * 0.5);
-        padding: var(--d-font-size);
+        margin-bottom: calc(var(--current-base-font-size) * 0.5);
+        padding: var(--current-base-font-size);
         border-radius: 0.25em;
 
         --current-background-color: var(--white);
@@ -66,8 +67,9 @@
         clear: both;
         margin-top: 1em;
         border-top: 1px dashed var(--dark-gray);
-        padding: calc(var(--d-font-size) * 0.5) 0;
-        font-size: var(--d-supplemental-font-size);
+        padding: calc(var(--current-base-font-size) * 0.5) 0;
+        --current-base-font-size: var(--d-supplemental-font-size);
+        font-size: var(--current-base-font-size);
         line-height: var(--d-supplemental-line-height);
 
         &+.supplemental {

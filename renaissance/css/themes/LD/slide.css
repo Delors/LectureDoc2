@@ -13,7 +13,8 @@
     --current-background-color: var(--s-background-color);
     background-color: var(--current-background-color);
 
-    font-size: var(--s-font-size);
+    --current-base-font-size: var(--s-font-size);
+    font-size: var(--current-base-font-size);
     font-weight: var(--s-font-weight);
     line-height: var(--s-line-height);
 
