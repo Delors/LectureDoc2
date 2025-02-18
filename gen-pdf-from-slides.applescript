@@ -51,8 +51,10 @@ on run argv
 	log "Target path:       " & thePath
 	
 	
-	tell application "Safari" to activate
-	tell application "Safari"
+	-- tell application "Safari" to activate
+	tell application "Safari Technology Preview" to activate
+	-- tell application "Safari"
+	tell application "Safari Technology Preview"
 		-- open thePath & filename
 		open location theURL
 		
@@ -66,7 +68,8 @@ on run argv
 		
 	end tell
 	
-	tell application "System Events" to tell application process "Safari"
+	-- tell application "System Events" to tell application process "Safari"
+	tell application "System Events" to tell application process "Safari Technology Preview"
 		set frontmost to true
 
 		# window 1
@@ -135,7 +138,8 @@ on run argv
 		
 	end tell -- application "System Events" > application process "Safari"
 	
-	tell application "Safari"
+	-- tell application "Safari"
+	tell application "Safari Technology Preview"
 		close the current tab of window 1
 	end tell
 
