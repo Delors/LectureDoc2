@@ -7,11 +7,24 @@
  * @author Michael Eichberg 
  * @version 2024-07-18
  */
-import * as ld from "../../ld-lib.js";
-import lectureDoc2 from "../../ld-core.js";
 
 const logoTemplate = `
     <style>
+    dhbw-logo {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        mix-blend-mode: multiply;
+        z-index: -1;
+        animation: 30s infinite alternate dhbw-logo-blur;
+    }
+
     .dhbw-logo {
         width: 200px;
         height: 98px;
@@ -68,44 +81,32 @@ const logoTemplate = `
         }
     }
 
-    .dhbw-logo-blur {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        animation: dhbw-logo-blur 30s infinite alternate;
-    }
-
     @keyframes dhbw-logo-blur {
         0% {
             filter: blur(10px) opacity(0.1);
         }
-        10% {
+        40% {
             filter: blur(0px) opacity(0.8);
         }
         50%, 100% {
-            filter: blur(0px);
+            filter: blur(0px) opacity(1);
         }
     }
     </style>
 
-    <div class="dhbw-logo-blur" style="mix-blend-mode: multiply;z-index:-1">
+    <dhbw-logo>
         <div class="dhbw-logo">
             <div class="side left"></div>
             <div class="side front"></div>
             <div class="side back"></div>
             <div class="side right"></div>
         </div>
-    </div>
+    </dhbw-logo>
     `
 
 
 function afterLDDOMManipulations() {
-    const template = ld.create("template", {});
+    const template = document.createElement("template");
     template.innerHTML = logoTemplate;
     const slide = document.querySelector("#ld-main-pane .ld-slide:has(h1).animated-symbol")
     const logoElement = template.content.cloneNode(true);
