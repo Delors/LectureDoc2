@@ -1109,7 +1109,8 @@ table {
     border-radius: var(--small-border-radius);
     
     font-weight: 600;
-    background-color: var(--very-light-gray);
+    --current-background-color: var(--very-light-gray);
+    background-color: var(--current-background-color);
 }
 
 ul.important {
@@ -1119,7 +1120,8 @@ ul.important {
 
     >li {
         position: relative;
-        background-color: var(--very-light-red);
+        --current-background-color: var(--very-light-red);
+        background-color: var(--current-background-color);
         border-radius: 0.5em;
         margin-top: 0.5em;
         padding: 0.5em;
@@ -1132,7 +1134,8 @@ ul.important {
             left: 0;
             height: 100%;
             width: 1em;
-            background-color: var(--dark-red);
+            --current-background-color: var(--dark-red);
+            background-color: var(--current-background-color);
         }
     }
 }
