@@ -108,17 +108,26 @@ ld-grid {
 
 /* Lists */
 
-/* Provides a very simple means to arrange content in columns. 
+ul.horizontal{
+    display: flex;
+    gap: 0em 2em;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+}
 
-   In rst it has to be used like so:
+/*  Provides a very simple means to "misuse" a list to arrange content in 
+    columns. 
+
+    In rst it has to be used like so:
    
-   .. class:: column-list (left-aligned-columns|evenly-spaced-columns)?
+    .. class:: columns (left-aligned-columns|evenly-spaced-columns)?
 
-   - first column
-   - second column
-   - ...
+    - first column
+    - second column
+    - ...
 */
-ul.column-list {
+ul.columns {
     list-style: none;
 
     display: flex;
@@ -131,10 +140,10 @@ ul.column-list {
 
     justify-content: space-between;
 
-    &.evenly-spaced-columns {
+    &.evenly-spaced {
         justify-content: space-evenly;
     }
-    &.left-aligned-columns {
+    &.left-aligned {
         justify-content: flex-start;
     }
 
@@ -162,6 +171,8 @@ dl.compact>dd {
 /*
     This style is complementary to the previous one and adds a pop-out effect 
     on hover.
+
+    TODO Add relay to other windows
 */
 :is(ol,ul).pop-out-on-hover{
     perspective: 500px;
@@ -1013,6 +1024,7 @@ table {
         caption-side: bottom;
     }
 
+    &.highlight-cell-on-hover,
     &.highlight-row-on-hover,
     &.highlight-identical-cells-on-hover {
         th.\:hover-related {
@@ -1069,14 +1081,7 @@ table {
     }
 }
 
-.framed {
-    border: thin solid var(--light-gray);
-    --current-background-color: var(--very-very-light-gray);
-    background-color: var(--current-background-color);
-    margin-bottom: 1em;
-    padding: 0.5em;
-    border-radius: var(--small-border-radius);
-}
+
 
 /*
     Intended to be used with a container (e.g., a div) or a container like structure (e.g. a slide) to show that is done, completed of less importance. 
@@ -1097,6 +1102,15 @@ table {
     }
 }
 
+
+.framed {
+    border: thin solid var(--light-gray);
+    --current-background-color: var(--very-very-light-gray);
+    background-color: var(--current-background-color);
+    margin-bottom: 1em;
+    padding: 0.5em;
+    border-radius: var(--small-border-radius);
+}
 
 
 /* 
