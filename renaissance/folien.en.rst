@@ -466,13 +466,13 @@ A scrollable can have an explicit height that will be used for the slide view.
 Simple column-based Layouts
 --------------------------------------------------------
 
-One way to create a multi-column layout consists of a list with the class ``column-list``.
+One way to create a very simple multi-column layout consists of a list with the class ``columns``.
 
 .. example::
         
     **Default layout:**
 
-    .. class:: column-list
+    .. class:: columns
 
     - This first column.
     
@@ -483,7 +483,7 @@ One way to create a multi-column layout consists of a list with the class ``colu
 
     **Left-aligned layout:**
 
-    .. class:: column-list left-aligned-columns
+    .. class:: columns left-aligned
 
     - This first column.
     
@@ -494,7 +494,7 @@ One way to create a multi-column layout consists of a list with the class ``colu
 
     **Evenly-spaced layout:**
 
-    .. class:: column-list evenly-spaced-columns
+    .. class:: columns evenly-spaced
 
     - This first column.
     
