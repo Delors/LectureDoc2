@@ -510,9 +510,8 @@ Advanced Slide Layouts
 
 .. grid:: 
 
-    .. cell::
+    .. cell:: black-background white
         :align: stretch
-        :class: black-background white
 
         Using Grids it is possible to design advanced slide layouts.
 
