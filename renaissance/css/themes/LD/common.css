@@ -26,34 +26,41 @@ ul {
     font-variant-ligatures: additional-ligatures;
 }
 
-ld-deck.numbered {
-    counter-reset: deck;
+ld-deck {
 
-    &.from-zero {
-        counter-reset: deck -1;
+    &:has(+ *) {
+        margin-bottom: 0.5em;
     }
 
-    > ld-card {
-        counter-increment: deck;
+    &.numbered {
+        counter-reset: deck;
 
-        position: relative;
-        margin-top: 1em;
+        &.from-zero {
+            counter-reset: deck -1;
+        }
 
-        border-top: thin solid var(--dark-gray);
-        padding-top: 0.75em;
+        > ld-card {
+            counter-increment: deck;
 
-        &::before {
-            display: inline-block;
-            position: absolute;
-            top: 0em;
-            right: 0em;
-            padding: 0.05em 0.25em;
-            content: counter(deck);
-            border-right: thin solid var(--dark-gray);
-            background-color: var(--dark-gray);
-            color: var(--white);
-            text-shadow: -1px -1px 2px var(--light-gray);
-            border-radius: 0 0 0 0.5em;
+            position: relative;
+            margin-top: 1em;
+
+            border-top: thin solid var(--dark-gray);
+            padding-top: 0.75em;
+
+            &::before {
+                display: inline-block;
+                position: absolute;
+                top: 0em;
+                right: 0em;
+                padding: 0.05em 0.25em;
+                content: counter(deck);
+                border-right: thin solid var(--dark-gray);
+                background-color: var(--dark-gray);
+                color: var(--white);
+                text-shadow: -1px -1px 2px var(--light-gray);
+                border-radius: 0 0 0 0.5em;
+            }
         }
     }
 }
@@ -490,8 +497,9 @@ p.system-message-title {
     background-color: var(--current-background-color);
     color: var(--current-color);
 
-    + .admonition {
-        margin-top: 0.5em;
+    /* Control spacing around an admonition */
+    &:has(+ *) {
+        margin-bottom: 0.5em;
     }
 
     >p:first-child.admonition-title {
@@ -517,7 +525,8 @@ p.system-message-title {
         &::before {
             display: inline-block;
             height: 1.1lh;
-
+            width: 1.25ch;
+            text-align: center;
             position: relative;
             left: -0.5em;
             
@@ -578,6 +587,21 @@ p.system-message-title {
         }
     }
 
+    &.answer {
+        border: none;
+        
+        --current-background-color: var(--very-light-blue);  
+
+        >p:first-child.admonition-title {
+            --current-background-color: var(--light-blue);  
+
+            &::before {
+                content: "✓";
+                background-color: var(--blue);  
+            }
+        }
+    }
+
     &.attention {
         border: none;
         
@@ -586,6 +610,23 @@ p.system-message-title {
         >p:first-child.admonition-title {
             --current-color: var(--white);
             --current-background-color: var(--dark-orange);
+        }
+    }
+
+    &.important {
+        border: none;
+
+        --current-background-color: var(--very-light-red);
+
+        >p:first-child.admonition-title {
+
+            --current-background-color: var(--red);
+            --current-color: var(--white);
+            
+            &::before {
+                content: "!!";
+                background-color: var(--dark-red);  
+            }
         }
     }
 
@@ -666,7 +707,7 @@ p.system-message-title {
     }
 
     
-    &.hint.dhbw {
+    &.hint {
         border: none;
 
         --current-background-color: var(--very-light-green);
@@ -1229,9 +1270,12 @@ table {
     border: thin solid var(--light-gray);
     --current-background-color: var(--very-very-light-gray);
     background-color: var(--current-background-color);
-    margin-bottom: 1em;
     padding: 0.5em;
     border-radius: var(--small-border-radius);
+
+    &:has(+*) {
+        margin-bottom: 0.5em;
+    }
 }
 
 
