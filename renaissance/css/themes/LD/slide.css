@@ -173,4 +173,25 @@
             margin-top:0;
         }
     }
+    
+
+    /* TODO NOT YET READY: NOT RELAYED TO SECONDARY BROWSER */
+    .scale-on-hover {
+        position: absolute;
+        z-index: 1  ;
+        right: 0;
+        padding: 0.5em;
+        border-radius: var(--small-border-radius);
+
+        transform-origin: top right;
+        transform: scale(0.35);
+        transition: all 0.5s;
+        
+        &:hover {
+            transform: scale(1);
+            background-color: color-mix(in srgb, var(--current-background-color), transparent 35%);
+            backdrop-filter: blur(4px);
+            transition: all 0.5s;
+        }
+    }
 }
