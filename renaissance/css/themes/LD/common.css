@@ -2,7 +2,8 @@
 
 /* This style sheet is partially based on:
 
-   Minimal style sheet for the HTML output of Docutils.                    
+   Minimal style sheet for the HTML output of Docutils.
+   
    Created by Günter Milde (2022-06-19) based on html4css1.css by 
    David Goodger (2015, 2021) 
 */
@@ -219,13 +220,19 @@ ul > li.attention-list {
 }
 
 
-:is(.list-with-explanations,.with-explanations) > li > *:not(:first-child) {
+.list-with-explanations > li > *:not(:first-child) {
     margin-top: -0.3em;
     font-size: smaller;
     color: var(--dark-gray);
     mix-blend-mode: hard-light;
 }
-
+.list-with-details > li > *:not(:first-child) {
+    font-size: smaller;
+}
+.list-with-sublists > li > :is(ol,ul) {
+    margin: 0;
+    font-size: smaller;
+}
 
 
 ul {
@@ -466,57 +473,134 @@ span.option {
 
 
 p.topic-title,
-p.admonition-title,
 p.system-message-title {
     font-weight: bold;
 }
 
 
 
-
-
 .admonition {
-    position: relative;
 
-    margin: 0.75em 0;
-    border: thin solid var(--dark-gray);
-    padding: 0.5em;
-
+    border: 1px solid var(--semi-light-gray);
+    border-top: 0;
     border-radius: var(--small-border-radius);
+
+    padding: 0 0.5em 0.25em 0.5em;
+
     background-color: var(--current-background-color);
+    color: var(--current-color);
+
+    + .admonition {
+        margin-top: 0.5em;
+    }
 
     >p:first-child.admonition-title {
-        position: absolute;
-        top: -0.75em;
-        left: 0.25em;
+        position: relative;
+        left: -0.5em;
+        width: calc(100% + 1em);
+        padding: 0 0.5em;
+        height: 1.1lh;
+        margin-bottom: 0;
 
-        padding: 0 0.25em;
-
+        border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
+        
+        --current-background-color: var(--semi-light-gray);
         background-color: var(--current-background-color);
-        border-radius: var(--small-border-radius);
-
+        --current-color: var(--white);
+        color: var(--current-color); 
+        text-shadow: var(--gray) -1px -1px 1px;
+    
         & + * {
-            margin-top: 0.25em;
+            margin-top: 0.15em;
+        }
+
+        &::before {
+            display: inline-block;
+            height: 1.1lh;
+
+            position: relative;
+            left: -0.5em;
+            
+            padding: 0 0.5em;
+            border-radius: var(--small-border-radius) 0 0 0;
         }
     }
-    &.summary {
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
+    
+    &.hint {
+        border: none;
+
+        --current-background-color: var(--very-light-green);
+        
         >p:first-child.admonition-title {
-            width: 20ch;
-            left: 0;
-            margin: 0 calc((100% - 20ch) / 2);
+            --current-background-color: var(--green);
+            --current-color: var(--white);
+        }
+    }
+
+    &.warning {
+        border: none;
+
+        --current-background-color: var(--very-light-red);  
+       
+        >p:first-child.admonition-title {        
+            --current-color: var(--white);
+            --current-background-color: var(--dark-red);
+        }
+    }
+
+    &.summary {
+        border: none;
+
+        --current-background-color: var(--very-light-gray);  
+
+        >p:first-child.admonition-title {
+            --current-background-color: var(--gray);  
             text-align: center;
         }   
     }
 
-    &.note {
-        float: right;
-        margin-left: 1em;
+    &.question {
+        border: none;
+        
+        --current-background-color: var(--very-light-blue);  
 
-        &:has(+) {
-            margin-bottom: 1em;
+        >p:first-child.admonition-title {
+            --current-background-color: var(--blue);  
+
+            &::before {
+                content: "?";
+                background-color: var(--light-blue);  
+            }
         }
+    }
 
-        background-color: inherit;
+    &.attention {
+        border: none;
+        
+        --current-background-color: var(--light-orange);  
+
+        >p:first-child.admonition-title {
+            --current-color: var(--white);
+            --current-background-color: var(--dark-orange);
+        }
+    }
+
+    &.observation {
+        border: none;
+        
+        --current-background-color: var(--very-light-blue);  
+
+        >p:first-child.admonition-title {
+            --current-background-color: var(--blue);  
+
+            &::before {
+                content: "🔎";
+            }
+        }
     }
 
     &.proof {
@@ -532,72 +616,94 @@ p.system-message-title {
         }
     }
 
-    &.hint {
-        code {
-            background-color: var(--dhbw-light-red);
+    &.note {
+        float: right;
+        margin-left: 1em;
+
+        &:has(+) {
+            margin-bottom: 1em;
         }
+
+        background-color: inherit;
     }
 
-    &.attention,
-    &.warning {
-        margin: 0;
-        border: none;
-        padding: 0 0.5em 0.5em 0.5em;
-        
-        border-radius: var(--small-border-radius);
 
-        >p:first-child.admonition-title {
-            position: initial;
-            width: calc(100% + 2 * 0.5em);
-            margin: 0 -0.5em;
-            padding: 0.1em 0.5em;
+    &.tip {
 
-            border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
+        border-top: none;
 
-            & + * {
-                margin-top: 0.25em;
+        /* The first two elements ("p"s) markup the generic title (e.g., "Tip")
+        and the user chosen Title; we markup both in a section title. */
+
+        >p:first-child.admonition-title { 
+            --current-background-color: var(--red);
+            margin-bottom: 0;
+            
+            text-shadow: none;
+
+            &::before {
+                content: "💡";
+                
+            }
+
+            + p {
+                position: relative;
+                left: -0.5em;
+
+                width: calc( 100% + 1em);
+                
+                margin-top: 0;
+
+                padding: 0.2em calc(1ch + 2em);
+
+                --current-background-color: var(--red);
+                background-color: var(--current-background-color);
+                color: var(--white);
+
+                font-weight: 500;
             }
         }
     }
-    &.warning {
-        --current-background-color: var(--very-light-red);  
-        background-color: var(--current-background-color);
+
+    
+    &.hint.dhbw {
+        border: none;
+
+        --current-background-color: var(--very-light-green);
 
         >p:first-child.admonition-title {
-            font-weight: 600;
+
+            --current-background-color: var(--green);
             --current-color: var(--white);
-            color: var(--current-color);
-            --current-background-color: var(--dark-red);
-            background-color: var(--current-background-color);
         }
     }
-    &.attention {
-        --current-background-color: var(--light-orange);  
-        background-color: var(--current-background-color);
+
+    &.example {
+        border: none;
+
+        --current-background-color: var(--very-light-yellow);
 
         >p:first-child.admonition-title {
-            font-weight: 500;
-            --current-color: var(--white);
-            color: var(--current-color);
-            --current-background-color: var(--dark-orange);
-            background-color: var(--current-background-color);
+            --current-background-color: var(--dark-yellow);
+            --current-color: var(--dark-gray);
+            color: var(--current-color); /* TODO move to general admonition definition! */
+            text-shadow: none;
         }
     }
 }
+
 
 
 p.sidebar-title,
 p.rubric {
     font-weight: normal;
     font-size: 1.15em;
+    font-family: var(--theme-large-serif-font-family);
 }
 
 p.rubric {
-    color: var(--white);
-    text-shadow: 1px 1px 2px var(--black);
-    background-color: var(--semi-light-gray);
-    border-radius: var(--small-border-radius);
-    padding: 0.1em 0.2em;
+    
+    padding: 0;
 }
 
 p.subtitle,
@@ -741,13 +847,16 @@ blockquote {
 */
 pre.code {
     padding: 0;
+
     margin: 0 0 0.75em 0;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 svg text.code,
 code,
 pre.code {
-
-    
 
     --attribute-color: #800000;
 
@@ -779,7 +888,7 @@ pre.code {
     
     --punctuation-color: #E6194B;           /* Strong Red */
         
-    --tag-color: #FABEBE;
+    --tag-color: #fda8a8;
 
     /* RESERVED */
     --color-XXX: #46F0F0; 
@@ -907,6 +1016,7 @@ pre.code {
 
         &.tag { 
             color: var(--tag-color);
+            text-shadow: 1px 1px 1px var(--dark-gray);
         }
 
         &.variable {
@@ -1050,6 +1160,18 @@ table {
     justify-content: center;
     align-items: center;
 }
+
+/** Intended to be used a the section/slide level. */
+.summary > h2:first-child {
+    text-align: center;
+    position: relative;
+    --current-background-color: var(--dark-red);
+    background-color: var(--current-background-color);
+    color: var(--light-gray);
+    text-shadow: -1px -1px 2px var(--black);
+}
+
+
 
 
 /* 
