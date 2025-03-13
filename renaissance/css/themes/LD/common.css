@@ -8,6 +8,10 @@
    David Goodger (2015, 2021) 
 */
 
+blockquote:has(+ *) {
+    margin-bottom: 0.5em;
+}
+
 object[role="img"] {
     display: block;
 
@@ -695,7 +699,7 @@ p.system-message-title {
                 
                 margin-top: 0;
 
-                padding: 0.2em calc(1ch + 2em);
+                padding: 0.2em 0.5em 0.2em 2.25em;
 
                 --current-background-color: var(--red);
                 background-color: var(--current-background-color);
