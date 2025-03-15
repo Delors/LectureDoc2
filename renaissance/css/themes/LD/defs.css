@@ -125,6 +125,8 @@
     --emph-color: var(--dark-red);
     --separator-border: 2px solid var(--dark-gray); 
     
+    --default-bottom-margin: 0.5em;
+
     /* Shadows (t = top; b = bottom; l = left; r = right) */
     --br-shadow: 4px 4px 8px var(--light-gray);
     --trbl-shadow: 4px -4px 18px 0px var(--light-gray),
