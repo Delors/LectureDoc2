@@ -152,4 +152,13 @@
         counter-increment: section;
         counter-set: exercise 0;
     }
+
+    /*  In the document view cards are just rendered below each other. 
+    
+        (In the presentation view they are rendered on top of each other.)
+     */
+    ld-card:has(+ *) {
+        margin-bottom: var(--default-bottom-margin);
+    }
+    
 }

@@ -8,8 +8,10 @@
    David Goodger (2015, 2021) 
 */
 
+div.container:has(+ *),
+p:has(+ *),
 blockquote:has(+ *) {
-    margin-bottom: 0.5em;
+    margin-bottom: var(--default-bottom-margin);
 }
 
 object[role="img"] {
@@ -33,7 +35,7 @@ ul {
 ld-deck {
 
     &:has(+ *) {
-        margin-bottom: 0.5em;
+        margin-bottom: var(--default-bottom-margin);
     }
 
     &.numbered {
