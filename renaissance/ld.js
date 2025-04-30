@@ -659,7 +659,42 @@ function setupCopyToClipboard(rootNode) {
 }
 
 function setupIncrementalElements(slide) {
+    /* In the first step we associate each element that should be shown
+         incrementally with an explicit step id, unless the element already
+         has a step id. In that case, we simply split up the "class" and
+         put the step id in the respective data attribute.
+
+         To be able to later on resolve incremental meta tags (e.g. incremental-list), we multiply each step id by SPREAD. This gives us
+         enough leeway to resolve meta tags even if they result in up to SPREAD-1 incremental steps.
+        */
+    const SPREAD = 1000;
+    const pureIncrementalElements = Array.from(
+        slide.querySelectorAll(
+            ":scope :is(.incremental, .incremental-list, .incremental-code, .incremental-table-rows)",
+        ),
+    );
+    for (let i = 0; i < pureIncrementalElements.length; i++) {
+        const e = pureIncrementalElements[i];
+        e.dataset.ldIncrementalStepId = i * SPREAD;
+    }
+    const incrementalElements = Array.from(
+        slide.querySelectorAll(
+            ":scope :is([class^='incremental-'],[class*=' incremental-']):not([data-ld-incremental-step-id])",
+        ),
+    );
+    incrementalElements.forEach((e) => {
+        Array.from(e.classList)
+            .filter((c) => c.startsWith("incremental-"))
+            .forEach((i) => {
+                const stepId = parseInt(i.substring(i.lastIndexOf("-") + 1));
+                e.dataset.ldIncrementalStepId = stepId * SPREAD;
+                e.classList.remove(i);
+                e.classList.add(i.substring(0, i.lastIndexOf("-")));
+            });
+    });
+
     slide.querySelectorAll(":scope .incremental-list").forEach((list) => {
+        let currentStepId = list.dataset.ldIncrementalStepId;
         if (list.tagName === "DL") {
             /*  The following does not work, because a single "line" consists
                 of a dt and a dd element.
@@ -681,6 +716,7 @@ function setupIncrementalElements(slide) {
                     currentList = list.cloneNode(false);
                     div.appendChild(currentList);
                     currentList.classList.add("incremental");
+                    currentList.dataset.ldIncrementalStepId = currentStepId++;
                 }
                 currentList.appendChild(item);
             });
@@ -689,6 +725,7 @@ function setupIncrementalElements(slide) {
             const items = list.querySelectorAll(":scope > li");
             items.forEach((item) => {
                 item.classList.add("incremental");
+                item.dataset.ldIncrementalStepId = currentStepId++;
             });
         }
     });
@@ -696,15 +733,19 @@ function setupIncrementalElements(slide) {
     slide
         .querySelectorAll(":scope .incremental-table-rows")
         .forEach((incrementalTableRows) => {
+            let currentStepId =
+                incrementalTableRows.dataset.ldIncrementalStepId;
             const items = incrementalTableRows.querySelectorAll(
                 ":scope > tbody > tr",
             );
             items.forEach((item) => {
                 item.classList.add("incremental");
+                item.dataset.ldIncrementalStepId = currentStepId++;
             });
         });
 
     slide.querySelectorAll(":scope .incremental-code").forEach((pre) => {
+        let currentStepId = pre.dataset.ldIncrementalStepId;
         /* Currently, we only support incremental code if it is numbered. In this
          case, the pre tag with the class "incremental-code" always has pairs of
          children for each line of code. This pair consists of:
@@ -714,15 +755,14 @@ function setupIncrementalElements(slide) {
         Other child tags (e.g. <div>s created for additional buttons such as
         "copy-to-clipboard") are ignored.
       */
-        pre.classList.add("incremental[rel-ctx]");
-        let lineNo = 0;
         Array.from(pre.children).forEach((child) => {
             if (child.tagName === "SMALL" && child.classList.contains("ln")) {
-                child.classList.add(`incremental[rel-${lineNo}]`);
+                child.classList.add(`incremental`);
+                child.dataset.ldIncrementalStepId = currentStepId;
             }
             if (child.tagName === "CODE") {
-                child.classList.add(`incremental[rel-${lineNo}]`);
-                lineNo++;
+                child.classList.add(`incremental`);
+                child.dataset.ldIncrementalStepId = currentStepId++;
             }
         });
     });
