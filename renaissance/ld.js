@@ -672,43 +672,78 @@ function setupCopyToClipboard(rootNode) {
     });
 }
 
-function setupIncrementalElements(slide) {
-    /* In the first step we associate each element that should be shown
-         incrementally with an explicit step id, unless the element already
-         has a step id. In that case, we simply split up the "class" and
-         put the step id in the respective data attribute.
+/**
+ * Walks the tree (depth-first) and associates each element that should be
+ * shown incrementally with a step id.
+ * If no special step id is given, the default step id is used. Returns the
+ * stepId that should be used for the next incremental element.
+ * @param {*} element
+ * @param {*} currentStepId
+ */
+function associateIncrementalElementsWithIds(element, nextStepId) {
+    let currentStepId = nextStepId;
 
-         To be able to later on resolve incremental meta tags (e.g. incremental-list), we multiply each step id by SPREAD. This gives us
-         enough leeway to resolve meta tags even if they result in up to SPREAD-1 incremental steps.
-        */
-    const SPREAD = 1000;
-    const incrementalElementsWithoutStepId = Array.from(
-        slide.querySelectorAll(
-            ":scope :is(.incremental, .incremental-list, .incremental-code, .incremental-table-rows)",
-        ),
-    );
-    for (let i = 0; i < incrementalElementsWithoutStepId.length; i++) {
-        const e = incrementalElementsWithoutStepId[i];
-        e.dataset.ldIncrementalStepId = (i + 1) * SPREAD;
+    const elementStepId = element.dataset.ldIncrementalStepId;
+    // prevSib is handled at the parent level (see below); we will override
+    // prevSib in the following
+    if (elementStepId && elementStepId !== "prevSib") {
+        currentStepId = parseInt(elementStepId);
     }
-    const incrementalElementsWithStepID = Array.from(
+
+    if (element.classList.contains("incremental")) {
+        element.dataset.ldIncrementalStepId = currentStepId++;
+    }
+
+    const children = element.children;
+    for (let i = 0; i < children.length; i++) {
+        const c = children[i];
+        let stepIdToUse = currentStepId;
+
+        // if we are required to use the previous step id, we simply search
+        // for it in the DOM; if we can't find one, we fall back to the
+        // currentStepId
+        if (c.dataset.ldIncrementalStepId === "prevSib") {
+            for (let j = i - 1; j >= 0; j--) {
+                const prevSibStepId = children[j].dataset.ldIncrementalStepId;
+                if (prevSibStepId) {
+                    stepIdToUse = prevSibStepId;
+                    break;
+                }
+            }
+        }
+        currentStepId = associateIncrementalElementsWithIds(c, stepIdToUse);
+    }
+
+    return currentStepId;
+}
+
+function setupIncrementalElements(slide) {
+    /* 1. Search all incremental elements and check if an explicit step-id
+       is defined.
+       If so, associate the step id with the element using the element's
+       dataset. */
+    const incrementalElements = Array.from(
         slide.querySelectorAll(
-            ":scope :is([class^='incremental-'],[class*=' incremental-']):not([data-ld-incremental-step-id])",
+            ":scope :is([class^='incremental-'],[class*=' incremental-'])",
         ),
     );
-    incrementalElementsWithStepID.forEach((e) => {
+    incrementalElements.forEach((e) => {
         Array.from(e.classList)
             .filter((c) => c.startsWith("incremental-"))
+            .filter((c) => {
+                const lastSegment = c.substring(c.lastIndexOf("-") + 1);
+                return lastSegment === "prevSib" || !isNaN(lastSegment);
+            })
             .forEach((i) => {
-                const stepId = parseInt(i.substring(i.lastIndexOf("-") + 1));
-                e.dataset.ldIncrementalStepId = stepId * SPREAD;
+                const stepId = i.substring(i.lastIndexOf("-") + 1);
+                e.dataset.ldIncrementalStepId = stepId; // a number or "prev"
+                // let's remove the step-id from the class name
                 e.classList.remove(i);
                 e.classList.add(i.substring(0, i.lastIndexOf("-")));
             });
     });
 
     slide.querySelectorAll(":scope .incremental-list").forEach((list) => {
-        let currentStepId = list.dataset.ldIncrementalStepId;
         if (list.tagName === "DL") {
             /*  The following does not work, because a single "line" consists
                 of a dt and a dd element.
@@ -723,63 +758,57 @@ function setupIncrementalElements(slide) {
              */
             const div = ld.div({});
             list.parentElement.replaceChild(div, list);
+            list.classList.remove("incremental-list");
+            const stepId = list.dataset.ldIncrementalStepId;
+            delete list.dataset.ldIncrementalStepId;
+
             const items = list.querySelectorAll(":scope > *");
             let currentList = undefined;
-            items.forEach((item) => {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
                 if (item.tagName === "DT") {
                     currentList = list.cloneNode(false);
-                    div.appendChild(currentList);
                     currentList.classList.add("incremental");
-                    currentList.dataset.ldIncrementalStepId = currentStepId++;
+                    if (stepId && i == 0)
+                        currentList.dataset.ldIncrementalStepId = stepId;
+                    div.appendChild(currentList);
                 }
                 currentList.appendChild(item);
-            });
+            }
         } else {
             // ul and ol lists
             const items = list.querySelectorAll(":scope > li");
-            items.forEach((item) => {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
                 item.classList.add("incremental");
-                item.dataset.ldIncrementalStepId = currentStepId++;
-            });
+            }
         }
     });
 
     slide
         .querySelectorAll(":scope .incremental-table-rows")
         .forEach((incrementalTableRows) => {
-            let currentStepId =
-                incrementalTableRows.dataset.ldIncrementalStepId;
             const items = incrementalTableRows.querySelectorAll(
                 ":scope > tbody > tr",
             );
             items.forEach((item) => {
                 item.classList.add("incremental");
-                item.dataset.ldIncrementalStepId = currentStepId++;
             });
         });
 
     slide.querySelectorAll(":scope .incremental-code").forEach((pre) => {
-        let currentStepId = pre.dataset.ldIncrementalStepId;
-        /* Currently, we only support incremental code if it is numbered. In
-           this case, the pre tag with the class "incremental-code" always has
-           pairs of children for each line of code. This pair consists of:
-
-          <span class="ln">...<span><code>...</code>
-
-        Other child tags (e.g. <div>s created for additional buttons such as
-        "copy-to-clipboard") are ignored.
-      */
         Array.from(pre.children).forEach((child) => {
             if (child.tagName === "SMALL" && child.classList.contains("ln")) {
                 child.classList.add(`incremental`);
-                child.dataset.ldIncrementalStepId = currentStepId;
             }
             if (child.tagName === "CODE") {
                 child.classList.add(`incremental`);
-                child.dataset.ldIncrementalStepId = currentStepId++;
+                child.dataset.ldIncrementalStepId = "prevSib"; // will be replaced!
             }
         });
     });
+
+    associateIncrementalElementsWithIds(slide, 1);
 
     // Bring everything to the base-state
     slide.querySelectorAll(":scope .incremental").forEach((e) => {
