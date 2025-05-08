@@ -37,7 +37,6 @@ const MAX_BASE_FONT_SIZE = 36;
 
 // TODO Determine if we really need the message from the iframe to the parent that the font size has been applied.
 
-
 const IFRAME_HEAD_FRAG = `
     <style>
         :root {
@@ -52,24 +51,133 @@ const IFRAME_HEAD_FRAG = `
         }
     </style>
     <script>
+        let broadcastChannel = undefined;
+        let messagesToBroadcast = []; // used to store messages if the broadcast channel is not yet established
+
+        // The following indirection is required, because we only know the
+        // name of the broadcast channel once we now the name of this iframe.
+        // However, we have no control when this will actually happen.
+        let broadcastChannelListeners = [];
+
         window.addEventListener("message", (event) => {
+            const ldIFrameId = event.data["ld-iframe-id"];
+
+            if (!broadcastChannel && event.data["ld-presentation-id"]) {
+                const broascastChannelName =
+                        event.data["ld-presentation-id"] +
+                        "-iframe#" + ldIFrameId ;
+                // console.log("establishing broadcast channel for iframe", broascastChannelName);
+                broadcastChannel = new BroadcastChannel(broascastChannelName);
+                broadcastChannel.addEventListener("message", (event) =>  {
+                    broadcastChannelListeners.forEach((listener) => {
+                        listener(event);
+                    });
+                });
+                messagesToBroadcast.forEach((message) => {
+                    broadcastChannel.postMessage(message);
+                });
+                messagesToBroadcast = [];
+            }
+
             if (event.data["ld-effective-font-size"]) {
                 document.documentElement.style.setProperty(
                     "--base-font-size",
                     event.data["ld-effective-font-size"],
                 );
-
                 // we have to wait for the new font size to be applied
                 setTimeout(() => {
                     window.parent.postMessage(
-                        { "ld-iframe-applied-font-size": event.data["ld-iframe-id"] },
+                        { "ld-iframe-applied-font-size": ldIFrameId },
                         "*",
                     );
                 }, 0);
             }
         });
+
+        function broadcastMessage(message) {
+           if (broadcastChannel) {
+                broadcastChannel.postMessage(message);
+            } else {
+                messagesToBroadcast.push(message);
+            }
+        }
     </script>
     `;
+
+const EDITABLE_STYLE_ELEMENTS = `
+    <style>
+        style {
+            display: block;
+            position: relative;
+            font-family: monospace;
+            white-space: pre;
+            background-color: whitesmoke;
+            padding: 0.5em;
+
+            &::before {
+                content: "🖊️";
+                position: absolute;
+                top: 0.1em;
+                right: 0.1em;
+            }
+        }
+    </style>
+    <script>
+        let editableStyleHasChanged = false;
+
+        window.addEventListener("load", () =>{
+            document.querySelectorAll("style[contenteditable]").forEach((editableStyle) => {
+
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach(mutation => {
+                        editableStyleHasChanged = true;
+                        if (broadcastChannel) {
+                            broadcastChannel.postMessage({
+                                "type": "editableStyleChanged",
+                                "data": editableStyle.textContent,
+                            });
+                        }
+                    });
+                });
+                observer.observe(editableStyle, {
+                    subtree: true,
+                    characterData: true,
+                    characterDataOldValue: true });
+
+                broadcastChannelListeners.push((event) => {
+                    // console.log("received", event)
+                    switch(event.data.type) {
+                        case "editableStyleChanged" :
+                            // we have to avoid an endless ping-pong of
+                            // editableStyleChange events
+                            if (editableStyle.textContent !== event.data.data){
+                                editableStyle.textContent = event.data.data;
+                            }
+                            break;
+                        case "getEditableStyleContent":
+                            if (editableStyleHasChanged) {
+                                broadcastMessage({
+                                    "type": "editableStyleChanged",
+                                    "data": editableStyle.textContent,
+                                });
+                            }
+                            break;
+                    }
+                });
+
+                // It may happen that the user has already edited the style
+                // before a secondary window is spawned. In that case, we simply
+                // broadcast a message to request the current style content.
+                // (If we have multiple windows we get multiple answers, but
+                // they are expected to be the same and hence will be ignored.)
+                broadcastMessage({
+                    "type": "getEditableStyleContent",
+                });
+            });
+        });
+    </script>
+
+`;
 
 const embeddIntoHTML = () => {
     const embeddedIFrames = document
@@ -82,6 +190,11 @@ const embeddIntoHTML = () => {
             "{{ld-embedded-iframe.head.frag.html}}",
             IFRAME_HEAD_FRAG,
         );
+        iframe = iframe.replace(
+            "{{ld-embedded-iframe.editable-styles.frag.html}}",
+            EDITABLE_STYLE_ELEMENTS,
+        );
+
         //console.log("embedding iframe:", iframe);
         eif.innerHTML = iframe;
     });
@@ -93,15 +206,15 @@ lectureDoc2.ldEvents.addEventListener(
 );
 
 /**
- * Associates each embedded iframe with its (unique) ID which is later used in 
+ * Associates each embedded iframe with its (unique) ID which is later used in
  * the back- and forth communication to identify it.
  */
 const embeddedIFrames = {};
 
 /**
  * Adapts the height of the iframe to fit its content.
- * 
- * @param {number} i - the id of the iframe 
+ *
+ * @param {number} i - the id of the iframe
  * @param {*} reason - the reason for the height change [optional]
  */
 const adaptEmbeddedIFrameHeight = (iframeId, reason) => {
@@ -119,13 +232,17 @@ const adaptEmbeddedIFrameHeight = (iframeId, reason) => {
 };
 
 /**
- * Listens for changes to the iframe's content and adapts the height accordingly.
+ * Listens for changes to the iframe's content and adapts the height
+ * accordingly.
  */
 window.addEventListener("message", (event) => {
     const iframeId = event.data["ld-iframe-applied-font-size"];
     if (iframeId) {
         setTimeout(() => {
-            adaptEmbeddedIFrameHeight(iframeId, "iframe changed base font size");
+            adaptEmbeddedIFrameHeight(
+                iframeId,
+                "iframe changed base font size",
+            );
         }, 0);
     } else {
         console.error(`iframe ${iframeId} not found`);
@@ -146,10 +263,11 @@ function configureEmbeddedIFrames() {
             );
 
             // required to enable us to set the height based on the content!
-            iframe.style.boxSizing = "content-box"; 
+            iframe.style.boxSizing = "content-box";
             iframe.addEventListener("load", () => {
                 iframe.contentWindow.postMessage(
                     {
+                        "ld-presentation-id": lectureDoc2.presentation.id,
                         "ld-iframe-id": iframeId,
                         "ld-effective-font-size": effectiveFontSize,
                     },
@@ -166,6 +284,17 @@ function configureEmbeddedIFrames() {
                                     "intersection",
                                 );
                                 observer.disconnect();
+                                if (iframe.closest("ld-section")) {
+                                    const resizeObserver = new ResizeObserver(
+                                        () => {
+                                            adaptEmbeddedIFrameHeight(
+                                                iframeId,
+                                                "resize",
+                                            );
+                                        },
+                                    );
+                                    resizeObserver.observe(iframe);
+                                }
                             }
                         });
                     }).observe(iframe),
