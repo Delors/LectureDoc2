@@ -1150,22 +1150,37 @@ table {
         caption-side: bottom;
     }
 
-    &.highlight-cell-on-hover,
     &.highlight-on-hover,
-    &.highlight-row-on-hover,
+    &.highlight-cell-on-hover,
+    &.highlight-cell-and-row-on-hover,
     &.highlight-identical-cells-on-hover {
         th.\:hover-related {
-            background-color: var(--gray);
-            color: var(--white);
+            --current-background-color: var(--gray);
+            background-color: var(--current-background-color);
+            --current-color: white;
+            color: var(--current-color);
         }
         td.\:hover-related {
-            background-color: var(--very-light-gray);
+            --current-background-color: var(--very-light-gray);
+            background-color: var(--current-background-color);
         }
         th.\:hover {
-            background-color: var(--light-gray);
+            --current-background-color: var(--light-gray);
+            background-color: var(--current-background-color);
         }
         td.\:hover {
-            background-color: var(--light-gray);
+            --current-background-color: var(--light-gray);
+            background-color: var(--current-background-color);
+        }
+    }
+    &.highlight-row-on-hover {
+        tr.\:hover {
+            --current-background-color: var(--light-gray);
+            background-color: var(--current-background-color);
+        }
+        tr.\:hover-related {
+            --current-background-color: var(--very-light-gray);
+            background-color: var(--current-background-color);
         }
     }
 
