@@ -1531,7 +1531,7 @@ function showMessage(htmlMessage, ms = 3000) {
 }
 
 /**
- * @returns The element ("DIV") with the ID of the current slide.
+ * @returns The ld-slide element with the ID of the current slide.
  */
 function getCurrentSlide() {
     return document.getElementById("ld-slide-no-" + state.currentSlideNo);
@@ -2873,6 +2873,7 @@ lectureDoc2.getEphemeral = function () {
     return ephemeral;
 };
 lectureDoc2.prepareForPrinting = prepareForPrinting;
+lectureDoc2.getCurrentSlide = getCurrentSlide;
 
 /*
     For debugging purposes and interoperability with Applescript.
