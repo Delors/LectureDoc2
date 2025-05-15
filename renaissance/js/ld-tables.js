@@ -9,6 +9,7 @@
  * The highlighting is also relayed to secondary windows.
  */
 import lectureDoc2 from "./../ld.js";
+import * as ld from "./ld-lib.js";
 
 console.log("loading ld-tables.js");
 
@@ -60,35 +61,164 @@ function afterLDListenerRegistrations() {
     // If a document channel exits, we will listen to scrolling events and
     // send them to the other windows. Additionally, we will listen to the
     // "scrollableScrolled" event and update the scrollable element accordingly.
-    const ephemeral = lectureDoc2.getEphemeral();
-    if (
-        ephemeral.ldPerDocumentChannel /* recall: no document id - no channel */
-    ) {
-        const channel = ephemeral.ldPerDocumentChannel;
-
+    const channel = lectureDoc2.getEphemeral().ldPerDocumentChannel;
+    if (channel /* recall: no document id - no channel */) {
         // listen for highlighting based events
         // ...
-    }
+        channel.addEventListener("message", (event) => {
+            const [msg, data] = event.data;
+            switch (msg) {
+                case "resetCurrentSlideProgress": {
+                    const ldSlide = lectureDoc2.getCurrentSlide();
+                    ldSlide
+                        .querySelectorAll(":scope :is(tr,th,td)")
+                        .forEach((e) => {
+                            e.classList.remove(":hover");
+                            e.classList.remove(":hover-related");
+                        });
+                    break;
+                }
+                case "hoverTableCells": {
+                    event.stopImmediatePropagation();
+                    console.log("received hover message", data);
 
-    function addHoverState(hoveredTableElement, ...hoverRelatedTableElements) {
-        if (hoveredTableElement) {
-            hoveredTableElement.classList.add(":hover");
-        }
-        hoverRelatedTableElements.forEach((td) => {
-            td.classList.add(":hover-related");
+                    const [
+                        tableId,
+                        isHovered,
+                        hoveredElements,
+                        hoverRelatedElements,
+                    ] = data;
+
+                    const table = tables.at(parseInt(tableId));
+
+                    function updateClassList(type, index, add, className) {
+                        if (type === "cell") {
+                            const [rowIndex, cellIndex] = index;
+                            const td = table.rows[rowIndex].cells[cellIndex];
+                            if (add) {
+                                td.classList.add(className);
+                            } else {
+                                td.classList.remove(className);
+                            }
+                        } else if (type === "row") {
+                            const tr = table.rows[index];
+                            if (add) {
+                                tr.classList.add(className);
+                            } else {
+                                tr.classList.remove(className);
+                            }
+                        } else {
+                            console.error("unsupported type", type);
+                        }
+                    }
+
+                    hoveredElements.forEach(([type, index]) =>
+                        updateClassList(type, index, isHovered, ":hover"),
+                    );
+                    hoverRelatedElements.forEach(([type, index]) =>
+                        updateClassList(
+                            type,
+                            index,
+                            isHovered,
+                            ":hover-related",
+                        ),
+                    );
+                }
+            }
         });
     }
 
-    function removeHoverState(
+    function addElementIndex(
+        tableElement,
+        isHoverRelated,
+        // both are arrays of pairs [[<type: cell, row>,<index>],...]
+        hoveredElements,
+        hoverRelatedElements,
+    ) {
+        let msg = undefined;
+        if (tableElement instanceof HTMLTableCellElement) {
+            msg = [
+                "cell",
+                [tableElement.parentElement.rowIndex, tableElement.cellIndex],
+            ];
+        } else if (tableElement instanceof HTMLTableRowElement) {
+            msg = ["row", tableElement.rowIndex];
+        } else {
+            console.error("unsupported table element:", tableElement);
+            return;
+        }
+        if (isHoverRelated) {
+            hoverRelatedElements.push(msg);
+        } else {
+            hoveredElements.push(msg);
+        }
+    }
+
+    function addHoverState(
+        table,
         hoveredTableElement,
         ...hoverRelatedTableElements
     ) {
+        const hoveredElements = [];
+        const hoverRelatedElements = [];
+
+        if (hoveredTableElement) {
+            hoveredTableElement.classList.add(":hover");
+            addElementIndex(
+                hoveredTableElement,
+                false,
+                hoveredElements,
+                hoverRelatedElements,
+            );
+        }
+        hoverRelatedTableElements.forEach((hrte) => {
+            hrte.classList.add(":hover-related");
+            addElementIndex(hrte, true, hoveredElements, hoverRelatedElements);
+        });
+
+        if (channel) {
+            const data = [
+                /*table:*/ table.dataset.ldTablesId,
+                /*hovered:*/ true,
+                /*hoveredElements:*/ hoveredElements,
+                /*hoverRelatedElements:*/ hoverRelatedElements,
+            ];
+            ld.postMessage(channel, "hoverTableCells", data);
+        }
+    }
+
+    function removeHoverState(
+        table,
+        hoveredTableElement,
+        ...hoverRelatedTableElements
+    ) {
+        const hoveredElements = [];
+        const hoverRelatedElements = [];
+
         if (hoveredTableElement) {
             hoveredTableElement.classList.remove(":hover");
+
+            addElementIndex(
+                hoveredTableElement,
+                false,
+                hoveredElements,
+                hoverRelatedElements,
+            );
         }
-        hoverRelatedTableElements.forEach((td) => {
-            td.classList.remove(":hover-related");
+        hoverRelatedTableElements.forEach((hrte) => {
+            hrte.classList.remove(":hover-related");
+            addElementIndex(hrte, true, hoveredElements, hoverRelatedElements);
         });
+
+        if (channel) {
+            const data = [
+                /*table:*/ table.dataset.ldTablesId,
+                /*hovered:*/ false,
+                /*hoveredElements:*/ hoveredElements,
+                /*hoverRelatedElements:*/ hoverRelatedElements,
+            ];
+            ld.postMessage(channel, "hoverTableCells", data);
+        }
     }
 
     tables.forEach((table) => {
@@ -96,18 +226,22 @@ function afterLDListenerRegistrations() {
 
         if (table.classList.contains("highlight-cell-on-hover")) {
             tbody.querySelectorAll(":scope td").forEach((td) => {
-                td.addEventListener("mouseenter", () => addHoverState(td));
-                td.addEventListener("mouseleave", () => removeHoverState(td));
+                td.addEventListener("mouseenter", () =>
+                    addHoverState(table, td),
+                );
+                td.addEventListener("mouseleave", () =>
+                    removeHoverState(table, td),
+                );
             });
         }
 
         if (table.classList.contains("highlight-row-on-hover")) {
             tbody.querySelectorAll(":scope tr").forEach((tr) => {
                 tr.addEventListener("mouseenter", () =>
-                    addHoverState(undefined, tr),
+                    addHoverState(table, undefined, tr),
                 );
                 tr.addEventListener("mouseleave", () =>
-                    removeHoverState(undefined, tr),
+                    removeHoverState(table, undefined, tr),
                 );
             });
         }
@@ -117,7 +251,7 @@ function afterLDListenerRegistrations() {
          * with the same column and in the first column with the same row.
          */
         if (table.classList.contains("table.highlight-on-hover")) {
-            function highlight(cell, hovered) {
+            function highlight(cell, isHovered) {
                 const cellIndex = cell.cellIndex; // <=> columnIndex
                 const rowIndex = cell.parentElement.rowIndex;
                 const hoverRelatedCells = [];
@@ -126,10 +260,10 @@ function afterLDListenerRegistrations() {
                     hoverRelatedCells.push(table.rows[0].cells[cellIndex]);
                 if (cellIndex !== 0)
                     hoverRelatedCells.push(table.rows[rowIndex].cells[0]);
-                if (hovered) {
-                    addHoverState(cell, ...hoverRelatedCells);
+                if (isHovered) {
+                    addHoverState(table, cell, ...hoverRelatedCells);
                 } else {
-                    removeHoverState(cell, ...hoverRelatedCells);
+                    removeHoverState(table, cell, ...hoverRelatedCells);
                 }
             }
 
@@ -142,13 +276,13 @@ function afterLDListenerRegistrations() {
         }
 
         if (table.classList.contains("tablehighlight-cell-and-row-on-hover")) {
-            function highlight(cell, hovered) {
+            function highlight(cell, isHovered) {
                 let relatedCells = new Set(cell.parentElement.cells);
                 relatedCells.delete(cell);
-                if (hovered) {
-                    addHoverState(cell, ...relatedCells);
+                if (isHovered) {
+                    addHoverState(table, cell, ...relatedCells);
                 } else {
-                    removeHoverState(cell, ...relatedCells);
+                    removeHoverState(table, cell, ...relatedCells);
                 }
             }
 
@@ -168,7 +302,7 @@ function afterLDListenerRegistrations() {
                 );
             }
             */
-            function highlight(cell, hovered) {
+            function highlight(cell, isHovered) {
                 let hoverRelatedCells = [];
                 const textContent = cell.textContent;
                 tbody.querySelectorAll(":scope td").forEach((otherCell) => {
@@ -181,10 +315,10 @@ function afterLDListenerRegistrations() {
                     }
                 });
 
-                if (hovered) {
-                    addHoverState(cell, ...hoverRelatedCells);
+                if (isHovered) {
+                    addHoverState(table, cell, ...hoverRelatedCells);
                 } else {
-                    removeHoverState(cell, ...hoverRelatedCells);
+                    removeHoverState(table, cell, ...hoverRelatedCells);
                 }
             }
 
