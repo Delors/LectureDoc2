@@ -134,6 +134,7 @@ renaissance/js/ld-tables.js
 renaissance/js/ld-decks.js
 renaissance/js/ld-stories.js
 renaissance/js/ld-scrollables.js
+renaissance/js/ld-hoverables.js
 renaissance/js/ld-crypto.js
 renaissance/js/ld-help.frag.html
 renaissance/js/ld-lib.js
@@ -202,7 +203,3 @@ renaissance/css/themes/DHBW/dhbw_logo.png
 renaissance/css/themes/DHBW/dhbw_text.png
 renaissance/css/themes/DHBW/dhbw_symbol.png
 renaissance/css/themes/DHBW/dhbw_symbol-sharp.png
-
-
-
-

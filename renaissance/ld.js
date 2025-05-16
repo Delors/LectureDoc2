@@ -2675,6 +2675,7 @@ const onDOMContentLoaded = async () => {
     await import("./js/ld-decks.js");
     await import("./js/ld-scrollables.js");
     await import("./js/ld-stories.js");
+    await import("./js/ld-hoverables.js");
 
     ldEvents.beforeLDDOMManipulations.forEach((f) => f());
 
