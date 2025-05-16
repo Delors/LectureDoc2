@@ -2,7 +2,9 @@
  * This JavaScript module implements advanced functionality related to tables.
  *
  * In particular, selective highlighting of...
+ * - cells (highlight-cell-on-hover)
  * - rows (highlight-row-on-hover)
+ * - a cell in a row (highlight-cell-and-row-on-hover)
  * - identical cells (highlight-identical-cells-on-hover)
  * - a cell and the corresponding cell in the first row/column (highlight-on-hover)
  *
@@ -56,9 +58,8 @@ function afterLDListenerRegistrations() {
     // for the precise definition of cellIndex, rowIndex, and sectionRowIndex
 
     // Keep Windows in Sync ----------------------------------------------------
-    // If a document channel exits, we will listen to scrolling events and
-    // send them to the other windows. Additionally, we will listen to the
-    // "scrollableScrolled" event and update the scrollable element accordingly.
+    // If a document channel exits, we will listen to hovering events and
+    // add/remove the respective classes.
     const channel = lectureDoc2.getEphemeral().ldPerDocumentChannel;
     if (channel /* recall: no document id - no channel */) {
         // listen for highlighting based events
@@ -326,7 +327,6 @@ function afterLDListenerRegistrations() {
             });
         }
     });
-
 }
 
 const ldEvents = lectureDoc2.ldEvents;
