@@ -137,6 +137,7 @@ ul.horizontal {
     - ...
 */
 ul.columns {
+    /* TODO Consolidate columns and column-list! */
     list-style: none;
 
     display: flex;
