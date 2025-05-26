@@ -728,9 +728,9 @@ function setupCopyToClipboard(rootNode) {
  *
  * @param {*} element An HTML DOM element.
  * @param {*} nextStepId The step id that should be used for the next element
- *            with an incremental annoation.
+ *            with an incremental annotation.
  */
-function associateAnnotationStepIds(element, nextStepId) {
+function associateAnnotationStepIds(element, nextStepId) { // TODO Rename animationStepIds
     let currentStepId = nextStepId;
 
     const elementStepId = element.dataset.ldIncrementalStepId;
@@ -863,7 +863,6 @@ function setupIncrementalElements(slide) {
         });
     });
 
-    // TODO rename: associateAnimationStepIds
     associateAnnotationStepIds(slide, 1);
 
     // Bring everything to the base-state
