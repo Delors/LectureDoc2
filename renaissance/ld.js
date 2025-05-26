@@ -437,12 +437,14 @@ function scaleDocumentImagesAndVideos() {
             img.addEventListener("load", () => {
                 const targetWidth = img.naturalWidth / 2.5;
                 const targetHeight = img.naturalHeight / 2.5;
+                /*
                 console.log(
                     "scaling highdpi image for document view",
                     img,
                     targetWidth,
                     targetHeight,
                 );
+                */
                 img.style.width = targetWidth + "px";
                 img.style.height = targetHeight + "px";
             });
