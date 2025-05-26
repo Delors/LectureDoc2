@@ -2106,7 +2106,11 @@ function registerKeyboardEventListener() {
 
     document.addEventListener("keydown", (event) => {
         // let's check if the user is using an input field to type something in
-        if (document.activeElement.nodeName == "INPUT") {
+        const activeElement = document.activeElement;
+        if (activeElement.nodeName === "INPUT") {
+            return;
+        }
+        if (activeElement.contentEditable === "true") {
             return;
         }
 
