@@ -730,7 +730,8 @@ function setupCopyToClipboard(rootNode) {
  * @param {*} nextStepId The step id that should be used for the next element
  *            with an incremental annotation.
  */
-function associateAnnotationStepIds(element, nextStepId) { // TODO Rename animationStepIds
+function associateAnnotationStepIds(element, nextStepId) {
+    // TODO Rename animationStepIds
     let currentStepId = nextStepId;
 
     const elementStepId = element.dataset.ldIncrementalStepId;
@@ -1249,7 +1250,8 @@ function setupSlidePane() {
             let presenterNoteId = 0;
             const ldPresenterNotes = ld.create("ld-presenter-notes", {});
             for (const presenterNote of presenterNotes) {
-                const clonedPresenterNote = presenterNote;
+                const clonedPresenterNote =
+                    ld.deepCloneWithOpenShadowRoots(presenterNote);
                 clonedPresenterNote.id =
                     "ld-presenter-note-" + ++presenterNoteId;
                 clonedPresenterNote.dataset.presenterNoteId = presenterNoteId;
