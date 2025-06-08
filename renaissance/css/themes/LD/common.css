@@ -23,6 +23,10 @@ object[role="img"] {
     }
 }
 
+mjx-container[display="true"] {
+    margin: 0.5em 0 !important;
+}
+
 ul {
     list-style-type: "▫️";
 }
