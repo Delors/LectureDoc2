@@ -171,6 +171,16 @@ renaissance/css/ui/icons/toc.svg
 renaissance/css/ui/icons/unlock-global.svg
 renaissance/css/ui/icons/white-cross-on-black.svg
 renaissance/css/ui/icons/white-cross.svg
+renaissance/css/ui/icons/2025/view.svg
+renaissance/css/ui/icons/2025/nr.svg
+renaissance/css/ui/icons/2025/lighttable.svg
+renaissance/css/ui/icons/2025/table_of_contents.svg
+renaissance/css/ui/icons/2025/previous_slide.svg
+renaissance/css/ui/icons/2025/previous.svg
+renaissance/css/ui/icons/2025/next.svg
+renaissance/css/ui/icons/2025/next_slide.svg
+renaissance/css/ui/icons/2025/key.svg
+renaissance/css/ui/icons/2025/question_mark.svg
 
 renaissance/css/core/behavior.css
 renaissance/css/core/slide-view.css
