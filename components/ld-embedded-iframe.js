@@ -212,14 +212,15 @@ lectureDoc2.ldEvents.addEventListener(
 const embeddedIFrames = {};
 
 /**
- * Adapts the height of the iframe to fit its content.
+ * Adapts the height of the iframe to fit its content unless the height is 
+ * explicitly set.
  *
  * @param {number} i - the id of the iframe
  * @param {*} reason - the reason for the height change [optional]
  */
 const adaptEmbeddedIFrameHeight = (iframeId, reason) => {
     const iframe = embeddedIFrames[iframeId];
-    if (iframe) {
+    if (iframe && !iframe.height) {
         const htmlElement = iframe.contentWindow.document.documentElement;
         const newHeight = htmlElement.getBoundingClientRect().height + "px";
         console.log(
