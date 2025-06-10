@@ -157,20 +157,20 @@ renaissance/css/ui/jump-target-dialog.css
 renaissance/css/ui/messagebox.css
 renaissance/css/ui/laser-pointer.css
 renaissance/css/ui/light-table-dialog.css
-renaissance/css/ui/icons/black-cross-on-white.svg
-renaissance/css/ui/icons/black-cross-on-whitesmoke.svg
-renaissance/css/ui/icons/document-view.svg
-renaissance/css/ui/icons/help.svg
-renaissance/css/ui/icons/light-table.svg
-renaissance/css/ui/icons/lock-global.svg
-renaissance/css/ui/icons/menu.svg
-renaissance/css/ui/icons/pwds.svg
-renaissance/css/ui/icons/slides-with-nr.svg
-renaissance/css/ui/icons/slides.svg
-renaissance/css/ui/icons/toc.svg
 renaissance/css/ui/icons/unlock-global.svg
 renaissance/css/ui/icons/white-cross-on-black.svg
 renaissance/css/ui/icons/white-cross.svg
+renaissance/css/ui/icons/black-cross-on-white.svg
+renaissance/css/ui/icons/black-cross-on-whitesmoke.svg
+# renaissance/css/ui/icons/document-view.svg
+# renaissance/css/ui/icons/help.svg
+# renaissance/css/ui/icons/light-table.svg
+# renaissance/css/ui/icons/lock-global.svg
+# renaissance/css/ui/icons/menu.svg
+# renaissance/css/ui/icons/pwds.svg
+# renaissance/css/ui/icons/slides-with-nr.svg
+# renaissance/css/ui/icons/slides.svg
+# renaissance/css/ui/icons/toc.svg
 renaissance/css/ui/icons/2025/view.svg
 renaissance/css/ui/icons/2025/nr.svg
 renaissance/css/ui/icons/2025/lighttable.svg
@@ -181,6 +181,7 @@ renaissance/css/ui/icons/2025/next.svg
 renaissance/css/ui/icons/2025/next_slide.svg
 renaissance/css/ui/icons/2025/key.svg
 renaissance/css/ui/icons/2025/question_mark.svg
+renaissance/css/ui/icons/2025/two_windows.svg
 
 renaissance/css/core/behavior.css
 renaissance/css/core/slide-view.css
