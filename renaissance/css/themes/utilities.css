@@ -195,6 +195,11 @@ table.align-content-in-data-cells-top tr td {
 .dd-margin-left-4em dd {
     margin-left: 4em;
 }
+
+.dd-margin-left-3em dd {
+    margin-left: 3em;
+}
+
 .dd-margin-left-2em dd {
     margin-left: 2em;
 }
