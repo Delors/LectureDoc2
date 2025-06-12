@@ -55,6 +55,7 @@ components/timeline/timeline.js
 components/timeline/timeline.css
 components/timeline/timeline-example.html
 components/ld-embedded-iframe.js
+components/ld-lightweight-css-editor.js
 
 ################################################################################
 #
