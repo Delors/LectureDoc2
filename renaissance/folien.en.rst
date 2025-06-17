@@ -1,4 +1,4 @@
-.. meta:: 
+.. meta::
     :version: renaissance
     :lang: en
     :author: Michael Eichberg
@@ -10,8 +10,7 @@
 
 .. |html-source| source::
     :prefix: https://delors.github.io/
-    :suffix: .html 
-
+    :suffix: .html
 
 .. role:: math-r
 .. role:: math-i
@@ -27,9 +26,9 @@ LectureDoc2 Renaissance
 
 .. supplemental::
 
-    :Folien: 
-        
-        |html-source| 
+    :Folien:
+
+        |html-source|
 
     :Fehler melden:
         https://github.com/Delors/delors.github.io/issues
@@ -44,13 +43,14 @@ Introduction
 This slide set primarily serves as a testbed for various features of the `LectureDoc2` system. It also demonstrates how to use the system to create slides for a lecture.
 
 
+
 Supplemental Information and Presenter Notes\ [#]_
 --------------------------------------------------------
 
 You first have to enter the master password (press M and then enter Demo!) to see the presenter notes.
 
-.. supplemental:: 
-    
+.. supplemental::
+
     This is additional information that is not shown in the main text.
 
 .. presenter-note::
@@ -63,15 +63,15 @@ Some more text.
 
     This is another presenter note. Which is also displayed, when you hover over it.
 
-.. supplemental:: 
-    
+.. supplemental::
+
     This is some more additional information that is not shown in the main text.
 
     .. presenter-note::
 
         This is a nested presenter note. Which is probably displayed, when you hover over it :-).
 
-.. supplemental:: 
+.. supplemental::
 
     Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled. Just a long text to demonstrate that the supplemental information is not immediately shown on the slide and that it can be scrolled.
 
@@ -85,7 +85,7 @@ Decks and Cards
 .. deck::
 
     .. card::
-    
+
         A deck is a collection of cards.
 
     .. card::
@@ -94,7 +94,7 @@ Decks and Cards
 
     .. card::
 
-        .. note:: 
+        .. note::
 
             This is a simple note.
 
@@ -122,7 +122,7 @@ Decks and Cards
         .. deck::
 
             .. card::
-            
+
                 ::
 
                     The first sentence of the first card in the nested deck.
@@ -143,9 +143,9 @@ Decks and Cards
 
             .. card::
 
-                .. hint:: 
+                .. hint::
 
-                    .. note:: 
+                    .. note::
 
                         This is another simple note.
 
@@ -153,23 +153,23 @@ Decks and Cards
 
 
             .. card:: monospaced
-            
+
                 _------ ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------_
 
             .. card:: overlay monospaced
 
-                xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx 
+                xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx
 
     .. card::
 
-        .. hint:: 
+        .. hint::
 
             This is the last card in the top-level deck.
 
 Stories
 --------------------------------------------------------
 
-Stories are used for content that should appear in a stepwise manner and which 
+Stories are used for content that should appear in a stepwise manner and which
 may scroll content out of the view.
 
 .. story::
@@ -194,7 +194,7 @@ may scroll content out of the view.
 
     .. container:: incremental
 
-        :: 
+        ::
 
             Some monospaced text.
 
@@ -228,7 +228,7 @@ may scroll content out of the view.
             std.debug.print("Hello, World!\n", .{});
         }
 
-        
+
 
 
 Scrollables
@@ -236,7 +236,7 @@ Scrollables
 
 A scrollable is a container whose content does not fit into the available space of a slide. During the presentation the content can be scrolled by the presenter and scrolling is relayed in secondary windows.
 
-.. scrollable:: 
+.. scrollable::
 
     .. code:: javascript
         :class: very-light-gray-background copy-to-clipboard
@@ -245,7 +245,7 @@ A scrollable is a container whose content does not fit into the available space 
         /* A small library to encrypt and decrypt strings using AES-GCM and PBKDF2.
          *
          * Based on code found at: https://github.com/themikefuller/Web-Cryptography
-         * 
+         *
          * License: BSD-3-Clause
          */
         export {
@@ -380,15 +380,15 @@ A scrollable can have an explicit height that will be used for the slide view.
          * Adds an event listener to the scrollable element that fires when the element
          * is scrolled. In that case, the event is sent to the specified channel to
          * make secondary windows aware of the scrolling event in the primary window.
-         * 
+         *
          * The data is sent using the {@link postMessage} method where the msg is the event title
          * and the data is a two element array where the first element is the id of the
          * element that is being scrolled and the second element is the current scrollTop.
-         * 
+         *
          * The primary window is always the window that user interacts with. The secondary
          * is every other window showing the same site.
-         * 
-         * @param {Channel} channel - The channel that will be used to send the event. 
+         *
+         * @param {Channel} channel - The channel that will be used to send the event.
          * @param {string} eventTitle - The title of the event that will be sent to the channel. The
          *                            title has to be unique w.r.t. to the channel.
          * @param {HTMLElement} scrollableElement - The element that is being scrolled.
@@ -397,11 +397,11 @@ A scrollable can have an explicit height that will be used for the slide view.
         export function addScrollingEventListener(channel, eventTitle, scrollableElement, id) {
             // We will relay a scroll event to a secondary window, when there was no
             // more scrolling for at least TIMEOUTms. Additionally, if there is already an
-            // event handler scheduled, we will not schedule another one. 
+            // event handler scheduled, we will not schedule another one.
             //
-            // If we would directly relay the event, it may be possible that it will 
-            // result in all kinds of strange behaviors, because we cannot easily 
-            // distinguish between a programmatic and a user initiated scroll event. 
+            // If we would directly relay the event, it may be possible that it will
+            // result in all kinds of strange behaviors, because we cannot easily
+            // distinguish between a programmatic and a user initiated scroll event.
             // (Using window blur and focus events didn't work reliably.)
             // This could result in a nasty ping-pong effect where scrolling between
             // two different position would happen indefinitely.
@@ -437,7 +437,7 @@ A scrollable can have an explicit height that will be used for the slide view.
     This is a scrollable that extends to the bottom of the slide -100px to leave
     some space for the footer.
 
-    .. code:: javascript 
+    .. code:: javascript
         :number-lines:
 
         export function getTopAndBottomMargin(e) {
@@ -467,13 +467,13 @@ Simple column-based Layouts
 One way to create a very simple multi-column layout consists of a list with the class ``columns``.
 
 .. example::
-        
+
     **Default layout:**
 
     .. class:: columns
 
     - This first column.
-    
+
       1. a nested list.
     - The second column.
 
@@ -484,7 +484,7 @@ One way to create a very simple multi-column layout consists of a list with the 
     .. class:: columns left-aligned
 
     - This first column.
-    
+
       1. a nested list.
     - The second column.
 
@@ -495,7 +495,7 @@ One way to create a very simple multi-column layout consists of a list with the 
     .. class:: columns evenly-spaced
 
     - This first column.
-    
+
       1. a nested list.
     - The second column.
 
@@ -506,7 +506,7 @@ One way to create a very simple multi-column layout consists of a list with the 
 Advanced Slide Layouts
 --------------------------------------------------------
 
-.. grid:: 
+.. grid::
 
     .. cell:: black-background white
         :align: stretch
@@ -526,7 +526,7 @@ Advanced Slide Layouts
 
                 .. cell::
 
-                    Using Grids it is possible to 
+                    Using Grids it is possible to
                     design advanced slide layouts.
 
                 .. cell::
@@ -559,8 +559,8 @@ Math
 
             .. code:: rst
 
-                Adding math (e.g. :math:`a^2+b^2=c^2`) 
-                to a slide is done using the math 
+                Adding math (e.g. :math:`a^2+b^2=c^2`)
+                to a slide is done using the math
                 directive or role.
 
                 .. math::
@@ -580,7 +580,7 @@ Tables
 
     a, 1,2,3, 4,5,6, 7,8,9
     b, 4,5,6, 7,8,9, 1,2,3
-    c, 7,8,9, 1,2,3, 4,5,6 
+    c, 7,8,9, 1,2,3, 4,5,6
 
 .. rubric:: .highlight-row-on-hover
 
