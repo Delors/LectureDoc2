@@ -1361,8 +1361,8 @@ table {
 /*
     Intended to be used with a container (e.g., a div) to visually accentuate it.
 */
-.accentuate {
-    /*border: thin solid var(--light-gray);*/
+/*.accentuate {
+    border: thin solid var(--light-gray);
     padding: 0.25em;
     border-radius: var(--small-border-radius);
 
@@ -1373,6 +1373,45 @@ table {
     --current-background-color: var(--dark-red);
     background-color: var(--current-background-color);
     box-shadow: var(--trbl-shadow-dark);
+}*/
+.accentuate {
+    display: block;
+    position: relative;
+
+    &::before {
+        display: block;
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: -1em;
+        height: 100%;
+        width: 1em;
+        --current-background-color: var(--red);
+        background-color: var(--current-background-color);
+        border-radius: var(--small-border-radius) 0 0 var(--small-border-radius);
+    }
+    /*&::after {
+        display: block;
+        content: " ";
+        position: absolute;
+        top: 0;
+        right: -1.25em;
+        height: 100%;
+        width: 1em;
+        --current-background-color: var(--red);
+        background-color: var(--current-background-color);
+        border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
+    }
+    */
+    margin-left: 1em;
+    /*margin-right: 1.25em;*/
+    padding: 0.25em 0.25em;
+    font-weight: 400;
+    --current-color: var(--black);
+    color: var(--current-color);
+    --current-background-color: var(--very-light-gray);
+    background-color: var(--current-background-color);
+    border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
 }
 
 ul.important {
