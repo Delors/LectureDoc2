@@ -1293,7 +1293,8 @@ table {
 }
 
 /*
-    Intended to be used with a container (e.g., a div) to signify that it contains an important message.
+    Intended to be used with a container (e.g., a div) to signify that it
+    contains an important message.
 */
 .exclamation-mark {
     position: relative;
@@ -1304,15 +1305,17 @@ table {
 
     background-color: var(--light-gray);
 
-    border-radius: 0.5em;
+    border-radius: var(--small-border-radius);
 
     &::before {
         position: absolute;
         left: 0;
         top: 0;
-        background-color: var(--dark-red);
+        background-color: var(--red);
         height: 100%;
         width: calc(2.5 * var(--current-base-font-size));
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
         text-align: center;
         content: "!";
         color: var(--white);
