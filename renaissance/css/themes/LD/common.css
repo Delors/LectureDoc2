@@ -1547,3 +1547,88 @@ figure img,
 figure video {
     display: inline;
 }
+
+/*
+
+    Styling of index cards
+
+*/
+
+.index-card {
+    display: inline-block;
+    font-family:
+        bradley hand,
+        cursive;
+    background-color: var(--very-light-yellow);
+    color: var(--blue);
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    max-width: 70ch;
+    min-width: 20ch;
+    margin: auto;
+    box-shadow: var(--trbl-shadow-dark);
+    border-radius: 0.25em;
+
+    > :is(p, div.line-block) {
+        margin-top: 0.1em;
+        margin-bottom: 0.1em;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid gray;
+        }
+
+        &:nth-child(1) {
+            border-bottom: 3px solid black;
+            text-align: right;
+            padding-right: 0.5em;
+            margin: 0;
+        }
+    }
+}
+
+/* Styling of LLM Chats */
+
+.llm-chat {
+    padding-top: 0.5em;
+
+    pre.code {
+        font-size: 80%;
+        padding: 0.25em;
+        border-radius: 0.25em;
+        border: thin solid var(--gray);
+    }
+}
+
+.llm-chat-agent {
+    --llm-chat-actor: "Agent";
+}
+
+.llm-chat-user {
+    --llm-chat-actor: "User";
+
+    --current-background-color: var(--gray);
+    background-color: var(--current-background-color);
+    color: var(--very-light-gray);
+}
+
+.llm-chat-user,
+.llm-chat-agent {
+    position: relative;
+    border-radius: var(--small-border-radius);
+    border: thin solid var(--gray);
+    padding: var(--s-padding);
+    overflow-x: clip;
+
+    &::before {
+        position: absolute;
+        top: -0.25ch;
+        right: 0.25em;
+        content: var(--llm-chat-actor);
+        color: var(--very-light-gray);
+        font-size: 60%;
+        text-shadow: 0.1em 0.1em 0.1em var(--black);
+        display: block;
+    }
+}
