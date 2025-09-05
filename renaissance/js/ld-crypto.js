@@ -48,7 +48,7 @@ async function encrypt(plaintext, password, iterations) {
         key,
         encodedPlaintext);
 
-    const iterationsB64 = btoa(rounds.toString());
+    const iterationsB64 = btoa(iterations.toString());
 
     const saltB64 = btoa(Array.from(new Uint8Array(salt)).map(val => {
         return String.fromCharCode(val)
