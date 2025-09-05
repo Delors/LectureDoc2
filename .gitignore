@@ -9,10 +9,10 @@ Icon
 ext/fonts/ld-fonts-embedded.css
 
 
-# Node.js and JSDoc
+# Node.js 
 node_modules
-package-lock.json
-package.json
+
+# JSDoc
 jsdoc
 favicon/site.webmanifest
 
