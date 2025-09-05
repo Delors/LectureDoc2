@@ -150,7 +150,7 @@ const interWindowMessageHandlers = {
     handlers: {},
     indexedHandlers: {}, // an object mapping message identifiers (Strings) to arrays of handlers
     addHandler: function (msg, handler) {
-        if (msg in handlers) {
+        if (msg in this.handlers) {
             throw new Error("handler already registered: " + msg);
         }
         this.handlers[msg] = handler;
