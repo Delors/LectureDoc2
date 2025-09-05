@@ -1,4 +1,5 @@
 {
+    "plugins": ["@awmottaz/prettier-plugin-void-html"],
     "printWidth": 80,
     "tabWidth": 4,
     "useTabs": false,
@@ -7,5 +8,5 @@
     "trailingComma": "all",
     "semi": true,
     "bracketSpacing": true,
-    "bracketSameLine": false
+    "bracketSameLine": true
 }
