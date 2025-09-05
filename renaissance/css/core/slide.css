@@ -49,7 +49,7 @@
             clear: both;
             overflow: hidden;
 
-            &:not(.overlay):not(.s-overlay) {
+            &:not(.overlay, .s-overlay) {
                 background-color: var(--current-background-color);
             }
         }
