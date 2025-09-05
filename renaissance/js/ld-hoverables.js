@@ -17,7 +17,7 @@ function afterLDDOMManipulations() {
     console.log("performing ld-hoverables.afterLDDOMManipulations");
     document
         .querySelectorAll(`#ld-slides-pane :is(ol,ul).pop-out-on-hover`)
-        .forEach((hoverableList, i) => {
+        .forEach((hoverableList) => {
             hoverableList.classList.remove("pop-out-on-hover");
             Array.from(hoverableList.children).forEach((li) => {
                 console.log("adding pop-out-on-hover", li);
