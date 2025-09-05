@@ -22,7 +22,6 @@ The default font size for supplemental information on slides is 42px.
 Elements marked with the class "incremental" are rendered one-step-after-another. By adding a number (e.g. `incremental-1`) it is possible to control the order.
 It is possible to assign the same number to multiple elements to make them appear at the same time.
 
-
 ## copy-to-clipboard
 
 ```css
@@ -35,9 +34,11 @@ If a code block (i.e., a DIV or PRE element with the class "code" and also
 block by means of a div with the class ld-copy-to-clipboard-button.
 
 Example:
+
 ```html
 <div class="code copy-to-clipboard">
-    <div class="ld-copy-to-clipboard-button">Copy</div> <!-- added by LectureDoc -->
+    <!-- Will be added by LectureDoc: -->
+    <div class="ld-copy-to-clipboard-button">Copy</div>
     <pre><code>...</code></pre>
 </div>
 ```
@@ -46,22 +47,21 @@ or
 
 ```html
 <pre class="code copy-to-clipboard">
-    <div class="ld-copy-to-clipboard-button">Copy</div> <!-- added by LectureDoc -->
+    <!-- Will be added by LectureDoc: -->
+    <div class="ld-copy-to-clipboard-button">Copy</div> 
     <code>...</code>
 </pre>
 ```
 
-
 ## ld-deck and ld-card
 
 LectureDoc has special support for creating layouts which consists of multiple
-deck which replace or overlay each other on a slide.
-
+cards belonging to one deck, where each subsequent card replaces or overlays 
+the previous card(s).
 
 ## ld-scrollable
 
 A part of a slide which can be scrolled. Intended to be used for content that does not easily fit on a slide. The scrollable element has to be the last element on a slide and has to appear at the top level.
-
 
 ## ld-story
 
