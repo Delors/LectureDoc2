@@ -9,5 +9,3 @@ The CSS related to the UI is at the highest level but generally prefixed or boun
 ## Theming
 
 Theming is still work in progress. The most important part is that all definitions (in particular colors, margins, borders and paddings) are in defs.css files and other rules are expected to refer to those files.
-
-
