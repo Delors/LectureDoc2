@@ -2,7 +2,7 @@
  * Implements basic support for hoverable elements. A hoverable element,
  * will get the class (not state!) ":hover" when a user hovers over the element.
  *
- * This information is also relayed to seconday windows.
+ * This information is also relayed to secondary windows.
  */
 import lectureDoc2 from "./../ld.js";
 import * as ld from "./ld-lib.js";
