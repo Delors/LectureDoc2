@@ -1,0 +1,22 @@
+{
+    "name": "LectureDoc2",
+    "private": false,
+    "type": "module",
+    "scripts": {
+        "fmt": "prettier --write .",
+        "fmt:check": "prettier --check .",
+        "lint:css": "stylelint \"**/*.css\"",
+        "lint:css:fix": "stylelint \"**/*.css\" --fix",
+        "lint:js": "eslint .",
+        "lint:js:fix": "eslint . --fix"
+    },
+    "devDependencies": {
+        "prettier": "^3.6.2",
+        "stylelint": "^16.23.1",
+        "stylelint-config-standard": "^39.0.0",
+        "globals": "16.3.0",
+        "eslint": "^9.34.0",
+        "eslint-config-prettier": "^10.1.8",
+        "@eslint/js": "^9.34.0"
+    }
+}
