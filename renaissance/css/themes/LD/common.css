@@ -35,7 +35,8 @@ ul {
 .epigraph {
     font-family: var(--theme-serif-font-family);
     font-style: italic;
-    font-variant-ligatures: additional-ligatures;
+    font-variant-ligatures: common-ligatures no-discretionary-ligatures
+        contextual;
 }
 
 ld-deck {
