@@ -67,6 +67,6 @@ ld-slide-number {
     font-size: 24px;
 
     /* The following ensures that the number is always visible. */
-    color: rgb(0, 0, 0);
+    color: black;
     text-shadow: 1px 1px 1px white;
 }
