@@ -56,22 +56,22 @@ ld-deck {
 
             position: relative;
             margin-top: 1em;
-
             border-top: thin solid var(--dark-gray);
             padding-top: 0.75em;
 
             &::before {
+                content: counter(deck);
                 display: inline-block;
                 position: absolute;
-                top: 0em;
-                right: 0em;
-                padding: 0.05em 0.25em;
-                content: counter(deck);
+                top: 0;
+                right: 0;
                 border-right: thin solid var(--dark-gray);
+                border-radius: 0 0 0 0.5em;
+                padding: 0.05em 0.25em;
+
                 background-color: var(--dark-gray);
                 color: var(--white);
                 text-shadow: -1px -1px 2px var(--light-gray);
-                border-radius: 0 0 0 0.5em;
             }
         }
     }
@@ -103,7 +103,7 @@ ld-grid {
     /*  The DIV with the class ".ld-copy-to-clipboard-button" is added by
         programmatically by LectureDoc. */
     .ld-copy-to-clipboard-button {
-        content: url(copy_to_clipboard.svg);
+        content: url("copy_to_clipboard.svg");
         width: 27px;
         height: 27px;
 
@@ -125,7 +125,7 @@ ld-grid {
 
 ul.horizontal {
     display: flex;
-    gap: 0em 2em;
+    gap: 0 2em;
     flex-wrap: wrap;
     align-content: flex-start;
     align-items: flex-start;
@@ -159,6 +159,7 @@ ul.columns {
     &.evenly-spaced {
         justify-content: space-evenly;
     }
+
     &.left-aligned {
         justify-content: flex-start;
     }
@@ -180,7 +181,7 @@ li,
 dl.simple > dd,
 .compact > li p,
 dl.compact > dd {
-    margin-top: 0em;
+    margin-top: 0;
     margin-bottom: 0.25em;
 }
 
@@ -211,23 +212,27 @@ dl.compact > dd {
     }
 }
 
-ul.negative-list > li, /* TODO rename: attention-list (see below)*/
-ul > li.negative-list {
+ul.negative-list>li,
+/* TODO rename: attention-list (see below)*/
+ul>li.negative-list {
     list-style-type: "❗️";
 }
 
-ul.positive-list > li, /* TODO rename: check-list*/
-ul > li.positive-list {
+ul.positive-list>li,
+/* TODO rename: check-list*/
+ul>li.positive-list {
     list-style-type: "✓";
 }
 
-ul.question-list > li, /* TODO rename: */
-ul > li.question-list {
+ul.question-list>li,
+/* TODO rename: */
+ul>li.question-list {
     list-style-type: " ? ";
 }
 
-ul.attention-list > li, /* TODO rename: */
-ul > li.attention-list {
+ul.attention-list>li,
+/* TODO rename: */
+ul>li.attention-list {
     list-style-type: "⚡️";
 }
 
@@ -237,9 +242,11 @@ ul > li.attention-list {
     color: var(--dark-gray);
     mix-blend-mode: hard-light;
 }
+
 .list-with-details > li > *:not(:first-child) {
     font-size: smaller;
 }
+
 .list-with-sublists > li > :is(ol, ul) {
     margin: 0;
     font-size: smaller;
@@ -253,7 +260,7 @@ ul {
 ol.loweralpha {
     list-style: lower-alpha;
     list-style-position: outside;
-    padding-left: 0em;
+    padding-left: 0;
     margin-left: 1.5em;
 }
 
@@ -268,7 +275,7 @@ ol.lowerroman {
 ol.upperroman {
     list-style: upper-roman;
     list-style-position: outside;
-    padding-left: 0em;
+    padding-left: 0;
     margin-left: 1.5em;
 }
 
@@ -284,7 +291,7 @@ ol.arabic.long-list {
 }
 
 li {
-    padding-left: 0em;
+    padding-left: 0;
 }
 
 /* Definition Lists and Derivatives */
@@ -313,6 +320,7 @@ dl.field-list {
         margin-top: 0;
     }
 }
+
 dl.option-list,
 dl.docinfo {
     display: flow-root;
@@ -708,9 +716,8 @@ p.system-message-title {
         > p:first-child.admonition-title {
             --current-background-color: var(--dark-yellow);
             --current-color: var(--dark-gray);
-            color: var(
-                --current-color
-            ); /* TODO move to general admonition definition! */
+            color: var(--current-color);
+            /* TODO move to general admonition definition! */
             text-shadow: none;
         }
     }
@@ -768,6 +775,7 @@ span.problematic {
     font-family: var(--pre-font-family);
     white-space: pre-wrap;
 }
+
 /* do not wrap at hyphens and similar: */
 .literal > span.pre {
     white-space: nowrap;
@@ -844,7 +852,7 @@ div.line-block {
 }
 
 div.line-block div.line-block {
-    margin-left: 0em;
+    margin-left: 0;
 }
 
 blockquote {
@@ -870,6 +878,7 @@ pre.code {
         margin-bottom: 0;
     }
 }
+
 svg text.code,
 code,
 pre.code {
@@ -880,38 +889,64 @@ pre.code {
     --class-color: #9a6324;
 
     --comment-color: #696969;
-    --comment-preprocfile-color: #ffe119; /* Bright Yellow */
-    --comment-preproc-color: #bcf60c; /* Lime Green */
-    --comment-shadow-color: #fffac8; /* Pale Yellow */
+    /* Bright Yellow */
+    --comment-preprocfile-color: #ffe119;
+    
+    /* Lime Green */
+    --comment-preproc-color: #bcf60c;
+    
+    /* Pale Yellow */
+    --comment-shadow-color: #fffac8;
+    
 
-    --function-color: #494949; /* Dark Gray */
-
-    --keyword-color: #4363d8; /* Strong Blue */
+    /* Dark Gray */
+    --function-color: #494949;
+    
+    /* Strong Blue */
+    --keyword-color: #4363d8;
+    
     --keyword-constant-color: #3232fc;
     --keyword-namespace-color: #31bcc9;
-    --keyword-type-color: #0000ff;
+    --keyword-type-color: blue;
 
-    --literal-color: #911eb4; /* Purple */
+    /* Purple */
+    --literal-color: #911eb4;
+    
 
-    --name-color: #008080; /* Teal */
-    --namespace-color: #3cb44b; /* Strong Green */
-    --number-color: #f032e6; /* Magenta */
+    /* Teal */
+    --name-color: #008080;
+    
+    /* Strong Green */
+    --namespace-color: #3cb44b;
+    
+    /* Magenta */
+    --number-color: #f032e6;
 
-    --operator-color: #f58231; /* Orange */
+    /* Orange */
+    --operator-color: #f58231;
+    
 
-    --variable-color: #3cb44b; /* Strong Green */
+    /* Strong Green */
+    --variable-color: #3cb44b;
 
-    --punctuation-color: #e6194b; /* Strong Red */
+
+    /* Strong Red */
+    --punctuation-color: #e6194b;
+    
 
     --tag-color: #fda8a8;
 
     /* RESERVED */
-    --color-XXX: #46f0f0;
-    --color-ZZZ: #e6beff;
+    --color-yyy: #46f0f0;
+    --color-zzz: #e6beff;
 
-    --code-color: var(--black); /* the default color*/
+    /* The default color: */
+    --code-color: var(--black);
+    
     color: var(--code-color);
-    fill: var(--code-color); /* for SVGs*/
+    /* For SVGs: */
+    fill: var(--code-color);
+    
 
     &.html {
         color: var(--gray);
@@ -942,7 +977,9 @@ pre.code {
     .comment {
         font-weight: 100;
         color: var(--comment-color);
-        fill: var(--comment-color); /* for styling SVGs */
+        /* For styling SVGs: */
+        fill: var(--comment-color);
+        
         text-shadow:
             2px 2px 3px var(--comment-shadow-color),
             -1px -1px 4px var(--gray);
@@ -974,22 +1011,27 @@ pre.code {
 
     .keyword {
         color: var(--keyword-color);
-        fill: var(--keyword-color); /* for styling text in SVGs */
+        /* For styling text in SVGs: */
+        fill: var(--keyword-color);
         font-weight: 700;
 
         &.type {
             color: var(--keyword-type-color);
-            fill: var(--keyword-type-color); /* for styling SVG s*/
+            /* For text in SVGs: */
+            fill: var(--keyword-type-color);
+            
         }
 
         &.namespace {
             color: var(--keyword-namespace-color);
-            fill: var(--keyword-namespace-color); /* for styling SVGs */
+            /* For text in SVGs: */
+            fill: var(--keyword-namespace-color);
         }
 
         &.constant {
             color: var(--keyword-constant-color);
-            fill: var(--keyword-constant-color); /* for styling SVGs */
+            /* For text in SVGs: */
+            fill: var(--keyword-constant-color);
         }
     }
 
@@ -1037,7 +1079,8 @@ pre.code {
 
         &.variable {
             color: var(--variable-color);
-            fill: var(--variable-color); /* for styling SVGs*/
+            /* For text in SVGs: */
+            fill: var(--variable-color);
             font-weight: 500;
             text-shadow: 1px 1px 1px var(--dark-gray);
             text-decoration-line: underline;
@@ -1046,15 +1089,16 @@ pre.code {
 
     .literal {
         &.string {
-            color: #0c5404;
             font-weight: 200;
 
             color: var(--literal-color);
-            fill: var(--literal-color); /* for styling SVGs */
+            /* For text in SVGs: */
+            fill: var(--literal-color);
 
             &.affix {
                 color: var(--literal-color);
-                fill: var(--literal-color); /* for styling SVGs */
+                /* For text in SVGs: */
+                fill: var(--literal-color);
                 font-style: italic;
                 text-decoration: dotted underline;
             }
@@ -1062,13 +1106,15 @@ pre.code {
 
         &.number {
             color: var(--number-color);
-            fill: var(--number-color); /* for styling SVGs */
+            /* For text in SVGs: */
+            fill: var(--number-color);
         }
     }
 
     .operator {
         color: var(--operator-color);
-        fill: var(--operator-color); /* for styling SVGs */
+        /* For text in SVGs: */
+        fill: var(--operator-color);
         font-weight: 900;
         text-shadow: 2px 2px 2px var(--dark-gray);
 
@@ -1079,7 +1125,8 @@ pre.code {
 
     .punctuation {
         color: var(--punctuation-color);
-        fill: var(--punctuation-color); /* for styling SVGs */
+        /* For text in SVGs: */
+        fill: var(--punctuation-color);
     }
 
     /*  Issues related to Pygments (i.e., when using rst2LectureDoc):
@@ -1131,14 +1178,17 @@ table {
     &.table-data-align-right td {
         text-align: right;
     }
+
     &.table-header-align-left th,
     &.table-data-align-left td {
         text-align: left;
     }
+
     &.table-header-align-center th,
     &.table-data-align-center td {
         text-align: center;
     }
+
     &.table-body-header-align-left > tbody > tr > th {
         text-align: left;
     }
@@ -1151,10 +1201,9 @@ table {
     &.sticky-header thead th {
         position: sticky;
         top: 0;
-        background-color: rgb(from var(--current-background-color) r g b / 0.75);
+        background-color: rgb(from var(--current-background-color) r g b / 75%);
         border-bottom: 1px solid var(--current-color);
         backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
     }
 
     &.compact {
@@ -1202,11 +1251,13 @@ table {
 
     &.zebra-columns {
         border: 0;
+
         td,
         th {
             border: 0;
             padding: 0.5em 0.25em;
         }
+
         tr > *:nth-child(odd) {
             --current-background-color: var(--very-light-gray);
             background-color: var(--current-background-color);
@@ -1283,27 +1334,32 @@ table {
             --current-color: white;
             color: var(--current-color);
         }
+
         td.\:hover-related {
             box-shadow: var(--trbl-shadow-dark);
             --current-background-color: var(--very-light-gray);
             background-color: var(--current-background-color);
         }
+
         th.\:hover {
             box-shadow: var(--trbl-shadow);
             --current-background-color: var(--light-gray);
             background-color: var(--current-background-color);
         }
+
         td.\:hover {
             box-shadow: var(--trbl-shadow);
             --current-background-color: var(--light-gray);
             background-color: var(--current-background-color);
         }
     }
+
     &.highlight-row-on-hover {
         tr.\:hover {
             --current-background-color: var(--light-gray);
             background-color: var(--current-background-color);
         }
+
         tr.\:hover-related {
             --current-background-color: var(--very-light-gray);
             background-color: var(--current-background-color);
@@ -1331,7 +1387,7 @@ table {
             text-align: justify;
             hyphens: auto;
 
-            /* style the "comment" column */
+            /* styling of the "comment" column */
             &:first-of-type:not(:empty) {
                 max-width: 25%;
                 padding-top: 0.15em;
@@ -1351,8 +1407,8 @@ table {
         }
 
         td {
-            /* the intermediate columns */
-            &:not(:first-of-type):not(:empty) {
+            /* The intermediate columns: */
+            &:not(:first-of-type, :empty) {
                 font-family: var(--text-font-family);
             }
         }
@@ -1367,7 +1423,7 @@ table {
     align-items: center;
 }
 
-/** Intended to be used a the section/slide level. */
+/** Intended to be used as the section/slide level. */
 .summary > h2:first-child {
     text-align: center;
     position: relative;
@@ -1471,32 +1527,21 @@ table {
         left: -1em;
         height: 100%;
         width: 1em;
-        --current-background-color: var(--red);
-        background-color: var(--current-background-color);
+
         border-radius: var(--small-border-radius) 0 0 var(--small-border-radius);
-    }
-    /*&::after {
-        display: block;
-        content: " ";
-        position: absolute;
-        top: 0;
-        right: -1.25em;
-        height: 100%;
-        width: 1em;
         --current-background-color: var(--red);
         background-color: var(--current-background-color);
-        border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
     }
-    */
+
     margin-left: 1em;
-    /*margin-right: 1.25em;*/
-    padding: 0.25em 0.25em;
-    font-weight: 400;
+    border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
+    padding: 0.25em;
+    font-weight: 300;
     --current-color: var(--black);
     color: var(--current-color);
+    text-shadow: 1px 1px 1px var(--white);
     --current-background-color: var(--very-light-gray);
     background-color: var(--current-background-color);
-    border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
 }
 
 ul.important {
@@ -1557,9 +1602,7 @@ figure video {
 
 .index-card {
     display: inline-block;
-    font-family:
-        bradley hand,
-        cursive;
+    font-family: "Bradley Hand", cursive;
     background-color: var(--very-light-yellow);
     color: var(--blue);
     padding-top: 0.25em;
@@ -1571,10 +1614,7 @@ figure video {
     border-radius: 0.25em;
 
     > :is(p, div.line-block) {
-        margin-top: 0.1em;
-        margin-bottom: 0.1em;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
+        margin: 0.1em 0.5em;
 
         &:not(:last-child) {
             border-bottom: 1px solid gray;
