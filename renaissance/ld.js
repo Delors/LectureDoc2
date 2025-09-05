@@ -80,7 +80,7 @@ async function ldCrypto() {
 }
 
 /**
- * Central registry for all events that are triggered by LectureDoc.
+ * Central registry for all events emitted by LectureDoc.
  * Use ldEvents.addEventListener(<event>,<listener>) to register a listener
  * for a specific event.
  *
