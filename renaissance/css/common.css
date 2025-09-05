@@ -115,7 +115,7 @@ dl.description {
         padding-right: 0.3em;
     }
 
-    > dd:after {
+    > dd::after {
         display: table;
         content: "";
         clear: left;
@@ -184,7 +184,7 @@ blockquote p.attribution,
 }
 
 /* numbered tables (counter defined in div.document) */
-table.numbered > caption:before {
+table.numbered > caption::before {
     counter-increment: table;
     content: "Table " counter(table) ": ";
     font-weight: bold;
