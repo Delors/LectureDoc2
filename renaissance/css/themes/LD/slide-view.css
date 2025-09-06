@@ -202,7 +202,7 @@
 }
 
 #ld-slides-pane
-    .ld-previous-slide:has(+ .ld-slide.transition-move-left.ld-current-slide) {
+    .ld-previous-slide:has(+ ld-slide.transition-move-left.ld-current-slide) {
     animation:
         3s slide-move-left-out,
         0s 3s scale-to-zero;
@@ -247,7 +247,7 @@
 }
 
 #ld-slides-pane
-    .ld-previous-slide:has(+ .ld-slide.transition-scale.ld-current-slide) {
+    .ld-previous-slide:has(+ ld-slide.transition-scale.ld-current-slide) {
     animation: 3s slide-scale-out;
 }
 
@@ -285,7 +285,7 @@
         animation: 3s flip-in;
     }
 
-    .ld-previous-slide:has(+ .ld-slide.ld-current-slide.transition-flip) {
+    .ld-previous-slide:has(+ ld-slide.ld-current-slide.transition-flip) {
         perspective: 3000px;
         transform-style: preserve-3d;
         backface-visibility: hidden;
@@ -331,7 +331,7 @@
 }
 
 #ld-slides-pane
-    .ld-previous-slide:has(+ .ld-slide.transition-fade.ld-current-slide) {
+    .ld-previous-slide:has(+ ld-slide.transition-fade.ld-current-slide) {
     animation:
         2s slide-fade-out,
         0s 2s scale-to-zero;
@@ -365,9 +365,7 @@
 }
 
 #ld-slides-pane
-    .ld-previous-slide:has(
-        + .ld-slide.transition-move-to-top.ld-current-slide
-    ) {
+    .ld-previous-slide:has(+ ld-slide.transition-move-to-top.ld-current-slide) {
     animation:
         3s slide-move-bottom-to-center,
         0s 3s scale-to-zero;
@@ -426,7 +424,7 @@
     font-size: 16px;
     background-color: black;
 
-    &.ld-slide::before {
+    &ld-slide::before {
         /* to clear the default logo */
         display: none;
     }

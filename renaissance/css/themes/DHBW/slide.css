@@ -1,4 +1,4 @@
-.ld-slide {
+ld-slide {
     &.exercises::before {
         content: var(--dhbw-logo);
         display: block;

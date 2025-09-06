@@ -1,9 +1,9 @@
 /* LAYER: theme.ld.slide */
 
 /*
-    Styling related to slides independent of the view mode.
+    Styling that is used when a topic is rendered as a slide.
 */
-.ld-slide {
+ld-slide {
     border-radius: var(--s-border-radius);
     padding: var(--s-padding);
 

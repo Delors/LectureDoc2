@@ -1,7 +1,7 @@
 /*  CSS LAYER: behavior */
 
 /*  Core styling of slides. */
-.ld-slide {
+ld-slide {
     --ld-rendering-mode: slide;
 
     contain: layout paint size;
