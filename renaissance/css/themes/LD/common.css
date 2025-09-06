@@ -891,48 +891,43 @@ pre.code {
     --comment-color: #696969;
     /* Bright Yellow */
     --comment-preprocfile-color: #ffe119;
-    
+
     /* Lime Green */
     --comment-preproc-color: #bcf60c;
-    
+
     /* Pale Yellow */
     --comment-shadow-color: #fffac8;
-    
 
     /* Dark Gray */
     --function-color: #494949;
-    
+
     /* Strong Blue */
     --keyword-color: #4363d8;
-    
+
     --keyword-constant-color: #3232fc;
     --keyword-namespace-color: #31bcc9;
     --keyword-type-color: blue;
 
     /* Purple */
     --literal-color: #911eb4;
-    
 
     /* Teal */
     --name-color: #008080;
-    
+
     /* Strong Green */
     --namespace-color: #3cb44b;
-    
+
     /* Magenta */
     --number-color: #f032e6;
 
     /* Orange */
     --operator-color: #f58231;
-    
 
     /* Strong Green */
     --variable-color: #3cb44b;
 
-
     /* Strong Red */
     --punctuation-color: #e6194b;
-    
 
     --tag-color: #fda8a8;
 
@@ -942,11 +937,10 @@ pre.code {
 
     /* The default color: */
     --code-color: var(--black);
-    
+
     color: var(--code-color);
     /* For SVGs: */
     fill: var(--code-color);
-    
 
     &.html {
         color: var(--gray);
@@ -979,7 +973,7 @@ pre.code {
         color: var(--comment-color);
         /* For styling SVGs: */
         fill: var(--comment-color);
-        
+
         text-shadow:
             2px 2px 3px var(--comment-shadow-color),
             -1px -1px 4px var(--gray);
@@ -1019,7 +1013,6 @@ pre.code {
             color: var(--keyword-type-color);
             /* For text in SVGs: */
             fill: var(--keyword-type-color);
-            
         }
 
         &.namespace {
