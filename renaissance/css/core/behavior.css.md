@@ -55,8 +55,8 @@ or
 
 ## ld-deck and ld-card
 
-LectureDoc has special support for creating layouts which consists of multiple
-cards belonging to one deck, where each subsequent card replaces or overlays 
+LectureDoc has special support for creating layouts which consist of multiple
+cards belonging to one deck, where each subsequent card replaces or overlays
 the previous card(s).
 
 ## ld-scrollable
