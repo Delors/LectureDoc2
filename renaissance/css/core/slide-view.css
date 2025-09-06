@@ -34,16 +34,6 @@
         scale: 0;
     }
 
-    /*  Scrollables
-
-        Styling of scrollable elements (.scrollable).
-        In general, it is necessary to put the content which should be
-        scrollable in a div with the class "scrollable". */
-    .scrollable {
-        overflow-y: scroll;
-        /* The height will be computed by JavaScript in the slide view. */
-    }
-
     /* Presenter Notes */
     ld-presenter-note-marker[data-encrypted="true"] {
         display: none;
