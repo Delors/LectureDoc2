@@ -117,64 +117,15 @@ ld-slide {
         See https://crinkles.dev/writing/a-nth-child-css-trick/
         See https://crinkles.dev/writing/use-the-child-element-count-in-css/ 
         */
+        /* Initialize counter for deck children */
+        counter-reset: deck-child-index;
+        
         > * {
-
-            &:nth-child(n) {
-                --ld-deck-child-index: n;
-            }
+            /* Use CSS counter to get the actual index */
+            counter-increment: deck-child-index;
+            --ld-deck-child-index: counter(deck-child-index);
             
-            /* We set the card's index using CSS nth-child queries. 
-            Currently we support up to 15 "cards" per deck. The index directly
-            determines the card's z-index. 
-            --ld-deck-child-index: 0;
-            */
-/*
-            &:nth-child(1) {
-                --ld-deck-child-index: 1;
-            }
-            &:nth-child(2) {
-                --ld-deck-child-index: 2;
-            }
-            &:nth-child(3) {
-                --ld-deck-child-index: 3;
-            }
-            &:nth-child(4) {
-                --ld-deck-child-index: 4;
-            }
-            &:nth-child(5) {
-                --ld-deck-child-index: 5;
-            }
-            &:nth-child(6) {
-                --ld-deck-child-index: 6;
-            }
-            &:nth-child(7) {
-                --ld-deck-child-index: 7;
-            }
-            &:nth-child(8) {
-                --ld-deck-child-index: 8;
-            }
-            &:nth-child(9) {
-                --ld-deck-child-index: 9;
-            }
-            &:nth-child(10) {
-                --ld-deck-child-index: 10;
-            }
-            &:nth-child(11) {
-                --ld-deck-child-index: 11;
-            }
-            &:nth-child(12) {
-                --ld-deck-child-index: 12;
-            }
-            &:nth-child(13) {
-                --ld-deck-child-index: 13;
-            }
-            &:nth-child(14) {
-                --ld-deck-child-index: 14;
-            }
-            &:nth-child(15) {
-                --ld-deck-child-index: 15;
-            }
-*/
+            /* The card's index is now set using CSS counter and determines the z-index */
             grid-area: stack;
             width: 100%;
             height: 100%;
