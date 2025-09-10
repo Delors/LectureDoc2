@@ -71,7 +71,7 @@ export function svg({
     children = undefined,
 }) {
     const svg = document.createElement("svg");
-    svg.xmlns = "http://www.w3.org/2000/svg";
+    // Never required? svg.xmlns = "http://www.w3.org/2000/svg";
     if (id) div.id = id;
     if (classes) div.classList.add(...classes);
     if (parent) parent.appendChild(svg);
