@@ -116,6 +116,8 @@ function scaleDocumentImagesAndVideos() {
             video.height = newHeight;
             video.width = newWidth;
         });
+
+    // TODO add handling for inline svgs with a size that is not font-size based
 }
 
 function scaleSlideImages() {
