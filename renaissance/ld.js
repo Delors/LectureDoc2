@@ -604,19 +604,19 @@ function scaleSlideImages() {
             );
             // TODO Implement when required.
         } else {
-            /*  The user specifies the scaling factor such that the user gets 
+            /*  The user specifies the scaling factor such that the user gets
                 the desired size of the image on the slide.
-                In the continuous view, the scaling factor is adapted to reflect 
-                the difference between the size of slides and the maximum 
+                In the continuous view, the scaling factor is adapted to reflect
+                the difference between the size of slides and the maximum
                 width of the document view.
 
                 I.e., let's assume an image has 5000*2000 Pixels and we want
-                it on the slide. Let's further assume that a slide has a nominal 
+                it on the slide. Let's further assume that a slide has a nominal
                 resolution of 1920x1080 Pixel. In this case, the scaling factor
-                (specified by the user) has to be (at most) = 0.384. 
-                
-                If the maximum width of the document view is, however, just 
-                600 Pixel, the 0.384 will be multiplied by 0.3125 (600/1920) to 
+                (specified by the user) has to be (at most) = 0.384.
+
+                If the maximum width of the document view is, however, just
+                600 Pixel, the 0.384 will be multiplied by 0.3125 (600/1920) to
                 get the final scaling factor of 0.12 for the document view.
 
                 For technical reasons the user specified the scaling in percent!
@@ -1639,56 +1639,11 @@ function setupMenu() {
  * Fixes issues related to the copying of the slide templates.
  */
 function applyDOMfixes() {
-    /*  Due to the copying of the slide templates, the ids in inline SVGs
-        (e.g. for defining and referencing markers) are no longer unique,
-        which is a violation of the spec and causes troubles in Chrome and
-        Firefox. We have to fix this!
-
-        TODO Check scenario and handle the case where an SVG references a marker defined in a previous SVG.
-        */
-    let counter = 1;
-    document.querySelectorAll("svg").forEach((svg) => {
-        const svgURLIds = new Map(); // maps old url(#id) to new url(#id)
-        const svgIDs = new Map(); // maps old id to new id
-        svg.querySelectorAll("[id]").forEach((element) => {
-            const oldId = element.id;
-            const newId = element.id + "-" + counter++;
-            element.id = newId;
-            svgURLIds.set("url(#" + oldId + ")", "url(#" + newId + ")");
-            svgIDs.set("#" + oldId, "#" + newId);
-        });
-        svgURLIds.forEach((newId, oldId) => {
-            const refs = `.//@*[.="${oldId}"]`;
-            const it = document.evaluate(
-                refs,
-                svg,
-                null,
-                XPathResult.ANY_TYPE,
-                null,
-            );
-            let attr,
-                attrs = [];
-            while ((attr = it.iterateNext())) attrs.push(attr);
-            attrs.forEach((ref) => {
-                ref.textContent = newId;
-            });
-        });
-        svgIDs.forEach((newId, oldId) => {
-            const refs = `.//@*[.="${oldId}"]`; // TODO Why can't I use href="${#oldId}"?
-            const it = document.evaluate(
-                refs,
-                svg,
-                null,
-                XPathResult.ANY_TYPE,
-                null,
-            );
-            let attr,
-                attrs = [];
-            while ((attr = it.iterateNext())) attrs.push(attr);
-            attrs.forEach((ref) => {
-                ref.textContent = newId;
-            });
-        });
+    /*  We have to ensure that global svgs are still at the
+        beginning of the document. */
+    document.body.querySelectorAll(":scope > svg").forEach((svgNode) => {
+        document.body.removeChild(svgNode);
+        document.body.prepend(svgNode);
     });
 }
 
