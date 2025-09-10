@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "prettier.configPath": "${workspaceFolder}/LectureDoc2/.prettierrc.json",
+    "prettier.ignorePath": "${workspaceFolder}/LectureDoc2/.prettierignore"
+}
