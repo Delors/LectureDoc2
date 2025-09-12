@@ -121,7 +121,7 @@ async function ldCrypto() {
  *      "afterLDListenerRegistrations",
  *      afterLDListenerRegistrations);
  */
-const ldEvents = {
+export const ldEvents = {
     beforeLDDOMManipulations: [],
     afterLDDOMManipulations: [],
     afterLDListenerRegistrations: [],
@@ -179,9 +179,13 @@ const interWindowMessageHandlers = {
     },
 };
 
-/* We need to make the basic functions available here, to enable ld-components
-   the registration for all basic events, before they actually happen. */
-const lectureDoc2 = {
+/** Makes the basic datastructures and functions available.
+
+    Enables ld-components the registration for all basic events, before they actually happen.
+
+    (Primarily available for backward compatibility and debugging purposes. Modern components can directly use the exported functions and methods.)
+    */
+export const lectureDoc2 = {
     lib: ld,
     crypto: ldCrypto,
     ldEvents: ldEvents,
@@ -1689,7 +1693,7 @@ function getElementsToAnimate(slide) {
  * is made by making the respective element visible. I.e., the whole
  * progress is implicitly covered by the visible and hidden elements.
  */
-function advancePresentation() {
+export function advancePresentation() {
     postMessage("advancePresentation", undefined);
     localAdvancePresentation();
 }
@@ -1706,7 +1710,7 @@ function localAdvancePresentation() {
         setSlideProgress(slide, i + 1);
     }
 }
-function retrogressPresentation() {
+export function retrogressPresentation() {
     postMessage("retrogressPresentation", undefined);
     localRetrogressPresentation();
 }
@@ -2034,7 +2038,7 @@ function localHideLectureDoc() {
     document.body.style.display = "none";
 }
 
-function ensureLectureDocIsVisible() {
+export function ensureLectureDocIsVisible() {
     postMessage("ensureLectureDocIsVisible", undefined);
     return localEnsureLectureDocIsVisible();
 }
@@ -2256,39 +2260,36 @@ function registerSlideClickedListener() {
     // - links,
     // - buttons and
     // - the "ld-copy-to-clipboard-button" icon // FIXME: make this a button
-    document
-        .querySelectorAll(
-            "#ld-slides-pane :is(a,button,div.ld-copy-to-clipboard-button,video)",
-        )
-        .forEach((e) => {
-            e.addEventListener(
-                "click",
-                (event) => {
-                    event["interactive_element_clicked"] = true;
-                },
-                { capture: true },
-            );
-        });
+    const sp = document.getElementById("ld-slides-pane");
+    sp.querySelectorAll(
+        ":scope :is(a,button,div.ld-copy-to-clipboard-button,video)",
+    ).forEach((e) => {
+        e.addEventListener(
+            "click",
+            (event) => {
+                event["interactive_element_clicked"] = true;
+            },
+            { capture: true },
+        );
+    });
 
-    document
-        .getElementById("ld-slides-pane")
-        .addEventListener("click", (event) => {
-            if (event.interactive_element_clicked) return;
+    sp.addEventListener("click", (event) => {
+        if (event.interactive_element_clicked) return;
 
-            // Let's check if the user is currently selecting text - we don't want
-            // to interfere with that!
-            if (window.getSelection().anchorNode != null) {
-                return;
-            }
+        // Let's check if the user is currently selecting text - we don't want
+        // to interfere with that!
+        if (window.getSelection().anchorNode != null) {
+            return;
+        }
 
-            /* Let's determine if we have clicked on the left or right part. */
-            if (event.pageX < window.innerWidth / 2) {
-                moveToPreviousSlide();
-                showMessage("⬅︎", 400);
-            } else {
-                advancePresentation();
-            }
-        });
+        /* Let's determine if we have clicked on the left or right part. */
+        if (event.pageX < window.innerWidth / 2) {
+            moveToPreviousSlide();
+            showMessage("⬅︎", 400);
+        } else {
+            advancePresentation();
+        }
+    });
 }
 
 /**
@@ -2611,52 +2612,6 @@ function registerMenuClickListener() {
     });
 }
 
-/**
- * Some initial support for swipe gestures.
- */
-function registerSwipeListener() {
-    let xDown = null;
-    let yDown = null;
-
-    document.addEventListener(
-        "touchstart",
-        function (evt) {
-            ensureLectureDocIsVisible();
-            xDown = evt.changedTouches[0].clientX;
-            yDown = evt.changedTouches[0].clientY;
-        },
-        false,
-    );
-
-    document.addEventListener(
-        "touchend",
-        function (evt) {
-            let xUp = evt.changedTouches[0].clientX;
-            let yUp = evt.changedTouches[0].clientY;
-
-            let xDiff = xDown - xUp;
-            let yDiff = yDown - yUp;
-            console.log("touch event (x,y): ", xDiff, yDiff);
-            if (Math.abs(xDiff) > Math.abs(yDiff)) {
-                if (xDiff < -10) {
-                    retrogressPresentation();
-                } else if (xDiff > 10) {
-                    advancePresentation();
-                }
-            } else {
-                if (yDiff < -10) {
-                    retrogressPresentation();
-                } else if (yDiff > 10) {
-                    advancePresentation();
-                }
-            }
-            xDown = null;
-            yDown = null;
-        },
-        false,
-    );
-}
-
 function registerHistoryChangeListener() {
     window.addEventListener("popstate", (event) => {
         const slideNo = event.state.slideNo;
@@ -2679,11 +2634,17 @@ const onDOMContentLoaded = async () => {
     initSlideDimensions();
 
     await import("./js/ld-images.js");
-    await import("./js/ld-tables.js");
-    await import("./js/ld-decks.js");
-    await import("./js/ld-scrollables.js");
-    await import("./js/ld-stories.js");
-    await import("./js/ld-hoverables.js");
+
+    try {
+        await import("./js/ld-tables.js");
+        await import("./js/ld-decks.js");
+        await import("./js/ld-scrollables.js");
+        await import("./js/ld-stories.js");
+        await import("./js/ld-hoverables.js");
+        await import("./js/ld-pointer-events.js");
+    } catch (e) {
+        console.error("failed to load LectureDoc component:", e);
+    }
 
     ldEvents.beforeLDDOMManipulations.forEach((f) => f());
 
@@ -2754,7 +2715,6 @@ const onLoad = () => {
     registerLightTableCloseListener();
     registerHelpCloseListener();
     registerMenuClickListener();
-    registerSwipeListener();
     registerHoverSupplementalListener();
     registerHoverPresenterNoteListener();
     registerHistoryChangeListener();
