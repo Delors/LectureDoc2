@@ -1,125 +1,220 @@
+// TODO Streamline code!
+
 /**
- * Implements support for pointer events/for supporting tablets.
+ * Implements support for touch events.
  */
 import {
     ldEvents,
     ensureLectureDocIsVisible,
     retrogressPresentation,
     advancePresentation,
+    moveToPreviousSlide,
+    moveToNextSlide,
+    goToSlideWithNo,
+    toggleDocumentView,
 } from "./../ld.js";
 
 console.log("loading ld-pointer-events.js");
 
-/**
- * Some initial support for swipe gestures.
- */
-function handleGesturesInSlideView() {
-    let xDown = null;
-    let yDown = null;
-
-    const sv = document.getElementById("ld-slides-pane");
-    sv.addEventListener(
-        "touchstart",
-        function (evt) {
-            ensureLectureDocIsVisible();
-            xDown = evt.changedTouches[0].clientX;
-            yDown = evt.changedTouches[0].clientY;
-        },
-        false,
-    );
-
-    sv.addEventListener(
-        "touchend",
-        function (evt) {
-            let xUp = evt.changedTouches[0].clientX;
-            let yUp = evt.changedTouches[0].clientY;
-
-            let xDiff = xDown - xUp;
-            let yDiff = yDown - yUp;
-            console.log("touch event (x,y): ", xDiff, yDiff);
-            if (Math.abs(xDiff) > Math.abs(yDiff)) {
-                if (xDiff < -10) {
-                    retrogressPresentation();
-                } else if (xDiff > 10) {
-                    advancePresentation();
-                }
-            } else {
-                if (yDiff < -10) {
-                    retrogressPresentation();
-                } else if (yDiff > 10) {
-                    advancePresentation();
-                }
-            }
-            xDown = null;
-            yDown = null;
-        },
-        false,
-    );
-
-    // Implement pinch functionality for slide view
-    //
-    sv.querySelectorAll(":scope ld-slide").forEach((slide) => {
-        slide.addEventListener("pointermove", (event) => {
-            console.log("currentScale:", window.visualViewport.scale);
-        });
-    });
+function computeDistance(p1, p2) {
+    // we use the euclidean distance formula
+    const dx = p2.x - p1.x;
+    const dy = p2.y - p1.y;
+    return Math.hypot(dx, dy);
 }
 
-function handlePinchAndZoomInDocumentView() {
-    console.log(
-        "performing ld-pointer-events.handlePinchAndZoomInDocumentView",
-    );
+/**
+ * Swipe up and down go to the next/previous slide.
+ * Swipe left and right advance/retrogress the presentation.
+ * Pinch changes to the document view.
+ */
+function handleSwipeAndPinchInSlideView() {
+    const originalLocations = new Map();
 
-    // Implement pinch and zoom functionality for document view
-    const evCache = [];
-    let prevDiff = -1;
+    let eventScheduled = false;
 
-    function pointerdownHandler(ev) {
-        evCache.push(ev);
-        if (evCache.length === 2) {
-            prevDiff = Math.abs(evCache[0].clientX - evCache[1].clientX);
+    // To improve usability, we fold events. Otherwise, the user may easily
+    // skip over dozens of slides/animation steps, which is generally
+    // undesirable.
+    function schedule(f) {
+        if (!eventScheduled) {
+            eventScheduled = true;
+            setTimeout(() => {
+                eventScheduled = false;
+                ensureLectureDocIsVisible();
+                f();
+            }, 200);
         }
     }
 
-    function pointermoveHandler(ev) {
-        console.log("pointermoveHandler called", ev);
-        if (evCache.length === 2) {
-            const currentDiff = Math.abs(
-                evCache[0].clientX - evCache[1].clientX,
-            );
-            const delta = currentDiff - prevDiff;
-            if (delta > 10) {
-                console.log("zoom in on ", ev.target);
+    function touchstartHandler(event) {
+        const touches = event.changedTouches;
+        for (let i = 0; i < touches.length; i++) {
+            const touch = touches[i];
+            //console.log("touchstart", touch.identifier);
+            originalLocations.set(touch.identifier, {
+                x: touch.clientX,
+                y: touch.clientY,
+            });
+        }
+    }
+
+    function touchmoveHandler(event) {
+        //console.log("touchmove", event, originalLocations);
+        event.preventDefault();
+
+        if (originalLocations.size == 1) {
+            const touch = event.changedTouches[0];
+            const originalLocation = originalLocations.get(touch.identifier);
+            const deltaX = touch.clientX - originalLocation.x;
+            const deltaY = touch.clientY - originalLocation.y;
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX < -10) {
+                    schedule(retrogressPresentation);
+                } else if (deltaX > 10) {
+                    schedule(advancePresentation);
+                }
+            } else {
+                // let's move to the previous / next slide
+                if (deltaY < -10) {
+                    schedule(moveToNextSlide);
+                } else if (deltaY > 10) {
+                    schedule(moveToPreviousSlide);
+                }
             }
-            prevDiff = currentDiff;
+        } else if (originalLocations.size == 2) {
+            const oldDistance = computeDistance(...originalLocations.values());
+
+            // We don't want to update the original locations to ensure
+            // that we detect very slow pinch gestures!
+            const currentLocations = structuredClone(originalLocations);
+            const touches = event.changedTouches;
+            for (let i = 0; i < touches.length; i++) {
+                const touch = touches[i];
+                currentLocations.set(touch.identifier, {
+                    x: touch.clientX,
+                    y: touch.clientY,
+                });
+            }
+
+            const newDistance = computeDistance(...currentLocations.values());
+
+            if (newDistance + 20 < oldDistance) {
+                // It may happen that the we get many touches at once and
+                // we only want to react to the first pinch
+                schedule(toggleDocumentView);
+            }
         }
     }
 
-    function pointerupHandler(ev) {
-        const index = evCache.findIndex((e) => e.pointerId === ev.pointerId);
-        if (index !== -1) {
-            evCache.splice(index, 1);
+    function touchendHandler(event) {
+        // A TouchList is not iterable, so we need to use a for loop!
+        const touches = event.changedTouches;
+        for (let i = 0; i < touches.length; i++) {
+            const touch = touches[i];
+            originalLocations.delete(touch.identifier);
+            //console.log("touchend", touch.identifier);
         }
     }
 
-    for (const section of document.querySelectorAll(
-        "#ld-document-view ld-section",
-    )) {
-        section.onpointerdown = pointerdownHandler;
-        section.onpointermove = pointermoveHandler;
+    for (const slide of document.querySelectorAll("ld-slide")) {
+        slide.addEventListener("touchstart", touchstartHandler);
+        slide.addEventListener("touchmove", touchmoveHandler);
+        slide.addEventListener("touchcancel", touchendHandler);
+        slide.addEventListener("touchend", touchendHandler);
+    }
+}
 
-        section.onpointerup = pointerupHandler;
-        section.onpointercancel = pointerupHandler;
-        section.onpointerout = pointerupHandler;
-        section.onpointerleave = pointerupHandler;
+function handleZoomInDocumentView() {
+    const originalLocations = new Map();
+
+    let eventScheduled = false;
+
+    // To improve usability, we fold events. Otherwise, the user may easily
+    // skip over dozens of slides/animation steps, which is generally
+    // undesirable.
+    function schedule(f) {
+        if (!eventScheduled) {
+            eventScheduled = true;
+            setTimeout(() => {
+                eventScheduled = false;
+                ensureLectureDocIsVisible();
+                f();
+            }, 200);
+        }
+    }
+
+    function touchstartHandler(event) {
+        const touches = event.changedTouches;
+        for (let i = 0; i < touches.length; i++) {
+            const touch = touches[i];
+            //console.log("touchstart", touch.identifier);
+            originalLocations.set(touch.identifier, {
+                x: touch.clientX,
+                y: touch.clientY,
+            });
+        }
+    }
+
+    function touchmoveHandler(event) {
+        //console.log("touchmove", event, originalLocations);
+
+        if (originalLocations.size == 2) {
+            // we don't want to prevent standard scroll events
+            event.preventDefault();
+
+            const oldDistance = computeDistance(...originalLocations.values());
+
+            // We don't want to update the original locations to ensure
+            // that we detect very slow zoom gestures!
+            const currentLocations = structuredClone(originalLocations);
+            const touches = event.changedTouches;
+            for (let i = 0; i < touches.length; i++) {
+                const touch = touches[i];
+                currentLocations.set(touch.identifier, {
+                    x: touch.clientX,
+                    y: touch.clientY,
+                });
+            }
+
+            const newDistance = computeDistance(...currentLocations.values());
+
+            if (newDistance - 20 > oldDistance) {
+                // It may happen that the we get many touches at once and
+                // we only want to react to the first pinch
+                schedule(() => {
+                    toggleDocumentView();
+                    goToSlideWithNo(
+                        Number(event.target.closest("ld-section").dataset.no),
+                    );
+                });
+            }
+        }
+    }
+
+    function touchendHandler(event) {
+        // A TouchList is not iterable, so we need to use a for loop!
+        const touches = event.changedTouches;
+        for (let i = 0; i < touches.length; i++) {
+            const touch = touches[i];
+            originalLocations.delete(touch.identifier);
+            //console.log("touchend", touch.identifier);
+        }
+    }
+
+    for (const section of document.querySelectorAll("ld-section")) {
+        section.addEventListener("touchstart", touchstartHandler);
+        section.addEventListener("touchmove", touchmoveHandler);
+        section.addEventListener("touchcancel", touchendHandler);
+        section.addEventListener("touchend", touchendHandler);
     }
 }
 
 ldEvents.addEventListener(
     "afterLDListenerRegistrations",
-    handlePinchAndZoomInDocumentView,
+    handleZoomInDocumentView,
 );
 ldEvents.addEventListener(
     "afterLDListenerRegistrations",
-    handleGesturesInSlideView,
+    handleSwipeAndPinchInSlideView,
 );

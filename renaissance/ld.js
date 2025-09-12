@@ -1379,6 +1379,7 @@ function setupDocumentView() {
             classList: template.classList,
             children: template.children,
         });
+        section.dataset.no = i;
 
         if (template.classList.contains("exercises")) {
             // TODO <- needed?
@@ -1598,7 +1599,7 @@ function hideSlideWithNo(slideNo, setOldMarker = false) {
  *
  * In general, `advancePresentation` should be called.
  */
-function moveToNextSlide() {
+export function moveToNextSlide() {
     const currentSlideNo = state.currentSlideNo;
     postMessage("moveToNextSlide", currentSlideNo);
     localMoveToNextSlide(currentSlideNo);
@@ -1617,7 +1618,7 @@ function localMoveToNextSlide(expectedCurrentSlideNo) {
     }
 }
 
-function moveToPreviousSlide() {
+export function moveToPreviousSlide() {
     const currentSlideNo = state.currentSlideNo;
     postMessage("moveToPreviousSlide", currentSlideNo);
     localMoveToPreviousSlide(currentSlideNo);
@@ -1837,7 +1838,7 @@ function jumpToSlide() {
     }
 }
 
-function goToSlideWithNo(targetSlideNo, updateHistory = true) {
+export function goToSlideWithNo(targetSlideNo, updateHistory = true) {
     postMessage("goToSlide", {
         targetSlideNo: targetSlideNo,
         updateHistory: updateHistory,
@@ -1949,7 +1950,7 @@ function toggleSlideNumber() {
  *
  * This view shows all slides in its final rendering.
  */
-function toggleDocumentView() {
+export function toggleDocumentView() {
     // TODO use custom element ld-document-view instead of a div!
     const continuousViewPane = document.getElementById("ld-document-view");
     const mainPane = document.getElementById("ld-slides-pane");
@@ -2229,7 +2230,6 @@ function registerKeyboardEventListener() {
                     console.debug("unhandled: " + event.key);
             }
         } else {
-            console.log(event + " " + event.key);
             switch (event.key) {
                 case 37:
                 case "ArrowLeft":
@@ -2830,6 +2830,7 @@ lectureDoc2.getEphemeral = function () {
 lectureDoc2.propagateStateChange = postMessage;
 lectureDoc2.prepareForPrinting = prepareForPrinting;
 lectureDoc2.getCurrentSlide = getCurrentSlide;
+lectureDoc2.toggleDocumentView = toggleDocumentView;
 
 /*
     For debugging purposes and interoperability with Applescript.
