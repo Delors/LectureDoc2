@@ -21,7 +21,14 @@ function scaleImageOnLoad(img, scalingFactor) {
     }
 }
 
-function scaleDocumentImagesAndVideos() {
+/** Scales images and videos within a specific scope. The default scope is "ld-section". 
+ * 
+ * The scope can be changed by providing a different CSS selector as an argument.
+ * 
+*/
+function scaleDocumentImagesAndVideos(rootElement = document.getElementById("ld-document-view")) {
+    const getUnit = /([^0-9]+$)/;
+
     const slideToDocumentScalingFactor =
         parseInt(
             window.getComputedStyle(document.getElementById("ld-document-view"))
@@ -32,8 +39,7 @@ function scaleDocumentImagesAndVideos() {
         `slide to document scaling factor: ${slideToDocumentScalingFactor}`,
     );
 
-    document.querySelectorAll("ld-section img").forEach((img) => {
-        const getUnit = /([^0-9]+$)/;
+    rootElement.querySelectorAll(`:scope img`).forEach((img) => {
         let done = false;
         if (img.style.width) {
             done = true;
@@ -60,8 +66,8 @@ function scaleDocumentImagesAndVideos() {
         }
     });
 
-    document
-        .querySelectorAll("ld-section object[role='img'][type='image/svg+xml']")
+    rootElement
+        .querySelectorAll(`:scope object[role='img'][type='image/svg+xml']`)
         .forEach((object) => {
             const loadListener = () => {
                 let done = false;
@@ -118,8 +124,8 @@ function scaleDocumentImagesAndVideos() {
             }
         });
 
-    document
-        .querySelectorAll("ld-section video:not(.no-scaling)")
+    rootElement
+        .querySelectorAll(`:scope video:not(.no-scaling)`) // TODO what is the scenario for "no-scaling"?
         .forEach((video) => {
             if (!video.height || !video.width) {
                 console.warn(
@@ -160,3 +166,4 @@ ldEvents.addEventListener(
     "afterLDDOMManipulations",
     scaleDocumentImagesAndVideos,
 );
+ldEvents.addEventListener("afterDecryptExercise", scaleDocumentImagesAndVideos);
