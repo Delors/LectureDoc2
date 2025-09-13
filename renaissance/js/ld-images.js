@@ -101,8 +101,8 @@ function scaleDocumentImagesAndVideos() {
         .querySelectorAll("ld-section video:not(.no-scaling)")
         .forEach((video) => {
             if (!video.height || !video.width) {
-                console.error(
-                    "cannot adapt size of video for document view: missing size information:",
+                console.warn(
+                    "cannot adapt size of video for document view due to missing size information",
                     video,
                 );
                 return;
@@ -121,7 +121,9 @@ function scaleDocumentImagesAndVideos() {
 }
 
 function scaleSlideImages() {
-    /* We have the general policy that we do nothing with images on slides. */
+    /*  We have the general policy that we do nothing with images on slides. I.e., 
+        we assume that all images are created by a user w.r.t. putting it on a  
+        slide. */
 }
 
 const ldEvents = lectureDoc2.ldEvents;
