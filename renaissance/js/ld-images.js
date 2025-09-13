@@ -37,15 +37,22 @@ function scaleDocumentImagesAndVideos() {
         let done = false;
         if (img.style.width) {
             done = true;
-            img.style.width =
-                parseFloat(img.style.width) * slideToDocumentScalingFactor +
-                getUnit.exec(img.style.width)[1];
+            const unit = getUnit.exec(img.style.width)[1];
+            if (unit !== "%") {
+                img.style.width =
+                    parseFloat(img.style.width) * slideToDocumentScalingFactor +
+                    unit;
+            }
         }
         if (img.style.height) {
             done = true;
-            img.style.height =
-                parseFloat(img.style.height) * slideToDocumentScalingFactor +
-                getUnit.exec(img.style.height)[1];
+            const unit = getUnit.exec(img.style.height)[1];
+            if (unit !== "%") {
+                img.style.height =
+                    parseFloat(img.style.height) *
+                        slideToDocumentScalingFactor +
+                    unit;
+            }
         }
         if (!done) {
             scaleImageOnLoad(img, slideToDocumentScalingFactor);
@@ -57,17 +64,31 @@ function scaleDocumentImagesAndVideos() {
         .querySelectorAll("ld-section object[role='img'][type='image/svg+xml']")
         .forEach((object) => {
             const loadListener = () => {
-                if (object.width || object.height) {
-                    console.error(
-                        svg.data +
-                            " has an explicit width or height: " +
-                            svg.width +
-                            "x" +
-                            svg.height +
-                            "; no scaling performed",
-                    );
+                let done = false;
+                if (object.width) {
+                    done = true;
+                    const unit = getUnit.exec(object.width)[1];
+                    if (unit !== "%") {
+                        object.width =
+                            parseFloat(object.width) *
+                                slideToDocumentScalingFactor +
+                            unit;
+                    }
+                }
+                if (object.height) {
+                    done = true;
+                    const unit = getUnit.exec(object.height)[1];
+                    if (unit !== "%") {
+                        object.height =
+                            parseFloat(object.height) *
+                                slideToDocumentScalingFactor +
+                            unit;
+                    }
+                }
+                if (done) {
                     return;
                 }
+
                 const svg = object.contentDocument.querySelector("svg");
                 svg.style.overflow = "visible";
                 // const width = svg.scrollWidth; <== doesn't work with Firefox
@@ -109,12 +130,19 @@ function scaleDocumentImagesAndVideos() {
             }
             const newHeight = video.height / 3;
             const newWidth = video.width / 3;
-            console.log(
-                `adapting size of video (height: ${video.height} -> ${newHeight}; width: (${video.width} -> ${newWidth}):`,
-                video,
-            );
-            video.height = newHeight;
-            video.width = newWidth;
+            if (newHeight && newWidth) {
+                console.log(
+                    `adapting size of video (height: ${video.height} -> ${newHeight}; width: (${video.width} -> ${newWidth}):`,
+                    video,
+                );
+                video.height = newHeight;
+                video.width = newWidth;
+            } else {
+                console.warn(
+                    `cannot adapt size of video for document view due to unsupported size information: {${video.width}x${video.height}}`,
+                    video,
+                );
+            }
         });
 
     // TODO add handling for inline svgs with a size that is not font-size based
