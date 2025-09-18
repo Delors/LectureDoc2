@@ -1,6 +1,8 @@
 /* LAYER: behavior */
 
 #ld-slides-pane {
+    --ld-rendering-mode: slides-pane;
+
     height: 100dvh;
 
     display: flex;

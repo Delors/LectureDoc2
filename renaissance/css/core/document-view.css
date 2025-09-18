@@ -12,6 +12,8 @@
 }
 
 #ld-document-view {
+    --ld-rendering-mode: document-view;
+
     /* The "display" value is controlled by JavaScript! */
     display: none;
 
