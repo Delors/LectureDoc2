@@ -160,7 +160,10 @@ function handleZoomInDocumentView() {
         //console.log("touchmove", event, originalLocations);
 
         if (originalLocations.size == 2) {
-            // we don't want to prevent standard scroll events
+            // We don't want to prevent standard scroll events using one finger!
+            // Hence, we only prevent the default action when we have two
+            // fingers on the screen.
+            // TODO Implement support for zooming in in the slide view
             event.preventDefault();
 
             const oldDistance = computeDistance(...originalLocations.values());
