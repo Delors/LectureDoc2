@@ -1,5 +1,4 @@
 .. meta::
-    :version: renaissance
     :lang: en
     :author: Michael Eichberg
 
@@ -30,14 +29,14 @@ Alternatively, the node.js
 
 .. code:: bash
 
-    http-server -p 8888 -c-1 -g --cors="Access-Control-Allow-Origin:*" --no-dotfiles  <PATH/TO/ROOT/FOLDER> 
+    http-server -p 8888 -c-1 -g --cors="Access-Control-Allow-Origin:*" --no-dotfiles  <PATH/TO/ROOT/FOLDER>
 
 
 
 How To
 ---------------------
 
-.. scrollable:: 
+.. scrollable::
 
     A LectureDoc document is basically a plain HTML5 document with a very simple structure. All functionality is enabled using CSS and JavaScript. The most basic presentation would be:
 
@@ -58,18 +57,16 @@ Controlling the initial appearance
 - When you want to show the light table directly when opening the presentation add the following meta tag to the head of the document.
 
   .. code:: html
-     :class: far-smaller
 
      <meta name="ld-show-light-table" content="true">
 
 - To start the presentation with a different slide than the first one, use the following meta tag.
 
   .. code:: html
-     :class: far-smaller
 
      <meta name="first-slide" content="5">
 
-  .. container:: smaller
+  .. container::
 
     - if content is an int value then the corresponding slide will be shown. (The first slide has the value 1).
     - if content is "`last`" the last slide will be shown.

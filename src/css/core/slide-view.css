@@ -19,6 +19,9 @@
     cursor: default;
 
     ld-slide {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 100%;
+
         position: absolute;
         /*  To show only one slide, we scale all other slides to a size of 0.
             This makes them effectively invisible without removing them from the

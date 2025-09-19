@@ -1,5 +1,4 @@
 .. meta::
-    :version: renaissance
     :lang: en
     :author: Michael Eichberg
     :keywords: Demo, Showcase

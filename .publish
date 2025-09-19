@@ -1,6 +1,6 @@
 ################################################################################
 #
-# RELEASE INDEPENDENT FILES
+# EXTERNAL FILES
 #
 
 ext/mathjax/es5/tex-chtml-full.js
@@ -59,161 +59,95 @@ components/ld-lightweight-css-editor.js
 
 ################################################################################
 #
-# LectureDoc2 - Genesis
-#
+# LectureDoc2 - src
 
-genesis/css/icons/black-cross-on-white.svg
-genesis/css/icons/continuous-view-with-nr.svg
-genesis/css/icons/continuous-view.svg
-genesis/css/icons/help.svg
-genesis/css/icons/light-table.svg
-genesis/css/icons/lock-global.svg
-genesis/css/icons/menu.svg
-genesis/css/icons/pwds.svg
-genesis/css/icons/slides-with-nr.svg
-genesis/css/icons/slides.svg
-genesis/css/icons/toc.svg
-genesis/css/icons/unlock-global.svg
-genesis/css/icons/white-cross.svg
-genesis/css/docutils/minimal.css
-genesis/css/docutils/plain.css
-genesis/css/ld-core.css
-genesis/css/ld-normalize.css
-genesis/css/ld-ui.css
-genesis/css/ld-core.document-view.css
-genesis/css/ld-core.help.css
-genesis/css/ld-core.light-table.css
-genesis/css/ld-core.nav.css
-genesis/css/ld-core.slides-view.css
-genesis/css/ld-theme.css
-genesis/css/normalize.css
-genesis/example-theme.css
-genesis/example-slides-advanced-16x10.html
-genesis/example-slides-base-4x3.html
-genesis/example-slides-base-16x10.html
+src/folien.en.rst.html
+src/readme.en.rst.html
 
-genesis/ld-components.js
-genesis/ld-core.js
-genesis/ld-crypto.js
-genesis/ld-help.frag.html
-genesis/ld-lib.js
-genesis/ld.css
-genesis/ld-ui.css
+src/ld.js
+src/js/ld-images.js
+src/js/ld-tables.js
+src/js/ld-decks.js
+src/js/ld-stories.js
+src/js/ld-scrollables.js
+src/js/ld-hoverables.js
+src/js/ld-pointer-events.js
+src/js/ld-crypto.js
+src/js/ld-help.frag.html
+src/js/ld-lib.js
 
-genesis/readme.en.rst.html
-genesis/readme.en.rst.html.pdf
+src/ld.css
+src/ld.css.md
 
-genesis/themes/DHBW/0-defs.css
-genesis/themes/DHBW/1-core-stylings.css
-genesis/themes/DHBW/2-views.css
-genesis/themes/DHBW/3-slides.css
-genesis/themes/DHBW/4-elements.css
-genesis/themes/DHBW/5-basic.css
-genesis/themes/DHBW/component-stacks.css
-genesis/themes/DHBW/component-supplemental.css
-genesis/themes/DHBW/copy_to_clipboard.svg
-genesis/themes/DHBW/dhbw_logo.png
-genesis/themes/DHBW/dhbw_text.png
-genesis/themes/DHBW/dhbw_symbol.png
-genesis/themes/DHBW/lists.css
-genesis/themes/DHBW/admonitions.css
-genesis/themes/DHBW/colors.css
-genesis/themes/DHBW/logo.css
-genesis/themes/DHBW/logo.js
-genesis/themes/DHBW/theme.css
+src/css/defs.css
+src/css/normalize.css
+src/css/common.css
+src/css/themes/ld.css
+src/css/ui/ui.css
+src/css/ui/defs.css
+src/css/ui/common.css
+src/css/ui/exercises-passwords-dialog.css
+src/css/ui/table-of-contents-dialog.css
+src/css/ui/help-dialog.css
+src/css/ui/nav.css
+src/css/ui/jump-target-dialog.css
+src/css/ui/messagebox.css
+src/css/ui/laser-pointer.css
+src/css/ui/light-table-dialog.css
+src/css/ui/icons/unlock-global.svg
+src/css/ui/icons/white-cross-on-black.svg
+src/css/ui/icons/white-cross.svg
+src/css/ui/icons/black-cross-on-white.svg
+src/css/ui/icons/black-cross-on-whitesmoke.svg
+# src/css/ui/icons/document-view.svg
+# src/css/ui/icons/help.svg
+# src/css/ui/icons/light-table.svg
+# src/css/ui/icons/menu.svg
+# src/css/ui/icons/pwds.svg
+# src/css/ui/icons/slides-with-nr.svg
+# src/css/ui/icons/slides.svg
+# src/css/ui/icons/toc.svg
+src/css/ui/icons/lock-global.svg
+src/css/ui/icons/2025/view.svg
+src/css/ui/icons/2025/nr.svg
+src/css/ui/icons/2025/lighttable.svg
+src/css/ui/icons/2025/table_of_contents.svg
+src/css/ui/icons/2025/previous_slide.svg
+src/css/ui/icons/2025/previous.svg
+src/css/ui/icons/2025/next.svg
+src/css/ui/icons/2025/next_slide.svg
+src/css/ui/icons/2025/key.svg
+src/css/ui/icons/2025/question_mark.svg
+src/css/ui/icons/2025/two_windows.svg
 
+src/css/core/behavior.css
+src/css/core/slide-view.css
+src/css/core/slide.css
+src/css/core/document-view.css
+src/css/core/light-table.css
 
-################################################################################
-#
-# LectureDoc2 - Renaissance
+src/css/themes/utilities.css
+src/css/themes/utilities-slide.css
 
-renaissance/folien.en.rst.html
-renaissance/readme.en.rst.html
+src/css/themes/ld.css
+src/css/themes/LD/defs.css
+src/css/themes/LD/common.css
+src/css/themes/LD/copy_to_clipboard.svg
+src/css/themes/LD/document-view.css
+src/css/themes/LD/slide-view.css
+src/css/themes/LD/slide.css
+src/css/themes/LD/light-table.css
+src/css/themes/LD/utilities.css
 
-renaissance/ld.js
-renaissance/js/ld-images.js
-renaissance/js/ld-tables.js
-renaissance/js/ld-decks.js
-renaissance/js/ld-stories.js
-renaissance/js/ld-scrollables.js
-renaissance/js/ld-hoverables.js
-renaissance/js/ld-pointer-events.js
-renaissance/js/ld-crypto.js
-renaissance/js/ld-help.frag.html
-renaissance/js/ld-lib.js
-
-renaissance/ld.css
-renaissance/ld.css.md
-
-renaissance/css/defs.css
-renaissance/css/normalize.css
-renaissance/css/common.css
-renaissance/css/themes/ld.css
-renaissance/css/ui/ui.css
-renaissance/css/ui/defs.css
-renaissance/css/ui/common.css
-renaissance/css/ui/exercises-passwords-dialog.css
-renaissance/css/ui/table-of-contents-dialog.css
-renaissance/css/ui/help-dialog.css
-renaissance/css/ui/nav.css
-renaissance/css/ui/jump-target-dialog.css
-renaissance/css/ui/messagebox.css
-renaissance/css/ui/laser-pointer.css
-renaissance/css/ui/light-table-dialog.css
-renaissance/css/ui/icons/unlock-global.svg
-renaissance/css/ui/icons/white-cross-on-black.svg
-renaissance/css/ui/icons/white-cross.svg
-renaissance/css/ui/icons/black-cross-on-white.svg
-renaissance/css/ui/icons/black-cross-on-whitesmoke.svg
-# renaissance/css/ui/icons/document-view.svg
-# renaissance/css/ui/icons/help.svg
-# renaissance/css/ui/icons/light-table.svg
-# renaissance/css/ui/icons/menu.svg
-# renaissance/css/ui/icons/pwds.svg
-# renaissance/css/ui/icons/slides-with-nr.svg
-# renaissance/css/ui/icons/slides.svg
-# renaissance/css/ui/icons/toc.svg
-renaissance/css/ui/icons/lock-global.svg
-renaissance/css/ui/icons/2025/view.svg
-renaissance/css/ui/icons/2025/nr.svg
-renaissance/css/ui/icons/2025/lighttable.svg
-renaissance/css/ui/icons/2025/table_of_contents.svg
-renaissance/css/ui/icons/2025/previous_slide.svg
-renaissance/css/ui/icons/2025/previous.svg
-renaissance/css/ui/icons/2025/next.svg
-renaissance/css/ui/icons/2025/next_slide.svg
-renaissance/css/ui/icons/2025/key.svg
-renaissance/css/ui/icons/2025/question_mark.svg
-renaissance/css/ui/icons/2025/two_windows.svg
-
-renaissance/css/core/behavior.css
-renaissance/css/core/slide-view.css
-renaissance/css/core/slide.css
-renaissance/css/core/document-view.css
-renaissance/css/core/light-table.css
-
-renaissance/css/themes/utilities.css
-renaissance/css/themes/utilities-slide.css
-
-renaissance/css/themes/ld.css
-renaissance/css/themes/LD/defs.css
-renaissance/css/themes/LD/common.css
-renaissance/css/themes/LD/copy_to_clipboard.svg
-renaissance/css/themes/LD/document-view.css
-renaissance/css/themes/LD/slide-view.css
-renaissance/css/themes/LD/slide.css
-renaissance/css/themes/LD/light-table.css
-renaissance/css/themes/LD/utilities.css
-
-renaissance/css/themes/dhbw.css
-renaissance/css/themes/DHBW/defs.css
-renaissance/css/themes/DHBW/common.css
-renaissance/css/themes/DHBW/document-view.css
-renaissance/css/themes/DHBW/slide-view.css
-renaissance/css/themes/DHBW/slide.css
-renaissance/css/themes/DHBW/utilities.css
-renaissance/css/themes/DHBW/animated-logo.js
-renaissance/css/themes/DHBW/dhbw_logo.png
-renaissance/css/themes/DHBW/dhbw_text.png
-renaissance/css/themes/DHBW/dhbw_symbol.png
-renaissance/css/themes/DHBW/dhbw_symbol-sharp.png
+src/css/themes/dhbw.css
+src/css/themes/DHBW/defs.css
+src/css/themes/DHBW/common.css
+src/css/themes/DHBW/document-view.css
+src/css/themes/DHBW/slide-view.css
+src/css/themes/DHBW/slide.css
+src/css/themes/DHBW/utilities.css
+src/css/themes/DHBW/animated-logo.js
+src/css/themes/DHBW/dhbw_logo.png
+src/css/themes/DHBW/dhbw_text.png
+src/css/themes/DHBW/dhbw_symbol.png
+src/css/themes/DHBW/dhbw_symbol-sharp.png
