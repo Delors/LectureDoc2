@@ -53,7 +53,8 @@ ol.arabic.dhbw {
             text-align: center;
             font-weight: 500;
             background-color: var(--dhbw-red);
-            border-radius: var(--small-border-radius) 0 0 var(--small-border-radius);
+            border-radius: var(--small-border-radius) 0 0
+                var(--small-border-radius);
             color: white;
         }
 
@@ -100,11 +101,15 @@ ul.column-list.dhbw {
             background-color: var(--dhbw-red);
             color: var(--white);
             font-weight: 500;
-            border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
-            line-height: calc(var(--s-line-height) - 0.1 * var(--s-line-height));
+            border-radius: var(--small-border-radius) var(--small-border-radius)
+                0 0;
+            line-height: calc(
+                var(--s-line-height) - 0.1 * var(--s-line-height)
+            );
         }
         > p:last-child {
-            border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
+            border-radius: 0 0 var(--small-border-radius)
+                var(--small-border-radius);
             flex-grow: 1;
         }
     }

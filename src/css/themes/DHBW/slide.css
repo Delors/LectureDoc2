@@ -1,5 +1,4 @@
 ld-slide {
-
     &.exercises::before {
         content: var(--dhbw-logo);
         display: block;
@@ -30,7 +29,7 @@ ld-slide {
             content: var(--dhbw-logo);
             position: absolute;
             top: var(--s-tb-padding);
-            right: var(--s-lr-padding); 
+            right: var(--s-lr-padding);
             transform-origin: top right;
             scale: 0.5;
         }
@@ -63,7 +62,6 @@ ld-slide {
         --current-background-color: var(--light-gray);
         background-color: var(--current-background-color);
         color: var(--dark-gray);
-        
     }
 
     &.new-subsection {
