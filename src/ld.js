@@ -294,6 +294,9 @@ const presentation = {
     showHelp: true,
 };
 
+const HasTouchScreen = window.matchMedia("(pointer: coarse)").matches;
+console.log(`uses touchscreen: ${HasTouchScreen}`);
+
 /**
  * Captures the current state of the presentation.
 
@@ -311,7 +314,7 @@ let state = {
     currentSlideNo: 0,
     slideProgress: {}, // stores for each slide the number of executed animation steps
 
-    showMainSlideNumber: false,
+    showMainSlideNumber: HasTouchScreen,
     showHelp: false,
     showTableOfContents: false,
 
@@ -328,6 +331,7 @@ let state = {
     // We don't want users to have to enter the password over and over again.
     masterPassword: "",
 };
+
 
 /**
  * Short lived information that is not preserved during reloads.
@@ -431,7 +435,7 @@ function loadState() {
         const newState = JSON.parse(jsonState);
         if (newState) {
             state = newState;
-            // console.debug(`${presentation.id} state loaded: ${jsonState}`);
+            console.debug(`${presentation.id} state loaded: ${jsonState}`);
         } else {
             // console.debug(`${presentation.id} no previous state found`);
         }
