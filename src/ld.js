@@ -332,7 +332,6 @@ let state = {
     masterPassword: "",
 };
 
-
 /**
  * Short lived information that is not preserved during reloads.
  */
@@ -1838,6 +1837,14 @@ function updateJumpTarget(number) {
     document.getElementById("ld-jump-target-current").innerText += number;
     document.getElementById("ld-jump-target-dialog").showModal();
 }
+
+export function showSectionWithNo(sectionNo) {
+    window.scrollTo(
+        0,
+        document.getElementById("ld-section-no-" + sectionNo).offsetTop,
+    );
+}
+
 function jumpToSlide() {
     const ld_goto_number = document.getElementById("ld-jump-target-current");
     const slideNo =
@@ -1849,11 +1856,7 @@ function jumpToSlide() {
         const targetSlideNo = slideNo > lastSlideNo() ? lastSlideNo() : slideNo;
 
         if (state.showDocumentView) {
-            window.scrollTo(
-                0,
-                document.getElementById("ld-section-no-" + targetSlideNo)
-                    .offsetTop,
-            );
+            showSectionWithNo(targetSlideNo);
         } else {
             goToSlideWithNo(targetSlideNo);
         }

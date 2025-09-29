@@ -10,6 +10,7 @@ import lectureDoc2, {
     moveToNextSlide,
     goToSlideWithNo,
     toggleDocumentView,
+    showSectionWithNo,
 } from "./../ld.js";
 
 console.log("loading ld-pointer-events.js");
@@ -39,6 +40,94 @@ function computeDistance(p1, p2) {
     return Math.hypot(dx, dy);
 }
 
+function updateLocations(originalLocations, touches) {
+    // A TouchList is not iterable, so we need to use a for loop!
+    for (let i = 0; i < touches.length; i++) {
+        const touch = touches[i];
+        originalLocations.set(touch.identifier, {
+            x: touch.clientX,
+            y: touch.clientY,
+        });
+    }
+}
+
+function deleteLocations(originalLocations, touches) {
+    for (let i = 0; i < touches.length; i++) {
+        const touch = touches[i];
+        originalLocations.delete(touch.identifier);
+    }
+}
+
+function handlePinchInSlideView() {
+    const originalLocations = new Map();
+
+    let abortGesture = false;
+
+    function touchstartHandler(event) {
+        updateLocations(originalLocations, event.changedTouches);
+        if (originalLocations.size > 2) {
+            abortGesture = true;
+        }
+        console.log(`touchstart: ${originalLocations}`);
+    }
+
+    function touchmoveHandler(event) {
+        if (originalLocations.size != 2) {
+            // We only care about two-finger gestures!
+            return;
+        }
+
+        event.preventDefault();
+
+        if (abortGesture) {
+            return;
+        }
+
+        const oldDistance = computeDistance(...originalLocations.values());
+        // We don't want to update the original locations to ensure
+        // that we detect very slow pinch gestures!
+        const currentLocations = structuredClone(originalLocations);
+        updateLocations(currentLocations, event.changedTouches);
+        const newDistance = computeDistance(...currentLocations.values());
+
+        if (oldDistance < newDistance - 20) {
+            // The user started zooming in...
+            abortGesture = true;
+        } else if (oldDistance > newDistance + 20) {
+            const slideNO = event.target.closest("ld-slide").dataset.ldSlideNo;
+            console.log(
+                `pinch detected - switching to document view and showing section ${slideNO}`,
+            );
+            schedule(() => {
+                toggleDocumentView();
+                // we have to defer "showSectionWithNo" to ensure that
+                // the document view is visible when we call it.
+                requestAnimationFrame(() => showSectionWithNo(Number(slideNO)));
+            });
+            abortGesture = true;
+        }
+    }
+
+    function touchendHandler(event) {
+        deleteLocations(originalLocations, event.changedTouches);
+
+        if (originalLocations.size == 0) {
+            abortGesture = false;
+        }
+    }
+
+    const slidesPane = document.querySelector("#ld-slides-pane");
+    slidesPane.addEventListener("touchstart", touchstartHandler);
+    slidesPane.addEventListener("touchmove", touchmoveHandler);
+    slidesPane.addEventListener("touchcancel", touchendHandler);
+    slidesPane.addEventListener("touchend", touchendHandler);
+}
+
+ldEvents.addEventListener(
+    "afterLDListenerRegistrations",
+    handlePinchInSlideView,
+);
+
 /**
  * Swipe up and down go to the next/previous slide.
  * Swipe left and right advance/retrogress the presentation.
@@ -63,13 +152,7 @@ function handleSwipeAndScrubInSlideView() {
         }
 
         const touches = event.changedTouches;
-        for (let i = 0; i < touches.length; i++) {
-            const touch = touches[i];
-            originalLocations.set(touch.identifier, {
-                x: touch.clientX,
-                y: touch.clientY,
-            });
-        }
+        updateLocations(originalLocations, touches);
 
         if (originalLocations.size >= 2) {
             // We only support one-finger gestures for swiping and scrubbing.
@@ -79,9 +162,11 @@ function handleSwipeAndScrubInSlideView() {
             gestureInProgress = Gestures.IGNORED;
         }
 
+        /*
         console.log(
             `touchstart: ${originalLocations.size} fingers; gestureInProgress: ${gestureInProgress.toString()}`,
         );
+        */
     }
 
     let lastTouchMoveEvent = undefined;
@@ -160,13 +245,7 @@ function handleSwipeAndScrubInSlideView() {
 
     function touchendHandler(event) {
         // The touch gesture is identified by touchStart and touchMove events.
-
-        // A TouchList is not iterable, so we need to use a for loop!
-        const touches = event.changedTouches;
-        for (let i = 0; i < touches.length; i++) {
-            const touch = touches[i];
-            originalLocations.delete(touch.identifier);
-        }
+        deleteLocations(originalLocations, event.changedTouches);
     }
 
     for (const slide of document.querySelectorAll("ld-slide")) {
@@ -185,14 +264,7 @@ function handleZoomInDocumentView() {
     const originalLocations = new Map();
 
     function touchstartHandler(event) {
-        const touches = event.changedTouches;
-        for (let i = 0; i < touches.length; i++) {
-            const touch = touches[i];
-            originalLocations.set(touch.identifier, {
-                x: touch.clientX,
-                y: touch.clientY,
-            });
-        }
+        updateLocations(originalLocations, event.changedTouches);
     }
 
     function touchmoveHandler(event) {
@@ -236,12 +308,7 @@ function handleZoomInDocumentView() {
     }
 
     function touchendHandler(event) {
-        // Recall that a TouchList is not iterable, so we need to use a for loop!
-        const touches = event.changedTouches;
-        for (let i = 0; i < touches.length; i++) {
-            const touch = touches[i];
-            originalLocations.delete(touch.identifier);
-        }
+        deleteLocations(originalLocations, event.changedTouches);
     }
 
     for (const section of document.querySelectorAll("ld-section")) {
