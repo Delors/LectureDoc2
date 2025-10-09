@@ -1465,27 +1465,46 @@ function setupMenu() {
     const menuPane = document.createElement("nav");
     menuPane.id = "ld-menu";
     menuPane.className = "ld-ui";
+    menuPane.setAttribute("popover", "auto");
     const base = import.meta.resolve("./css/ui/icons/2025/");
     const isWindowCloningPossible =
         presentation.id && !document.URL.startsWith("file://");
     menuPane.innerHTML = `
-        <button id="ld-toggle-view-button"><img src="${base}view.svg" alt="toggle view"></button>
-        <button id="ld-toggle-slide-number-button"><img src="${base}nr.svg" alt="toggle number"></button>
+        <button id="ld-toggle-view-button">
+            <img src="${base}view.svg" alt="toggle view"></button>
+        <button id="ld-toggle-slide-number-button" data-ld-mode="slide-view">
+            <img src="${base}nr.svg" alt="toggle number"></button>
         <div class="half-space"> </div>
-        <button id="ld-spawn-2nd-window-button" ${isWindowCloningPossible ? "" : "disabled"}><img src="${base}two_windows.svg" alt="spawn secondary window"></button>
+        <button id="ld-spawn-2nd-window-button" ${isWindowCloningPossible ? "" : "disabled"}>
+            <img src="${base}two_windows.svg" alt="spawn secondary window"></button>
         <div class="half-space"> </div>
-        <button id="ld-light-table-button"><img src="${base}lighttable.svg" alt="show light table"></button>
-        <button id="ld-table-of-contents-button"><img src="${base}table_of_contents.svg" alt="show table of contents"></button>
+        <button id="ld-light-table-button">
+            <img src="${base}lighttable.svg" alt="show light table"></button>
+        <button id="ld-table-of-contents-button">
+            <img src="${base}table_of_contents.svg" alt="show table of contents"></button>
+        <div class="full-space"  data-ld-mode="slide-view"></div>
+        <button id="ld-previous-slide-button"  data-ld-mode="slide-view">
+            <img src="${base}previous_slide.svg" alt="move to previous slide"></button>
+        <button id="ld-previous-animation-step-button"  data-ld-mode="slide-view">
+            <img src="${base}previous.svg" alt="go back one animation step"></button>
+        <button id="ld-next-animation-step-button"  data-ld-mode="slide-view">
+            <img src="${base}next.svg" alt="next animation step"></button>
+        <button id="ld-next-slide-button"  data-ld-mode="slide-view">
+            <img src="${base}next_slide.svg" alt="move to next slide"></button>
         <div class="full-space"></div>
-        <button id="ld-previous-slide-button"><img src="${base}previous_slide.svg" alt="move to previous slide"></button>
-        <button id="ld-previous-animation-step-button"><img src="${base}previous.svg" alt="go back one animation step"></button>
-        <button id="ld-next-animation-step-button"><img src="${base}next.svg" alt="next animation step"></button>
-        <button id="ld-next-slide-button"><img src="${base}next_slide.svg" alt="move to next slide"></button>
-        <div class="full-space"></div>
-        <button id="ld-passwords-button"><img src="${base}key.svg" alt="show passwords dialog"></button>
-        <button id="ld-help-button"><img src="${base}question_mark.svg" alt="show-help"></button>
+        <button id="ld-passwords-button">
+            <img src="${base}key.svg" alt="show passwords dialog"></button>
+        <button id="ld-help-button">
+            <img src="${base}question_mark.svg" alt="show-help"></button>
     `;
-    document.getElementsByTagName("BODY")[0].prepend(menuPane);
+    const menuPopoverButton = ld.create("button", {
+        id: "ld-menu-popover-button",
+        classList: ["ld-ui"],
+        innerHTML: `☰`,
+    });
+    menuPopoverButton.setAttribute("popovertarget", "ld-menu");
+    document.body.prepend(menuPane); // order in which the buttons
+    document.body.prepend(menuPopoverButton); // are added matters!
 }
 
 /**
@@ -1989,6 +2008,7 @@ export function toggleDocumentView() {
     // and then actually perform the change.
     state.showDocumentView = getComputedStyle(mainPane).display == "flex";
     if (state.showDocumentView) {
+        document.body.dataset["ldMode"] = "document-view";
         mainPane.style.display = "none";
         continuousViewPane.style.display = "block";
         setTimeout(() => {
