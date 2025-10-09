@@ -47,10 +47,12 @@
         1)  a method that sends a message and then performs the state change.
             For that, it calls the second method.
         2)  a method which only performs the state change, but does not emit a
-            message. These methods generally have the local moniker in their name. E.g. localMoveToNextSlide.
+            message. These methods generally have the local moniker in their 
+            name. E.g. localMoveToNextSlide.
 
         Now, when we react to a local event we always call the first method.
-        When we handle the received message, we call the second method.
+        When we handle the received message, we call the second method to avoid
+        unlimited bouncing of messages.
 
 */
 import * as ld from "./js/ld-lib.js";
@@ -191,9 +193,11 @@ const interWindowMessageHandlers = {
 
 /** Makes the basic datastructures and functions available.
 
-    Enables ld-components the registration for all basic events, before they actually happen.
+    Enables ld-components the registration for all basic events, before they 
+    actually happen.
 
-    (Primarily available for backward compatibility and debugging purposes. Modern components can directly use the exported functions and methods.)
+    (Primarily available for backward compatibility and debugging purposes. 
+    Modern components can directly use the exported functions and methods.)
     */
 export const lectureDoc2 = {
     lib: ld,
@@ -211,7 +215,7 @@ const topicTemplates = document.querySelector("body > template").content;
  *
  * (See MathJax documentation for more details.)
  */
-let mathJaxPromise = Promise.resolve(); // Used to hold chain of typesetting calls
+let mathJaxPromise = Promise.resolve(); // Holds the chain of typesetting calls
 let mathJaxNotAvailable = false;
 
 function typesetMath(element) {
