@@ -1302,9 +1302,11 @@ function setupSlidePane() {
     });
 
     typesetMath(slidesPane);
-    const body = document.querySelector("BODY");
+    const body = document.body;
     body.prepend(ld.create("ld-slide-number", {}));
     body.prepend(slidesPane);
+    // the default mode is the slide-view
+    body.dataset["ldMode"] = "slide-view";
 }
 
 async function decryptExercise(title, password) {
@@ -1996,6 +1998,7 @@ export function toggleDocumentView() {
             window.scrollTo(0, state.continuousViewScrollY);
         });
     } else {
+        document.body.dataset["ldMode"] = "slide-view";
         continuousViewPane.style.display = "none";
         mainPane.style.display = "flex";
     }
