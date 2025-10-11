@@ -26,6 +26,8 @@
     --ld-ui-table-highlight-cell-background-color: var(
         --ld-ui-background-color
     );
+    --ld-ui-warning-background-color: darkred;
+    --ld-ui-warning-color: white;
     --ld-ui-box-shadow:
         2px 2px 3px black, -2px -2px 3px black, -2px 2px 3px black,
         2px -2px 3px black;
