@@ -2883,6 +2883,9 @@ lectureDoc2.propagateStateChange = postMessage;
 lectureDoc2.prepareForPrinting = prepareForPrinting;
 lectureDoc2.getCurrentSlide = getCurrentSlide;
 lectureDoc2.toggleDocumentView = toggleDocumentView;
+lectureDoc2.resetCurrentSlideProgress = resetCurrentSlideProgress;
+lectureDoc2.resetAllAnimations = resetAllAnimations;
+lectureDoc2.resetLectureDoc = resetLectureDoc;
 
 /*
     For debugging purposes and interoperability with Applescript.
