@@ -2,8 +2,8 @@
     :lang: en
     :author: Michael Eichberg
     :keywords: Demo, Showcase
-    :description lang=en: Demonstrates LectureDoc2 - Renaissance
-    :id: LectureDoc2-Renaissance-Showcase
+    :description lang=en: Demonstrates LectureDoc2 
+    :id: LectureDoc2-Showcase
     :first-slide: last-viewed
     :master-password: Demo!
 
@@ -17,7 +17,7 @@
 
 
 
-LectureDoc2 Renaissance
+LectureDoc2
 ======================================================
 
 :Autor: `Prof. Dr. Michael Eichberg <https://delors.github.io/cv/folien.de.rst.html>`__
