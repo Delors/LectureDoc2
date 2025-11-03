@@ -71,6 +71,7 @@ src/js/ld-decks.js
 src/js/ld-stories.js
 src/js/ld-scrollables.js
 src/js/ld-hoverables.js
+src/js/ld-popovers.js
 src/js/ld-pointer-events.js
 src/js/ld-crypto.js
 src/js/ld-help.frag.html
