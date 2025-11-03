@@ -4,7 +4,7 @@
  *
  * This information is also relayed to secondary windows.
  */
-import {lectureDoc2, interWindowMessageHandlers} from "./../ld.js";
+import { lectureDoc2, interWindowMessageHandlers } from "./../ld.js";
 import * as ld from "./ld-lib.js";
 
 console.log("loading ld-hoverable.js");

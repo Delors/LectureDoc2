@@ -162,13 +162,14 @@ export const interWindowMessageHandlers = {
     handlers: {},
     indexedHandlers: {}, // mapping message identifiers (Strings) to arrays of handlers
     addHandler(msg, handler) {
-        if (!this.handlers[msg]){
-             this.handlers[msg] = [handler];
+        if (!this.handlers[msg]) {
+            this.handlers[msg] = [handler];
+        } else {
+            this.handlers[msg].push(handler);
         }
-        else {
-             this.handlers[msg].push(handler);
-        }
-        console.log(`registered ${this.handlers[msg].length}. message handler for "${msg}" messages.`);
+        console.log(
+            `registered ${this.handlers[msg].length}. message handler for "${msg}" messages.`,
+        );
     },
     /**
      * Registers a handler for a specific type of event. To distinguish
@@ -2775,7 +2776,9 @@ const onLoad = () => {
     registerHoverPresenterNoteListener();
     registerHistoryChangeListener();
 
-    const iwmHandler = interWindowMessageHandlers.addHandler.bind(interWindowMessageHandlers);
+    const iwmHandler = interWindowMessageHandlers.addHandler.bind(
+        interWindowMessageHandlers,
+    );
     iwmHandler("advancePresentation", localAdvancePresentation);
     iwmHandler("retrogressPresentation", localRetrogressPresentation);
     iwmHandler("moveToPreviousSlide", localMoveToPreviousSlide);
