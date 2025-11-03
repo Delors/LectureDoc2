@@ -158,7 +158,7 @@ export const ldEvents = {
     },
 };
 
-const interWindowMessageHandlers = {
+export const interWindowMessageHandlers = {
     handlers: {},
     indexedHandlers: {}, // an object mapping message identifiers (Strings) to arrays of handlers
     addHandler: function (msg, handler) {
@@ -2693,6 +2693,7 @@ const onDOMContentLoaded = async () => {
         await import("./js/ld-scrollables.js");
         await import("./js/ld-stories.js");
         await import("./js/ld-hoverables.js");
+        await import("./js/ld-popovers.js");
         await import("./js/ld-pointer-events.js");
     } catch (e) {
         console.error("failed to load LectureDoc component:", e);
