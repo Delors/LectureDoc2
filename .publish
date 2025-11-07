@@ -62,7 +62,9 @@ components/ld-lightweight-css-editor.js
 # LectureDoc2 - src
 
 src/folien.en.rst.html
+src/folien.en.rst.html.pdf
 src/readme.en.rst.html
+src/readme.en.rst.html.pdf
 
 src/ld.js
 src/js/ld-images.js
