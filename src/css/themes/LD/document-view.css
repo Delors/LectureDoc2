@@ -15,6 +15,10 @@
     font-size: var(--current-base-font-size);
     line-height: var(--d-line-height);
 
+    .s-only {
+        display: none;
+    }
+
     > ld-section {
         display: block;
 
