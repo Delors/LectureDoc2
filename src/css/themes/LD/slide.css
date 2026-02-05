@@ -242,11 +242,24 @@ ld-slide {
         }
     }
 
-    /* TODO: relay hover! */
     li.show-list-item-content-on-hover {
+        /*
         > *:first-child::after {
             content: " ⇣";
             color: var(--gray);
+        }*/
+        > *:first-child {
+            display: list-item;
+            list-style-position: inside;
+            list-style-type: disclosure-closed;
+
+            &::marker {
+                color: var(--dhbw-light-gray);
+                /* font-size: 0.75em; <= good for safari, bad for firefox  */
+            }
+        }
+        &.\:hover > *:first-child {
+            list-style-type: disclosure-open;
         }
         > *:not(:first-child) {
             max-height: 0;
