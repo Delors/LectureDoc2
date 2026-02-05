@@ -29,12 +29,17 @@ ol.arabic.dhbw {
     > li {
         position: relative;
         padding: 0.2em 0.4em;
-        margin: 0.2em;
+        /* margin: 0.2em; removed to get a good left-alignment with the text, but didn't check if there is another requirement   */
 
         border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
         background-color: var(--dhbw-very-light-gray);
 
         counter-increment: item;
+
+        > p:last-child {
+            /* TODO there are some conflicts in the CSS rules, which require this rule... drop after consolidation*/
+            margin-bottom: 0;
+        }
 
         &::before {
             content: counter(item);
@@ -73,28 +78,61 @@ ol.arabic.dhbw {
     }
 }
 
-ul.column-list.dhbw {
-    width: 100%;
-    padding: 0;
-
+ul.dhbw {
     list-style-type: none;
-
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.25em;
+    padding: 0;
+    margin: 0;
+
+    > li {
+        display: block;
+        position: relative;
+
+        margin: 0;
+        padding: 0.25em;
+        border-radius: var(--small-border-radius);
+        overflow: hidden;
+
+        background-color: var(--dhbw-very-light-gray);
+
+        > p {
+            &:first-child {
+                position: relative;
+                top: -0.25em;
+                left: -0.25em;
+
+                margin: 0;
+                padding: 0.25em;
+                width: calc(100% + 0.5em);
+
+                background-color: var(--dhbw-red);
+                color: var(--white);
+            }
+            &:not(:last-child) {
+                margin-bottom: 0.05em;
+            }
+        }
+    }
+}
+
+ul.column-list.dhbw {
+    flex-direction: row;
+    width: 100%;
     justify-content: space-between;
     align-items: stretch;
 
     > li {
-        display: flex;
-        flex: 1 1 0;
-        flex-direction: column;
+        flex: 1;
 
         > p {
             margin: 0;
-            padding: 0.25em;
             background-color: var(--dhbw-very-light-gray);
             color: black;
+        }
+        > p:not(:first-child) + p {
+            margin-top: 0.25em;
         }
         > p:first-child {
             /* the "Header" */
