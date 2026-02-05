@@ -115,6 +115,76 @@ ul.column-list.dhbw {
     }
 }
 
+table.dhbw {
+    border-collapse: separate;
+    border-spacing: 0;
+
+    > thead {
+        --current-background-color: var(--dhbw-red);
+        --current-text-color: var(--white);
+
+        > tr > th,
+        > tr > td {
+            background-color: var(--current-background-color);
+            color: var(--current-text-color);
+
+            + td,
+            + th {
+                border-left: thin solid var(--white);
+            }
+        }
+
+        /* Ensure the header background is clipped to the rounded corners. */
+        > tr:first-child > :first-child {
+            border-top-left-radius: var(--small-border-radius);
+        }
+        > tr:first-child > :last-child {
+            border-top-right-radius: var(--small-border-radius);
+        }
+    }
+
+    /* Zebra striping: apply to body rows (and to direct tr as fallback). */
+    > tbody > tr,
+    > tr {
+        > td {
+            border: thin solid var(--dhbw-very-light-gray);
+
+            + td {
+                border-left: thin solid var(--dhbw-light-gray);
+            }
+        }
+
+        &:nth-child(odd) {
+            --current-background-color: var(--dhbw-very-light-gray);
+            background-color: var(--current-background-color);
+
+            > th {
+                --current-background-color: var(--dhbw-gray);
+                background-color: var(--current-background-color);
+                --current-text-color: var(--white);
+                color: var(--current-text-color);
+            }
+
+            > td {
+                border: thin solid var(--white);
+
+                + td {
+                    border-left: thin solid var(--white);
+                }
+            }
+        }
+
+        &:last-child {
+            > :first-child {
+                border-bottom-left-radius: var(--small-border-radius);
+            }
+            > :last-child {
+                border-bottom-right-radius: var(--small-border-radius);
+            }
+        }
+    }
+}
+
 /*************************** LEGACY ***************************/
 /*************************** LEGACY ***************************/
 /*************************** LEGACY ***************************/
