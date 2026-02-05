@@ -133,7 +133,9 @@ src/css/themes/utilities.css
 src/css/themes/utilities-slide.css
 
 src/css/themes/ld.css
+src/css/themes/LD/colors.css
 src/css/themes/LD/defs.css
+src/css/themes/LD/dict.css
 src/css/themes/LD/common.css
 src/css/themes/LD/copy_to_clipboard.svg
 src/css/themes/LD/document-view.css
