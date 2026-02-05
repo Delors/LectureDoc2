@@ -178,33 +178,6 @@ ul.columns {
     }
 }
 
-/*
-    This style is complementary to the previous one and adds a pop-out effect
-    on hover.
-*/
-:is(ol, ul):has(> .pop-out-on-hover) {
-    perspective: 500px;
-    transform-style: preserve-3d;
-    overflow: visible;
-
-    > li {
-        transition: 0.5s;
-
-        &::before {
-            transition: 0.5s;
-        }
-
-        &.\:hover {
-            transform: translateZ(15px);
-            transition: 0.5s;
-
-            &::before {
-                transition: 0.5s;
-            }
-        }
-    }
-}
-
 ul.negative-list>li,
 /* TODO rename: attention-list (see below)*/
 ul>li.negative-list {

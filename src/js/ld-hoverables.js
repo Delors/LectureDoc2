@@ -9,21 +9,36 @@ import * as ld from "./ld-lib.js";
 
 console.log("loading ld-hoverable.js");
 
-const classes = ["pop-out-on-hover", "scale-on-hover"];
+/**
+ * In reStructuredText assigning classes to list items is very tedious.
+ * Therefore, we push down certain classes assigned to a list as a whole to 
+ * its list items.
+ * 
+ * See {@link afterLDDOMManipulations} for the implementation.
+ */
+const listClassesToPropagateToItems = [
+    "pop-out-list-item-on-hover",
+    "show-list-item-content-on-hover",
+];
+
+const classes = ["scale-on-hover", ...listClassesToPropagateToItems];
 
 const hoverables = [];
 
 function afterLDDOMManipulations() {
     console.log("performing ld-hoverables.afterLDDOMManipulations");
-    document
-        .querySelectorAll(`#ld-slides-pane :is(ol,ul).pop-out-on-hover`)
-        .forEach((hoverableList) => {
-            hoverableList.classList.remove("pop-out-on-hover");
-            Array.from(hoverableList.children).forEach((li) => {
-                // console.log("adding pop-out-on-hover to list element", li);
-                li.classList.add("pop-out-on-hover");
+
+    for (const cssClass of listClassesToPropagateToItems) {
+        document
+            .querySelectorAll(`#ld-slides-pane :is(ol,ul).${cssClass}`)
+            .forEach((hoverableList) => {
+                hoverableList.classList.remove(cssClass);
+                Array.from(hoverableList.children).forEach((li) => {
+                    // console.log(`adding ${cssClass} to list element`, li);
+                    li.classList.add(cssClass);
+                });
             });
-        });
+    }
 }
 
 /**
