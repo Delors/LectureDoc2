@@ -24,8 +24,6 @@ ol.arabic.dhbw {
 
     padding-left: var(--item-counter-offset);
 
-    counter-reset: item;
-
     > li {
         position: relative;
         padding: 0.2em 0.4em;
@@ -34,15 +32,13 @@ ol.arabic.dhbw {
         border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
         background-color: var(--dhbw-very-light-gray);
 
-        counter-increment: item;
-
         > p:last-child {
             /* TODO there are some conflicts in the CSS rules, which require this rule... drop after consolidation*/
             margin-bottom: 0;
         }
 
         &::before {
-            content: counter(item);
+            content: counter(list-item, decimal-leading-zero);
 
             display: inline-block;
             box-sizing: border-box;
@@ -63,12 +59,7 @@ ol.arabic.dhbw {
             color: white;
         }
 
-        &:nth-child(-n + 9)::before {
-            content: "0" counter(item);
-        }
-
-        /* TODO Relay hover! */
-        &:hover {
+        &.\:hover {
             box-shadow: 6px 0px 3px -3px rgb(0 0 0 / 50%);
 
             &::before {
