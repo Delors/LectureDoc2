@@ -28,10 +28,6 @@ mjx-container[display="true"] {
     margin: 0.5em 0 !important;
 }
 
-ul {
-    list-style-type: "▫️";
-}
-
 ld-deck {
     &:has(+ *) {
         margin-bottom: var(--default-bottom-margin);
@@ -115,6 +111,13 @@ ld-grid {
 }
 
 /* Lists */
+ul {
+    list-style-type: "◼︎";
+
+    > li::marker {
+        color: var(--dhbw-gray);
+    }
+}
 
 ul.horizontal {
     display: flex;
