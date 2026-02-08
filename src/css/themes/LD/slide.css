@@ -277,12 +277,11 @@ ld-slide {
     */
     li.pop-out-list-item-on-hover {
         transition: 0.5s;
-    
+
         &.\:hover {
             transform: scale(1.04);
         }
     }
-
 
     /* IMPROVE Currently, the position is fixed. */
     .scale-on-hover {
