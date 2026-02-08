@@ -34,9 +34,9 @@ function afterLDDOMManipulations() {
     for (const cssClass of listClassesToPropagateToItems) {
         document
             .querySelectorAll(`#ld-slides-pane :is(ol,ul).${cssClass}`)
-            .forEach((hoverableList) => {
-                hoverableList.classList.remove(cssClass);
-                Array.from(hoverableList.children).forEach((li) => {
+            .forEach((list) => {
+                list.classList.remove(cssClass);
+                Array.from(list.children).forEach((li) => {
                     // console.log(`adding ${cssClass} to list element`, li);
                     li.classList.add(cssClass);
                 });
