@@ -17,8 +17,8 @@
         padding: var(--d-padding);
         border-radius: 0.25em;
 
-        --current-background-color: var(--white);
-        background-color: var(--current-background-color);
+        --current-bg-color: var(--white);
+        background-color: var(--current-bg-color);
 
         &.exercises,
         &.new-section {
@@ -155,8 +155,8 @@
     counter-reset: exercise;
 
     p.ld-exercise-title {
-        --current-background-color: var(--light-gray);
-        background-color: var(--current-background-color);
+        --current-bg-color: var(--light-gray);
+        background-color: var(--current-bg-color);
         border-radius: var(--medium-border-radius);
 
         position: relative;

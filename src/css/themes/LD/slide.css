@@ -7,10 +7,10 @@ ld-slide {
     border-radius: var(--s-border-radius);
     padding: var(--s-padding);
 
-    --current-color: var(--s-text-color);
-    color: var(--current-color);
-    --current-background-color: var(--s-background-color);
-    background-color: var(--current-background-color);
+    --current-fg-color: var(--s-text-color);
+    color: var(--current-fg-color);
+    --current-bg-color: var(--s-background-color);
+    background-color: var(--current-bg-color);
 
     --unitless-current-base-font-size: var(--unitless-s-font-size);
     --current-base-font-size: var(--s-font-size);
@@ -121,8 +121,8 @@ ld-slide {
             padding-left: calc(2.5 * var(--s-lr-padding));
             border-radius: var(--small-border-radius);
 
-            --current-background-color: var(--very-very-light-blue);
-            background-color: var(--current-background-color);
+            --current-bg-color: var(--very-very-light-blue);
+            background-color: var(--current-bg-color);
 
             &::before {
                 content: "✎";
@@ -301,7 +301,7 @@ ld-slide {
 
             background-color: color-mix(
                 in srgb,
-                var(--current-background-color),
+                var(--current-bg-color),
                 transparent 35%
             );
             backdrop-filter: blur(4px);

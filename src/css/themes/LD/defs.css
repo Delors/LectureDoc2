@@ -48,7 +48,7 @@
     --current-base-font-size: 256px;
     --unitless-current-base-font-size: 256;
 
-    --current-background-color: var(--s-background-color);
+    --current-bg-color: var(--s-background-color);
     --emph-color: var(--dark-red);
     --separator-border: 2px solid var(--dark-gray);
 

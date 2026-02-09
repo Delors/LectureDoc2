@@ -48,10 +48,8 @@
 
             overflow-y: scroll;
 
-            --current-background-color: rgb(
-                from var(--s-background-color) r g b / 66%
-            );
-            background-color: var(--current-background-color);
+            --current-bg-color: rgb(from var(--s-background-color) r g b / 66%);
+            background-color: var(--current-bg-color);
             backdrop-filter: blur(8px);
 
             transform: translateX(calc(100% - var(--s-lr-padding) * 0.5))
@@ -117,8 +115,8 @@
                 display: none;
                 padding: 0.25em 0.5em;
                 font-size: 38px;
-                --current-background-color: rgb(50 50 80 / 75%);
-                background-color: var(--current-background-color);
+                --current-bg-color: rgb(50 50 80 / 75%);
+                background-color: var(--current-bg-color);
                 color: white;
                 text-shadow: 1px 1px 2px black;
 

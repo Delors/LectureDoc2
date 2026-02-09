@@ -149,13 +149,12 @@ table.dhbw {
     border-spacing: 0;
 
     > thead {
-        --current-background-color: var(--dhbw-red);
-        --current-text-color: var(--white);
+        --current-bg-color: var(--dhbw-red);
+        --current-fg-color: var(--white);
 
         > tr > th,
         > tr > td {
-            background-color: var(--current-background-color);
-            color: var(--current-text-color);
+            background-color: var(--current-bg-color);
 
             + td,
             + th {
@@ -184,12 +183,12 @@ table.dhbw {
         }
 
         &:nth-child(odd) {
-            --current-background-color: var(--dhbw-very-light-gray);
-            background-color: var(--current-background-color);
+            --current-bg-color: var(--dhbw-very-light-gray);
+            background-color: var(--current-bg-color);
 
             > th {
-                --current-background-color: var(--dhbw-gray);
-                background-color: var(--current-background-color);
+                --current-bg-color: var(--dhbw-gray);
+                background-color: var(--current-bg-color);
                 --current-text-color: var(--white);
                 color: var(--current-text-color);
             }
