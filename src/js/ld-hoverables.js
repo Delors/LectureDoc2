@@ -11,20 +11,18 @@ console.log("loading ld-hoverable.js");
 
 /**
  * In reStructuredText assigning classes to list items is very tedious.
- * Therefore, we push down certain classes assigned to a list as a whole to 
+ * Therefore, we push down certain classes assigned to a list as a whole to
  * its list items.
- * 
+ *
  * See {@link afterLDDOMManipulations} for the implementation.
  */
 const listClassesToPropagateToItems = [
     "pop-out-list-item-on-hover",
     "show-list-item-content-on-hover",
-    "highlight-list-item-on-hover", // added automatically for ol arabic lists 
+    "highlight-list-item-on-hover", // added automatically for ol arabic lists
 ];
 
-const classes = [
-    "scale-on-hover", 
-    ...listClassesToPropagateToItems];
+const classes = ["scale-on-hover", ...listClassesToPropagateToItems];
 
 const hoverables = [];
 
