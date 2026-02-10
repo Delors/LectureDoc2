@@ -335,22 +335,6 @@
     border-radius: 0;
 }
 
-.border-top {
-    border-top: var(--separator-border);
-}
-
-.border-bottom {
-    border-bottom: var(--separator-border);
-}
-
-.border-left {
-    border-left: var(--separator-border);
-}
-
-.border-right {
-    border-right: var(--separator-border);
-}
-
 .border-rounded {
     border-radius: var(--small-border-radius);
 }
