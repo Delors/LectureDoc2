@@ -34,6 +34,10 @@ samp {
     font-size: 0.9em;
 }
 
+p {
+    hyphens: auto;
+}
+
 a:link,
 a:visited {
     color: var(--link-fg-color);
@@ -949,7 +953,7 @@ pre.code {
     /* The default color: */
     --code-color: var(--current-rel-fg-color);
 
-    line-height: min(var(--s-line-height), 1.3);
+    line-height: var(--code-line-height);
     color: var(--code-color);
     /* For SVGs: */
     fill: var(--code-color);
@@ -1606,6 +1610,11 @@ figure video {
     display: inline;
 }
 
+video {
+    border-radius: var(--small-border-radius);
+    box-shadow: var(--trbl-shadow);
+}
+
 /*
 
     Styling of index cards
@@ -1689,4 +1698,5 @@ figure video {
 .screenshot {
     box-shadow: var(--trbl-shadow);
     margin: var(--trbl-shadow-margin);
+    border-radius: var(--small-border-radius);
 }
