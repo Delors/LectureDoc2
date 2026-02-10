@@ -48,8 +48,10 @@
 
             overflow-y: scroll;
 
-            --current-bg-color: rgb(from var(--s-background-color) r g b / 66%);
-            background-color: var(--current-bg-color);
+            --current-rel-bg-color: rgb(
+                from var(--current-bg-color) r g b / 66%
+            );
+            background-color: var(--current-rel-bg-color);
             backdrop-filter: blur(8px);
 
             transform: translateX(calc(100% - var(--s-lr-padding) * 0.5))
