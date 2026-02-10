@@ -464,7 +464,11 @@ ld-slide.cheat-sheet {
         right: 25px;
         font-size: 50em;
         font-weight: 900;
-        color: var(--very-light-gray);
+        color: color-mix(
+            in srgb,
+            var(--current-bg-color) 90%,
+            var(--current-fg-color) 10%
+        );
         text-shadow: 2px 2px 4px var(--light-gray);
     }
     /*
