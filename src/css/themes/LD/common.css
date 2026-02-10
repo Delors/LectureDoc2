@@ -2,9 +2,51 @@
 
 /* This style sheet is partially based on:
 
-   Minimal style sheet for the HTML output of Docutils created by Günter Milde (2022-06-19) which in turn is based on html4css1.css by
-   David Goodger (2015, 2021).
+   Minimal style sheet for the HTML output of Docutils 
+   created by Günter Milde (2022-06-19) 
+   which in turn is based on html4css1.css 
+   created by David Goodger (2015, 2021).
 */
+
+html {
+    background-color: white;
+}
+
+body {
+    background-color: var(--body-bg-color);
+
+    font-family: var(--default-font-family);
+
+    font-size: var(--current-base-font-size);
+    font-weight: var(--font-weight);
+    line-height: var(--line-height);
+}
+
+code {
+    font-family: var(--code-font-family);
+    font-size: 0.9em;
+}
+
+pre,
+kbd,
+samp {
+    font-family: var(--pre-font-family);
+    font-size: 0.9em;
+}
+
+a:link,
+a:visited {
+    color: var(--link-fg-color);
+}
+a:hover {
+    text-decoration: underline;
+}
+
+blockquote {
+    --current-bg-color: var(--blockquote-bg-color);
+    --current-rel-bg-color: var(--current-bg-color);
+    background-color: var(--current-rel-bg-color);
+}
 
 table:has(+ *),
 object:has(+ *),
@@ -20,7 +62,7 @@ object[role="img"] {
     display: block;
 
     &.opaque {
-        background-color: var(--current-bg-color);
+        background-color: var(--current-rel-bg-color);
     }
 }
 
@@ -472,6 +514,7 @@ p.system-message-title {
         calc(var(--default-container-padding) / 2)
         var(--default-container-padding);
 
+    /* Reset our relative colors to "the" new background color. */
     --current-rel-bg-color: var(--current-bg-color);
     background-color: var(--current-rel-bg-color);
     --current-rel-fg-color: var(--current-fg-color);
@@ -480,9 +523,8 @@ p.system-message-title {
     > p:first-child.admonition-title {
         position: relative;
         left: calc(var(--default-container-padding) * -1);
-        width: calc(100% + calc(var(--default-container-padding) * 2));
+        width: calc(100% + calc(var(--default-container-padding) * 2) + 2px);
         padding: 0 var(--default-container-padding);
-        height: 1.1lh;
         margin-bottom: 0;
 
         --current-rel-bg-color: var(--container-header-bg-color);
@@ -503,8 +545,8 @@ p.system-message-title {
 
             --current-rel-bg-color: var(--container-header-icon-bg-color);
             background-color: var(--current-rel-bg-color);
-            --current-fg-color: var(--container-header-icon-fg-color);
-            color: var(--current-fg-color);
+            --current-rel-fg-color: var(--container-header-icon-fg-color);
+            color: var(--current-rel-fg-color);
 
             text-align: center;
         }
@@ -569,6 +611,7 @@ p.system-message-title {
         --admonition-icon: "▤";
 
         --current-bg-color: var(--summary-bg-color);
+        --current-fg-color: var(--summary-fg-color);
     }
 
     &.question {
@@ -577,6 +620,7 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--question-bg-color);
+        --current-fg-color: var(--question-fg-color);
     }
 
     &.answer {
@@ -585,6 +629,7 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--answer-bg-color);
+        --current-fg-color: var(--answer-fg-color);
     }
 
     &.attention {
@@ -593,6 +638,7 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--attention-bg-color);
+        --current-fg-color: var(--attention-fg-color);
     }
 
     &.important {
@@ -601,6 +647,7 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--important-bg-color);
+        --current-fg-color: var(--important-fg-color);
     }
 
     &.observation {
@@ -609,6 +656,7 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--observation-bg-color);
+        --current-fg-color: var(--observation-fg-color);
     }
 
     &.proof {
@@ -630,6 +678,7 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--deprecated-bg-color);
+        --current-fg-color: var(--deprecated-fg-color);
     }
 
     &.assessment {
@@ -650,12 +699,17 @@ p.system-message-title {
         --admonition-icon: "💡";
 
         border: none;
+        --current-bg-color: var(--tip-bg-color);
+        --current-fg-color: var(--tip-fg-color);
     }
 
     &.hint {
         --admonition-icon: "※";
 
         border: none;
+
+        --current-bg-color: var(--hint-bg-color);
+        --current-fg-color: var(--hint-fg-color);
     }
 
     &.example {
@@ -664,12 +718,14 @@ p.system-message-title {
         border: none;
 
         --current-bg-color: var(--example-bg-color);
+        --current-fg-color: var(--example-fg-color);
     }
 
     &.error {
         border: none;
 
         --current-bg-color: var(--error-bg-color);
+        --current-fg-color: var(--error-fg-color);
 
         > p:first-child.admonition-title {
             text-align: center;
@@ -891,7 +947,7 @@ pre.code {
     --color-zzz: #e6beff;
 
     /* The default color: */
-    --code-color: var(--black);
+    --code-color: var(--current-rel-fg-color);
 
     line-height: min(var(--s-line-height), 1.3);
     color: var(--code-color);
@@ -914,15 +970,16 @@ pre.code {
         text-shadow: 1px 1px 1px var(--white);
 
         &:first-of-type {
-            border-radius: 0.33em 0 0 0;
+            border-radius: var(--small-border-radius) 0 0 0;
         }
 
         &:last-of-type {
-            border-radius: 0 0 0 0.33em;
+            border-radius: 0 0 0 var(--small-border-radius);
         }
 
         &:only-of-type {
-            border-radius: 0.33em 0 0 0.33em;
+            border-radius: var(--small-border-radius) 0 0
+                var(--small-border-radius);
         }
     }
 
@@ -1565,7 +1622,7 @@ figure video {
     max-width: 70ch;
     min-width: 20ch;
     margin: auto;
-    box-shadow: var(--trbl-shadow-dark);
+    box-shadow: var(--trbl-shadow);
     border-radius: 0.25em;
 
     > :is(p, div.line-block) {
@@ -1630,6 +1687,6 @@ figure video {
 }
 
 .screenshot {
-    box-shadow: 0.1ch 0.1ch 0.5ch 0.5ch rgb(0 0 0 / 15%);
-    margin: 1ch;
+    box-shadow: var(--trbl-shadow);
+    margin: var(--trbl-shadow-margin);
 }

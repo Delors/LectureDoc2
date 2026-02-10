@@ -1,13 +1,5 @@
 /* LAYER: theme.DHBW */
 
-a:link,
-a:visited {
-    color: var(--dhbw-dark-red);
-}
-
-a:hover {
-    text-decoration: underline;
-}
 
 /*
  * Styling of lists where the content is shown in a table-like manner. The

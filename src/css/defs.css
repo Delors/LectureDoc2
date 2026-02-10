@@ -1,34 +1,6 @@
 /* LAYER: common */
 
 :root {
-    /*  Noto Sans Display, Noto Serif (Display), Victor Mono and MathJax can
-        not be assumed to be generally available!
-
-        Use ld-fonts.css to ensure that it is available. */
-
-    --default-font-family:
-        "Noto Sans Display", "Noto Sans", "Helvetica Neue", "Helvetica",
-        "Arial", sans-serif;
-
-    --code-font-family: "Victor Mono", "Monospace", monospace;
-
-    --pre-font-family: "Monospace", monospace;
-
-    --text-font-family: "Noto Serif", "Times New Roman", serif;
-    --large-text-font-family:
-        "Noto Sans Display", "Noto Sans", "Helvetica Neue", "Helvetica",
-        "Arial", sans-serif;
-
-    --math-font-family: "MathJax Main", "Noto Serif", "Times New Roman", serif;
-
-    --small-border-radius: 0.2em;
-    --medium-border-radius: 0.4em;
-
-    --default-container-padding: 0.5em;
-    --default-text-shadow-dimensions: 0.5px 0.5px 0.5px;
-
-    --default-box-margin: 0.5em; /* TODO consolidate with default-bottom-margin*/
-
     /*  The rendering mode is either "section" oder "slide" and is set
         when the content is rendered in the respective mode. 
 

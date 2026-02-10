@@ -3,53 +3,30 @@
 /* LectureDoc2's "common.css"
 
    It defines some defaults that are generally useful in the context of
-   LectureDoc2 to achieve a consistent look and feel.
+   LectureDoc2 to achieve a consistent look and feel and/or to facilitate
+   debugging.
 
    Michael Eichberg (LectureDoc2) (c) 2026 - www.michael-eichberg.de
 */
 
-html {
-    font-family: var(--default-font-family);
-    color: var(--current-fg-color);
-    background-color: var(--current-bg-color);
-}
-
-code,
-kbd {
-    font-family: var(--code-font-family);
-}
-pre,
-samp {
-    font-family: var(--pre-font-family);
-}
-
-blockquote {
-    --blockquote-background-color: #f0f0f0;
-
-    --current-bg-color: var(--blockquote-background-color);
-    background-color: var(--current-bg-color);
-}
-
+html,
 body {
     /* The following color definitions primarily serve debugging
        purposes! Slides are expected/required to set a background-color. */
-    --current-fg-color: black;
-    color: var(--current-fg-color);
-    --current-bg-color: rgb(25 20 20);
-    background-color: var(--current-bg-color);
+    color: darkred;
+    background-color: darkcyan;
 }
 
 @media print {
     /* At least Safari seems to honor this setting... */
 
     html {
-        --current-bg-color: white;
-        --current-fg-color: black;
+        color-scheme: only light;
     }
-
+    html,
     body {
-        --current-bg-color: white;
-        --current-fg-color: black;
+        color: black;
+        background-color: white;
     }
 }
 
@@ -111,10 +88,6 @@ a {
 
     overflow-wrap: break-word;
     hyphens: auto;
-
-    &:hover {
-        text-decoration: none;
-    }
 }
 
 /* Definition Lists */
@@ -193,8 +166,8 @@ summary {
 
 /* Block Quotes and Topics */
 blockquote {
-    line-height: 1.35em;
     padding: 0.149em 0.39em;
+    line-height: 1.35em;
     font-variant-ligatures: common-ligatures no-discretionary-ligatures
         contextual;
     font-weight: 300;
@@ -223,6 +196,25 @@ table.numbered > caption::before {
     font-weight: bold;
 }
 
+iframe {
+    /*  Necessary to get rid of some extra-whitespace below the iframe */
+    display: block;
+
+    /*  Since we don't know anything/want to make any assumptions about the 
+        iframe content, we set the background color to white to have a fixed
+        reference frame. */
+    background-color: white;
+}
+
+.embedded-iframe {
+    overflow: hidden;
+
+    /*margin: var(--trbl-shadow-margin);
+    box-shadow: var(--trbl-shadow);*/
+    border: 1px solid var(--border-color);
+    border-radius: var(--small-border-radius);
+}
+
 figure.align-left,
 img.align-left,
 video.align-left,
@@ -248,14 +240,4 @@ h4,
 footer,
 header {
     clear: both;
-}
-
-pre,
-samp {
-    font-size: 0.9em;
-}
-
-code,
-kbd {
-    font-size: 0.9em;
 }
