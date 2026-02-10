@@ -4,7 +4,6 @@
     --unitless-current-base-font-size: var(--unitless-d-font-size);
     --current-base-font-size: var(--d-font-size);
     font-size: var(--current-base-font-size);
-    line-height: var(--d-line-height);
 
     .s-only {
         display: none;
