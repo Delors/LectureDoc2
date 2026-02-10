@@ -195,6 +195,23 @@
     ld-card:has(+ *) {
         margin-bottom: var(--default-bottom-margin);
     }
+
+    /***************************************************************************
+
+        In the document view popovers are always visible and rendered inline.
+
+    ***************************************************************************/
+
+    div[popover] {
+        display: block;
+        position: static;
+
+        background-color: var(--current-bg-color);
+    }
+
+    button.popover {
+        display: none;
+    }
 }
 
 @media print {
