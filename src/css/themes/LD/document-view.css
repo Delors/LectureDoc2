@@ -2,7 +2,9 @@
 
 #ld-document-view {
     --unitless-current-base-font-size: var(--unitless-d-font-size);
-    --current-base-font-size: var(--d-font-size);
+    --current-base-font-size: calc(
+        var(--unitless-current-base-font-size) * 1px
+    );
     font-size: var(--current-base-font-size);
 
     .s-only {
@@ -16,8 +18,9 @@
         padding: var(--d-padding);
         border-radius: 0.25em;
 
-        --current-bg-color: var(--white);
-        background-color: var(--current-bg-color);
+        --current-bg-color: var(--bg-color);
+        --current-rel-bg-color: var(--current-bg-color);
+        background-color: var(--current-rel-bg-color);
 
         &.exercises,
         &.new-section {
