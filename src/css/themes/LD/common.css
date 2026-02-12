@@ -1233,7 +1233,7 @@ table {
     }
 
     &.table-data-monospaced td {
-        font-family: var(--theme-monospaced-font-family);
+        font-family: var(--monospaced-font-family);
     }
 
     /* ONLY WORKS IF THE TABLE IS IN A SCROLLABLE ELEMENT! */
