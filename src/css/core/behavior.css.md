@@ -11,7 +11,7 @@ Images are expected to be designed with the slides in mind and will be scaled do
 
 # Central (CSS) Classes and Custom Elements
 
-## incremental
+## incremental(-list/-table-rows/-code)
 
 ```css
 .incremental
@@ -20,7 +20,7 @@ Images are expected to be designed with the slides in mind and will be scaled do
 Elements marked with the class "incremental" are rendered one-step-after-another. By adding a number (e.g. `incremental-1`) it is possible to control the order.
 It is possible to assign the same number to multiple elements to make them appear at the same time.
 
-When you want to animate the rows of a table use incremental-table-rows and for lists use incremental-lists.
+When you want to animate the rows of a table use `incremental-table-rows` and for lists use `incremental-lists` and for code use `incremental-code`,
 
 ## copy-to-clipboard
 
