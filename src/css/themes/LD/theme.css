@@ -193,9 +193,7 @@
         --bg-color: var(--black);
         --fg-color: var(--white);
 
-        --shadow-color: var(
-            --very-very-light-gray
-        ); /* text-shadow and box-shadow */
+        --shadow-color: var(--very-very-light-gray); /* text- and box-shadow */
         --link-fg-color: var(--light-red);
         --blockquote-bg-color: var(--dark-gray);
     }
