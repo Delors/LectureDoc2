@@ -17,19 +17,6 @@ body {
     background-color: darkcyan;
 }
 
-@media print {
-    /* At least Safari seems to honor this setting... */
-
-    html {
-        color-scheme: only light;
-    }
-    html,
-    body {
-        color: black;
-        background-color: white;
-    }
-}
-
 hr {
     height: 1px;
     background-color: var(--black);

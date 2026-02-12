@@ -221,12 +221,6 @@
     #ld-document-view > ld-section {
         break-before: page;
 
-        /*  We want to have the section number found in the footer element 
-            at the bottom of the last page of the section. However, this
-            is basically not possible at the moment. Hence, we just get 
-            the feature that the footer is moved to the bottom if the 
-            section has just one page. */
-        min-height: 100vh;
         display: flex;
         flex-direction: column;
 
@@ -235,8 +229,12 @@
             CSS Nesting support in print media is not yet fully implemented
             in Chrome and Safari. */
         & > footer {
+            /* The following should push the footer to the bottom of the 
+               page, but this doesn't work in Chrome and Safari (December 2025) and the "page number" would be meaningless anyway, because the section might span multiple pages. 
+            min-height: 100vh;
             margin-top: auto;
-            break-inside: avoid;
+            break-inside: avoid;*/
+            display: none;
         }
     }
 }
