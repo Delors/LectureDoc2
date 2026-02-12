@@ -254,7 +254,12 @@ ul>li.attention-list {
 .list-with-explanations > li > *:not(:first-child) {
     margin-top: -0.3em;
     font-size: smaller;
-    color: var(--dark-gray);
+    --current-rel-fg-color: color-mix(
+        in lch,
+        var(--current-fg-color) 80%,
+        var(--current-bg-color) 20%
+    );
+    color: var(--current-rel-fg-color);
     mix-blend-mode: hard-light;
 }
 
