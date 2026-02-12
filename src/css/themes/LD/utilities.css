@@ -56,16 +56,6 @@
     box-shadow: var(--trbl-shadow);
 }
 
-.trbl-shadow-dark {
-    margin: 0.4em;
-    box-shadow: var(--trbl-shadow-dark);
-}
-
-.trbl-box-shadow-dark {
-    /* FIXME Try to get rid of trbl-shadow...*/
-    box-shadow: var(--trbl-shadow-dark);
-}
-
 /*******************************************************************************
 
     Colors
