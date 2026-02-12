@@ -220,7 +220,7 @@ const embeddedIFrames = {};
  */
 const adaptEmbeddedIFrameHeight = (iframeId, reason) => {
     const iframe = embeddedIFrames[iframeId];
-    if(!iframe) {
+    if (!iframe) {
         console.error(`iframe ${iframeId} not found`);
         return;
     }
@@ -233,7 +233,9 @@ const adaptEmbeddedIFrameHeight = (iframeId, reason) => {
         );
         iframe.style.height = newHeight;
     } else {
-        console.log(`not scaling iframe ${iframeId} because it has an explicit height: ${iframe.height}`);
+        console.log(
+            `not scaling iframe ${iframeId} because it has an explicit height: ${iframe.height}`,
+        );
     }
 };
 
