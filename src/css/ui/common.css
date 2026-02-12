@@ -5,9 +5,7 @@
     font-size: var(--ld-ui-font-size);
     font-weight: var(--ld-ui-font-weight);
 
-    * {
-        color: var(--ld-ui-color);
-    }
+    color: var(--ld-ui-color);
 
     a:link,
     a:visited {
