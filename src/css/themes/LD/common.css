@@ -1551,7 +1551,7 @@ table {
     color: var(--current-fg-color);
     --current-bg-color: var(--dark-red);
     background-color: var(--current-bg-color);
-    box-shadow: var(--trbl-shadow-dark);
+    box-shadow: var(--trbl-shadow);
 }*/
 .accentuate {
     display: block;
