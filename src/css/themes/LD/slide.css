@@ -125,8 +125,10 @@ ld-slide {
             padding-left: calc(2.5 * var(--s-lr-padding));
             border-radius: var(--small-border-radius);
 
-            --current-bg-color: var(--very-very-light-blue);
+            --current-bg-color: var(--very-very-light-red);
             background-color: var(--current-bg-color);
+            --current-fg-color: var(--very-dark-red);
+            color: var(--current-fg-color);
 
             &::before {
                 content: "✎";
