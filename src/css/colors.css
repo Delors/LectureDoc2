@@ -1,4 +1,4 @@
-/* LAYER: theme.ld */
+/* LAYER: common */
 
 :root {
     /* 
@@ -39,6 +39,7 @@
     --light-orange: oklab(from var(--orange) calc(l + 0.25) a b);
     --dark-orange: oklab(from var(--orange) calc(l - 0.075) a b);
 
+    --very-very-light-red: rgb(255 225 225);
     --very-light-red: rgb(255 178 178);
     --light-red: rgb(255 158 158);
     --shiny-red: color(display-p3 1 0 0);

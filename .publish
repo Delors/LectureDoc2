@@ -85,6 +85,7 @@ src/ld.css.md
 src/css/defs.css
 src/css/normalize.css
 src/css/common.css
+src/css/colors.css
 src/css/themes/ld.css
 src/css/ui/ui.css
 src/css/ui/defs.css
@@ -133,7 +134,6 @@ src/css/themes/utilities.css
 src/css/themes/utilities-slide.css
 
 src/css/themes/ld.css
-src/css/themes/LD/colors.css
 src/css/themes/LD/theme.css
 src/css/themes/LD/defs.css
 src/css/themes/LD/dict.css
