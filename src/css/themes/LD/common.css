@@ -1759,3 +1759,17 @@ video {
     margin: var(--trbl-shadow-margin);
     border-radius: var(--small-border-radius);
 }
+
+.light-image {
+    color-scheme: only light;
+    background-color: var(--white);
+    border-radius: var(--small-border-radius);
+    padding: var(--default-container-padding);
+}
+
+.dark-image {
+    color-scheme: dark;
+    background-color: var(--black);
+    border-radius: var(--small-border-radius);
+    padding: calc(var(--default-container-padding) * 0.5);
+}
