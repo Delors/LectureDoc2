@@ -1632,6 +1632,43 @@ figure video {
     display: inline;
 }
 
+iframe {
+    /*  Necessary to get rid of some extra-whitespace below the iframe */
+    display: block;
+
+    /*  Since we don't know anything/want to make any assumptions about the 
+        iframe content, we set the background color to white to have a fixed
+        reference frame. */
+    background-color: white;
+}
+
+.embedded-iframe {
+    overflow: hidden;
+
+    /*margin: var(--trbl-shadow-margin);
+    box-shadow: var(--trbl-shadow);*/
+    border: 1px solid var(--border-color);
+    border-radius: var(--small-border-radius);
+}
+
+figure.align-left,
+img.align-left,
+video.align-left,
+object.align-left {
+    clear: left;
+    float: left;
+    margin-right: 1em;
+}
+
+figure.align-right,
+img.align-right,
+video.align-right,
+object.align-right {
+    clear: right;
+    float: right;
+    margin-left: 1em;
+}
+
 video {
     border-radius: var(--small-border-radius);
     box-shadow: var(--trbl-shadow);

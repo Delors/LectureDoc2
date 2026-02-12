@@ -6,13 +6,17 @@
    LectureDoc2 to achieve a consistent look and feel and/or to facilitate
    debugging.
 
+   In this file only html elements are styled that are also used by 
+   LectureDoc2's UI. 
+
    Michael Eichberg (LectureDoc2) (c) 2026 - www.michael-eichberg.de
 */
 
 html,
 body {
     /* The following color definitions primarily serve debugging
-       purposes! Slides are expected/required to set a background-color. */
+       purposes! Slides and LectureDoc2's UI are expected/required to set 
+       a (background-)color. */
     color: darkred;
     background-color: darkcyan;
 }
@@ -181,43 +185,6 @@ table.numbered > caption::before {
     counter-increment: table;
     content: "Table " counter(table) ": ";
     font-weight: bold;
-}
-
-iframe {
-    /*  Necessary to get rid of some extra-whitespace below the iframe */
-    display: block;
-
-    /*  Since we don't know anything/want to make any assumptions about the 
-        iframe content, we set the background color to white to have a fixed
-        reference frame. */
-    background-color: white;
-}
-
-.embedded-iframe {
-    overflow: hidden;
-
-    /*margin: var(--trbl-shadow-margin);
-    box-shadow: var(--trbl-shadow);*/
-    border: 1px solid var(--border-color);
-    border-radius: var(--small-border-radius);
-}
-
-figure.align-left,
-img.align-left,
-video.align-left,
-object.align-left {
-    clear: left;
-    float: left;
-    margin-right: 1em;
-}
-
-figure.align-right,
-img.align-right,
-video.align-right,
-object.align-right {
-    clear: right;
-    float: right;
-    margin-left: 1em;
 }
 
 h1,
