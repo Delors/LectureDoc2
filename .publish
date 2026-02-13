@@ -56,6 +56,10 @@ components/timeline/timeline.css
 components/timeline/timeline-example.html
 components/ld-embedded-iframe.js
 components/ld-lightweight-css-editor.js
+components/ld-group-assignment.js
+components/group-assignment/group-assignment.js
+components/group-assignment/group-assignment.i18n.js
+components/group-assignment/group-assignment-example.html
 
 ################################################################################
 #
