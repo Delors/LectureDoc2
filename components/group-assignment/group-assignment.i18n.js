@@ -12,6 +12,7 @@ export const LD_GROUP_ASSIGNMENT_TRANSLATIONS = {
         groupsWithMembers: (size) => `Groups with ${size} members`,
         assignmentsHeading: "Random group assignments",
         groupLabel: "Group",
+        copyToClipboard: "→ Clipboard",
     },
     de: {
         heading: "Gruppeneinteilung",
@@ -26,6 +27,7 @@ export const LD_GROUP_ASSIGNMENT_TRANSLATIONS = {
         groupsWithMembers: (size) => `Gruppen mit ${size} Mitgliedern`,
         assignmentsHeading: "Zufällige Gruppeneinteilung",
         groupLabel: "Gruppe",
+        copyToClipboard: "→ Clipboard",
     },
 };
 

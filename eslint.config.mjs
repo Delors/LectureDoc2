@@ -4,7 +4,7 @@ import html from "eslint-plugin-html";
 
 export default [
     {
-        files: ["src/**/*.{js,mjs,html}","components/**/*.{js,mjs,html}"],
+        files: ["src/**/*.{js,mjs,html}", "components/**/*.{js,mjs,html}"],
         plugins: { html },
         languageOptions: {
             ecmaVersion: "latest",

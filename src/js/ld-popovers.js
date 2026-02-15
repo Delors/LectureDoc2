@@ -36,7 +36,8 @@ function afterLDListenerRegistrations() {
                     ld.postMessage(channel, "showPopover", popoverId);
                 } catch (error) {
                     console.error(
-                        "failed posting message to show popover with id " + popoverId,
+                        "failed posting message to show popover with id " +
+                            popoverId,
                         error,
                     );
                 }

@@ -1,0 +1,40 @@
+ld-group-assignment {
+    &::part(heading) {
+        margin-top: 0;
+    }
+    &::part(form) {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    &::part(label) {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    &::part(group-list) {
+        list-style-position: inside;
+        padding-inline-start: 0;
+    }
+    &::part(input) {
+        box-sizing: border-box;
+        font-size: inherit;
+        width: 10em;
+        border-radius: var(--small-border-radius);
+    }
+    &::part(button) {
+        font-size: inherit;
+        width: 10em;
+        margin-left: auto;
+    }
+
+    &::part(caption) {
+        text-align: left;
+    }
+    &::part(cell) {
+        padding-left: 1em;
+    }
+    &::part(cell header) {
+        text-align: right;
+    }
+}

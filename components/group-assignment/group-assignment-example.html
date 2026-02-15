@@ -1,56 +1,59 @@
 <!doctype html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ld-group-assignment Example</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ld-group-assignment Example</title>
 
-    <style>
-        body {
-            font-family: sans-serif;
-        }
+        <style>
+            body {
+                font-family: sans-serif;
+            }
 
-        pre {
-            background: #f6f8fa;
-            padding: 0.1rem 0.35rem;
-            border-radius: 0.25rem;
-        }
-    </style>
+            pre {
+                background: #f6f8fa;
+                padding: 0.1rem 0.35rem;
+                border-radius: 0.25rem;
+            }
+        </style>
 
-    <script>
-        lectureDoc2 = { ldEvents: new EventTarget() };
-    </script>
-    <script type="module" src="group-assignment.js"></script>
-    <script type="module" src="../ld-group-assignment.js"></script>
-    <script>
-        // The following code is for demo purposes only!
-        // It cannot be easily generalized!
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("DOMContentLoaded event fired");
-            lectureDoc2.ldEvents.dispatchEvent(new Event("beforeLDDOMManipulations"));
-            setTimeout(() => {
-                const template = document.querySelector("template");
-                const groupAssignmentElement = template.content.querySelector("div");
-                template.parentNode.insertBefore(groupAssignmentElement, template);
-                console.log("Group assignment element created");
+        <script>
+            lectureDoc2 = { ldEvents: new EventTarget() };
+        </script>
+        <script type="module" src="group-assignment.js"></script>
+        <script type="module" src="../ld-group-assignment.js"></script>
+        <script>
+            // The following code is for demo purposes only!
+            // It cannot be easily generalized!
+            document.addEventListener("DOMContentLoaded", () => {
+                console.log("DOMContentLoaded event fired");
+                lectureDoc2.ldEvents.dispatchEvent(
+                    new Event("beforeLDDOMManipulations"),
+                );
+                setTimeout(() => {
+                    const template = document.querySelector("template");
+                    const groupAssignmentElement =
+                        template.content.querySelector("div");
+                    template.parentNode.insertBefore(
+                        groupAssignmentElement,
+                        template,
+                    );
+                    console.log("Group assignment element created");
+                });
             });
-        });
-    </script>
-</head>
-<body>
-    <h1><code>&lt;ld-group-assignment&gt;</code> demo</h1>
+        </script>
+    </head>
+    <body>
+        <h1><code>&lt;ld-group-assignment&gt;</code> demo</h1>
 
         <h2>1) Direct usage</h2>
-        <p>
-            The component can be used directly with optional defaults:
-
-            <pre><code>
+        <p>The component can be used directly with optional defaults:</p>
+        <pre><code>
 &lt;ld-group-assignment
     default-group-size="3"
     default-number-of-students="25"&gt;
 &lt;/ld-group-assignment&gt;
-            </code></pre>
-        </p>
+        </code></pre>
 
         <ld-group-assignment
             default-group-size="3"
@@ -58,8 +61,9 @@
         </ld-group-assignment>
         <h2>2) LectureDoc module-based usage (wrapper)</h2>
         <p>
-            The wrapper converts <code>.module.group-assignment</code> entries in
-            <code>body &gt; template</code> to an <code>&lt;ld-group-assignment&gt;</code> element.
+            The wrapper converts <code>.module.group-assignment</code> entries
+            in <code>body &gt; template</code> to an
+            <code>&lt;ld-group-assignment&gt;</code> element.
         </p>
 
         <pre><code>
@@ -74,17 +78,15 @@
         </code></pre>
 
         <p>
-            If you open this file outside LectureDoc runtime, a small fallback below
-            triggers preprocessing so you can still see the conversion.
+            If you open this file outside LectureDoc runtime, a small fallback
+            below triggers preprocessing so you can still see the conversion.
         </p>
 
-    <template><!-- This is how it is found in LectureDoc2 documents. -->
-        <div class="module group-assignment">
-            {
-                "defaultNumberOfStudents": 18,
-                "defaultGroupSize": 4
-            }
-        </div>
-    </template>
-</body>
+        <template
+            ><!-- This is how it is found in LectureDoc2 documents. -->
+            <div class="module group-assignment">
+                { "defaultNumberOfStudents": 18, "defaultGroupSize": 4 }
+            </div>
+        </template>
+    </body>
 </html>
