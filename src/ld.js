@@ -400,7 +400,7 @@ function postMessage(msg, data) {
  * @param {string} id the id of the information item without the prefix
  *          "ld-".
  */
-function documentSpecificId(dataId) {
+export function documentSpecificId(dataId) {
     if (presentation.id) {
         return "ld-" + presentation.id + "-" + dataId;
     } else {
