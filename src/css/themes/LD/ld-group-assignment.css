@@ -1,4 +1,8 @@
 ld-group-assignment {
+
+    &::part(result) {
+        width: 100%;
+    }
     &::part(heading) {
         margin-top: 0;
     }
@@ -26,6 +30,17 @@ ld-group-assignment {
         font-size: inherit;
         width: 10em;
         margin-left: auto;
+        background-color: var( --button-bg-color);
+        color: var(--button-fg-color);
+        border-radius: var(--small-border-radius);
+        box-shadow: none;
+        border: none;
+    }
+
+    &::part(button):hover {
+        background-color: var( --button-hover-bg-color);
+        color: var(--button-hover-fg-color);
+        transition: 0.5s;
     }
 
     &::part(caption) {
