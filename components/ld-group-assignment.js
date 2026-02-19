@@ -2,9 +2,11 @@
 Small wrapper that bridges LectureDoc module configuration and
 the ld-group-assignment web component.
 */
+import {lectureDoc2,documentSpecificId} from "../src/ld.js";
 import "./group-assignment/group-assignment.js";
 
 const convertModuleBasedSpecificationToLDGroupAssignmentElement = () => {
+    // TODO Add ID
     const modules = document
         .querySelector("body > template")
         .content.querySelectorAll(".module.group-assignment");
@@ -19,6 +21,15 @@ const convertModuleBasedSpecificationToLDGroupAssignmentElement = () => {
             const groupAssignmentElement = document.createElement(
                 "ld-group-assignment",
             );
+            
+            try {
+                groupAssignmentElement.setAttribute(
+                    "storage-qualifier",
+                    documentSpecificId("module-state")
+                )
+            } catch (error) {
+                console.log("Cannot compute document specific id:", error);
+            }
 
             if (
                 Number.isFinite(defaultNumberOfStudents) &&

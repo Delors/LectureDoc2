@@ -18,11 +18,15 @@ import {
     getDocumentLanguage,
 } from "./group-assignment.i18n.js";
 
+const STORAGE_KEY = "ld-group-assignment-state";
+
 class LDGroupAssignment extends HTMLElement {
     
     static get observedAttributes() {
         return ["default-group-size", "default-number-of-students"];
     }
+
+    #isStateRestored = false;
 
     #state = {
         groupSize: 4,
@@ -43,16 +47,19 @@ class LDGroupAssignment extends HTMLElement {
     }
 
     connectedCallback() {
-        this.#initializeStateFromAttributes();
+        const restored = this.#restoreState();
+        if (!restored) {
+            this.#initializeStateFromAttributes();
+        } 
+        // this.#saveState();
         this.#render();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        /*
+
         console.log(
-            `Attribute ${name} changed from ${oldValue} to ${newValue}`,
+            `attribute ${name} changed from ${oldValue} to ${newValue}`,
         );
-        */
         if (oldValue === newValue) return;
 
         if (name === "default-group-size") {
@@ -63,7 +70,10 @@ class LDGroupAssignment extends HTMLElement {
             if (parsed !== null) this.#state.numberOfStudents = parsed;
         }
 
-        if (this.isConnected) this.#render();
+        if (this.#isStateRestored) {
+            this.#render();
+            this.#saveState();
+        }
     }
 
     #initializeStateFromAttributes() {
@@ -80,7 +90,7 @@ class LDGroupAssignment extends HTMLElement {
     }
 
     #parsePositiveInt(value) {
-        // also handles "0" correctly!
+        // also handles (the string) "0" correctly!
         if (!value) return null;
         const n = Number.parseInt(String(value), 10);
         if (!Number.isFinite(n) || n <= 0) return null;
@@ -96,6 +106,12 @@ class LDGroupAssignment extends HTMLElement {
     }
 
     #computeDistribution(numberOfStudents, groupSize) {
+        // IMPROVE Add option to build a "rest group" instead of distributing the remaining students to the regular groups.
+
+        // TODO refactor this method; it is too complex
+        // 1. shuffle
+        // 2. compute group sizes
+        // 3. assign students to groups in loop
         const baseGroupCount = Math.floor(numberOfStudents / groupSize);
 
         if (baseGroupCount === 0) {
@@ -103,6 +119,7 @@ class LDGroupAssignment extends HTMLElement {
                 Array.from({ length: numberOfStudents }, (_, i) => i + 1),
             );
             return {
+                date: Date.now(),
                 totalGroups: 1,
                 students: numberOfStudents,
                 requestedGroupSize: groupSize,
@@ -138,6 +155,7 @@ class LDGroupAssignment extends HTMLElement {
         }
 
         return {
+            date: Date.now(),
             totalGroups: baseGroupCount,
             students: numberOfStudents,
             requestedGroupSize: groupSize,
@@ -147,6 +165,41 @@ class LDGroupAssignment extends HTMLElement {
             largerGroups,
             groups,
         };
+    }
+
+    #storageKey() {
+        const qualifier = this.getAttribute("storage-qualifier");
+        return qualifier ? `${qualifier}::${STORAGE_KEY}::` : STORAGE_KEY;
+    }
+
+    #saveState() {
+        try {
+            const state =  JSON.stringify(this.#state)
+            localStorage.setItem(this.#storageKey(),state);
+            console.log("saved group assignment state:", state);
+        } catch (error) {
+            console.log("Failed to save group assignment state.", error);
+        }
+    }
+
+    #restoreState() {
+        this.#isStateRestored = true;
+        try {
+            const raw = localStorage.getItem(this.#storageKey());
+            if (!raw) return false;
+            const parsed = JSON.parse(raw);
+            
+
+            if (!parsed || typeof parsed !== "object") return false;
+            this.#state = { ...this.#state, ...parsed };
+
+            console.log("Restoring state.",this.#state);
+
+            return true;
+        } catch (error) {
+            console.log("Failed to restore group assignment state.", error);
+            return false;
+        }
     }
 
     #onSubmit(event) {
@@ -169,11 +222,14 @@ class LDGroupAssignment extends HTMLElement {
             groupSize,
         );
 
+        this.#saveState();
+
         this.#render();
     }
 
     #resetToInput() {
         this.#state.result = null;
+        this.#saveState();
         this.#render();
     }
 
@@ -239,7 +295,7 @@ class LDGroupAssignment extends HTMLElement {
         return `
             <div part="result" class="ld-group-assignment__result">
                 <table part="table" class="ld-group-assignment__table">
-                    <caption part="caption">${t.distributionResult}</caption>
+                    <caption part="caption"><span>${t.distributionResult}</span> - <span>${new Date(result.date).toLocaleString(getDocumentLanguage())}</span></caption>
                     <tbody>
                         <tr><th part="cell header">${t.students}</th><td part="cell">${result.students}</td></tr>
                         <tr><th part="cell header">${t.requestedGroupSize}</th><td part="cell">${result.requestedGroupSize}</td></tr>
