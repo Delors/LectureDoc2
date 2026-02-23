@@ -36,12 +36,16 @@
         }
 
         &.exercises > h2 {
-            background-color: var(--light-gray);
+            --current-bg-color: var(--light-gray);
+            --current-rel-bg-color: var(--current-bg-color);
+            background-color: var(--current-rel-bg-color);
             text-shadow: 1px 1px 1px var(--white);
         }
 
         &.new-section > h2 {
-            background-color: var(--dark-gray);
+            --current-bg-color: var(--dark-gray);
+            --current-rel-bg-color: var(--current-bg-color);
+            background-color: var(--current-rel-bg-color);
             color: var(--white);
             text-shadow: 1px 1px 1px var(--black);
         }
