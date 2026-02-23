@@ -251,7 +251,11 @@ ld-slide {
     li.show-list-item-content-on-hover {
         > *:first-child::before {
             content: "⇢ ";
-            color: color-mix(in srgb, var(--current-rel-fg-color) 80%, var(--current-rel-bg-color) 20%);
+            color: color-mix(
+                in srgb,
+                var(--current-rel-fg-color) 80%,
+                var(--current-rel-bg-color) 20%
+            );
             font-family: var(--monospaced-font-family);
             font-weight: 900;
         }
@@ -295,28 +299,26 @@ ld-slide {
         }
     }
 
-    /* IMPROVE Currently, the position is fixed. */
+    /* Scales a container on hover. 
+
+       The container's content is expected to be an image that is designed 
+       w.r.t. the document view.
+       This class is intended to be used with generic containers. It must not be used on images directly, as it would interfere with the scaling logic of images.
+      
+       In this case the assumption is made that the image is designed w.r.t to the document view! I. e., contrary to the standard case, images are not scaled in the document view and only scaled in the slide view, when the user hovers over them. (Part of this logic is implemented in JavaScript!) */
     .scale-on-hover {
-        position: absolute;
-        z-index: 1;
-        right: 0;
-        padding: 0.5em;
+        position: relative;
+        float: right;
         border-radius: var(--small-border-radius);
 
         transform-origin: top right;
-        transform: scale(0.35);
         transition: all 0.5s;
+        z-index: 1;
 
         &.\:hover {
+            /*transform: scale(3);*/
+            transform: scale(var(--slide-to-document-font-size-ratio));
             border: thin solid rgb(0 0 0 / 50%);
-            transform: scale(1);
-
-            background-color: color-mix(
-                in srgb,
-                var(--current-bg-color),
-                transparent 35%
-            );
-            backdrop-filter: blur(4px);
             transition: all 0.5s;
         }
     }
