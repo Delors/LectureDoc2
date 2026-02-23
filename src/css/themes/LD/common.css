@@ -256,11 +256,11 @@ ul>li.attention-list {
     font-size: smaller;
     --current-rel-fg-color: color-mix(
         in lch,
-        var(--current-fg-color) 80%,
-        var(--current-bg-color) 20%
+        var(--current-fg-color) 50%,
+        var(--current-bg-color)
     );
     color: var(--current-rel-fg-color);
-    mix-blend-mode: hard-light;
+    /* Does not work well any longer: mix-blend-mode: hard-light; */
 }
 
 .list-with-details > li > *:not(:first-child) {
