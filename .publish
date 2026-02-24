@@ -136,6 +136,7 @@ src/css/core/light-table.css
 
 src/css/themes/utilities.css
 src/css/themes/utilities-slide.css
+src/css/themes/utilities-document-view.css
 
 src/css/themes/ld.css
 src/css/themes/LD/theme.css
