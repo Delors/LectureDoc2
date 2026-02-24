@@ -1435,14 +1435,31 @@ table {
     }
 
     &.highlight-row-on-hover {
+        /* TODO Document why both are required... */
         tr.\:hover {
-            --current-bg-color: var(--light-gray);
-            background-color: var(--current-bg-color);
+            --current-rel-bg-color: light-dark(
+                var(--current-fg-color),
+                var(--current-bg-color)
+            );
+            background-color: var(--current-rel-bg-color);
+            --current-rel-fg-color: light-dark(
+                var(--current-bg-color),
+                var(--current-fg-color)
+            );
+            color: var(--current-rel-fg-color);
         }
 
-        tr.\:hover-related {
-            --current-bg-color: var(--very-light-gray);
-            background-color: var(--current-bg-color);
+        tr.\:hover-related { 
+            --current-rel-bg-color: light-dark(
+                var(--current-fg-color),
+                var(--current-bg-color)
+            );
+            background-color: var(--current-rel-bg-color);
+            --current-rel-fg-color: light-dark(
+                var(--current-bg-color),
+                var(--current-fg-color)
+            );
+            color: var(--current-rel-fg-color);
         }
     }
 
@@ -1503,7 +1520,7 @@ table {
     align-items: center;
 }
 
-/** Intended to be used as the section/slide level. */
+/** Intended to be used at the section/slide level. */
 .summary > h2:first-child {
     text-align: center;
     position: relative;
