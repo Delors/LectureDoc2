@@ -1631,33 +1631,6 @@ table {
     background-color: var(--current-rel-bg-color);
 }
 
-ul.important {
-    list-style-type: none;
-    margin-left: 0;
-    padding-left: 0;
-
-    > li {
-        position: relative;
-        --current-bg-color: var(--very-light-red);
-        background-color: var(--current-bg-color);
-        border-radius: 0.5em;
-        margin-top: 0.5em;
-        padding: 0.5em;
-        padding-left: 1.5em;
-
-        &::before {
-            position: absolute;
-            content: " ";
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 1em;
-            --current-bg-color: var(--dark-red);
-            background-color: var(--current-bg-color);
-        }
-    }
-}
-
 /* Images are block-level by default in Docutils */
 /* New HTML5 block elements: set display for older browsers */
 img,
