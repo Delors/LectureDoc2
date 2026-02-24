@@ -35,15 +35,22 @@ ld-slide {
         h1 {
             position: relative;
             left: calc(var(--s-lr-padding) * -1);
+
             width: calc(100% + var(--s-lr-padding));
+            
             margin-top: var(--s-lr-padding);
             border-radius: 0 var(--s-border-radius) var(--s-border-radius) 0;
             padding: calc(var(--s-tb-padding) * 2.5) var(--s-lr-padding);
 
-            background-color: var(--dark-gray);
-            color: var(--white);
             font-size: calc(var(--s-font-size) * 2.5);
             font-weight: var(--s-title-font-weight);
+
+            --current-bg-color: var(--dark-gray);
+            --current-rel-bg-color: var(--current-bg-color);
+            background-color: var(--current-rel-bg-color);
+            --current-fg-color: var(--white);
+            --current-rel-fg-color: var(--current-fg-color);
+            color: var(--current-rel-fg-color);
         }
     }
 
