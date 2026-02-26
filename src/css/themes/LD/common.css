@@ -1107,7 +1107,11 @@ pre.code {
         }
 
         &.function {
-            color: var(--function-color);
+            color: color-mix(
+                in lch,
+                var(--current-rel-bg-color) 15%,
+                var(--current-rel-fg-color)
+            );
             font-style: italic;
         }
 
@@ -1802,12 +1806,10 @@ video {
 .light-image {
     color-scheme: only light;
     /* If the current background color is white, we set the background color
-       to transparent. If the background color is not white, we still use white, 
-       but with some transparency, reducing the transparency the darker the 
-       background gets. Works very well, if the background is either black or 
-       white. */
+       to transparent. If the background color is not white, we use white. */
     /* Gradual transparency: background-color: oklab(from var(--current-rel-bg-color) 1 0 0 / calc(1 - l)); */
-    background-color: oklab(from var(--current-rel-bg-color) 1 0 0 / clamp(0, round((1 - l) * 1e9), 1)); /* Hack to get either no or full opacity/transparencey. Replace with "if" once Safari and Firefox support it. */
+    --current-bg-color: oklab(from var(--current-rel-bg-color) 1 0 0 / clamp(0, round((1 - l) * 1e9), 1)); /* Hack to get either no or full opacity/transparencey. Replace with "if" once Safari and Firefox support it. */
+    background-color: var(--current-bg-color);
     border-radius: var(--small-border-radius);
     padding: var(--default-container-padding);
 }
