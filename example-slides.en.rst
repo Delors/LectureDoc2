@@ -2,7 +2,7 @@
     :lang: en
     :author: Michael Eichberg
     :keywords: Demo, Showcase
-    :description lang=en: Demonstrates LectureDoc2 
+    :description lang=en: Demonstrates LectureDoc2
     :id: LectureDoc2-Showcase
     :first-slide: last-viewed
     :master-password: Demo!
@@ -42,6 +42,8 @@ Introduction
 This slide set primarily serves as a testbed for various features of the `LectureDoc2` system. It also demonstrates how to use the system to create slides for a lecture.
 
 
+.. class:: transition-scale
+
 
 Supplemental Information and Presenter Notes\ [#]_
 --------------------------------------------------------
@@ -77,6 +79,9 @@ Some more text.
 
 .. [#] Supplemental information and presenter notes are not immediately shown on the slide.
 
+
+
+.. class:: transition-move-left
 
 Decks and Cards
 --------------------------------------------------------
@@ -153,17 +158,20 @@ Decks and Cards
 
             .. card:: monospaced
 
-                _------ ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------- ------_
+                ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- -------
 
             .. card:: overlay monospaced
 
-                xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx
+                xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx
 
     .. card::
 
         .. hint::
 
             This is the last card in the top-level deck.
+
+
+.. class:: transition-flip
 
 Stories
 --------------------------------------------------------
@@ -229,6 +237,7 @@ may scroll content out of the view.
 
 
 
+.. class:: transition-fade
 
 Scrollables
 --------------------------------------------------------
@@ -363,7 +372,8 @@ A scrollable is a container whose content does not fit into the available space 
         };
 
 
-Scrollables with explicit height!
+
+Scrollables with explicit height!\ [#]_
 --------------------------------------------------------
 
 A scrollable can have an explicit height that will be used for the slide view.
@@ -459,6 +469,9 @@ A scrollable can have an explicit height that will be used for the slide view.
             channel.postMessage([msg, data]);
         }
 
+.. [#] Just a footer.
+
+
 
 Simple column-based Layouts
 --------------------------------------------------------
@@ -471,7 +484,7 @@ One way to create a very simple multi-column layout consists of a list with the 
 
     .. class:: columns
 
-    - This first column.
+    - The first column.
 
       1. a nested list.
     - The second column.
@@ -482,7 +495,7 @@ One way to create a very simple multi-column layout consists of a list with the 
 
     .. class:: columns left-aligned
 
-    - This first column.
+    - The first column.
 
       1. a nested list.
     - The second column.
@@ -493,7 +506,7 @@ One way to create a very simple multi-column layout consists of a list with the 
 
     .. class:: columns evenly-spaced
 
-    - This first column.
+    - The first column.
 
       1. a nested list.
     - The second column.
@@ -507,7 +520,7 @@ Advanced Slide Layouts
 
 .. grid::
 
-    .. cell:: black-background white
+    .. cell:: black-background white padding-1em
         :align: stretch
 
         Using Grids it is possible to design advanced slide layouts.
@@ -521,19 +534,19 @@ Advanced Slide Layouts
             :number-lines:
 
             .. grid::
-                :class: very-light-gray-background
+              :class: very-light-gray-background
 
-                .. cell::
+              .. cell::
 
-                    Using Grids it is possible to
-                    design advanced slide layouts.
+                Using Grids it is possible to
+                design advanced slide layouts.
 
-                .. cell::
+              .. cell::
 
-                    .. code:: rst
-                        :class: copy-to-clipboard
+                .. code:: rst
+                  :class: copy-to-clipboard
 
-                        **The Code**
+                  **The Code**
 
 
 
@@ -549,6 +562,8 @@ Math
         .. math::
 
             e = mc^2
+
+        Alternatively, it is often possible and easier to just use Unicode symbols:
 
         Poor Man's Math: :math-i:`e = mc`\ :math-r:`²`.
 
@@ -566,6 +581,7 @@ Math
 
                     e = mc^2
 
+                Poor Man's Math: e = mc².
 
 Tables
 --------------------------------------------------------

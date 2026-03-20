@@ -65,11 +65,6 @@ components/group-assignment/group-assignment-example.html
 #
 # LectureDoc2 - src
 
-src/folien.en.rst.html
-src/folien.en.rst.html.pdf
-src/readme.en.rst.html
-src/readme.en.rst.html.pdf
-
 src/ld.js
 src/js/ld-images.js
 src/js/ld-tables.js
@@ -160,6 +155,12 @@ src/css/themes/DHBW/slide.css
 src/css/themes/DHBW/utilities.css
 src/css/themes/DHBW/animated-logo.js
 src/css/themes/DHBW/dhbw_logo.png
+src/css/themes/DHBW/dhbw_logo-black.png
 src/css/themes/DHBW/dhbw_text.png
 src/css/themes/DHBW/dhbw_symbol.png
 src/css/themes/DHBW/dhbw_symbol-sharp.png
+
+example-slides.en.rst.html
+example-slides.en.rst.html.pdf
+readme.en.rst.html
+readme.en.rst.html.pdf

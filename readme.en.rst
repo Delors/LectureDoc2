@@ -40,7 +40,7 @@ How To
 
     A LectureDoc document is basically a plain HTML5 document with a very simple structure. All functionality is enabled using CSS and JavaScript. The most basic presentation would be:
 
-    .. include:: docs/minimal-example.html
+    .. include:: src/docs/minimal-example.html
         :code: html
 
     As seen in the above example, a stylesheet related to the rendering of the controls need to be imported along with some JavaScript files which enable the base functionality. Support for math equations and syntax highlighting of code needs additional imports. See the advanced example for that.
