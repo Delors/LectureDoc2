@@ -979,7 +979,7 @@ pre.code {
     }
 
     /*  styling line numbers */
-    .ln {
+    > .ln {
         color: var(--dark-gray);
         font-size: inherit;
         margin-right: 0.25em;
@@ -1001,6 +1001,18 @@ pre.code {
             border-radius: var(--small-border-radius) 0 0
                 var(--small-border-radius);
         }
+    }
+
+    &.tail > .ln:first-of-type {
+        border-radius: 0;
+    }
+
+    &.head > .ln:last-of-type {
+        border-radius: 0;
+    }
+
+    &.snippet > .ln {
+        border-radius: 0;
     }
 
     /*  styling the code (sorted alphabetically) */
