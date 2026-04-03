@@ -67,6 +67,7 @@ components/group-assignment/group-assignment-example.html
 
 src/ld.js
 src/js/ld-images.js
+src/js/ld-global-information.js
 src/js/ld-tables.js
 src/js/ld-decks.js
 src/js/ld-stories.js
