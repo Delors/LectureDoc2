@@ -10,8 +10,12 @@
                 content: "⇡\A⇣";
 
                 display: block;
+                /* When we want to the right instead of on top...
                 float: right;
                 position: sticky;
+                */
+                position: absolute;
+                right: 0.15em;
                 top: 0;
                 z-index: 1;
                 white-space: pre;
