@@ -1,6 +1,6 @@
 /**
  * A small helper library (module) which defines common functionality
- * to manipulate the DOM.
+ * to manipulate and traverse the DOM.
  *
  * @license BSD-3-Clause
  * @author Michael Eichberg
@@ -61,6 +61,25 @@ export function div({
     if (parent) parent.appendChild(div);
     if (children) div.append(...children);
     return div;
+}
+
+/**
+ * Walks the DOM tree (i.e., first we navigate to the previous sibling and only if there is no sibling, we move up to the parent element) starting from the given element and returns the heading level of the first heading element (h1, h2, h3, h4, h5, h6) that is found. If no heading element is found, it returns 0.
+ * @param {*} element
+ */
+export function getCurrentHeadingLevel(element) {
+    if (!element) throw new Error("element must be defined");
+
+    if (element instanceof HTMLHeadingElement) {
+        const level = parseInt(element.tagName[1]);
+        return level;
+    } else if (element.previousElementSibling) {
+        return getCurrentHeadingLevel(element.previousElementSibling);
+    } else if (element.parentElement) {
+        return getCurrentHeadingLevel(element.parentElement);
+    } else {
+        return 0;
+    }
 }
 
 /* Not used so far; but may be useful in the future:
@@ -141,6 +160,8 @@ export function capitalizeCSSName(str, separator = "-") {
         .join("");
 }
 
+/** Returns the first parent element of the given element that has the given class name. If no such element is found, it returns null.
+ */
 export function getParent(element, className) {
     if (!element) return null;
     return getParentOrThis(element.parentNode, className);
