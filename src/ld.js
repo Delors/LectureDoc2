@@ -1601,7 +1601,10 @@ function setSlidesPaneScale() {
     const w_scale = window.innerWidth / presentation.slide.width;
     const h_scale = window.innerHeight / presentation.slide.height;
     const newSlidePaneScale = Math.min(w_scale, h_scale);
-    document.getElementById("ld-slides-pane").style.scale = newSlidePaneScale;
+    const slidesPane = document.getElementById("ld-slides-pane");
+    slidesPane.style.scale = newSlidePaneScale;
+    slidesPane.style.setProperty("--ld-slide-scale", newSlidePaneScale);
+
     ephemeral.currentSlidePaneScale = newSlidePaneScale;
 }
 

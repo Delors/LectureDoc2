@@ -97,6 +97,7 @@ src/css/ui/nav.css
 src/css/ui/jump-target-dialog.css
 src/css/ui/messagebox.css
 src/css/ui/laser-pointer.css
+src/css/ui/global-information.css
 src/css/ui/light-table-dialog.css
 src/css/ui/icons/unlock-global.svg
 src/css/ui/icons/white-cross-on-black.svg
@@ -146,6 +147,7 @@ src/css/themes/LD/slide.css
 src/css/themes/LD/light-table.css
 src/css/themes/LD/utilities.css
 src/css/themes/LD/ld-group-assignment.css
+src/css/themes/LD/ld-global-information.css
 
 src/css/themes/dhbw.css
 src/css/themes/DHBW/defs.css

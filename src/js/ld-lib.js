@@ -10,7 +10,7 @@ export function create(
     elementName,
     {
         id = undefined,
-        classList = undefined,
+        classList = undefined, // todo --> classes to be consistent with other functions of always use classList to be consistent with HTML
         innerHTML = undefined,
         parent = undefined,
         children = undefined,
@@ -45,6 +45,27 @@ export function dialog({
     if (classes) dialog.classList.add(...classes);
     if (children) dialog.append(...children);
     return dialog;
+}
+
+export function button({
+    id = undefined,
+    classes = undefined,
+    parent = undefined,
+    children = undefined,
+    innerHTML = undefined,
+    popovertarget = undefined,
+    popovertargetaction = undefined,
+}) {
+    const button = document.createElement("button");
+    if (id) button.id = id;
+    if (classes) button.classList.add(...classes);
+    if (innerHTML) button.innerHTML = innerHTML;
+    if (parent) parent.appendChild(button);
+    if (children) button.append(...children);
+    if (popovertarget) button.setAttribute("popovertarget", popovertarget);
+    if (popovertargetaction)
+        button.setAttribute("popovertargetaction", popovertargetaction);
+    return button;
 }
 
 export function div({
@@ -227,6 +248,36 @@ export function postMessage(channel, msg, data) {
     channel.postMessage([msg, data]);
 }
 
+/* Helper code related to the detection of scroll events and the synchronization of scroll positions across different windows (addScrollingEventListener). Basically, we prevent scrolling at all unless the document has the focus.
+ */
+/* The following works well with Chrome, but is a nightmare with Safari..
+let isMouseOver = false;
+document.documentElement.addEventListener("mouseenter", () => {
+    isMouseOver = true;
+    console.log("Mouseenter");
+});
+document.documentElement.addEventListener("mouseleave", () => {
+    isMouseOver = false;
+    console.log("Mouseleave");
+});
+*/
+window.addEventListener(
+    "wheel",
+    (event) => {
+        if (!document.hasFocus()) {
+            event.preventDefault();
+            event.stopPropagation();
+            /*
+            console.log(
+                "ld-scrollable",
+                "ignoring wheel event on document which has no focus",
+            );
+            */
+        }
+    },
+    { passive: false },
+);
+
 /**
  * Adds an event listener to the scrollable element that fires when the element
  * is scrolled. In that case, the event is sent to the specified channel to
@@ -251,43 +302,17 @@ export function addScrollingEventListener(
     scrollableElement,
     id,
 ) {
-    // We will relay a scroll event to a secondary window, when there was no
-    // more scrolling for at least TIMEOUTms. Additionally, if there is already an
-    // event handler scheduled, we will not schedule another one.
-    //
-    // If we would directly relay the event, it may be possible that it will
-    // result in all kinds of strange behaviors, because we cannot easily
-    // distinguish between a programmatic and a user initiated scroll event.
-    // (Using window blur and focus events didn't work reliably.)
-    // This could result in a nasty ping-pong effect where scrolling between
-    // two different position would happen indefinitely.
-    const TIMEOUT = 50;
-    let lastEvent = undefined;
-    let eventHandlerScheduled = false;
     scrollableElement.addEventListener(
         "scroll",
         (event) => {
-            lastEvent = new Date().getTime();
-            function scheduleEventHandler(timeout) {
-                setTimeout(() => {
-                    const currentTime = new Date().getTime();
-                    if (currentTime - lastEvent < TIMEOUT) {
-                        scheduleEventHandler(
-                            TIMEOUT - (currentTime - lastEvent),
-                        );
-                        return;
-                    }
-                    postMessage(channel, eventTitle, [
-                        id,
-                        event.target.scrollTop,
-                    ]);
-                    // console.log(eventTitle + " " + id + " " + event.target.scrollTop);
-                    eventHandlerScheduled = false;
-                }, timeout);
-            }
-            if (!eventHandlerScheduled) {
-                eventHandlerScheduled = true;
-                scheduleEventHandler(TIMEOUT);
+            if (document.hasFocus() /*|| isMouseOver*/) {
+                // We only want to send the event if the document has focus, because otherwise we cannot be sure that the event was triggered by a user interaction and not programmatically. This is important to avoid a ping-pong effect where two windows would scroll between two different positions indefinitely.
+                postMessage(channel, eventTitle, [id, event.target.scrollTop]);
+            } else {
+                console.debug(
+                    "ld-lib",
+                    "prevented scroll event propagation due to missing  document focus",
+                );
             }
         },
         { passive: true },

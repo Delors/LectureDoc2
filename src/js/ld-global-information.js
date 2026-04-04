@@ -35,8 +35,97 @@ function updateSlideViewAfterLDDOMManipulations() {
     console.log(
         "performing ld-global-information.updateSlideViewAfterLDDOMManipulations",
     );
-    
-    
+
+    const slidesPane = document.getElementById("ld-slides-pane");
+    const laserPointer = slidesPane.querySelector("ld-laser-pointer");
+
+    // Step 1: Collect all global information elements from the slide set.
+    const globalInfoElements = Array.from(
+        slidesPane.querySelectorAll("ld-global-information"),
+    );
+    if (globalInfoElements.length === 0) return;
+
+    const allGlobalInfo = ld.create("ld-all-global-information", {});
+    const navbarButtons = [];
+
+    globalInfoElements.forEach((element, index) => {
+        const dialogId = `ld-global-information-${index + 1}`;
+        const type = element.getAttribute("type") || "cheat-sheet";
+        const title = element.getAttribute("title") || "";
+        const symbol = element.getAttribute("symbol") || "";
+
+        // If the element has the embed attribute, clone it for the
+        // dialog and replace the original in the slide with a section.
+        let dialogContent;
+        if (element.hasAttribute("embed")) {
+            dialogContent = ld.deepCloneWithOpenShadowRoots(element);
+
+            const section = document.createElement("section");
+            section.classList.add(...element.classList);
+            section.classList.add("ld-global-information");
+            section.dataset.ldGlobalInformationType = type;
+            section.append(...element.childNodes);
+            element.replaceWith(section);
+        } else {
+            dialogContent = element;
+            element.remove();
+        }
+
+        // Step 2: Wrap in a popover dialog.
+        const dialog = ld.dialog({
+            id: dialogId,
+            classes: ["ld-ui"],
+            children: [
+                ld.div({
+                    classes: ["ld-dialog-header"],
+                    children: [
+                        ld.create("span", {
+                            classList: ["ld-dialog-title"],
+                            innerHTML: title,
+                        }),
+                        ld.button({
+                            classes: ["ld-dialog-close-button"],
+                            popovertargetaction: "hide",
+                            popovertarget: dialogId,
+                        }),
+                    ],
+                }),
+                dialogContent,
+            ],
+        });
+        dialog.popover = "auto";
+
+        allGlobalInfo.appendChild(dialog);
+
+        // Step 3: Create a navbar button for this dialog.
+        const button = document.createElement("button");
+        button.setAttribute("popovertarget", dialogId);
+        if (symbol) {
+            button.textContent = symbol;
+            button.title = title;
+        } else {
+            button.textContent = title;
+        }
+        navbarButtons.push(button);
+    });
+
+    // Place the container as a direct sibling of ld-laser-pointer.
+    laserPointer.after(allGlobalInfo);
+
+    // Create the navbar and place it after the container.
+    const documentView = document.querySelector("#ld-document-view");
+    const navbar = document.createElement("nav");
+    navbar.setAttribute("popover", "auto");
+    navbar.id = "ld-global-elements-menu";
+    navbarButtons.forEach((btn) => navbar.appendChild(btn));
+    documentView.after(navbar);
+
+    const navbarButton = document.createElement("button");
+    navbarButton.setAttribute("type", "button");
+    navbarButton.textContent = "⌗";
+    navbarButton.id = "ld-global-elements-menu-button";
+    navbarButton.setAttribute("popovertarget", "ld-global-elements-menu");
+    documentView.after(navbarButton);
 }
 
 lectureDoc2.ldEvents.addEventListener(
@@ -82,4 +171,31 @@ function updateDocumentViewAfterLDDOMManipulations() {
 lectureDoc2.ldEvents.addEventListener(
     "afterLDDOMManipulations",
     updateDocumentViewAfterLDDOMManipulations,
+);
+
+function updateLightTableViewAfterLDDOMManipulations() {
+    console.log(
+        "performing ld-global-information.updateLightTableViewAfterLDDOMManipulations",
+    );
+
+    document
+        .querySelectorAll("#ld-light-table-slides ld-global-information")
+        .forEach((element) => {
+            if (element.hasAttribute("embed")) {
+                const type = element.getAttribute("type") || "cheat-sheet";
+                const section = document.createElement("section");
+                section.classList.add(...element.classList);
+                section.classList.add("ld-global-information");
+                section.dataset.ldGlobalInformationType = type;
+                section.append(...element.childNodes);
+                element.replaceWith(section);
+            } else {
+                element.remove();
+            }
+        });
+}
+
+lectureDoc2.ldEvents.addEventListener(
+    "afterLDDOMManipulations",
+    updateLightTableViewAfterLDDOMManipulations,
 );
