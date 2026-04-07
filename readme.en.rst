@@ -78,14 +78,18 @@ Slide Design
 --------------------------------
 
 In general, no hard restrictions have to be followed regarding the design of your slides.
-However, the width, height, position, display and scale properties of slides (``div.ld-slide``) are used by LectureDoc and must not be "styled" in custom style sheets.
+However, the width, height, position, display and scale properties of slides (``<ld-slide>``) are used by LectureDoc and must not be "styled" in custom style sheets.
 
 
+
+.. class:: new-section
 
 Non-Goals
 ---------
 
+
+
 Broad compatibility
 ___________________
 
-LectureDoc does not strive for maximum compatibility with all (past) browsers. I.e., as of 2024, it is only regularly tested on the most modern versions of Chrome, Safari and Firefox. In general, LectureDoc will not use features not fully supported by one of these browsers. Hence, in practice only mature features are going to be used. However, feel free to open a pull-request if something can be improved without introducing strong dependencies on specific browsers or adding compatibility layers with old browsers.
+LectureDoc does not strive for maximum compatibility with all (past) browsers. I.e., as of 2026, it is only regularly tested on the most modern versions of Chrome, Safari and Firefox. In general, LectureDoc will not use features not fully supported by the latest versions of one of these browsers. Hence, in practice only mature features are going to be used. However, feel free to open a pull-request if something can be improved without introducing strong dependencies on specific browsers or adding compatibility layers with old browsers.
