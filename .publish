@@ -49,6 +49,14 @@ ext/fonts/VictorMono-LICENSE.txt
 ext/icons/python-logo-only.svg
 ext/icons/duke.svg
 ext/icons/duke-LICENSE.txt
+ext/icons/scala.svg
+ext/icons/scala-LICENSE.txt
+ext/icons/rust.svg
+ext/icons/rust-LICENSE.txt
+ext/icons/js.svg
+ext/icons/js-LICENSE.txt
+
+
 
 components/ld-timeline.js
 components/timeline/timeline.js
