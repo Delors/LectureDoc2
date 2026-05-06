@@ -63,9 +63,7 @@ function afterLDListenerRegistrations() {
         });
     });
     document
-        .querySelectorAll(
-            ":is(#ld-slides-pane,#ld-light-table-slides) ld-story",
-        )
+        .querySelectorAll(":is(#ld-slides-pane,ld-light-table) ld-story")
         .forEach((story) => {
             storyObserver.observe(story);
         });

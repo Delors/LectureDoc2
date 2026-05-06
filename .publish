@@ -86,6 +86,7 @@ src/js/ld-pointer-events.js
 src/js/ld-crypto.js
 src/js/ld-help.frag.html
 src/js/ld-lib.js
+src/js/ld-copy-to-clipboard.js
 
 src/ld.css
 src/ld.css.md

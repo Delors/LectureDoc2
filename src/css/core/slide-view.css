@@ -1,7 +1,8 @@
 /* LAYER: behavior */
 
 #ld-slides-pane {
-    --ld-rendering-mode: slides-pane;
+    /* FIXME use ld-slides */
+    --ld-rendering-mode: slides-pane; /*FIXME rename to slides-view */
 
     height: 100dvh;
 
@@ -40,7 +41,7 @@
     }
 
     /* Presenter Notes */
-    ld-presenter-note-marker[data-encrypted="true"] {
+    ld-presenter-note-marker[encrypted] {
         display: none;
     }
 }
@@ -61,7 +62,7 @@ ld-slide-number {
 
     font-size: 24px;
 
-    /* The following ensures that the number is practically always visible 
+    /* The following ensures that the number is practically always visible
        independent of the background color. */
     color: black;
     text-shadow: 1px 1px 1px white;

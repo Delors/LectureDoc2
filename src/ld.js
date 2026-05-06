@@ -72,14 +72,24 @@ import * as ld from "./js/ld-lib.js";
  * @license BSD-3-Clause
  */
 
+async function loadModule(moduleName) {
+    try {
+        return await import(`./js/${moduleName}.js`);
+    } catch (e) {
+        console.warn("failed to load module", moduleName, e);
+    }
+}
+
 /* We load the crypto module on demand. */
 let ldCryptoModule = undefined;
 async function ldCrypto() {
     if (!ldCryptoModule) {
-        ldCryptoModule = await import("./js/ld-crypto.js");
+        ldCryptoModule = loadModule("ld-crypto");
     }
     return ldCryptoModule;
 }
+
+let ldCopyToClipboardModule = undefined;
 
 /**
  * Central registry for all events emitted by LectureDoc.
@@ -259,7 +269,7 @@ function typesetMath(element) {
  * This information will not be mutated after initialization.
  */
 const presentation = {
-    // TODO rename to something like document
+    // TODO rename to something like document (need doc update in behavior.css)
     /**
      * The unique id of this document; required to store state information
      * in local storage across multiple visits to the same document. Also
@@ -701,33 +711,6 @@ function getEncryptedExercisesPasswords() {
     }
 }
 
-/**
- * Adds a div (button) to the DOM to allow the user to copy the content of
- * code blocks.
- *
- * To make "copy-to-clipboard" functionality work in all views, this
- * function needs to be called before the slides are cloned per the
- * respective view.
- */
-function setupCopyToClipboard(rootNode) {
-    rootNode.querySelectorAll(".code.copy-to-clipboard").forEach((code) => {
-        const copyToClipboardButton = ld.div({
-            classes: ["ld-copy-to-clipboard-button"],
-        });
-        code.insertBefore(copyToClipboardButton, code.firstChild);
-        copyToClipboardButton.addEventListener("click", (event) => {
-            event.stopPropagation();
-            const c = code.cloneNode(true); // we won't have open shadow roots here
-            const lns = c.querySelectorAll(":scope > small.ln");
-            lns.forEach((ln) => c.removeChild(ln));
-            const textToCopy = c.innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                showMessage("Copied to clipboard.", 1000);
-            });
-        });
-    });
-}
-
 /* IDEA W.r.t. advanced animations_:
 
 Let's imagine that we have an rst declaration such as:
@@ -933,9 +916,8 @@ function setupLightTable() {
         `,
     });
 
-    const lightTableSlides = ld.create("section", {
+    const lightTableSlides = ld.create("ld-light-table", {
         parent: lightTableDialog,
-        id: "ld-light-table-slides",
     });
 
     ld.div({
@@ -1285,8 +1267,6 @@ function setupSlidePane() {
         slide.dataset.ldSlideNo = i;
         slide.dataset.id = clonedTopic.id; /* The original ID! */
 
-        setupCopyToClipboard(slide);
-
         // Move all relevant supplemental infos at the end or delete them if they are d-only
         const allSupplementals = slide.querySelectorAll(
             ":scope ld-supplemental",
@@ -1325,7 +1305,7 @@ function setupSlidePane() {
                     "ld-presenter-note-marker",
                     {},
                 );
-                presenterNoteMarker.dataset.encrypted = true;
+                presenterNoteMarker.setAttribute("encrypted", "");
                 presenterNoteMarker.dataset.presenterNoteId = presenterNoteId;
                 presenterNoteMarker.innerHTML = `<div>${presenterNoteId}</div>`;
                 presenterNote.parentElement.replaceChild(
@@ -1358,13 +1338,13 @@ async function decryptExercise(title, password) {
 
 function localDecryptPresenterNotes(password) {
     document
-        .querySelectorAll(":scope ld-presenter-note-marker")
+        .querySelectorAll("ld-presenter-note-marker")
         .forEach((presenterNoteMarker) => {
-            delete presenterNoteMarker.dataset.encrypted;
+            presenterNoteMarker.removeAttribute("encrypted");
         });
 
     document
-        .querySelectorAll(":scope ld-presenter-note[data-encrypted='true']")
+        .querySelectorAll("ld-presenter-note[encrypted]")
         .forEach(async (presenterNote) => {
             const crypto = await ldCrypto();
             const decryptedNote = await crypto.decryptAESGCMPBKDF(
@@ -1372,7 +1352,7 @@ function localDecryptPresenterNotes(password) {
                 password,
             );
             presenterNote.innerHTML = decryptedNote;
-            delete presenterNote.dataset.encrypted;
+            presenterNote.removeAttribute("encrypted"); // TODO Improve by creating HTML class with corresponding property
             typesetMath(presenterNote);
         });
 }
@@ -1417,7 +1397,7 @@ async function tryDecryptExercise(password, solutionWrapper, solution) {
         delete solution.dataset.encrypted;
 
         solution.innerHTML = decrypted;
-        setupCopyToClipboard(solution);
+        ldCopyToClipboardModule?.setupCopyToClipboard(solution);
         typesetMath(solution);
         ldEvents.afterDecryptExercise.forEach((f) => f(solution));
     } catch (error) {
@@ -1452,8 +1432,6 @@ function setupDocumentView() {
                     m,
                 );
             });
-
-        setupCopyToClipboard(template);
 
         const section = ld.create("ld-section", {
             id: "ld-section-no-" + i,
@@ -1576,7 +1554,7 @@ function setupMessageBox() {
     document.body.prepend(message);
 }
 
-function showMessage(htmlMessage, ms = 3000) {
+export function showMessage(htmlMessage, ms = 3000) {
     const messageBox = document.getElementById("ld-message-box");
     messageBox.innerHTML = htmlMessage;
     messageBox.show();
@@ -1972,7 +1950,7 @@ function updateLightTableZoomLevel(value) {
 
 function updateLightTableViewScrollY(y) {
     if (y) {
-        document.getElementById("ld-light-table-slides").scrollTo(0, y);
+        document.querySelector("ld-light-table").scrollTo(0, y);
     }
 }
 
@@ -2387,9 +2365,7 @@ function registerSlideClickedListener() {
 
         // TODO move to walker...
         rootNode
-            .querySelectorAll(
-                "a, button, input, video, div.ld-copy-to-clipboard-button",
-            )
+            .querySelectorAll("a, button, input, video")
             .forEach(processInteractiveElement);
     }
 
@@ -2668,7 +2644,7 @@ function registerLightTableSlideSelectionListener() {
 }
 
 function registerLightTableSlideSearchListener() {
-    const lightTableSlides = document.getElementById("ld-light-table-slides");
+    const lightTableSlides = document.querySelector("ld-light-table");
     const searchInput = document.getElementById("ld-light-table-search-input");
     searchInput.addEventListener("input", () => {
         const searchValue = searchInput.value;
@@ -2695,7 +2671,7 @@ function registerLightTableSlideSearchListener() {
 }
 
 function registerLightTableViewScrollYListener() {
-    const lightTableView = document.getElementById("ld-light-table-slides");
+    const lightTableView = document.querySelector("ld-light-table");
     lightTableView.addEventListener("scroll", () => {
         if (state.showLightTable) {
             state.lightTableViewScrollY = lightTableView.scrollTop;
@@ -2795,18 +2771,15 @@ const onDOMContentLoaded = async () => {
 
     await import("./js/ld-images.js");
 
-    try {
-        await import("./js/ld-global-information.js");
-        await import("./js/ld-tables.js");
-        await import("./js/ld-decks.js");
-        await import("./js/ld-scrollables.js");
-        await import("./js/ld-stories.js");
-        await import("./js/ld-hoverables.js");
-        await import("./js/ld-popovers.js");
-        await import("./js/ld-pointer-events.js");
-    } catch (e) {
-        console.error("failed to load LectureDoc component:", e);
-    }
+    await loadModule("ld-global-information");
+    await loadModule("ld-tables");
+    await loadModule("ld-decks");
+    await loadModule("ld-scrollables");
+    await loadModule("ld-stories");
+    await loadModule("ld-hoverables");
+    await loadModule("ld-popovers");
+    await loadModule("ld-pointer-events");
+    ldCopyToClipboardModule = await loadModule("ld-copy-to-clipboard");
 
     ldEvents.beforeLDDOMManipulations.forEach((f) => f());
 
