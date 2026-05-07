@@ -37,7 +37,7 @@ function initializeStory(story) {
                 scrollStack[story].push([story.scrollTop, story.scrollLeft]);
                 e.scrollIntoView({ behavior: "instant", block: "end" });
             });
-        console.log(scrollStack);
+        // console.log(scrollStack);
     }
 
     // in the light-table view, we just show the story as far as possible
