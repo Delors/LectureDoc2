@@ -530,7 +530,7 @@ p.system-message-title {
 }
 
 .admonition {
-    /* Need to be set by the respective admonition. */
+    /* Need to be set by the respective admonition: */
     --admonition-icon: none;
     --admonition-border-size: 1px;
 
@@ -623,10 +623,6 @@ p.system-message-title {
         --admonition-icon: "∴";
     }
 
-    &.definition {
-        --admonition-icon: "≝";
-    }
-
     &.theorem {
         --admonition-icon: "⊞";
     }
@@ -647,6 +643,16 @@ p.system-message-title {
         --admonition-icon: "◬";
 
         border: 0;
+    }
+
+    &[data-theme="definition"] {
+        --admonition-icon: "≝";
+    }
+
+    &[data-theme="example"] {
+        --admonition-icon: "⧉";
+
+        border: none;
     }
 
     &.summary {
@@ -754,14 +760,10 @@ p.system-message-title {
         --current-fg-color: var(--hint-fg-color);
     }
 
-    &.example {
+    &[data-theme="example"] {
         --admonition-icon: "⧉";
 
         border: none;
-
-        color-scheme: light only;
-        --current-bg-color: var(--example-bg-color);
-        --current-fg-color: var(--example-fg-color);
     }
 
     &.error {
