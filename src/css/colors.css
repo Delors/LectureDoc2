@@ -1,51 +1,403 @@
 /* LAYER: common */
 
 :root {
-    /* 
-    
-        Definition of all used colors. 
-        
+    /*
+
+        In the following, we define our understanding of colors.
+
+        The **only** place, where these colors are expected to be used,
+        is in the theme definitions below. They are not expected to be
+        directly used.
     */
     --white: rgb(255 255 255);
-    --very-very-light-gray: rgb(250 250 250);
-    --very-light-gray: rgb(242 242 242);
-    --light-gray: rgb(222 226 228);
-    --semi-light-gray: rgb(184 186 188);
-    --gray: rgb(91 105 113);
-    --dark-gray: rgb(51 65 73);
-    --very-dark-gray: rgb(31 31 31);
-    --black: rgb(0 0 0);
+    --whitesmoke: whitesmoke;
+    --brightgray: #f0f0f0;
+    --lightgray: lightgray;
 
-    --very-light-green: rgb(245 255 225);
-    --shiny-green: color(display-p3 0 1 0);
-    --light-green: rgb(0 200 0);
-    --green: rgb(0 150 0);
-    --dark-green: rgb(0 88 0);
-    --light-transparent-green: rgb(0 88 0 / 10%);
+    --trueblack: rgb(0 0 0);
+    --textblack: #101010;
+    --charcoal: #333333;
 
-    --very-very-light-blue: rgb(245 245 255);
-    --very-light-blue: rgb(235 236 247);
-    --light-blue: rgb(165 172 255);
-    --blue: rgb(45 62 255);
-    --dark-blue: rgb(32 42 151);
-    --very-dark-blue: rgb(21, 28, 99);
+    --floralwhite: floralwhite;
+    --softvanilla: rgb(255 255 215);
 
-    --very-light-yellow: rgb(255 255 215);
-    --light-yellow: color(display-p3 1 1 0.5);
-    --yellow: #ff1;
-    --dark-yellow: rgb(255 230 64);
+    --vividlime: color(display-p3 1 1 0.5);
+    --minttint: rgb(245 255 225);
 
-    --orange: color(display-p3 1 0.5 0);
-    --light-orange: oklab(from var(--orange) calc(l + 0.25) a b);
-    --pale-orange: #fad2b7;
-    --dark-orange: oklab(from var(--orange) calc(l - 0.075) a b);
+    --pureelectricindigo: oklch(0.5 0.3 255);
+    --deepelectricblue: oklch(0.52 0.28 252);
+    --deepelectricindigo: oklch(0.52 0.3 255);
+    --electricindigo: oklch(0.55 0.3 255);
+    --luminousindigo: oklch(0.7 0.28 255);
+    --vividblueindigo: oklch(0.68 0.28 252);
+    --deepceruleanindigo: oklch(0.52 0.28 250);
+    --aliceblue: aliceblue;
+    --lightcyan: lightcyan;
+    --clearskyblue: oklch(0.78 0.18 210);
+    --deepvioletblue: oklch(0.4 0.28 272);
+    --darkvioletblue: oklch(0.38 0.28 275);
+    --darkblue: rgb(32 42 151);
 
-    --very-very-light-red: rgb(255 225 225);
-    --very-light-red: rgb(255 178 178);
-    --light-red: rgb(255 158 158);
-    --shiny-red: color(display-p3 1 0 0);
+    --darkgreen: rgb(0 88 0);
+
+    --peachpuff: peachpuff;
+    --mistyrose: mistyrose;
+    --orange: orange;
+    --darkorange: #ff7700;
+
+    --honeygold: #ffd580;
+
     --red: rgb(226 0 26);
+    --darkred: rgb(140 0 17);
+    --deepred: rgb(91, 0, 11);
+
+    /* TODO Remove: */
+    --very-very-light-gray: rgb(250 250 250);
+    /* TODO Remove: */
+    --very-light-gray: rgb(242 242 242);
+    /* TODO Remove: */
+    --light-gray: rgb(222 226 228);
+    /* TODO Remove: */
+    --semi-light-gray: rgb(184 186 188);
+    /* TODO Remove: */
+    --gray: rgb(91 105 113);
+    /* TODO Remove: */
+    --dark-gray: rgb(51 65 73);
+    /* TODO Remove: */
+    --very-dark-gray: rgb(31 31 31);
+    /* TODO Remove: */
+    --black: rgb(0 0 0);
+    /* TODO Remove: */
+    --very-light-green: var(--minttint);
+    /* TODO Remove: */
+    --shiny-green: color(display-p3 0 1 0);
+    /* TODO Remove: */
+    --light-green: rgb(0 200 0);
+    /* TODO Remove: */
+    --green: rgb(0 150 0);
+    /* TODO Remove: */
+    --dark-green: rgb(0 88 0);
+    /* TODO Remove: */
+    --light-transparent-green: rgb(0 88 0 / 10%);
+    /* TODO Remove: */
+    --very-very-light-blue: rgb(245 245 255);
+    /* TODO Remove: */
+    --very-light-blue: rgb(235 236 247);
+    /* TODO Remove: */
+    --light-blue: rgb(165 172 255);
+    /* TODO Remove: */
+    --blue: rgb(45 62 255);
+    /* TODO Remove: */
+    --dark-blue: rgb(32 42 151);
+    /* TODO Remove: */
+    --very-dark-blue: rgb(21, 28, 99);
+    /* TODO Remove: */
+    --very-light-yellow: var(--softvanilla);
+    /* TODO Remove: */
+    --light-yellow: var(--vividlime);
+    /* TODO Remove: */
+    --yellow: #ff1;
+    /* TODO Remove: */
+    --dark-yellow: rgb(255 230 64);
+    /* TODO Remove: */
+    --orange: color(display-p3 1 0.5 0);
+    /* TODO Remove: */
+    --light-orange: oklab(from var(--orange) calc(l + 0.25) a b);
+    /* TODO Remove: */
+    --pale-orange: #fad2b7;
+    /* TODO Remove: */
+    --dark-orange: oklab(from var(--orange) calc(l - 0.075) a b);
+    /* TODO Remove: */
+    --very-very-light-red: rgb(255 225 225);
+    /* TODO Remove: */
+    --very-light-red: rgb(255 178 178);
+    /* TODO Remove: */
+    --light-red: rgb(255 158 158);
+    /* TODO Remove: */
+    --shiny-red: color(display-p3 1 0 0);
+    /* TODO Remove: */
+    --red: rgb(226 0 26);
+    /* TODO Remove: */
     --dark-red: rgb(140 0 17);
+    /* TODO Remove: */
     --very-dark-red: rgb(91, 0, 11);
+    /* TODO Remove: */
     --light-transparent-red: rgb(131 0 0 / 10%);
+}
+
+/*******************************************************************************
+
+Defintion of the color themes.
+
+*******************************************************************************/
+
+:root {
+    /* The default theme is the light-theme. */
+    --color: var(--textblack);
+    --background-color: var(--white);
+    --accent-color: var(--electricindigo);
+}
+
+/* Default: @media (prefers-color-scheme: light) */
+[data-theme="<light-dark>"] {
+    --background-color: var(--white);
+    --color: var(--textblack);
+    --accent-color: var(--electricindigo);
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-theme="<light-dark>"] {
+        --background-color: var(--trueblack);
+        --color: var(--white);
+        --accentcolor: var(--luminousindigo);
+    }
+}
+
+[data-theme="light"] {
+    --background-color: var(--white);
+    --color: var(--textblack);
+    --accent-color: var(--electricindigo);
+}
+[data-theme="dark"] {
+    --background-color: var(--trueblack);
+    --color: var(--brightgray);
+    --accent-color: var(--luminousindigo);
+}
+[data-theme="example"] {
+    --background-color: var(--floralwhite);
+    --color: var(--textblack);
+    --accent-color: var(--electricindigo);
+}
+[data-theme="example-dark"] {
+    --background-color: var(--orange);
+    --color: var(--trueblack);
+    --accent-color: var(--electricindigo);
+}
+[data-theme="muted"] {
+    --background-color: var(--whitesomke);
+    --color: var(--trueblack);
+    --accent-color: var(--deepelectricindigo);
+}
+[data-theme="muted-dark"] {
+    --background-color: var(--lightgray);
+    --color: var(--trueblack);
+    --accent-color: var(--pureelectricindigo);
+}
+[data-theme="attention"] {
+    --background-color: var(--softvanilla);
+    --color: var(--textblack);
+    --accent-color: var(--deepelectricindigo);
+}
+[data-theme="attention-dark"] {
+    --background-color: var(--vividlime);
+    --color: var(--textblack);
+    --accent-color: var(--pureelectricindigo);
+}
+[data-theme="tip"] {
+    --background-color: var(--peachpuff);
+    --color: var(--trueblack);
+    --accent-color: var(--deepelectricblue);
+}
+[data-theme="tip-medium"] {
+    --background-color: var(--honeygold);
+    --color: var(--trueblack);
+    --accent-color: var(--electricindigo);
+}
+[data-theme="tip-dark"] {
+    --background-color: var(--darkorange);
+    --color: var(--white);
+    --accent-color: var(--darkblue);
+}
+[data-theme="success"] {
+    --background-color: var(--minttint);
+    --color: var(--textblack);
+    --accent-color: var(--deepelectricindigo);
+}
+[data-theme="success-dark"] {
+    --background-color: var(--darkgreen);
+    --color: var(--white);
+    --accent-color: var(--vividblueindigo);
+}
+[data-theme="warning"] {
+    --background-color: var(--mistyrose);
+    --color: var(--textblack);
+    --accent-color: var(--deepceruleanindigo);
+}
+[data-theme="warning-dark"] {
+    --background-color: var(--darkred);
+    --color: var(--white);
+    --accent-color: var(--vividblueindigo);
+}
+[data-theme="info"] {
+    --background-color: var(--aliceblue);
+    --color: var(--trueblack);
+    --accent-color: var(--deepvioletblue);
+}
+[data-theme="hint"] {
+    --background-color: var(--lightcyan);
+    --color: var(--trueblack);
+    --accent-color: var(--darkvioletblue);
+}
+[data-theme="emphasized"] {
+    --background-color: var(--charcoal);
+    --color: var(--white);
+    --accent-color: var(--luminousindigo);
+}
+[data-theme="accent"] {
+    --background-color: var(--darkblue);
+    --color: var(--white);
+    --accent-color: var(--clearskyblue);
+}
+
+/*  To make changes to --color, --background-color and --accent-color
+    effective, we need to rebind the custom properties.
+
+    The simplest way to do this is to use a "*, ::before, ::after" selector.
+    However, this can be inefficient, as it applies to all elements.
+
+    In some contexts the list can be narrowed down to those elements that
+    actually reset the base colors; e.g., using a class ".theme-update" or
+    an attribute selector "[data-theme]" (as demonstrated next).              */
+:root,
+[data-theme] {
+    /*  The shadow-color is used by child elements, but has to have a visual
+        effect w.r.t. the background color of the parent element. Unfortunately,
+        using CSS only, this is basically, not possible to achieve when we
+        want to support arbitrary deep nesting. We can't capture the parent's
+        shadow color and - at the same time - set shadow color to a new value.*/
+    --shadow-color: oklch(from currentColor l c h / 0.5);
+
+    --border-color: oklch(from currentColor l c h / 0.75);
+
+    --primary-color: var(--color);
+    --muted-color: oklch(
+        from color-mix(in oklch, var(--color) 60%, var(--background-color))
+            clamp(0.32, l, 0.78) 0 h
+    );
+    --meta-color: oklch(
+        from color-mix(in oklch, var(--color) 45%, var(--background-color))
+            clamp(0.32, l, 0.78) 0 h
+    );
+    --smallprint-color: oklch(
+        from color-mix(in oklch, var(--color) 30%, var(--background-color))
+            clamp(0.32, l, 0.78) 0 h
+    );
+
+    --info-color: oklch(from var(--accent-color) l c calc(h - 30));
+    --warning-color: oklch(from var(--accent-color) l c calc(h + 180));
+    --danger: oklch(from var(--accent-color) l c calc(h + 120));
+    --success: oklch(from var(--accent-color) l c calc(h + 240));
+
+    --hint-color: oklch(from var(--accent-color) l c calc(h + 60));
+    --tip-color: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.82 0.2 calc(h + 163))
+            )
+            clamp(0.6, l, 0.88) c h
+    );
+
+    --link-color: oklch(
+        from var(--accent-color) 0.52 clamp(0.4, calc(0.1 - (c - 0.52)), 0.6) h
+    );
+
+    --secondary-color: var(--accent-color);
+
+    --text-1: oklch(from var(--accent-color) 0.78 c h);
+    --text-2: oklch(from var(--accent-color) l calc(c * 0.4) h);
+    --text-3: color-mix(
+        in oklch,
+        var(--background-color) 20%,
+        var(--accent-color)
+    );
+    --text-4: oklch(from var(--accent-color) l c calc(h + 30));
+    --text-5: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.62 0.32 calc(h + 145))
+            )
+            clamp(0.42, l, 0.76) c h
+    );
+    --text-6: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.6 0.34 calc(h + 78))
+            )
+            clamp(0.42, l, 0.76) c h
+    );
+    --text-7: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.58 0.18 calc(h + 138))
+            )
+            clamp(0.42, l, 0.72) c h
+    );
+    --text-8: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.58 0.32 calc(h + 108))
+            )
+            clamp(0.42, l, 0.74) c h
+    );
+    --text-9: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.64 0.28 calc(h + 92))
+            )
+            clamp(0.44, l, 0.76) c h
+    );
+    --text-10: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.8 0.22 calc(h + 176))
+            )
+            clamp(0.58, l, 0.88) c h
+    );
+    --text-11: oklch(
+        from
+            color-mix(
+                in oklch,
+                var(--color) 30%,
+                oklch(from var(--accent-color) 0.62 0.28 calc(h + 212))
+            )
+            clamp(0.42, l, 0.76) c h
+    );
+    --text-12: oklch(
+        from color-mix(in oklch, var(--color) 75%, var(--background-color))
+            clamp(0.32, l, 0.78) 0 h
+    );
+
+    --symbol-color: oklch(from var(--color) clamp(0, calc(l + 0.1), 1) c h);
+    --symbol-background-color: oklch(
+        from var(--background-color) clamp(0, calc(l - 0.1), 1) c h
+    );
+
+    color: var(--color);
+    background-color: var(--background-color);
+}
+
+[data-theme]::before, /* [2026] CSS limitation: we can't use ":is" here! */
+[data-theme]::after,
+[data-theme] ::before,
+[data-theme] ::after {
+    /*  In the before element, we only need the two colors for the symbol;
+        the content is usually some text, number or a symbol and therefore
+        we don't need a complex color scheme. If the complete scheme is needed
+        add the selectors also to the previous rule!                          */
+    color: var(--symbol-color);
+    background-color: var(--symbol-background-color);
 }
