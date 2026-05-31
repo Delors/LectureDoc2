@@ -21,17 +21,6 @@ ld-slide {
     font-size: var(--current-base-font-size);
 
     &:first-of-type {
-        /* Special styling for the title slide! */
-        dl {
-            dd {
-                margin-left: 6em;
-            }
-
-            &.sources {
-                color: var(--peripheral-fg-color);
-            }
-        }
-
         h1 {
             position: relative;
             left: calc(var(--s-lr-padding) * -1);
@@ -44,13 +33,17 @@ ld-slide {
 
             font-size: calc(var(--s-font-size) * 2.5);
             font-weight: var(--s-title-font-weight);
+        }
 
-            --current-bg-color: var(--dark-gray);
-            --current-rel-bg-color: var(--current-bg-color);
-            background-color: var(--current-rel-bg-color);
-            --current-fg-color: var(--white);
-            --current-rel-fg-color: var(--current-fg-color);
-            color: var(--current-rel-fg-color);
+        /* Special styling for the title slide! */
+        dl {
+            dd {
+                margin-left: 6em;
+            }
+
+            &.sources {
+                color: var(--peripheral-fg-color);
+            }
         }
     }
 

@@ -1,0 +1,186 @@
+/* LAYER: theme.ld */
+
+.admonition {
+    /* Optionally set by the respective admonition: */
+    --admonition-icon: none;
+
+    overflow: hidden;
+
+    /* Control spacing around an admonition */
+    &:has(+ *) {
+        /* TODO Don't we do it somewhere else anyway? */
+        margin-bottom: var(--default-bottom-margin);
+    }
+
+    --admonition-border-size: thin;
+    border: var(--admonition-border-size) solid var(--border-color);
+    border-radius: var(--small-border-radius);
+
+    padding: 0 var(--default-container-padding)
+        calc(var(--default-container-padding) / 2)
+        var(--default-container-padding);
+
+    > p:first-child.admonition-title {
+        display: flex;
+
+        position: relative;
+        left: calc(var(--default-container-padding) * -1);
+
+        width: calc(
+            100% + calc(var(--default-container-padding) * 2) +
+                calc(var(--admonition-border-size) * 2)
+        );
+        margin-bottom: 0;
+        padding-left: var(--default-container-padding);
+
+        line-height: calc(var(--line-height) * 1.25);
+
+        /*text-shadow: var(--default-text-shadow-dimensions)
+            var(--container-header-text-shadow-color);*/
+
+        &::before {
+            content: var(--admonition-icon);
+
+            position: relative;
+            left: calc(var(--default-container-padding) * -1);
+
+            display: block;
+            width: 1.5em;
+            flex-shrink: 0;
+            flex-grow: 0;
+
+            text-align: center;
+
+            color: var(--symbol-color);
+            background-color: var(--symbol-background-color);
+        }
+
+        & + * {
+            margin-top: 0.15em; /* there is an implicit +0.1em due to the line height */
+        }
+    }
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
+
+    /*
+
+        Admonition specific configuration.
+
+    */
+
+    &[data-theme="danger"] {
+        --admonition-icon: "⊘";
+    }
+    &[data-theme="warning"] {
+        --admonition-icon: "◬";
+        border: none;
+    }
+    &[data-theme="caution"] {
+        --admonition-icon: "☡";
+        border: none;
+    }
+    &[data-theme="important"] {
+        --admonition-icon: "!!";
+        border: none;
+    }
+    &[data-theme="attention"] {
+        --admonition-icon: "▲";
+        border: none;
+    }
+    &[data-theme="legend"] {
+        --admonition-icon: "Ⓛ";
+    }
+    &[data-theme="background"] {
+        --admonition-icon: "▧";
+    }
+    &[data-theme="conclusion"] {
+        --admonition-icon: "∴";
+    }
+
+    &[data-theme="theorem"] {
+        --admonition-icon: "⊞";
+    }
+    &[data-theme="lemma"] {
+        --admonition-icon: "▸";
+    }
+    &[data-theme="proof"] {
+        --admonition-icon: "■";
+    }
+
+    &[data-theme="remark"] {
+        --admonition-icon: "⬩";
+    }
+
+    &[data-theme="remember"] {
+        --admonition-icon: "✪";
+    }
+
+    &[data-theme="repetition"] {
+        --admonition-icon: "↻";
+    }
+
+    &[data-theme="definition"] {
+        --admonition-icon: "≝";
+    }
+
+    &[data-theme="example"] {
+        --admonition-icon: "⧉";
+
+        border: none;
+    }
+
+    &[data-theme="summary"] {
+        --admonition-icon: "▤";
+    }
+
+    &[data-theme="question"] {
+        --admonition-icon: "?";
+        border: none;
+    }
+
+    &[data-theme="answer"] {
+        --admonition-icon: "✓";
+        border: none;
+    }
+
+    &[data-theme="observation"] {
+        --admonition-icon: "⦿";
+        border: none;
+    }
+
+    &[data-theme="assessment"] {
+        --admonition-icon: "⚑";
+    }
+
+    &[data-theme="note"] {
+        --admonition-icon: "◎";
+
+        float: right;
+
+        margin-left: var(--default-box-margin);
+    }
+
+    &[data-theme="tip"] {
+        --admonition-icon: "★";
+        border: none;
+    }
+
+    &[data-theme="hint"] {
+        --admonition-icon: "※";
+        border: none;
+    }
+
+    &[data-theme="error"] {
+        border: none;
+
+        > p:first-child.admonition-title {
+            text-align: center;
+        }
+    }
+
+    &[data-theme="deprecated"] {
+        border: none;
+    }
+}

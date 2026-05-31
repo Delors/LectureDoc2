@@ -48,10 +48,6 @@ ld-slide {
                 calc(var(--s-border-radius) * 0.95) 0;
             padding: calc(var(--s-tb-padding) * 2.5) var(--s-lr-padding);
 
-            --current-bg-color: var(--dhbw-gray);
-            background-color: var(--current-bg-color);
-            color: var(--white);
-
             font-size: 2.25em;
             text-align: center;
         }

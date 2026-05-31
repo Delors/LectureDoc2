@@ -140,17 +140,9 @@ Defintion of the color themes.
 
 /* Default: @media (prefers-color-scheme: light) */
 [data-theme="<light-dark>"] {
-    --background-color: var(--white);
     --color: var(--textblack);
+    --background-color: var(--white);
     --accent-color: var(--electricindigo);
-}
-
-@media (prefers-color-scheme: dark) {
-    [data-theme="<light-dark>"] {
-        --background-color: var(--trueblack);
-        --color: var(--white);
-        --accentcolor: var(--luminousindigo);
-    }
 }
 
 [data-theme="light"] {
@@ -163,31 +155,50 @@ Defintion of the color themes.
     --color: var(--brightgray);
     --accent-color: var(--luminousindigo);
 }
+
 [data-theme="example"] {
     --background-color: var(--floralwhite);
     --color: var(--textblack);
     --accent-color: var(--electricindigo);
 }
+[data-theme="example-header"],
 [data-theme="example-dark"] {
     --background-color: var(--orange);
-    --color: var(--trueblack);
+    --color: var(--white);
     --accent-color: var(--electricindigo);
 }
-[data-theme="muted"] {
-    --background-color: var(--whitesomke);
+
+.new-subsection > h2:first-of-type,
+[data-theme="definition"],
+[data-theme="muted"],
+[data-theme="proof-header"],
+[data-theme="theorem-header"],
+[data-theme="lemma-header"],
+[data-theme="conclusion-header"],
+[data-theme="summary-header"],
+[data-theme="assessment-header"],
+[data-theme="legend-header"],
+[data-theme="remark-header"],
+[data-theme="remember-header"],
+[data-theme="repetition-header"] {
+    --background-color: var(--whitesmoke);
     --color: var(--trueblack);
     --accent-color: var(--deepelectricindigo);
 }
+[data-theme="deprecated"],
+[data-theme="definition-header"],
 [data-theme="muted-dark"] {
     --background-color: var(--lightgray);
     --color: var(--trueblack);
     --accent-color: var(--pureelectricindigo);
 }
+[data-theme="question"],
 [data-theme="attention"] {
     --background-color: var(--softvanilla);
     --color: var(--textblack);
     --accent-color: var(--deepelectricindigo);
 }
+[data-theme="attention-header"],
 [data-theme="attention-dark"] {
     --background-color: var(--vividlime);
     --color: var(--textblack);
@@ -203,31 +214,39 @@ Defintion of the color themes.
     --color: var(--trueblack);
     --accent-color: var(--electricindigo);
 }
+[data-theme="tip-header"],
 [data-theme="tip-dark"] {
     --background-color: var(--darkorange);
     --color: var(--white);
     --accent-color: var(--darkblue);
 }
+
+[data-theme="answer"],
 [data-theme="success"] {
     --background-color: var(--minttint);
     --color: var(--textblack);
     --accent-color: var(--deepelectricindigo);
 }
+[data-theme="question-header"],
+[data-theme="answer-header"],
 [data-theme="success-dark"] {
     --background-color: var(--darkgreen);
     --color: var(--white);
     --accent-color: var(--vividblueindigo);
 }
+
 [data-theme="warning"] {
     --background-color: var(--mistyrose);
     --color: var(--textblack);
     --accent-color: var(--deepceruleanindigo);
 }
+[data-theme="warning-header"],
 [data-theme="warning-dark"] {
     --background-color: var(--darkred);
     --color: var(--white);
     --accent-color: var(--vividblueindigo);
 }
+[data-theme="observation"],
 [data-theme="info"] {
     --background-color: var(--aliceblue);
     --color: var(--trueblack);
@@ -238,27 +257,49 @@ Defintion of the color themes.
     --color: var(--trueblack);
     --accent-color: var(--darkvioletblue);
 }
+[data-theme="hint-header"] {
+    --background-color: var(--luminousindigo);
+    --color: var(--lightcyan);
+    --accent-color: var(--darkvioletblue);
+}
+h1:first-of-type,
+.new-section > h2:first-of-type,
 [data-theme="emphasized"] {
     --background-color: var(--charcoal);
     --color: var(--white);
     --accent-color: var(--luminousindigo);
 }
+[data-theme="observation-header"],
 [data-theme="accent"] {
     --background-color: var(--darkblue);
     --color: var(--white);
     --accent-color: var(--clearskyblue);
 }
 
+@media (prefers-color-scheme: dark) {
+    [data-theme="<light-dark>"] {
+        --background-color: var(--trueblack);
+        --color: var(--white);
+        --accent-color: var(--luminousindigo);
+    }
+    h1:first-of-type,
+    .new-section > h2:first-of-type {
+        /* This is the muted theme from above!*/
+        --background-color: var(--whitesmoke);
+        --color: var(--trueblack);
+        --accent-color: var(--deepelectricindigo);
+    }
+}
+
 /*  To make changes to --color, --background-color and --accent-color
     effective, we need to rebind the custom properties.
 
     The simplest way to do this is to use a "*, ::before, ::after" selector.
-    However, this can be inefficient, as it applies to all elements.
-
-    In some contexts the list can be narrowed down to those elements that
-    actually reset the base colors; e.g., using a class ".theme-update" or
-    an attribute selector "[data-theme]" (as demonstrated next).              */
+    However, this is inefficient, as it applies to all elements. Hence,
+    we simply list every element that is subject to a specific theme!       */
 :root,
+h1:first-of-type,
+.new-section > h2:first-of-type,
 [data-theme] {
     /*  The shadow-color is used by child elements, but has to have a visual
         effect w.r.t. the background color of the parent element. Unfortunately,
@@ -390,10 +431,8 @@ Defintion of the color themes.
     background-color: var(--background-color);
 }
 
-[data-theme]::before, /* [2026] CSS limitation: we can't use ":is" here! */
-[data-theme]::after,
-[data-theme] ::before,
-[data-theme] ::after {
+[data-theme]::before,
+[data-theme]::after {
     /*  In the before element, we only need the two colors for the symbol;
         the content is usually some text, number or a symbol and therefore
         we don't need a complex color scheme. If the complete scheme is needed
