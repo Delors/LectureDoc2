@@ -50,14 +50,18 @@ a:hover {
     text-decoration: underline;
 }
 
-ld-module:has(+ *),
-table:has(+ *),
-object:has(+ *),
-ld-grid:has(+ *),
-div.compound:has(+ *),
-div.container:has(+ *),
-p:has(+ *),
-blockquote:has(+ *) {
+/* Control spacing around block elements */
+:is(
+    .admonition,
+    ld-module,
+    table,
+    object,
+    ld-grid,
+    div.compound,
+    div.container,
+    p,
+    blockquote
+):not(:last-child) {
     margin-bottom: var(--default-bottom-margin);
 }
 
@@ -136,7 +140,7 @@ ld-grid {
 /*  ----------------------------------------------------------------------------
     Adds the styling for the functionality to copy code to the clipboard.
 
-    The base functionality is implemented in LectureDoc.
+    The base functionality is implemented in the respective LectureDoc module.
 */
 .code.copy-to-clipboard {
     position: relative;
@@ -144,21 +148,22 @@ ld-grid {
     /*  The button with the class ".ld-copy-to-clipboard-button" is added
         programmatically by LectureDoc. */
     .ld-copy-to-clipboard-button {
-        width: 27px;
-        height: 27px;
-
         position: absolute;
-        right: 18px;
-        top: 18px;
+        right: 0;
 
-        background-color: transparent;
+        width: 2.25ch;
+        height: 2.25ch;
+
+        background-color: oklch(from var(--background-color) l c h / 0.85);
         background-image: url("copy_to_clipboard.svg");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
 
+        outline: none;
+
         opacity: 0;
-        transition: opacity 500ms ease;
+        transition: opacity 750ms ease;
     }
 
     &:hover .ld-copy-to-clipboard-button {

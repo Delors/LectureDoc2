@@ -151,14 +151,6 @@
             }
         }
 
-        /*  The button with the class ".ld-copy-to-clipboard-button" is added
-            programmatically by LectureDoc. */
-        .ld-copy-to-clipboard-button {
-            scale: 3;
-
-            transform-origin: top right;
-        }
-
         .admonition.warning > p:first-child.admonition-title {
             animation: dark-red-to-light-red-and-back 10s infinite;
         }

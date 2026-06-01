@@ -21,12 +21,12 @@
 
     --field-indent: 5em;
 
-    /* 
+    /*
 
         Definition of the color scheme.
 
-        The default color scheme is the light scheme. 
-        
+        The default color scheme is the light scheme.
+
     */
     --body-bg-color: var(--black);
 
@@ -43,25 +43,6 @@
     --button-fg-color: var(--black);
     --button-hover-bg-color: var(--dark-gray);
     --button-hover-fg-color: var(--white);
-
-    .admonition {
-        --container-header-bg-color: var(--light-gray);
-        --container-header-icon-bg-color: var(--dark-gray);
-        --container-header-fg-color: var(--dark-gray);
-        --container-header-icon-fg-color: var(--white);
-        --container-header-text-shadow-color: var(--white);
-    }
-    /*  Once the css color-contrast function is widely supported, we can 
-        compute the colors based on the current background color. Until then, 
-        we use fixed colors for the different admonitions. 
-    .admonition {
-        --container-header-bg-color: lch(from var(--current-bg-color) calc(l - 20) calc(c) calc(h) );
-        --container-header-icon-bg-color: oklch(from var(--current-bg-color) calc(l - 0.5) c h );
-        --container-header-fg-color: var(--dark-gray);
-        --container-header-icon-fg-color: var(--white);
-        --container-header-text-shadow-color: var(--white);
-    }
-    */
 
     --error-bg-color: var(--very-light-red);
     --error-fg-color: var(--dark-gray);
@@ -160,26 +141,26 @@
     --summary-bg-color: var(--very-very-light-gray);
     --summary-fg-color: var(--dark-gray);
 
-    /* 
-    
+    /*
+
         Definition of the "current" colors for color based computations.
 
-        Whenever possible/necessary, we try to compute contrast colors based 
+        Whenever possible/necessary, we try to compute contrast colors based
         on the current background color to facilitate theming.
 
     */
 
-    /*  This defines the current primary background and foreground color 
+    /*  This defines the current primary background and foreground color
         for the entire document. */
     --current-bg-color: var(--bg-color);
     --current-fg-color: var(--fg-color);
 
-    /*  This defines the current effective background and foreground colors 
+    /*  This defines the current effective background and foreground colors
         for the entire document. In most cases these colors are identical to
         --current-bg-color and --current-fg-color; however, in some cases
         derived values are used.
-        
-        In general, only --current-rel-(bg|fg)-color should be used to style 
+
+        In general, only --current-rel-(bg|fg)-color should be used to style
         elements. */
     --current-rel-bg-color: var(--current-bg-color);
     --current-rel-fg-color: var(--current-fg-color);

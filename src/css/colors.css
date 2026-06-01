@@ -127,11 +127,15 @@
 
 /*******************************************************************************
 
-Defintion of the color themes.
+                    Defintion of the main Color Themes
 
 *******************************************************************************/
 
+/* ------------------- Standard/Default Themes ------------------- */
+
 :root {
+    color-scheme: light dark;
+
     /* The default theme is the light-theme. */
     --color: var(--textblack);
     --background-color: var(--white);
@@ -156,6 +160,42 @@ Defintion of the color themes.
     --accent-color: var(--luminousindigo);
 }
 
+/* ------------------- Severity Related Themes ------------------- */
+
+[data-theme="danger-header"],
+[data-theme="warning-header"] {
+    --background-color: var(--darkred);
+    --color: var(--white);
+    --accent-color: var(--vividblueindigo);
+}
+[data-theme="danger"] {
+    --background-color: var(--mistyrose);
+    --color: var(--textblack);
+    --accent-color: var(--deepceruleanindigo);
+}
+
+[data-theme="warning"],
+[data-theme="caution-header"],
+[data-theme="important-header"] {
+    --background-color: var(--vividlime);
+    --color: var(--textblack);
+    --accent-color: var(--pureelectricindigo);
+}
+
+[data-theme="caution"] {
+    --background-color: var(--softvanilla);
+    --color: var(--textblack);
+    --accent-color: var(--deepelectricindigo);
+}
+
+[data-theme="attention-header"] {
+    --background-color: var(--minttint);
+    --color: var(--textblack);
+    --accent-color: var(--deepelectricindigo);
+}
+
+/* ------------------- Special Information ------------------- */
+
 [data-theme="example"] {
     --background-color: var(--floralwhite);
     --color: var(--textblack);
@@ -169,41 +209,27 @@ Defintion of the color themes.
 }
 
 .new-subsection > h2:first-of-type,
-[data-theme="definition"],
-[data-theme="muted"],
+/* Math related: */
+[data-theme="definition-header"],
 [data-theme="proof-header"],
 [data-theme="theorem-header"],
 [data-theme="lemma-header"],
 [data-theme="conclusion-header"],
-[data-theme="summary-header"],
-[data-theme="assessment-header"],
-[data-theme="legend-header"],
-[data-theme="remark-header"],
-[data-theme="remember-header"],
-[data-theme="repetition-header"] {
+[data-theme="background-header"],
+[data-theme="note-header"],
+[data-theme="muted"] {
     --background-color: var(--whitesmoke);
     --color: var(--trueblack);
     --accent-color: var(--deepelectricindigo);
 }
+
 [data-theme="deprecated"],
-[data-theme="definition-header"],
 [data-theme="muted-dark"] {
     --background-color: var(--lightgray);
     --color: var(--trueblack);
     --accent-color: var(--pureelectricindigo);
 }
-[data-theme="question"],
-[data-theme="attention"] {
-    --background-color: var(--softvanilla);
-    --color: var(--textblack);
-    --accent-color: var(--deepelectricindigo);
-}
-[data-theme="attention-header"],
-[data-theme="attention-dark"] {
-    --background-color: var(--vividlime);
-    --color: var(--textblack);
-    --accent-color: var(--pureelectricindigo);
-}
+
 [data-theme="tip"] {
     --background-color: var(--peachpuff);
     --color: var(--trueblack);
@@ -220,6 +246,23 @@ Defintion of the color themes.
     --color: var(--white);
     --accent-color: var(--darkblue);
 }
+[data-theme="repetition-header"],
+[data-theme="hint"] {
+    --background-color: var(--lightcyan);
+    --color: var(--trueblack);
+    --accent-color: var(--darkvioletblue);
+}
+[data-theme="hint-header"] {
+    --background-color: var(--luminousindigo);
+    --color: var(--lightcyan);
+    --accent-color: var(--darkvioletblue);
+}
+
+[data-theme="question"] {
+    --background-color: var(--softvanilla);
+    --color: var(--textblack);
+    --accent-color: var(--deepelectricindigo);
+}
 
 [data-theme="answer"],
 [data-theme="success"] {
@@ -235,35 +278,20 @@ Defintion of the color themes.
     --accent-color: var(--vividblueindigo);
 }
 
-[data-theme="warning"] {
-    --background-color: var(--mistyrose);
-    --color: var(--textblack);
-    --accent-color: var(--deepceruleanindigo);
-}
-[data-theme="warning-header"],
-[data-theme="warning-dark"] {
-    --background-color: var(--darkred);
-    --color: var(--white);
-    --accent-color: var(--vividblueindigo);
-}
 [data-theme="observation"],
 [data-theme="info"] {
     --background-color: var(--aliceblue);
     --color: var(--trueblack);
     --accent-color: var(--deepvioletblue);
 }
-[data-theme="hint"] {
-    --background-color: var(--lightcyan);
-    --color: var(--trueblack);
-    --accent-color: var(--darkvioletblue);
-}
-[data-theme="hint-header"] {
-    --background-color: var(--luminousindigo);
-    --color: var(--lightcyan);
-    --accent-color: var(--darkvioletblue);
-}
+
 h1:first-of-type,
 .new-section > h2:first-of-type,
+[data-theme="summary-header"],
+[data-theme="assessment-header"],
+[data-theme="legend-header"],
+[data-theme="remark-header"],
+[data-theme="remember-header"],
 [data-theme="emphasized"] {
     --background-color: var(--charcoal);
     --color: var(--white);
@@ -282,6 +310,7 @@ h1:first-of-type,
         --color: var(--white);
         --accent-color: var(--luminousindigo);
     }
+
     h1:first-of-type,
     .new-section > h2:first-of-type {
         /* This is the muted theme from above!*/
@@ -326,8 +355,8 @@ h1:first-of-type,
 
     --info-color: oklch(from var(--accent-color) l c calc(h - 30));
     --warning-color: oklch(from var(--accent-color) l c calc(h + 180));
-    --danger: oklch(from var(--accent-color) l c calc(h + 120));
-    --success: oklch(from var(--accent-color) l c calc(h + 240));
+    --danger-color: oklch(from var(--accent-color) l c calc(h + 120));
+    --success-color: oklch(from var(--accent-color) l c calc(h + 240));
 
     --hint-color: oklch(from var(--accent-color) l c calc(h + 60));
     --tip-color: oklch(
@@ -346,15 +375,15 @@ h1:first-of-type,
 
     --secondary-color: var(--accent-color);
 
-    --text-1: oklch(from var(--accent-color) 0.78 c h);
-    --text-2: oklch(from var(--accent-color) l calc(c * 0.4) h);
-    --text-3: color-mix(
+    --text-1-color: oklch(from var(--accent-color) 0.78 c h);
+    --text-2-color: oklch(from var(--accent-color) l calc(c * 0.4) h);
+    --text-3-color: color-mix(
         in oklch,
         var(--background-color) 20%,
         var(--accent-color)
     );
-    --text-4: oklch(from var(--accent-color) l c calc(h + 30));
-    --text-5: oklch(
+    --text-4-color: oklch(from var(--accent-color) l c calc(h + 30));
+    --text-5-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -363,7 +392,7 @@ h1:first-of-type,
             )
             clamp(0.42, l, 0.76) c h
     );
-    --text-6: oklch(
+    --text-6-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -372,7 +401,7 @@ h1:first-of-type,
             )
             clamp(0.42, l, 0.76) c h
     );
-    --text-7: oklch(
+    --text-7-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -381,7 +410,7 @@ h1:first-of-type,
             )
             clamp(0.42, l, 0.72) c h
     );
-    --text-8: oklch(
+    --text-8-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -390,7 +419,7 @@ h1:first-of-type,
             )
             clamp(0.42, l, 0.74) c h
     );
-    --text-9: oklch(
+    --text-9-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -399,7 +428,7 @@ h1:first-of-type,
             )
             clamp(0.44, l, 0.76) c h
     );
-    --text-10: oklch(
+    --text-10-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -408,7 +437,7 @@ h1:first-of-type,
             )
             clamp(0.58, l, 0.88) c h
     );
-    --text-11: oklch(
+    --text-11-color: oklch(
         from
             color-mix(
                 in oklch,
@@ -417,7 +446,7 @@ h1:first-of-type,
             )
             clamp(0.42, l, 0.76) c h
     );
-    --text-12: oklch(
+    --text-12-color: oklch(
         from color-mix(in oklch, var(--color) 75%, var(--background-color))
             clamp(0.32, l, 0.78) 0 h
     );
@@ -438,5 +467,104 @@ h1:first-of-type,
         we don't need a complex color scheme. If the complete scheme is needed
         add the selectors also to the previous rule!                          */
     color: var(--symbol-color);
+    background-color: var(--symbol-background-color);
+}
+
+/*******************************************************************************
+
+            Defintion of CSS classes related to the theme colors
+
+*******************************************************************************/
+
+.primary-color {
+    color: var(--primary-color);
+}
+.secondary-color {
+    color: var(--secondary-color);
+}
+.accent,
+.accent-color {
+    color: var(--accent-color);
+}
+
+.link-color {
+    color: var(--link-color);
+}
+
+.danger,
+.danger-color {
+    color: var(--danger-color);
+}
+.fail,
+.warning,
+.warning-color {
+    color: var(--warning-color);
+}
+.info,
+.info-color {
+    color: var(--info-color);
+}
+.hint,
+.hint-color {
+    color: var(--hint-color);
+}
+.tip,
+.tip-color {
+    color: var(--tip-color);
+}
+.success,
+.success-color {
+    color: var(--success-color);
+}
+.meta-color {
+    color: var(--meta-color);
+}
+.muted-color {
+    color: var(--muted-color);
+}
+.smallprint-color {
+    color: var(--smallprint-color);
+}
+.text-1-color {
+    color: var(--text-1-color);
+}
+.text-2-color {
+    color: var(--text-2-color);
+}
+.text-3-color {
+    color: var(--text-3-color);
+}
+.text-4-color {
+    color: var(--text-4-color);
+}
+.text-5-color {
+    color: var(--text-5-color);
+}
+.text-6-color {
+    color: var(--text-6-color);
+}
+.text-7-color {
+    color: var(--text-7-color);
+}
+.text-8-color {
+    color: var(--text-8-color);
+}
+.text-9-color {
+    color: var(--text-9-color);
+}
+.text-10-color {
+    color: var(--text-10-color);
+}
+.text-11-color {
+    color: var(--text-11-color);
+}
+.text-12-color {
+    color: var(--text-12-color);
+}
+
+.symbol-color {
+    color: var(--symbol-color);
+}
+.symbol-background-color {
     background-color: var(--symbol-background-color);
 }
