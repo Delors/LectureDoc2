@@ -23,7 +23,7 @@ in mind.
 
 # Central (CSS) Classes and Custom Elements
 
-## incremental(-list/-table-rows/-code)
+## incremental(-list/-table-rows/-table-cells/-code)
 
 ```css
 .incremental
@@ -77,9 +77,8 @@ the previous card(s).
 ## ld-scrollable
 
 A part of a slide which can be scrolled. Intended to be used for content that 
-does not easily fit on a slide. The scrollable element has to be the last 
-element on a slide or has to have a fixed height. It has to appear at the top 
-level.
+does not easily fit on one slide. The scrollable element has to be the last 
+element on a slide or has to have a fixed height. It has to be a direct child element of a slide.
 
 ## ld-story
 
