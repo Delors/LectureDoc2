@@ -1,7 +1,6 @@
 :root {
     --dhbw-logo-dark: url("dhbw_logo-black.png");
     --dhbw-logo-light: url("dhbw_logo.png");
-    --dhbw-logo: url("dhbw_logo.png");
     --dhbw-text: url("dhbw_text.png");
     --dhbw-symbol: url("dhbw_symbol.png");
     --dhbw-symbol-sharp: url("dhbw_symbol-sharp.png");
@@ -29,6 +28,9 @@
 
     --dhbw-very-light-gray: rgb(242 246 248); /* "only" inspired by */
     --very-light-gray: var(--dhbw-very-light-gray);
+
+    /* Themed (default: light) */
+    --dhbw-logo: var(--dhbw-logo-light);
 }
 
 @media (prefers-color-scheme: dark) {

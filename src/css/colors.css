@@ -2,12 +2,13 @@
 
 :root {
     /*
-
         In the following, we define our understanding of colors.
 
         The **only** place, where these colors are expected to be used,
-        is in the theme definitions below. They are not expected to be
-        directly used.
+        is in the theme definitions below.
+
+        They are not expected to be directly used in other CSS files; in
+        other CSS files only the semantic-based CSS colors are to be used.
     */
     --white: rgb(255 255 255);
     --whitesmoke: whitesmoke;
@@ -69,8 +70,6 @@
     --black: rgb(0 0 0);
     /* TODO Remove: */
     --very-light-green: var(--minttint);
-    /* TODO Remove: */
-    --shiny-green: color(display-p3 0 1 0);
     /* TODO Remove: */
     --light-green: rgb(0 200 0);
     /* TODO Remove: */
@@ -201,6 +200,10 @@
     --color: var(--textblack);
     --accent-color: var(--electricindigo);
 }
+
+th.\:hover,
+td.\:hover,
+tr.\:hover,
 [data-theme="example-header"],
 [data-theme="example-dark"] {
     --background-color: var(--orange);
@@ -208,6 +211,8 @@
     --accent-color: var(--electricindigo);
 }
 
+table.zebra > tbody > tr:nth-child(odd) > :is(td,th)  ,
+table.zebra-columns > tobdy > tr > *:nth-child(odd),
 .new-subsection > h2:first-of-type,
 /* Math related: */
 [data-theme="definition-header"],
@@ -223,6 +228,9 @@
     --accent-color: var(--deepelectricindigo);
 }
 
+th.\:hover-related,
+td.\:hover-related,
+tr.\:hover-related,
 [data-theme="deprecated"],
 [data-theme="muted-dark"] {
     --background-color: var(--lightgray);
@@ -258,14 +266,16 @@
     --accent-color: var(--darkvioletblue);
 }
 
-[data-theme="question"] {
+[data-theme="question"],
+[data-theme="light-yellow"] {
     --background-color: var(--softvanilla);
     --color: var(--textblack);
     --accent-color: var(--deepelectricindigo);
 }
 
 [data-theme="answer"],
-[data-theme="success"] {
+[data-theme="success"],
+[data-theme="light-green"] {
     --background-color: var(--minttint);
     --color: var(--textblack);
     --accent-color: var(--deepelectricindigo);
@@ -278,6 +288,8 @@
     --accent-color: var(--vividblueindigo);
 }
 
+.accentuate,
+table.accentuated-header > thead > tr > :is(td, th),
 [data-theme="observation"],
 [data-theme="info"] {
     --background-color: var(--aliceblue);
@@ -285,7 +297,9 @@
     --accent-color: var(--deepvioletblue);
 }
 
-h1:first-of-type,
+.summary h2:first-child,
+ld-slide.exercises > h2,
+ld-slide h1:first-of-type,
 .new-section > h2:first-of-type,
 [data-theme="summary-header"],
 [data-theme="assessment-header"],
@@ -304,40 +318,53 @@ h1:first-of-type,
     --accent-color: var(--clearskyblue);
 }
 
-@media (prefers-color-scheme: dark) {
-    [data-theme="<light-dark>"] {
-        --background-color: var(--trueblack);
-        --color: var(--white);
-        --accent-color: var(--luminousindigo);
-    }
-
-    h1:first-of-type,
-    .new-section > h2:first-of-type {
-        /* This is the muted theme from above!*/
-        --background-color: var(--whitesmoke);
-        --color: var(--trueblack);
-        --accent-color: var(--deepelectricindigo);
-    }
-}
-
 /*  To make changes to --color, --background-color and --accent-color
     effective, we need to rebind the custom properties.
 
     The simplest way to do this is to use a "*, ::before, ::after" selector.
     However, this is inefficient, as it applies to all elements. Hence,
     we simply list every element that is subject to a specific theme!       */
-:root,
-h1:first-of-type,
+th.\:hover-related,
+td.\:hover-related,
+tr.\:hover-related,
+th.\:hover,
+td.\:hover,
+tr.\:hover,
+table.zebra > tbody > tr:nth-child(odd) > :is(td, th),
+table.zebra-columns tr > *:nth-child(odd),
+.accentuate,
+.summary h2:first-child,
+ld-slide.exercises > h2,
+ld-slide h1:first-of-type,
 .new-section > h2:first-of-type,
+.new-subsection > h2:first-of-type,
+:root,
 [data-theme] {
-    /*  The shadow-color is used by child elements, but has to have a visual
-        effect w.r.t. the background color of the parent element. Unfortunately,
-        using CSS only, this is basically, not possible to achieve when we
-        want to support arbitrary deep nesting. We can't capture the parent's
-        shadow color and - at the same time - set shadow color to a new value.*/
-    --shadow-color: oklch(from currentColor l c h / 0.5);
+    color: var(--color);
+    background-color: var(--background-color);
 
+    /*  The shadow-color is intended to be used by child elements!
+
+        A visual effect w.r.t. the background color of the parent element cannot
+        be guaranteed. Unfortunately, using CSS only, this is not possible to
+        achieve when we want to support arbitrary deep nesting. We can't capture
+        the parent's shadow color and - at the same time - set shadow color to
+        a new value.*/
+    --shadow-color: oklch(from currentColor l c h / 0.5);
     --border-color: oklch(from currentColor l c h / 0.75);
+    --accent-border-color: oklch(from var(--accent-color) l c h / 0.5);
+    --low-contrast-color: oklch(
+        from color-mix(in oklch, var(--color) 15%, var(--background-color))
+            clamp(0.3, l, 0.95) 0 h
+    );
+    --low-contrast-transparent-color: oklch(
+        from var(--primary-color) l c h / 7.5%
+    );
+
+    --button-background-color: var(--low-contrast-color);
+    --button-color: var(--accemt-color);
+    --button-hover-background-color: var(--smallprint-color);
+    --button-hover-color: var(--primary-color);
 
     --primary-color: var(--color);
     --muted-color: oklch(
@@ -455,9 +482,6 @@ h1:first-of-type,
     --symbol-background-color: oklch(
         from var(--background-color) clamp(0, calc(l - 0.1), 1) c h
     );
-
-    color: var(--color);
-    background-color: var(--background-color);
 }
 
 [data-theme]::before,
@@ -468,6 +492,32 @@ h1:first-of-type,
         add the selectors also to the previous rule!                          */
     color: var(--symbol-color);
     background-color: var(--symbol-background-color);
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-theme="<light-dark>"] {
+        --background-color: var(--trueblack);
+        --color: var(--white);
+        --accent-color: var(--luminousindigo);
+    }
+
+    [data-theme="attention"] {
+        --symbol-background-color: var(--minttint);
+        --symbol-color: var(--textblack);
+    }
+
+    [data-theme="important"] {
+        --symbol-background-color: var(--softvanilla);
+        --symbol-color: var(--textblack);
+    }
+
+    ld-slide h1:first-of-type,
+    .new-section > h2:first-of-type {
+        /* This is the muted theme from above!*/
+        --background-color: var(--whitesmoke);
+        --color: var(--trueblack);
+        --accent-color: var(--deepelectricindigo);
+    }
 }
 
 /*******************************************************************************
@@ -516,12 +566,15 @@ h1:first-of-type,
 .success-color {
     color: var(--success-color);
 }
+.meta,
 .meta-color {
     color: var(--meta-color);
 }
+.muted,
 .muted-color {
     color: var(--muted-color);
 }
+.smallprint,
 .smallprint-color {
     color: var(--smallprint-color);
 }

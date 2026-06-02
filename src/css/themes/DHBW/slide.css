@@ -1,39 +1,36 @@
 ld-slide {
     &.exercises::before {
-        content: var(--dhbw-logo);
-        display: block;
         position: absolute;
-        top: 28px;
+        top: var(--s-tb-padding);
         right: var(--s-lr-padding);
 
-        /* makes it easier to use it on various backgrounds */
-        transform: translateX(30%) translateY(-38%) scale(0.4);
+        display: block;
 
-        /*mix-blend-mode: multiply;*/
+        content: var(--dhbw-symbol-sharp);
+
+        transform-origin: top right;
+        transform: scale(0.45);
     }
 
     &.new-section {
         align-content: center;
 
         &::after {
-            content: var(--author);
             position: absolute;
             top: var(--s-tb-padding);
-            --current-rel-fg-color: color-mix(
-                in lch,
-                var(--current-fg-color) 80%,
-                var(--current-bg-color) 20%
-            );
-            color: var(--current-rel-fg-color);
-            mix-blend-mode: hard-light;
 
-            font-size: 24px;
+            content: var(--author);
+
+            font-size: calc(var(--current-base-font-size) / 2);
             font-variant: normal;
             font-weight: 200;
+
+            color: var(--meta-color);
         }
 
         &::before {
             content: var(--dhbw-logo);
+
             position: absolute;
             top: var(--s-tb-padding);
             right: var(--s-lr-padding);

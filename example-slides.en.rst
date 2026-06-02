@@ -156,11 +156,15 @@ Decks and Cards
                     This is the last meaningful card in the nested deck. The next two ones are a technical detail.
 
 
-            .. card:: monospaced
+            .. card::
+
+                .. class:: monospaced
 
                 ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- ------- ------- ------- ------- ------- ------- ------ ------- -------
 
-            .. card:: overlay monospaced
+            .. card:: overlay
+
+                .. class:: monospaced
 
                 xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xxxxxxx
 
@@ -247,7 +251,7 @@ A scrollable is a container whose content does not fit into the available space 
 .. scrollable::
 
     .. code:: javascript
-        :class: very-light-gray-background copy-to-clipboard
+        :class: copy-to-clipboard
         :number-lines:
 
         /* A small library to encrypt and decrypt strings using AES-GCM and PBKDF2.
@@ -520,28 +524,31 @@ Advanced Slide Layouts
 
 .. grid::
 
-    .. cell:: black-background white padding-1em
+    .. cell:: padding-1em
         :align: stretch
+        :theme: question
 
         Using Grids it is possible to design advanced slide layouts.
 
         When you don't specify a specific layout for a grid a simple multi-column layout is used.
 
-    .. cell::
+    .. cell:: padding-1em
+        :theme: answer
 
         .. code:: rst
             :class: copy-to-clipboard
             :number-lines:
 
             .. grid::
-              :class: very-light-gray-background
 
-              .. cell::
+              .. cell:: padding-1em
+                :theme: question
 
                 Using Grids it is possible to
                 design advanced slide layouts.
 
-              .. cell::
+              .. cell:: padding-1em
+                :theme: answer
 
                 .. code:: rst
                   :class: copy-to-clipboard

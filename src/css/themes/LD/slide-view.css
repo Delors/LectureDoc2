@@ -53,10 +53,7 @@
 
             overflow-y: scroll;
 
-            --current-rel-bg-color: rgb(
-                from var(--current-bg-color) r g b / 66%
-            );
-            background-color: var(--current-rel-bg-color);
+            background-color: rgb(from var(--background-color) r g b / 75%);
             backdrop-filter: blur(8px);
 
             transform: translateX(calc(100% - var(--s-lr-padding) * 0.5))
@@ -101,13 +98,14 @@
                     current font-size that is "accidentally" in effect. */
                 font-size: 24px;
                 translate: 0 -1.33lh;
+                border-radius: 25%;
 
                 font-weight: bolder;
                 text-align: center;
-                border-radius: 25%;
+
                 background-color: rgb(180 180 250 / 50%);
-                mix-blend-mode: multiply;
                 color: black;
+                mix-blend-mode: multiply;
                 text-shadow: 1px 1px 2px white;
             }
         }
@@ -132,10 +130,11 @@
 
                 &::before {
                     content: attr(data-presenter-note-id);
+
                     display: block;
                     width: 100%;
-                    padding-bottom: 0.1em;
                     margin-bottom: 0.1em;
+                    padding-bottom: 0.1em;
                     border-bottom: thin solid var(--dark-gray);
 
                     text-align: center;
@@ -163,13 +162,15 @@
     ***************************************************************************/
 
     dialog[popover] {
-        margin: revert;
         max-width: max(60em, 80%);
-        padding: var(--default-container-padding);
+
+        margin: revert;
         border-radius: var(--medium-border-radius);
+        padding: var(--default-container-padding);
+
         box-shadow: var(--trbl-shadow);
 
-        background-color: lch(from var(--current-bg-color) l c h / 80%);
+        background-color: lch(from var(--background-color) l c h / 80%);
 
         &::backdrop {
             backdrop-filter: blur(4px);
@@ -183,18 +184,22 @@
 
         cursor: pointer;
 
-        &:hover {
-            background-color: var(--button-hover-bg-color);
-            color: var(--button-hover-fg-color);
-            scale: 1.03;
-            box-shadow: var(--trbl-shadow);
+        background-color: var(--button-background-color);
+        color: var(--button-color);
 
-            transition: all 0.2s ease-in-out;
+        &:hover {
+            scale: 1.01;
+
+            outline: thin solid var(--border-color);
+
+            background-color: var(--button-hover-background-color);
+            color: var(--button-hover-color);
         }
 
-        background-color: var(--button-bg-color);
-        color: var(--button-fg-color);
-        transition: all 0.2s ease-in-out;
+        transition:
+            scale 0.5s ease,
+            color 0.5s ease-in-out,
+            background-color 0.75s ease-in-out;
     }
 }
 

@@ -18,9 +18,10 @@
 
     > p:first-child.admonition-title {
         position: relative;
+        top: cal(var(--admonition-border-size) * -1);
         left: calc(
-            var(--default-container-padding) * -1 -
-                var(--admonition-border-size)
+            (var(--default-container-padding) + var(--admonition-border-size)) *
+                -1
         );
 
         display: flex;
@@ -70,6 +71,17 @@
 
     */
 
+    /* ------------------- GENERIC ADMONITION ----------------------- */
+
+    &:not([data-theme]) {
+        margin-top: var(--shadow-margin);
+        box-shadow: var(--t-shadow);
+
+        > p.admonition-title {
+            font-weight: bolder;
+        }
+    }
+
     /* ------------------- SEVERITY RELATED ----------------------- */
 
     &[data-theme="danger"] {
@@ -118,7 +130,7 @@
 
         float: right;
 
-        margin-left: var(--default-box-margin);
+        margin-left: var(--default-margin);
     }
     &[data-theme="background"] {
         --admonition-icon: "▧";
@@ -182,8 +194,9 @@
 
         > p:first-child.admonition-title {
             text-align: center;
-            color: var(--danger-color);
             font-weight: bolder;
+
+            color: var(--danger-color);
         }
     }
 

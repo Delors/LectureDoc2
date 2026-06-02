@@ -149,7 +149,9 @@ src/css/themes/LD/theme.css
 src/css/themes/LD/defs.css
 src/css/themes/LD/dict.css
 src/css/themes/LD/common.css
+src/css/themes/LD/code.css
 src/css/themes/LD/admonitions.css
+src/css/themes/LD/tables.css
 src/css/themes/LD/copy_to_clipboard.svg
 src/css/themes/LD/document-view.css
 src/css/themes/LD/slide-view.css
