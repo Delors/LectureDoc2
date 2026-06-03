@@ -94,7 +94,9 @@ src/ld.css.md
 src/css/defs.css
 src/css/normalize.css
 src/css/common.css
-src/css/colors.css
+src/css/theme.css
+src/css/theme-colors.css
+src/css/theme-classes.css
 src/css/themes/ld.css
 src/css/ui/ui.css
 src/css/ui/defs.css
