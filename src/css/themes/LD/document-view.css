@@ -159,15 +159,23 @@
     counter-reset: exercise;
 
     p.ld-exercise-title {
+        display: flex;
+        align-items: center; /* vertically center number + text */
+        overflow: hidden;
         border-radius: var(--small-border-radius);
+        padding-right: 0.25em; /* trailing space for the text */
+
         &::before {
             counter-increment: exercise;
-            content: counter(section) "." counter(exercise) ". ";
+            content: counter(section) "." counter(exercise) ".";
+            align-self: stretch; /* badge fills full height (was height: 100%) */
 
             border-radius: var(--small-border-radius) 0 0
                 var(--small-border-radius);
-
-            color: var(--accent-color);
+            padding: 0.25em;
+            margin-right: 0.5em; /* the "appropriate distance" to the text */
+            color: var(--symbol-color);
+            background-color: var(--symbol-background-color);
         }
     }
 
