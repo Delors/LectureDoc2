@@ -86,7 +86,6 @@ ul.dhbw {
             var(--default-container-padding);
         overflow: hidden;
 
-        /*background-color: var(--dhbw-very-light-gray);*/
         --current-rel-bg-color: color-mix(
             in srgb,
             var(--current-bg-color) 90%,
@@ -139,16 +138,18 @@ ul.column-list.dhbw {
 
         > p {
             margin: 0;
-            background-color: var(--dhbw-very-light-gray);
-            color: black;
+            background-color: var(--very-low-contrast-color);
+            color: var(--primary-color);
         }
         > p:not(:first-child) + p {
             margin-top: 0.25em;
         }
         > p:first-child {
+            --theme: accent;
             /* the "Header" */
             background-color: var(--dhbw-red);
             color: var(--white);
+
             font-weight: 500;
             border-radius: var(--small-border-radius) var(--small-border-radius)
                 0 0;

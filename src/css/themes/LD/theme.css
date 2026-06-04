@@ -37,17 +37,6 @@
         The default color scheme is the light scheme.
 
     */
-    --body-bg-color: var(--black);
-
     --bg-color: var(--white);
     --fg-color: var(--black);
-
-    --link-fg-color: var(--dark-red);
-    --peripheral-fg-color: var(--gray); /* for less important elements */
-    --emph-color: var(--dark-red);
-
-    --button-bg-color: var(--very-light-red);
-    --button-fg-color: var(--black);
-    --button-hover-bg-color: var(--dark-gray);
-    --button-hover-fg-color: var(--white);
 }

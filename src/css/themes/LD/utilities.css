@@ -72,12 +72,6 @@
     color: var(--current-rel-fg-color);
 }
 
-.shiny-red {
-    --current-fg-color: var(--shiny-red);
-    --current-rel-fg-color: var(--current-fg-color);
-    color: var(--current-rel-fg-color);
-}
-
 .light-gray {
     --current-fg-color: var(--light-gray);
     --current-rel-fg-color: var(--current-fg-color);
@@ -94,15 +88,6 @@
 
 .orange {
     color: var(--orange);
-}
-
-/* TODO Clarify if we want to have all color themed by default? If so, remove "themed"*/
-.orange-themed {
-    color: light-dark(
-        var(--dark-orange),
-        /* dark-orange -> strong-orange(?)*/
-            oklch(from var(--dark-orange) 0.8 c h)
-    );
 }
 
 .green {

@@ -30,18 +30,22 @@
             }
         }
 
-        &.exercises > h2::before {
-            content: "✎";
+        &.exercises > h2 {
+            font-weight: 400;
 
-            display: inline-block;
+            &::before {
+                content: "✎";
 
-            margin-right: 0.25em;
-            width: 1.5em;
-            border-radius: var(--small-border-radius);
+                display: inline-block;
 
-            text-align: center;
-            color: var(--symbol-color);
-            background-color: var(--symbol-background-color);
+                margin-right: 0.25em;
+                width: 1.5em;
+                border-radius: var(--small-border-radius);
+
+                text-align: center;
+                color: var(--symbol-color);
+                background-color: var(--symbol-background-color);
+            }
         }
 
         > footer {

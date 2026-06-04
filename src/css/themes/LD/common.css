@@ -64,10 +64,6 @@ a:hover {
 
 object[role="img"] {
     display: block;
-
-    &.opaque {
-        background-color: var(--current-rel-bg-color);
-    }
 }
 
 mjx-container[display="true"] {
@@ -173,7 +169,7 @@ ul {
     list-style-type: "◼︎";
 
     > li::marker {
-        color: var(--dhbw-gray);
+        color: var(--meta-color);
     }
 }
 
@@ -307,11 +303,10 @@ ol.arabic {
     list-style: decimal;
     list-style-position: outside;
     padding-left: 1.5em;
-}
 
-ol.arabic.long-list {
-    list-style-position: outside;
-    padding-left: 2.25em;
+    &.long-list {
+        padding-left: 2.25em;
+    }
 }
 
 li {
@@ -405,7 +400,7 @@ dl.option-list > dt {
 
 .emph {
     font-weight: bolder;
-    color: var(--emph-color);
+    color: var(--accent-color);
 }
 
 .footnote,
@@ -550,7 +545,7 @@ a.toc-backref {
 .system-messages h2,
 .system-message-title,
 span.problematic {
-    color: red;
+    color: var(--danger-color);
 }
 
 /* Inline Literals */
@@ -580,18 +575,6 @@ span.problematic {
 .align-right {
     text-align: right;
     margin-left: auto;
-}
-
-.align-top {
-    vertical-align: top;
-}
-
-.align-middle {
-    vertical-align: middle;
-}
-
-.align-bottom {
-    vertical-align: bottom;
 }
 
 /* Text Blocks */
@@ -632,9 +615,9 @@ figcaption {
 .sidebar,
 .system-message {
     margin-bottom: 0.5em;
-    padding: 0.35em 0.6em;
     border: thin solid;
     border-radius: 0.2em;
+    padding: 0.35em 0.6em;
 }
 
 div.line-block {
@@ -653,7 +636,7 @@ div.line-block div.line-block {
     align-items: center;
 }
 
-/** Intended to be used at the section/slide level. */
+/* Intended to be used at the section/slide level. */
 .summary > h2:first-child {
     &::before {
         content: "▤ ";
@@ -668,19 +651,16 @@ div.line-block div.line-block {
     position: relative;
     min-height: 2.75lh;
 
+    border-radius: var(--small-border-radius);
+
     padding: calc(0.5 * var(--current-base-font-size));
     padding-left: calc(3 * var(--current-base-font-size));
 
-    --current-rel-bg-color: color-mix(
-        in lch,
-        var(--current-bg-color) 85%,
-        var(--current-fg-color)
-    );
-    background-color: var(--current-rel-bg-color);
-
-    border-radius: var(--small-border-radius);
+    background-color: var(--low-contrast-transparent-color);
 
     &::before {
+        content: "!";
+
         position: absolute;
         left: 0;
         top: 0;
@@ -690,15 +670,14 @@ div.line-block div.line-block {
 
         border-top-left-radius: inherit;
         border-bottom-left-radius: inherit;
-        text-align: center;
-
-        content: "!";
-
-        color: var(--white);
-        background-color: var(--red);
 
         font-size: 2lh;
         font-weight: bold;
+
+        text-align: center;
+
+        color: var(--background-color);
+        background-color: var(--danger-color);
     }
 }
 
@@ -726,18 +705,6 @@ div.line-block div.line-block {
 .fade-out-strong {
     &::after {
         opacity: 0.7;
-    }
-}
-
-.framed {
-    border: thin solid var(--light-gray);
-    --current-bg-color: var(--very-very-light-gray);
-    background-color: var(--current-bg-color);
-    padding: 0.5em;
-    border-radius: var(--small-border-radius);
-
-    &:has(+ *) {
-        margin-bottom: 0.5em;
     }
 }
 
@@ -863,7 +830,7 @@ video {
         font-size: 80%;
         padding: 0.25em;
         border-radius: 0.25em;
-        border: thin solid var(--gray);
+        border: thin solid var(--muted-color);
     }
 }
 
@@ -874,28 +841,31 @@ video {
 .llm-chat-user {
     --llm-chat-actor: "User";
 
-    --current-bg-color: var(--gray);
-    background-color: var(--current-bg-color);
-    color: var(--very-light-gray);
+    background-color: var(--meta-color);
+    color: oklch(from var(--meta-color) round(1 - (l - 0.2)) c h);
 }
 
 .llm-chat-user,
 .llm-chat-agent {
     position: relative;
+
     border-radius: var(--small-border-radius);
-    border: thin solid var(--gray);
+    border: thin solid var(--muted-color);
     padding: var(--s-padding);
     overflow-x: clip;
 
     &::before {
-        position: absolute;
-        top: -0.25ch;
-        right: 0.25em;
         content: var(--llm-chat-actor);
-        color: var(--very-light-gray);
-        font-size: 60%;
-        text-shadow: 0.1em 0.1em 0.1em var(--black);
+
+        position: absolute;
+        top: 0.25ch;
+        right: 1ch;
+
         display: block;
+
+        font-size: 70%;
+        color: var(--background-color);
+        text-shadow: 0.1em 0.1em 0.1em var(--primary-color);
     }
 }
 
@@ -904,18 +874,19 @@ video {
     box-shadow: var(--trbl-shadow);
     margin: var(--shadow-margin);
     border-radius: var(--small-border-radius);
+    overflow: hidden;
 }
 
 .light-image {
     color-scheme: only light;
 
+    border-radius: var(--small-border-radius);
+    padding: var(--default-container-padding);
+
     /* If the current background color is white, we set the background color
        to transparent. If the background color is not white, we use white. */
-    /* Gradual transparency: background-color: oklab(from var(--current-rel-bg-color) 1 0 0 / calc(1 - l)); */
+
     background-color: oklab(
         from var(--background-color) 1 0 0 / clamp(0, round((1 - l) * 1e9), 1)
     ); /* Hack to get either no or full opacity/transparencey. Replace with "if" once Safari and Firefox support it. */
-    border-radius: var(--small-border-radius);
-    padding: var(--default-container-padding);
-    backdrop-filter: blur(3px);
 }

@@ -92,6 +92,7 @@
             > div {
                 display: block;
                 position: absolute;
+                z-index: 1;
                 width: 1.5em;
                 height: 1.5em;
                 /*  We don't want to make the size of the marker dependent on the
@@ -105,7 +106,6 @@
 
                 background-color: rgb(180 180 250 / 50%);
                 color: black;
-                mix-blend-mode: multiply;
                 text-shadow: 1px 1px 2px white;
             }
         }
@@ -123,10 +123,6 @@
                 display: none;
                 padding: 0.25em 0.5em;
                 font-size: 38px;
-                --current-bg-color: rgb(50 50 80 / 75%);
-                background-color: var(--current-bg-color);
-                color: white;
-                text-shadow: 1px 1px 2px black;
 
                 &::before {
                     content: attr(data-presenter-note-id);

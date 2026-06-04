@@ -240,11 +240,7 @@ ld-slide {
     li.show-list-item-content-on-hover {
         > *:first-child::before {
             content: "⇢ ";
-            color: color-mix(
-                in srgb,
-                var(--current-rel-fg-color) 80%,
-                var(--current-rel-bg-color) 20%
-            );
+            color: var(--muted-color);
             font-family: var(--monospaced-font-family);
             font-weight: 900;
         }

@@ -30,6 +30,8 @@ td.\:hover,
 tr.\:hover,
 table.zebra > tbody > tr:nth-child(odd) > :is(td, th),
 table.zebra-columns tr > *:nth-child(odd),
+table.accentuated-header > thead > tr > :is(td, th),
+ld-presenter-note,
 ld-slide.exercises > h2,
 ld-slide h1:first-of-type,
 :root,
@@ -238,10 +240,14 @@ ld-slide h1:first-of-type,
     --color: var(--white);
     --accent-color: var(--vividblueindigo);
 }
+
+ld-presenter-note,
+p.ld-exercise-title.rubric,
+[data-theme="tip-light"],
 [data-theme="danger"] {
     --background-color: var(--mistyrose);
-    --color: var(--textblack);
-    --accent-color: var(--deepceruleanindigo);
+    --color: var(--deepred);
+    --accent-color: var(--deepelectricblue);
 }
 
 [data-theme="warning"],
@@ -250,6 +256,11 @@ ld-slide h1:first-of-type,
     --background-color: var(--vividlime);
     --color: var(--textblack);
     --accent-color: var(--pureelectricindigo);
+}
+[data-theme="warning"] {
+    --background-color: var(--mistyrose);
+    --color: var(--textblack);
+    --accent-color: var(--deepceruleanindigo);
 }
 
 [data-theme="caution"] {
@@ -309,12 +320,6 @@ tr.\:hover-related,
     --accent-color: var(--pureelectricindigo);
 }
 
-p.ld-exercise-title.rubric,
-[data-theme="tip-light"] {
-    --background-color: var(--mistyrose);
-    --color: var(--deepred);
-    --accent-color: var(--deepelectricblue);
-}
 [data-theme="tip"] {
     --background-color: var(--peachpuff);
     --color: var(--trueblack);

@@ -68,57 +68,19 @@
     /* TODO Remove: */
     --black: rgb(0 0 0);
     /* TODO Remove: */
-    --very-light-green: var(--minttint);
-    /* TODO Remove: */
-    --light-green: rgb(0 200 0);
-    /* TODO Remove: */
     --green: rgb(0 150 0);
-    /* TODO Remove: */
-    --dark-green: rgb(0 88 0);
-    /* TODO Remove: */
-    --light-transparent-green: rgb(0 88 0 / 10%);
-    /* TODO Remove: */
-    --very-very-light-blue: rgb(245 245 255);
-    /* TODO Remove: */
-    --very-light-blue: rgb(235 236 247);
-    /* TODO Remove: */
-    --light-blue: rgb(165 172 255);
     /* TODO Remove: */
     --blue: rgb(45 62 255);
     /* TODO Remove: */
-    --dark-blue: rgb(32 42 151);
+
     /* TODO Remove: */
-    --very-dark-blue: rgb(21, 28, 99);
-    /* TODO Remove: */
-    --very-light-yellow: var(--softvanilla);
-    /* TODO Remove: */
-    --light-yellow: var(--vividlime);
-    /* TODO Remove: */
-    --yellow: #ff1;
-    /* TODO Remove: */
-    --dark-yellow: rgb(255 230 64);
-    /* TODO Remove: */
-    --orange: color(display-p3 1 0.5 0);
-    /* TODO Remove: */
-    --light-orange: oklab(from var(--orange) calc(l + 0.25) a b);
-    /* TODO Remove: */
-    --pale-orange: #fad2b7;
-    /* TODO Remove: */
-    --dark-orange: oklab(from var(--orange) calc(l - 0.075) a b);
-    /* TODO Remove: */
-    --very-very-light-red: rgb(255 225 225);
+
     /* TODO Remove: */
     --very-light-red: rgb(255 178 178);
     /* TODO Remove: */
     --light-red: rgb(255 158 158);
     /* TODO Remove: */
-    --shiny-red: color(display-p3 1 0 0);
-    /* TODO Remove: */
     --red: rgb(226 0 26);
     /* TODO Remove: */
     --dark-red: rgb(140 0 17);
-    /* TODO Remove: */
-    --very-dark-red: rgb(91, 0, 11);
-    /* TODO Remove: */
-    --light-transparent-red: rgb(131 0 0 / 10%);
 }
