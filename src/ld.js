@@ -1510,6 +1510,10 @@ function setupDocumentView() {
         section.querySelectorAll(":scope [id]").forEach((e) => {
             e.setAttribute("id", e.getAttribute("id") + "-ld-document-view");
         });
+        // reveal all Elements - we don't have animation in the document view
+        section.querySelectorAll(":scope .incremental").forEach((e) => {
+            e.classList.add("ld-revealed");
+        });
 
         // Process Embedded Exercises
         // ------------------------------------------
