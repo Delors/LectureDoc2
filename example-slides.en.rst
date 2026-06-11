@@ -593,23 +593,71 @@ Math
 Tables
 --------------------------------------------------------
 
-.. rubric:: .highlight-identical-cells-on-hover
+.. grid::
 
-.. csv-table::
-    :class: highlight-identical-cells-on-hover
-    :header: " ",r,s,t, u,v,w,x,y,z
-    :stub-columns: 1
+    .. cell:: width-50
 
-    a, 1,2,3, 4,5,6, 7,8,9
-    b, 4,5,6, 7,8,9, 1,2,3
-    c, 7,8,9, 1,2,3, 4,5,6
+        .. rubric:: .highlight-identical-cells-on-hover
 
-.. rubric:: .highlight-row-on-hover
+        .. csv-table::
+            :class: highlight-identical-cells-on-hover build-up-from-left
+            :header: " ",r,s,t, u,v,w,x,y,z
+            :stub-columns: 1
 
-.. csv-table::
-    :class: highlight-row-on-hover
-    :header: " ",r,s,t, u,v,w,x,y,z
-    :stub-columns: 1
+            a, 1,2,3, 4,5,6, 7,8,9
+            b, 4,5,6, 7,8,9, 1,2,3
+            c, 7,8,9, 1,2,3, 4,5,6
 
-    a, 1,2,3, 4,5,6, 7,8,9
-    b, 4,5,6, 7,8,9, 1,2,3
+        .. rubric:: .highlight-row-on-hover
+
+        .. csv-table::
+            :class: highlight-row-on-hover fade-in-rows
+            :header: " ",r,s,t, u,v,w,x,y,z
+            :stub-columns: 1
+
+            a, 1,2,3, 4,5,6, 7,8,9
+            b, 4,5,6, 7,8,9, 1,2,3
+
+        .. rubric:: .highlight-on-hover
+
+        .. csv-table::
+            :class: highlight-on-hover fade-in-rows
+            :header: " ",r,s,t, u,v,w,x,y,z
+            :stub-columns: 1
+
+            a, 1,2,3, 4,5,6, 7,8,9
+            b, 4,5,6, 7,8,9, 1,2,3
+
+    .. cell:: width-50
+
+        .. rubric:: .incremental-table-rows
+
+        .. csv-table::
+            :class: incremental-table-rows fade-in highlight-cell-on-hover
+            :header: " ",r,s,t, u,v,w,x,y,z
+            :stub-columns: 1
+
+            a, 1,2,3, 4,5,6, 7,8,9
+            b, 4,5,6, 7,8,9, 1,2,3
+            c, 7,8,9, 1,2,3, 4,5,6
+
+
+        .. rubric:: .incremental-table-cells
+
+        .. csv-table::
+            :class: build-up-from-left incremental-table-cells fade-in highlight-cell-and-row-on-hover
+            :header: " ",r,s,t, u,v,w,x,y,z
+            :stub-columns: 1
+
+            a, 1,2,3, 4,5,6, 7,8,9
+            b, 4,5,6, 7,8,9, 1,2,3
+
+        .. rubric:: .incremental-table-rows
+
+        .. csv-table::
+            :class: incremental-table-rows fade-in highlight-non-empty-cell-on-hover
+            :header: " ",r,s,t, u,v,w,x,y,z
+            :stub-columns: 1
+
+            a, 1,2,, 4,,6, 7,8,9
+            b, 4,,6, ,8,9, 1,,3
