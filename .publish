@@ -157,6 +157,8 @@ src/css/themes/LD/tables.css
 src/css/themes/LD/copy_to_clipboard.svg
 src/css/themes/LD/document-view.css
 src/css/themes/LD/slide-view.css
+src/css/themes/LD/slide-view-animations.css
+src/css/themes/LD/slide-view-animation-sequences.css
 src/css/themes/LD/slide.css
 src/css/themes/LD/light-table.css
 src/css/themes/LD/utilities.css
