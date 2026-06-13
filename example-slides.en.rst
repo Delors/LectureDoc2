@@ -377,6 +377,8 @@ A scrollable is a container whose content does not fit into the available space 
 
 
 
+.. class:: transition-zoom
+
 Scrollables with explicit height!\ [#]_
 --------------------------------------------------------
 
@@ -476,6 +478,8 @@ A scrollable can have an explicit height that will be used for the slide view.
 .. [#] Just a footer.
 
 
+
+.. class:: transition-dice-left
 
 Simple column-based Layouts
 --------------------------------------------------------
