@@ -64,10 +64,15 @@
         /* TODO consolidate.. with the one below - just the factor is different! */
         transform-origin: left center;
         transition: 0.5s;
+        --on-hover-scale-factor: 1.14;
 
         &.\:hover {
-            transform: scale(1.14);
+            transform: scale(var(--on-hover-scale-factor));
         }
+    }
+
+    .scale-factor-2x {
+        --on-hover-scale-factor: 2;
     }
 
     /* Scales a container/compound on hover.
@@ -162,20 +167,91 @@
     /* ----------------------- S L I D E TRANSITIONS ------------------------ */
 
     .ld-current-slide.transition-move-left {
-        animation: 3s slide-move-left-in;
+        @starting-style {
+            translate: 100%;
+            opacity: 0;
+        }
+        transition-property: translate, opacity;
+        transition-duration: 3s;
     }
     .ld-previous-slide:has(+ .ld-current-slide.transition-move-left) {
-        animation:
-            3s slide-move-left-out,
-            0s 3s scale-to-zero;
+        translate: -100%;
+        opacity: 0;
+
+        transition:
+            translate 3s,
+            opacity 3s,
+            display 3s allow-discrete;
+    }
+
+    .ld-current-slide.transition-move-to-top {
+        @starting-style {
+            translate: 0 100%;
+            opacity: 0;
+        }
+        transition-property: translate, opacity;
+        transition-duration: 3s;
+    }
+    .ld-previous-slide:has(+ .ld-current-slide.transition-move-to-top) {
+        translate: 0 -100%;
+        opacity: 0;
+
+        transition:
+            translate 3s,
+            opacity 3s,
+            display 3s allow-discrete;
     }
 
     .ld-current-slide.transition-scale {
-        animation: 3s slide-scale-in;
+        @starting-style {
+            opacity: 0;
+            scale: 1.5;
+        }
+
+        transition:
+            scale 3s,
+            opacity 3s;
+    }
+    .ld-previous-slide:has(+ .ld-current-slide.transition-scale) {
+        opacity: 50%;
+
+        transition:
+            opacity 3s,
+            display 3s allow-discrete;
     }
 
-    .ld-previous-slide:has(+ .ld-current-slide.transition-scale) {
-        animation: 3s slide-scale-out;
+    .ld-current-slide.transition-zoom {
+        @starting-style {
+            opacity: 0;
+            scale: 1.5;
+        }
+
+        transition:
+            scale 3s,
+            opacity 3s;
+    }
+    .ld-previous-slide:has(+ .ld-current-slide.transition-zoom) {
+        scale: 0;
+        opacity: 75%;
+
+        transition:
+            scale 3s,
+            opacity 3s,
+            display 3s allow-discrete;
+    }
+
+    .ld-current-slide.transition-fade {
+        @starting-style {
+            opacity: 0;
+        }
+        transition: opacity 2s;
+    }
+    .ld-previous-slide:has(+ .ld-current-slide.transition-fade) {
+        opacity: 0;
+
+        transition:
+            opacity 2s,
+            display 2s allow-discrete;
     }
 
     .ld-current-slide.transition-flip {
@@ -183,30 +259,39 @@
         transform-style: preserve-3d;
         backface-visibility: hidden;
 
-        animation: 3s flip-in;
+        animation: 2s flip-in;
     }
-
     .ld-previous-slide:has(+ .ld-current-slide.transition-flip) {
         perspective: 3000px;
         transform-style: preserve-3d;
         backface-visibility: hidden;
+        transform: rotateY(-180deg);
+        opacity: 0;
+        transition:
+            transform 2.5s,
+            opacity 2.5s,
+            display 2.5s allow-discrete;
+    }
 
-        animation: 3s flip-out;
+    &:has(.ld-current-slide.transition-dice-left) {
+        perspective: 3000px;
     }
-    .ld-current-slide.transition-fade {
-        animation: 2s slide-fade-in;
+    .ld-current-slide.transition-dice-left,
+    .ld-previous-slide:has(+ .ld-current-slide.transition-dice-left) {
+        /* the rotation axis sits this far BEHIND the slide.
+       It must equal HALF the slide width for the faces to meet at a true 90° corner. */
+        --ld-dice-depth: calc(var(--ld-slide-width) * 0.5);
+        transform-origin: 50% 50% calc(-1 * var(--ld-dice-depth));
+        backface-visibility: hidden;
     }
-    .ld-previous-slide:has(+ .ld-current-slide.transition-fade) {
-        animation:
-            2s slide-fade-out,
-            0s 2s scale-to-zero;
+
+    .ld-current-slide.transition-dice-left {
+        animation: 3s rotate-left; /* incoming is rendered → animation */
     }
-    .ld-current-slide.transition-move-to-top {
-        animation: 3s slide-move-old-to-top;
-    }
-    .ld-previous-slide:has(+ .ld-current-slide.transition-move-to-top) {
-        animation:
-            3s slide-move-bottom-to-center,
-            0s 3s scale-to-zero;
+    .ld-previous-slide:has(+ .ld-current-slide.transition-dice-left) {
+        transform: rotateY(-90deg);
+        transition:
+            transform 3s,
+            display 3s allow-discrete;
     }
 }

@@ -226,10 +226,11 @@ ld-slide {
     }
 
     &.s-vertical-title {
-        display: flex;
-        flex-direction: row;
-
         > h2:first-child {
+            float: left;
+
+            margin-right: var(--default-container-padding);
+
             writing-mode: vertical-rl;
             transform: rotate(180deg);
             font-size: calc(var(--s-font-size) * 1.25);
