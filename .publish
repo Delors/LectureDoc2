@@ -136,6 +136,7 @@ src/css/ui/icons/2025/key.svg
 src/css/ui/icons/2025/question_mark.svg
 src/css/ui/icons/2025/two_windows.svg
 
+src/css/core/defaults.css
 src/css/core/behavior.css
 src/css/core/slide-view.css
 src/css/core/slide.css
