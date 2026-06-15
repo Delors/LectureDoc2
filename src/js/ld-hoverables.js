@@ -17,12 +17,12 @@ console.log("loading ld-hoverable.js");
  * See {@link afterLDDOMManipulations} for the implementation.
  */
 const listClassesToPropagateToItems = [
-    "scale-up-on-hover",
+    "scale-up-list-item-on-hover",
     "show-list-item-content-on-hover",
     "highlight-list-item-on-hover",
 ];
 
-const classes = ["scale-on-hover", ...listClassesToPropagateToItems];
+const classes = ["scale-up-on-hover", ...listClassesToPropagateToItems];
 
 const hoverables = [];
 
