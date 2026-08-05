@@ -246,11 +246,35 @@ async function launchChrome(binary, { timeout }) {
             "--headless=new",
             "--remote-debugging-port=0",
             `--user-data-dir=${profile}`,
+
+            /*
+             * Chrome encrypts the cookie/password store of its profile with a
+             * key kept in the login keychain ("Chrome Safe Storage") and asks
+             * for the password to unlock it - even for a throwaway profile
+             * that never stores a credential. Both flags together keep it out
+             * of the keychain: `basic` selects the plaintext store, and the
+             * mock keychain makes the macOS backend a no-op.
+             */
+            "--password-store=basic",
+            "--use-mock-keychain",
+
+            // Nothing here should reach the network or another Chrome instance.
+            "--disable-background-networking",
+            "--disable-component-update",
+            "--disable-client-side-phishing-detection",
+            "--disable-domain-reliability",
+            "--disable-sync",
+            "--no-pings",
+            "--no-service-autorun",
+            "--metrics-recording-only",
             "--no-first-run",
             "--no-default-browser-check",
+            "--disable-default-apps",
             "--disable-extensions",
+
             "--disable-gpu",
             "--hide-scrollbars",
+            "--mute-audio",
             "--force-color-profile=srgb",
             // Chrome throttles timers in background pages; the scrolling done
             // by `prepareForPrinting` relies on them.
