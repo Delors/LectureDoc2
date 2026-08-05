@@ -20,9 +20,11 @@ osascript gen-pdf-from-slides.applescript lab-shell/folien.de.md.html
 # Headless Chrome, driven over the DevTools Protocol.
 # Starts its own server; needs Node >= 22 and no npm dependencies.
 node gen-pdf-from-slides.mjs lab-shell/folien.de.md.html
+node gen-pdf-from-slides.mjs --force lab-shell/folien.de.md.html   # replace
 node gen-pdf-from-slides.mjs --help
 ```
 
 The Chrome variant additionally takes `--out`, `--root`, `--format`,
 `--landscape`, `--margin`, `--scale` and `--chrome`, runs unattended (useful in
-a build) and prints backgrounds by default.
+a build) and prints backgrounds by default. It refuses to replace an existing
+PDF unless `--force` (`-f`) is given, whereas the AppleScript always replaces.

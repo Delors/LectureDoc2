@@ -43,6 +43,8 @@ Converts a LectureDoc2 document to PDF with headless Chrome.
 
 Options:
   -o, --out <file>       Output file (default: <document.html>.pdf).
+  -f, --force            Overwrite the output file if it already exists.
+                         Without it an existing file is left untouched.
       --root <dir>       Root folder that is served (default: the current
                          directory). All relative asset paths resolve here.
       --port <n>         Port of the built-in server (default: a free one).
@@ -402,9 +404,18 @@ async function convert(documentPath, options) {
         })();
     const timeout = Number.parseInt(options.timeout ?? "120000", 10);
 
+    // Checked up front: refusing after rendering the whole deck would be
+    // needlessly slow.
+    const exists = fs.existsSync(out);
+    if (exists && !options.force) {
+        throw new Error(
+            `${out} already exists - pass --force to overwrite it`,
+        );
+    }
+
     log(`Root folder:       ${root}`);
     log(`Document:          ${relative}`);
-    log(`Output:            ${out}`);
+    log(`Output:            ${out}${exists ? " (replacing)" : ""}`);
 
     const server = options.server
         ? { url: options.server.replace(/\/$/, ""), close: async () => {} }
@@ -515,7 +526,10 @@ async function convert(documentPath, options) {
         await fsp.mkdir(path.dirname(out), { recursive: true });
         await fsp.writeFile(out, Buffer.from(data, "base64"));
         const { size } = await fsp.stat(out);
-        log(`Saved:             ${out} (${(size / 1024).toFixed(0)} KiB)`);
+        log(
+            `${exists ? "Replaced:" : "Saved:"}${" ".repeat(exists ? 10 : 13)}` +
+                `${out} (${(size / 1024).toFixed(0)} KiB)`,
+        );
     } finally {
         client?.close();
         await chrome.close();
@@ -554,6 +568,7 @@ async function main() {
         allowPositionals: true,
         options: {
             "out": { type: "string", short: "o" },
+            "force": { type: "boolean", short: "f", default: false },
             "root": { type: "string" },
             "port": { type: "string" },
             "server": { type: "string" },
