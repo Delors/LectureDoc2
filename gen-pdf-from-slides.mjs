@@ -240,7 +240,7 @@ export async function startServer(root, port = 0) {
 /* Chrome + DevTools Protocol                                               */
 /* ------------------------------------------------------------------------ */
 
-async function launchChrome(binary, { timeout }) {
+async function launchChrome(binary, { timeout, verbose }) {
     const profile = await fsp.mkdtemp(path.join(os.tmpdir(), "ld2-pdf-"));
     const child = spawn(
         binary,
@@ -285,9 +285,16 @@ async function launchChrome(binary, { timeout }) {
             "--disable-renderer-backgrounding",
             "about:blank",
         ],
-        { stdio: ["ignore", "ignore", "pipe"] },
+        /*
+         * Chrome's renderer/GPU helpers inherit this stdio. A *pipe* would
+         * therefore stay open until the last of them exits, and Node keeps the
+         * event loop alive for an open pipe - the script would sit there for
+         * seconds after the PDF was already written. Inheriting (or ignoring)
+         * hands them the real file descriptors instead, so nothing keeps us
+         * waiting.
+         */
+        { stdio: verbose ? "inherit" : "ignore" },
     );
-    child.stderr.on("data", () => {}); // keep the pipe drained
 
     // Chrome writes the chosen port into DevToolsActivePort once it is ready.
     const portFile = path.join(profile, "DevToolsActivePort");
@@ -312,11 +319,31 @@ async function launchChrome(binary, { timeout }) {
     }
     if (!endpoint) throw new Error("Chrome did not report a debugging port");
 
+    const exited = new Promise((resolve) => child.once("exit", resolve));
+
     return {
         endpoint,
+        /**
+         * Waits for Chrome to actually be gone before removing the profile:
+         * deleting it underneath a still running browser is both slower and
+         * racy.
+         */
         async close() {
-            child.kill();
-            await new Promise((r) => setTimeout(r, 100));
+            if (child.exitCode === null) {
+                child.kill();
+                let timer;
+                const stopped = await Promise.race([
+                    exited.then(() => true),
+                    new Promise((r) => {
+                        timer = setTimeout(() => r(false), 3000);
+                    }),
+                ]);
+                clearTimeout(timer);
+                if (!stopped) {
+                    child.kill("SIGKILL");
+                    await exited;
+                }
+            }
             await fsp.rm(profile, { recursive: true, force: true });
         },
     };
@@ -425,7 +452,10 @@ async function convert(documentPath, options) {
 
     const chromeBinary = findChrome(options.chrome);
     log(`Chrome:            ${chromeBinary}`);
-    const chrome = await launchChrome(chromeBinary, { timeout });
+    const chrome = await launchChrome(chromeBinary, {
+        timeout,
+        verbose: options.verbose,
+    });
 
     let client;
     try {
@@ -531,6 +561,9 @@ async function convert(documentPath, options) {
                 `${out} (${(size / 1024).toFixed(0)} KiB)`,
         );
     } finally {
+        // `Browser.close` shuts the whole browser down, helper processes
+        // included; SIGTERM only reaches the main process.
+        await client?.send("Browser.close").catch(() => {});
         client?.close();
         await chrome.close();
         await server.close();
@@ -552,13 +585,24 @@ async function evaluate(client, sessionId, expression, extra = {}) {
     return result?.value;
 }
 
+/**
+ * Rejects when `promise` takes longer than `ms`.
+ *
+ * The timer *must* be cleared: a pending `setTimeout` keeps Node's event loop
+ * alive, so a leaked one would make the script sit around for the rest of the
+ * timeout after the work is long done.
+ */
 function withTimeout(promise, ms, message) {
+    let timer;
     return Promise.race([
         promise,
-        new Promise((_, reject) =>
-            setTimeout(() => reject(new Error(`timeout: ${message}`)), ms),
-        ),
-    ]);
+        new Promise((_, reject) => {
+            timer = setTimeout(
+                () => reject(new Error(`timeout: ${message}`)),
+                ms,
+            );
+        }),
+    ]).finally(() => clearTimeout(timer));
 }
 
 /* ------------------------------------------------------------------------ */
