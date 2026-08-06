@@ -17,10 +17,12 @@
  * before `Page.printToPDF` renders it with the print stylesheet.
  *
  * Requires: Node >= 22 (for the built-in WebSocket client) and an installed
- * Chrome, Chromium, Edge or Brave. No npm dependencies.
+ * Chrome, Chromium, Edge or Brave on Linux/MacOS and Chrome on Windows.
+ * No further npm dependencies are needed.
  *
  * Version: 1.0.0, 2026
- *          Michael Eichberg
+ * Author: Claude Code
+ * Review: Michael Eichberg
  */
 
 import { spawn } from "node:child_process";
@@ -53,7 +55,7 @@ Options:
                          Chrome/Chromium/Edge/Brave locations).
       --format <name>    A4 (default), A3, A5, Letter, Legal or Tabloid.
       --landscape        Landscape orientation.
-      --margin <css>     Page margin, one value or "top right bottom left"
+      --margin <css>     Page margin, one to four values ("top right bottom left")
                          (default: 10mm). Units: mm, cm, in, pt, px.
       --scale <n>        Render scale, 0.1 - 2 (default: 1).
       --wait <ms>        Extra settle time before printing (default: 1500).
@@ -156,17 +158,28 @@ export function toInches(value, fallback = 0) {
     }
 }
 
+function expandShorthand(parts) {
+    // "top right bottom left"
+    switch (parts.length) {
+        case 1:
+            return [parts[0], parts[0], parts[0], parts[0]];
+        case 2:
+            return [parts[0], parts[1], parts[0], parts[1]];
+        case 3:
+            return [parts[0], parts[1], parts[2], parts[1]];
+        case 4:
+            return parts;
+        default:
+            throw new Error(
+                `invalid number of parts: ${parts.length} (expected 1-4)`,
+            );
+    }
+}
+
 /** `"10mm"` or `"10mm 12mm 10mm 12mm"` -> the four CDP margin values. */
 export function parseMargins(value) {
     const parts = String(value).trim().split(/\s+/);
-    const [top, right, bottom, left] =
-        parts.length === 1
-            ? [parts[0], parts[0], parts[0], parts[0]]
-            : parts.length === 2
-              ? [parts[0], parts[1], parts[0], parts[1]]
-              : parts.length === 3
-                ? [parts[0], parts[1], parts[2], parts[1]]
-                : parts;
+    const [top, right, bottom, left] = expandShorthand(parts);
     return {
         marginTop: toInches(top),
         marginRight: toInches(right),
@@ -435,9 +448,7 @@ async function convert(documentPath, options) {
     // needlessly slow.
     const exists = fs.existsSync(out);
     if (exists && !options.force) {
-        throw new Error(
-            `${out} already exists - pass --force to overwrite it`,
-        );
+        throw new Error(`${out} already exists - pass --force to overwrite it`);
     }
 
     log(`Root folder:       ${root}`);
@@ -534,9 +545,14 @@ async function convert(documentPath, options) {
             `new Promise((r) => setTimeout(r, ${settle}))`,
             { awaitPromise: true },
         );
-        await evaluate(client, sessionId, "document.fonts.ready.then(() => true)", {
-            awaitPromise: true,
-        });
+        await evaluate(
+            client,
+            sessionId,
+            "document.fonts.ready.then(() => true)",
+            {
+                awaitPromise: true,
+            },
+        );
 
         const { data } = await client.send(
             "Page.printToPDF",
@@ -611,20 +627,20 @@ async function main() {
     const { values, positionals } = parseArgs({
         allowPositionals: true,
         options: {
-            "out": { type: "string", short: "o" },
-            "force": { type: "boolean", short: "f", default: false },
-            "root": { type: "string" },
-            "port": { type: "string" },
-            "server": { type: "string" },
-            "chrome": { type: "string" },
-            "format": { type: "string" },
-            "landscape": { type: "boolean", default: false },
-            "margin": { type: "string" },
-            "scale": { type: "string" },
-            "wait": { type: "string" },
-            "timeout": { type: "string" },
-            "verbose": { type: "boolean", default: false },
-            "help": { type: "boolean", short: "h", default: false },
+            out: { type: "string", short: "o" },
+            force: { type: "boolean", short: "f", default: false },
+            root: { type: "string" },
+            port: { type: "string" },
+            server: { type: "string" },
+            chrome: { type: "string" },
+            format: { type: "string" },
+            landscape: { type: "boolean", default: false },
+            margin: { type: "string" },
+            scale: { type: "string" },
+            wait: { type: "string" },
+            timeout: { type: "string" },
+            verbose: { type: "boolean", default: false },
+            help: { type: "boolean", short: "h", default: false },
         },
     });
 
@@ -640,6 +656,9 @@ async function main() {
     await convert(positionals[0], values);
 }
 
-if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
+if (
+    process.argv[1] &&
+    import.meta.url.endsWith(path.basename(process.argv[1]))
+) {
     main().catch((error) => fail(error.message));
 }
