@@ -11,6 +11,8 @@
         Bold=700,
         Extra Bold=800, 
         Black(Heavy)=900 
+
+    We include the fonts in the LectureDoc2 distribution, so that they are available offline and can be used without any license issues.
 */
 @font-face {
     font-display: swap;
