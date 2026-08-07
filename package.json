@@ -1,7 +1,16 @@
 {
-    "name": "LectureDoc2",
+    "name": "lecturedoc2",
+    "version": "0.1.0",
     "private": false,
     "type": "module",
+    "description": "LectureDoc2 - the presentation framework. Browser runtime only: the CSS and the ES modules a finished deck loads. Everything that runs in Node at authoring time lives in `lecturedoc2-author`.",
+    "license": "BSD-3-Clause",
+    "//": "No `exports` on purpose: nothing here is imported as a module. These files are *assets* - they are copied to the website next to the generated decks, which is what `files` describes and what `ld2 publish` acts on.",
+    "files": [
+        "src",
+        "ext",
+        "components"
+    ],
     "scripts": {
         "fmt": "prettier --write .",
         "fmt:check": "prettier --check .",
