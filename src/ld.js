@@ -2221,24 +2221,28 @@ async function prepareForPrinting() {
 
     const sections = document.querySelectorAll("#ld-document-view>ld-section");
 
-    /*  The document view scrolls the viewport, so `scrollend` is fired at the
-        document - not at the element passed to `scrollIntoView`. And it is only
-        fired when the scroll position actually changed, so a target that is
-        already in view has to be recognized *before* waiting for an event that
-        will never come. */
-    async function scrollViewportTo(top) {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        const target = Math.max(0, Math.min(Math.round(top), max));
-        if (Math.abs(window.scrollY - target) < 1) return Promise.resolve();
+    /*  Instant, not smooth - and therefore no `scrollend` to wait for.
 
-        return new Promise((resolve) => {
-            const scrolled = () => {
-                document.removeEventListener("scrollend", scrolled);
-                resolve();
-            };
-            document.addEventListener("scrollend", scrolled);
-            window.scrollTo({ top: target, behavior: "smooth" });
-        });
+        A page that is not the browser's *visible* tab does not run scroll
+        animations, so a smooth scroll there never progresses and its
+        `scrollend` never arrives. While a deck is rendered to PDF next to
+        another one, exactly one of them is visible, and the other waits until
+        the first is done - measured on four decks with two rendered in
+        parallel, that alone tripled the wall-clock time, and a long document
+        can stall for as long as its tab stays hidden.
+
+        An instant scroll always completes. Two animation frames then guarantee
+        that the browser has laid out and painted the new position - and unlike
+        scroll animations, `requestAnimationFrame` *is* served to hidden tabs
+        (the renderer is kept awake by `--disable-renderer-backgrounding` and
+        its two companion flags). The lazily laid out content this walk exists
+        for is therefore rendered exactly as before: same PDFs, byte for byte,
+        in a third of the time. */
+    function scrollViewportTo(top) {
+        window.scrollTo({ top, behavior: "instant" });
+        return new Promise((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(resolve)),
+        );
     }
 
     /*  Walking the viewport in (nearly) full-window steps rather than from
