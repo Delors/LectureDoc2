@@ -1,0 +1,29 @@
+# LectureDoc2's own pnpm settings.
+#
+# This project is developed and released on its own, so it cannot rely on the
+# settings of a workspace that happens to contain it: cloned standalone there
+# is no parent, and pnpm 11 reads settings only from a `pnpm-workspace.yaml`
+# (`.npmrc` is auth and registry only). Hence this file.
+#
+# A single project is a workspace of one, and `.` is that member. pnpm 11 would
+# accept the file with no `packages:` at all, but pnpm 10 rejects it with
+# "packages field missing or empty" - naming the project explicitly costs one
+# line and works with either version.
+#
+# The side effect is worth knowing: inside a checkout that *is* nested in
+# another workspace, `pnpm install` run in this directory installs this project
+# standalone - its own `pnpm-lock.yaml`, its own `node_modules` - while an
+# install at the outer root keeps treating it as a workspace project. Pick one
+# per checkout; both at once means two module trees for one folder.
+packages:
+  - .
+
+# esbuild fetches its platform binary in a postinstall script, and without it
+# `build.js` cannot bundle `dist/`.
+allowBuilds:
+  esbuild: true
+
+# Our own packages are published by us, so they need not sit out pnpm's
+# 24 h supply-chain quarantine for third-party releases.
+minimumReleaseAgeExclude:
+  - "@lecturedoc2/*"
