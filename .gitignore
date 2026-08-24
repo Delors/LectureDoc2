@@ -1,13 +1,13 @@
 Icon
-*.rst.html
-*.rst.html.pdf
-*.rst.html.passwords.*
+
+# Generated Content
+*.md.html*
+*.rst.html*
 
 # The base64 files are generated for embedding in the SVG images
 *.woff2.b64
 *.woff2.css
 ext/fonts/ld-fonts-embedded.css
-
 
 # Node.js 
 node_modules
@@ -16,3 +16,5 @@ node_modules
 jsdoc
 favicon/site.webmanifest
 
+# Build output (node build.js)
+dist/
