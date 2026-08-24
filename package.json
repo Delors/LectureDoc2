@@ -24,7 +24,7 @@
         "lint:js:fix": "eslint . --fix"
     },
     "devDependencies": {
-        "pnpm -C LectureDoc2 install --lockfile-onlyaz/prettier-plugin-void-html": "^1.9.0",
+        "@awmottaz/prettier-plugin-void-html": "^1.9.0",
         "@eslint/js": "^9.34.0",
         "esbuild": "^0.28.2",
         "eslint": "^10.0.9",
