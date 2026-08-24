@@ -115,6 +115,12 @@ class LDSlide extends HTMLElement {
 
 customElements.define("ld-slide", LDSlide);
 
+/*  signalReady is called by LectureDoc when the initialization 
+    has completed. It fullfills the LDReady promise. */
+let signalReady;
+const LDReady = new Promise((resolve) => (signalReady = resolve));
+lectureDoc2.ready = LDReady;
+
 async function tryLoadModule(moduleName) {
     try {
         return await import(`./js/${moduleName}.js`);
@@ -124,12 +130,13 @@ async function tryLoadModule(moduleName) {
     }
 }
 
-/* We load the crypto module on demand. */
+/* We load the crypto module on demand;  decryption is needed only by a deck that
+ * actually carries protected content, and this keeps it in a chunk of
+ * its own rather than in everyone's initial payload. */
 let ldCryptoModule = undefined;
 async function ldCrypto() {
     if (!ldCryptoModule) {
-        let ldCryptoModulePromise = tryLoadModule("ld-crypto");
-        ldCryptoModule = ldCryptoModulePromise?.then();
+        ldCryptoModule = import("@lecturedoc2/libcrypto");
     }
     return ldCryptoModule;
 }
@@ -2162,31 +2169,92 @@ export function toggleDocumentView() {
  *    layouts which are only setup when they are first shown; e.g,
  *    deck-based layouts.
  */
-function prepareForPrinting() {
+/*  The following is the way to go once all browsers support scrollPromises!
+    (As of August 2026 only Chrome supports them!)
+
+async function prepareForPrinting() {
+    if (!(await LDReady)) {
+        throw new Error(
+            "initialization of lecture doc did not compelete normally ",
+        );
+    }
+        if (state.showHelp) toggleDialog("help");
+        if (state.showLightTable) toggleLightTable();
+        clearJumpTarget();
+
+        if (!state.showDocumentView) toggleDocumentView();
+
+        const sectionList = document.querySelectorAll(
+            "#ld-document-view>ld-section",
+        );
+        const sectionCount = sectionList.length;
+        const sectionIterator = sectionList.values();
+        let sectionIteratorResult = sectionIterator.next();
+
+
+    let section;
+        while (!sectionIteratorResult.done) {
+            section = sectionIteratorResult.value;
+            const interrupted = await section.scrollIntoView({
+                behavior: "smooth",
+            });
+            if (interrupted) {
+                throw new Error("scrolling was interrupted");
+            }
+
+            sectionIteratorResult = sectionIterator.next();
+        }
+        await section.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest" });
+        return sectionCount;      
+}
+*/
+async function prepareForPrinting() {
+    if (!(await LDReady)) {
+        throw new Error(
+            "initialization of LectureDoc did not complete normally",
+        );
+    }
     if (state.showHelp) toggleDialog("help");
     if (state.showLightTable) toggleLightTable();
     clearJumpTarget();
-
     if (!state.showDocumentView) toggleDocumentView();
 
-    const sectionList = document.querySelectorAll(
-        "#ld-document-view>ld-section",
-    );
-    const sectionCount = sectionList.length;
-    const sectionIterator = sectionList.values();
-    let sectionIteratorResult = sectionIterator.next();
+    const sections = document.querySelectorAll("#ld-document-view>ld-section");
 
-    function scrollToNextSection() {
-        if (!sectionIteratorResult.done) {
-            const section = sectionIteratorResult.value;
-            section.scrollIntoView({ behavior: "smooth" });
+    /*  The document view scrolls the viewport, so `scrollend` is fired at the
+        document - not at the element passed to `scrollIntoView`. And it is only
+        fired when the scroll position actually changed, so a target that is
+        already in view has to be recognized *before* waiting for an event that
+        will never come. */
+    async function scrollViewportTo(top) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const target = Math.max(0, Math.min(Math.round(top), max));
+        if (Math.abs(window.scrollY - target) < 1) return Promise.resolve();
 
-            sectionIteratorResult = sectionIterator.next();
-            setTimeout(scrollToNextSection, 100);
-        }
+        return new Promise((resolve) => {
+            const scrolled = () => {
+                document.removeEventListener("scrollend", scrolled);
+                resolve();
+            };
+            document.addEventListener("scrollend", scrolled);
+            window.scrollTo({ top: target, behavior: "smooth" });
+        });
     }
-    scrollToNextSection();
-    return sectionCount;
+
+    /*  Walking the viewport in (nearly) full-window steps rather than from
+        section to section: a section that is taller than the window would
+        otherwise never have its lower parts rendered. */
+    const step = Math.round(window.innerHeight * 0.9);
+    for (
+        let top = 0;
+        top < document.documentElement.scrollHeight;
+        top += step
+    ) {
+        await scrollViewportTo(top);
+    }
+    await scrollViewportTo(document.documentElement.scrollHeight); // the very end
+
+    return sections.length;
 }
 
 function cloneWindow() {
@@ -2259,7 +2327,7 @@ function registerKeyboardEventListener() {
      */
     const resetCount = { v: 8 };
 
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", async (event) => {
         // let's check if the user is using an input field to type something in
         const activeElement = document.activeElement;
         if (
@@ -3010,13 +3078,23 @@ document.addEventListener("DOMContentLoaded", () => {
         onDOMContentLoaded(),
     )
         .then(() => console.log("DOM transformations finished."))
-        .catch((e) => console.error("DOM transformations failed:", e));
-});
+        .catch((e) => {
+            console.error("DOM transformations failed:", e);
+            throw e;
+        });
+}),{once: true};
 window.addEventListener("load", () => {
     LDInitializationPromise = LDInitializationPromise.then(() => onLoad())
         .then(() => console.log("Event registrations finished."))
-        .catch((e) => console.error("Event registrations failed:", e));
-});
+        .then(() => {
+            signalReady(true);
+        })
+        .catch((e) => {
+            console.error("Event registrations failed:", e);
+            signalReady(false);
+            throw e;
+        });
+},{once: true});
 
 /* Finish initialization of the LectureDoc2 object. */
 lectureDoc2.presentation = presentation; // "constant state"
