@@ -119,7 +119,6 @@ customElements.define("ld-slide", LDSlide);
     has completed. It fullfills the LDReady promise. */
 let signalReady;
 const LDReady = new Promise((resolve) => (signalReady = resolve));
-lectureDoc2.ready = LDReady;
 
 async function tryLoadModule(moduleName) {
     try {
@@ -281,6 +280,7 @@ export const lectureDoc2 = {
     crypto: ldCrypto,
     ldEvents: ldEvents,
     interWindowMessageHandlers: interWindowMessageHandlers,
+    ready : LDReady,
 };
 export default lectureDoc2;
 
