@@ -583,6 +583,8 @@ p.sidebar-subtitle {
 
 h1 + p.subtitle {
     font-size: 1.6em;
+    margin-top: 0;
+    font-weight: 500;
 }
 
 /* Nested Paragraphs */
