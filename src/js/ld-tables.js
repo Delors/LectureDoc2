@@ -201,6 +201,10 @@ function afterLDListenerRegistrations() {
 
     tables.forEach((table) => {
         const tbody = table.querySelector(":scope tbody");
+        if(!tbody) {
+            console.error("a table without a body cannot be animated",table);
+            return;
+        }
 
         function handleHoverState(tableCell) {
             tableCell.addEventListener("mouseenter", () =>
