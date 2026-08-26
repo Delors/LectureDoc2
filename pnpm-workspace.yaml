@@ -16,14 +16,14 @@
 # install at the outer root keeps treating it as a workspace project. Pick one
 # per checkout; both at once means two module trees for one folder.
 packages:
-  - .
+    - .
 
 # esbuild fetches its platform binary in a postinstall script, and without it
 # `build.js` cannot bundle `dist/`.
 allowBuilds:
-  esbuild: true
+    esbuild: true
 
 # Our own packages are published by us, so they need not sit out pnpm's
 # 24 h supply-chain quarantine for third-party releases.
 minimumReleaseAgeExclude:
-  - "@lecturedoc2/*"
+    - "@lecturedoc2/*"

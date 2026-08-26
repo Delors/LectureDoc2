@@ -72,6 +72,12 @@ const logoTemplate = `
         }
     }
 
+    @media (prefers-color-scheme: dark) {
+        dhbw-logo {
+            mix-blend-mode: initial;
+        }   
+    }
+
     @keyframes move-across {
         0% {
             transform: rotateX(0deg) rotateY(0deg) rotateZ(15deg) translate3d(-1500px,-800px,-100px) scale(4) ;
