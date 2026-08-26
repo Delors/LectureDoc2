@@ -280,7 +280,7 @@ export const lectureDoc2 = {
     crypto: ldCrypto,
     ldEvents: ldEvents,
     interWindowMessageHandlers: interWindowMessageHandlers,
-    ready : LDReady,
+    ready: LDReady,
 };
 export default lectureDoc2;
 
@@ -3077,7 +3077,7 @@ const onLoad = () => {
 // takes a long(er) time, because it is asynchronous and lazily loads some
 // other scripts.
 let LDInitializationPromise = Promise.resolve(); // Used to serialize the initialization of the LD object
-document.addEventListener("DOMContentLoaded", () => {
+(document.addEventListener("DOMContentLoaded", () => {
     LDInitializationPromise = LDInitializationPromise.then(() =>
         onDOMContentLoaded(),
     )
@@ -3086,19 +3086,24 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("DOM transformations failed:", e);
             throw e;
         });
-}),{once: true};
-window.addEventListener("load", () => {
-    LDInitializationPromise = LDInitializationPromise.then(() => onLoad())
-        .then(() => console.log("Event registrations finished."))
-        .then(() => {
-            signalReady(true);
-        })
-        .catch((e) => {
-            console.error("Event registrations failed:", e);
-            signalReady(false);
-            throw e;
-        });
-},{once: true});
+}),
+    { once: true });
+window.addEventListener(
+    "load",
+    () => {
+        LDInitializationPromise = LDInitializationPromise.then(() => onLoad())
+            .then(() => console.log("Event registrations finished."))
+            .then(() => {
+                signalReady(true);
+            })
+            .catch((e) => {
+                console.error("Event registrations failed:", e);
+                signalReady(false);
+                throw e;
+            });
+    },
+    { once: true },
+);
 
 /* Finish initialization of the LectureDoc2 object. */
 lectureDoc2.presentation = presentation; // "constant state"
