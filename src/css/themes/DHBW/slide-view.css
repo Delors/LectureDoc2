@@ -21,3 +21,16 @@
         /* the symbol is added programmatically */
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    #ld-slides-pane ld-slide:has(h1) {
+        &:not(.animated-logo)::before {
+            content: var(--dhbw-logo-dark);
+        }
+
+        &.animated-logo::before {
+            content: var(--dhbw-text-dark);
+            /* the symbol is added programmatically */
+        }
+    }
+}
