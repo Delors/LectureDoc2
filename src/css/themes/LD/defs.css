@@ -1,7 +1,7 @@
 /* LAYER: theme.ld */
 
 :root {
-    /*  Noto Sans Display, Noto Serif (Display), Victor Mono and MathJax can
+    /*  Noto Sans Display, Noto Serif (Display) and Victor Mono can
     not be assumed to be generally available!
 
     Use ld-fonts.css to ensure that it is available. */
@@ -18,7 +18,7 @@
     --large-text-font-family: var(--default-font-family);
     --text-font-family: "Noto Serif", "Times New Roman", serif;
 
-    --math-font-family: "MathJax Main", "Noto Serif", "Times New Roman", serif;
+    --math-font-family: "Noto Serif", "Times New Roman", serif;
 
     /***************************************************************************
 

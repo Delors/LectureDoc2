@@ -287,32 +287,6 @@ export default lectureDoc2;
 const topicTemplates = document.querySelector("body > template").content;
 
 /**
- * We use a "promise chain" to call MathJax multiple times and don't
- * have to wait for the completion of the previous call.
- *
- * (See MathJax documentation for more details.)
- */
-let mathJaxPromise = Promise.resolve(); // Holds the chain of typesetting calls
-let mathJaxNotAvailable = false;
-
-function typesetMath(element) {
-    if (mathJaxNotAvailable) {
-        return null;
-    }
-
-    mathJaxPromise = mathJaxPromise
-        .then(() => MathJax.typesetPromise([element]))
-        .then(() => console.log(`MathJax done`))
-        .catch((error) => {
-            if (!mathJaxNotAvailable) {
-                mathJaxNotAvailable = true;
-                console.warn("MathJax not found/used", error);
-            }
-        });
-    return mathJaxPromise;
-}
-
-/**
  * The static meta-information about the document.
  *
  * The following information is specified in the document or computed based
@@ -1034,7 +1008,6 @@ function setupLightTable() {
         });
     });
 
-    typesetMath(lightTableDialog);
     document.body.prepend(lightTableDialog);
 }
 
@@ -1386,7 +1359,6 @@ function setupSlidePane() {
         slidesPane.appendChild(slide);
     });
 
-    typesetMath(slidesPane);
     const body = document.body;
     body.prepend(ld.create("ld-slide-number", {}));
     body.prepend(slidesPane);
@@ -1416,7 +1388,6 @@ function localDecryptPresenterNotes(password) {
             );
             presenterNote.innerHTML = decryptedNote;
             presenterNote.removeAttribute("encrypted"); // TODO Improve by creating HTML class with corresponding property
-            typesetMath(presenterNote);
         });
 }
 
@@ -1461,7 +1432,6 @@ async function tryDecryptExercise(password, solutionWrapper, solution) {
 
         solution.innerHTML = decrypted;
         ldCopyToClipboardModule?.setupCopyToClipboard(solution);
-        typesetMath(solution);
         ldEvents.afterDecryptExercise.forEach((f) => f(solution));
     } catch (error) {
         console.log(
@@ -1566,7 +1536,6 @@ function setupDocumentView() {
         documentView.appendChild(section);
     });
 
-    typesetMath(documentView);
     document.body.prepend(documentView);
 }
 

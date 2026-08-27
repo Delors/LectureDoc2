@@ -213,7 +213,7 @@ class LDTimeline extends HTMLElement {
             svg.classList.add("ld-timeline");
             // we first have to add the svg to enable createDOM to calculate the dimensions
             shadow.appendChild(svg);
-            const [width, height] = this.#createDOM(svg, timeline, spread);
+            /*const [width, height] =*/ this.#createDOM(svg, timeline, spread);
             //this.style.width = width + "px";
             //this.style.height = height + "px";
         };

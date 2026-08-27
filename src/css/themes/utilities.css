@@ -104,6 +104,10 @@
     text-wrap: pretty;
 }
 
+.pre {
+    white-space: pre;
+}
+
 .serif {
     font-family: var(--serif-font-family);
 }

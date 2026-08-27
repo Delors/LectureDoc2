@@ -10,7 +10,6 @@ export default [
             ecmaVersion: "latest",
             globals: {
                 ...globals.browser,
-                MathJax: "readonly",
             },
         },
         rules: {
