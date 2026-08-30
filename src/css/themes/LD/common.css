@@ -708,6 +708,10 @@ div.line-block.monospaced div.line-block {
     align-items: center;
 }
 
+.margin-auto {
+    margin: auto;
+}
+
 /* Intended to be used at the section/slide level. */
 .summary > h2:first-child {
     &::before {
