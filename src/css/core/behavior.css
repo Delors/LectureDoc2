@@ -21,22 +21,41 @@
 @import url("light-table.css");
 @import url("slide.css");
 
-/*  Multiple SVG elements may reference common definitions (e.g., markers).
-    In this case, the definitions must be defined only once in the document;
-    otherwise, the SVGs will not render correctly, because of potentially
-    duplicate IDs. However, these definitions must not be visible and must not
-    affect the layout of the page. */
-.svg-global-defs,
-.svg-global-style {
-    /*  DON'T SET: "display: none;";  The display property MUST NOT BE USED.
 
-        If used, defs (e.g. markers) that are defined "here" and referenced by
-        other elements by means of URLs will not be rendered.
-        Though the SVG is effectively empty, we still have to make sure that it
-        does not effect the layout of the page. */
+/*  The container the generator uses for global definitions, defined using 
+    (`ld.globals` / `ld.include-globals`). 
+    
+    Though it is a general meachanism, it - in particular - supports the 
+    embedding of svgs. Multiple SVG elements may reference common 
+    definitions (e.g., markers). In this case, the definitions must be 
+    defined only once in the document; otherwise, the SVGs will not render
+    correctly, because of potentially duplicate IDs. However, these 
+    definitions must not be visible and must not affect the layout of the
+    page. 
+*/
+ld-globals {
+    /*  
+    "display: block" is redundant, because "position: fixed" blockifies the
+    element anyway - it is spelled out so that the width and the height do not
+    silently stop applying if the position is ever changed.
+
+    DON'T SET: "display: none;";  The display property MUST NOT BE USED.
+
+    If used, defs (e.g. markers) that are defined "here" and referenced by
+    other elements by means of URLs will not be rendered.
+    Though the SVG is effectively empty, we still have to make sure that it
+    does not effect the layout of the page. 
+    */
+    display: block;
+    position: fixed;
     width: 0;
     height: 0;
-    position: fixed;
+    /*
+    "overflow: hidden" is required because a zero size alone would not clip 
+    children, which keep their own dimensions and would
+    otherwise be painted at the fixed position.
+    */
+    overflow: hidden;
     z-index: -2147483647;
 }
 
