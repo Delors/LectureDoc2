@@ -16,7 +16,6 @@ const convertModuleBasedSpecificationToLDTimelineElement = () => {
             const cssClass = timelineObject.class;
             const spread = timelineObject.spread;
             const timelineData = timelineObject.data;
-            //const timelineElement = ld.create("ld-timeline", { class: [cssClass] })
             const timelineElement = document.createElement("ld-timeline");
             timelineElement.classList.add(cssClass);
             if (spread) {
@@ -39,8 +38,6 @@ const convertModuleBasedSpecificationToLDTimelineElement = () => {
     });
 };
 
-// the lectureDoc2 object is available in the global scope;
-// we don't need to import it
 ldEvents.addEventListener(
     "beforeLDDOMManipulations",
     convertModuleBasedSpecificationToLDTimelineElement,
