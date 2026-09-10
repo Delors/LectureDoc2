@@ -1,7 +1,7 @@
 /* LAYER: theme.ld */
 
 .peripheral {
-    color: var(--meta);
+    color: var(--meta-color);
 }
 
 /*  Intendended to be used with compounds or containers.
