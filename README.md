@@ -18,6 +18,13 @@ renderer, the dev server and the publishing tool — lives in
 [LectureDoc2Author](https://github.com/Delors/LectureDoc2Author) and is driven
 by a single command, `ld2`.
 
+## Diagrams
+
+[SVGs.md](SVGs.md) describes how an SVG has to be written so that it follows
+the slide's theme (`currentColor` / `--color`, not `light-dark()`), how shared
+`<defs>` avoid id collisions once several drawings are inlined into one
+document, and why `{include-svg}` and `{image}` are not interchangeable.
+
 ## Generating PDFs
 
 See LectureDoc2Author's
