@@ -95,7 +95,7 @@
     .scale-factor-2x {
         --on-hover-scale-factor: 2;
     }
-    .transform-origin-top-right {
+    .transform-origin-top-right { /* This is also the default. */
         transform-origin: top right;
     }
     .transform-origin-top-left {
