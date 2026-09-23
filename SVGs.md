@@ -4,37 +4,33 @@ How a hand-made or exported SVG has to be written so that it follows the
 slide's theme, survives being inlined next to other SVGs, and scales with the
 slide. The short version is in the checklist at the end.
 
-Authoring-side directives (`{include-svg}`, `ld.include-styles`,
-`ld.include-globals`) are implemented in
-[LectureDoc2Author](https://github.com/Delors/LectureDoc2Author); this document
-describes what the **browser runtime** in this repository does with the result.
+This document describes what the **browser runtime** in this repository does
+with an SVG. 
 
-## 1. Inline the SVG — `{include-svg}`, not `{image}`
+How a drawing gets into a deck — the `{include-svg}` directive,
+the frontmatter keys for deck CSS and definitions, and the shared `ld-` markers
+and classes — is documented in LectureDoc2Author:
+[docs-svgs.md](https://github.com/Delors/LectureDoc2Author/blob/main/docs-svgs.md).
 
-```markdown
-:::{include-svg} drawings/round.svg
-:width: 62ch
-:height: 49.75ch
-:class: center-content
-:::
-```
+## 1. Only an inlined SVG belongs to the deck
 
-`{image}` renders an `<img src="…">`, and an SVG loaded through `<img>` is an
-**independent document**: the deck's stylesheet does not reach it, `currentColor`
-has nothing to inherit from, and `<ld-globals>` definitions are invisible to it.
-Everything below applies only to SVGs that are inlined.
+An SVG loaded through `<img src="…">` (or `<object>`) is an **independent
+document**: the deck's stylesheets do not reach it, `currentColor` has nothing
+to inherit from, and definitions in `<ld-globals>` are invisible to it.
+Everything below applies only to SVGs that are part of the HTML document
+itself, i.e. inlined.
 
-`{include-svg}` copies the file **verbatim**, so the file must not carry an XML
-declaration, a `<!DOCTYPE>` or a root `width`/`height`; the directive's `:width:`
-and `:height:` (in `ch` or `lh`) size the element, the `viewBox` does the scaling.
+Because the file's content ends up verbatim in the HTML:
 
-Two ways an inlined SVG is still wrong in a deck:
+- it must not carry an XML declaration or a `<!DOCTYPE>`;
+- the root has a `viewBox` but no `width`/`height` — the element around the SVG
+  gives it its box (in `ch` or `lh`, so that it scales with the slide's font
+  size) and the `viewBox` does the scaling;
+- a `<style>` inside the SVG applies to the **whole document**, not just to
+  that SVG — CSS for drawings belongs in the document's stylesheets;
+- every `id` in the SVG lands in the document's id space — see §3.
 
-- A `<style>` inside the SVG applies to the **whole document**, not just to that
-  SVG. Put deck CSS into `ld.include-styles` instead.
-- `id`s inside the SVG land in the document's id space — see §3.
-
-`{image}` remains right for photographs and other raster material. A raster
+For photographs and other raster material an `<img>` remains right. A raster
 image that only reads on white can be given `.light-image`
 (`themes/LD/common.css`), which forces `color-scheme: only light` and paints a
 white plate behind it in a dark deck. That is a workaround for pixels; a vector
@@ -57,8 +53,12 @@ properties, redefined per `[data-theme]` value:
 `--color`, `--background-color` and `--accent-color` are set by `:root`, by
 `[data-theme="light"]`, `[data-theme="dark"]`, by every admonition theme
 (`definition`, `warning`, `example`, …), and — only for the `<light-dark>`
-variant — by a `@media (prefers-color-scheme: dark)` block. `<body>` carries
-`data-theme="<light-dark>"` by default.
+variant — by a `@media (prefers-color-scheme: dark)` block. Generated decks put
+`data-theme="<light-dark>"` on `<body>`.
+
+Derived from these, `theme.css` also defines semantic colours such as
+`--muted-color`, `--info-color`, `--warning-color`, `--danger-color` and
+`--success-color`; they follow the theme in the same way.
 
 ### Use `currentColor`
 
@@ -91,6 +91,10 @@ counterpart:
 .diagram .badge-label { fill: var(--background-color); }
 ```
 
+To colour a part of a drawing, set `color` (e.g. `color: var(--accent-color)`)
+on it or on its group rather than `fill`/`stroke` on every shape — everything
+painted with `currentColor` below it follows.
+
 Fixed colours are fine where a colour carries meaning and reads on both white
 and black — a saturated red, a deep purple, a medium blue. Everything that is
 merely "the drawing's ink" belongs to `currentColor`.
@@ -108,9 +112,7 @@ alone**, i.e. the operating system. It therefore ignores:
 - `.light-image`, which switches a subtree to `color-scheme: only light`.
 
 The failure is quiet: the colour is plausible in the common case and wrong
-everywhere else. Note also the argument order — `light-dark(A, B)` is *A in
-light, B in dark*; getting it backwards makes a shape invisible in **both**
-themes, which is a confusing way to discover the rule.
+everywhere else. 
 
 Use `var(--color)` / `var(--background-color)` if you want to name the theme
 colour explicitly, and `currentColor` otherwise.
@@ -119,47 +121,56 @@ colour explicitly, and `currentColor` otherwise.
 
 SVG 2 defines them for exactly the marker case — the arrowhead takes the colour
 of the line it sits on. Firefox shipped them in 111, Chromium in 124. **WebKit
-has not implemented them**; the standards-position request
+has not implemented them (August 2026)**; the standards-position request
 ([WebKit/standards-positions#331](https://github.com/WebKit/standards-positions/issues/331),
 opened March 2024) is still open. In Safari the paint stays unresolved and the
 marker does not appear.
 
 Colour a shared marker from the theme instead (§3).
 
+### Colours in presentation attributes
+
+`fill="…"` / `stroke="…"` with a fixed colour cannot follow the theme, and a
+presentation attribute cannot use `var()`. Give the shape a class and colour
+the class in CSS. (`currentColor` in an attribute is fine; it is not a fixed
+colour.)
+
 ## 3. Shared definitions belong in `<ld-globals>`
 
-Every drawing is inlined multiple times into the final document and they will share the id space. Hence, keep definitions in one file, reference them with a prefixed id, otherwise your browser may have problems rendering the SVG as intended (in particular Firefox/Safari) as the document as a whole will not be standard-conform.
+Every drawing is inlined into the same document — often more than once, since
+the slide view, the document view and the light table each hold a copy of the
+slides — and all of them share one id space. A `<marker>` or `<symbol>` defined
+inside a drawing therefore exists several times under the same id; the document
+is no longer valid, and Firefox and Safari in particular may resolve
+`url(#id)` to the wrong copy or to none.
 
-```yaml
-# deck frontmatter
-ld:
-    include-styles:
-        - drawings/diagrams.css
-    include-globals:
-        - drawings/defs.svg
-```
+Hence: keep definitions that drawings reference in **one** place, the
+`<ld-globals>` element, and give their ids a prefix.
+
+`<ld-globals>` is a container in `<body>` for markup that belongs to the
+document as a whole (how content gets there is up to the generator; see
+LectureDoc2Author). `core/behavior.css` hides it with `position: fixed;
+width: 0; height: 0; overflow: hidden` — deliberately **not** `display: none`,
+which would stop referenced `<defs>` from rendering at all.
 
 ```xml
-<!-- drawings/defs.svg -->
-<svg xmlns="http://www.w3.org/2000/svg">
+<!-- a definitions file, put into <ld-globals> -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <defs>
-    <marker id="aes-arrow" orient="auto" markerUnits="strokeWidth"
-            viewBox="-1 -3 7 6" markerWidth="7" markerHeight="6">
-        <path d="M 4.8 0 L 0 -1.8 L 0 1.8 Z" stroke-width="1" />
+    <marker id="mydeck-arrow" viewBox="-4.5 -2.5 6 5" refX="0" refY="0"
+            markerWidth="6" markerHeight="5" markerUnits="strokeWidth"
+            orient="auto-start-reverse">
+        <path d="M -4.5 -2.5 L 1.5 0 L -4.5 2.5 Z" fill="currentColor" />
     </marker>
 </defs>
 </svg>
 ```
 
-```css
-/* drawings/diagrams.css — the marker's colour, see below */
-#aes-arrow path { fill: var(--color); stroke: var(--color); }
-```
-
-`include-globals` inserts the file verbatim into `<ld-globals>` in the body.
-`core/behavior.css` hides that element with `position: fixed; width: 0;
-height: 0; overflow: hidden` — deliberately **not** `display: none`, which would
-stop referenced `<defs>` from rendering at all.
+Id prefixes: `ld-` is taken by the shared definitions that LectureDoc2Author
+provides (`ld-arrow`, …); a deck's own definitions use a prefix of their own
+(`aes-`, `ds-`, …). Exporters invent generic ids (OmniGraffle:
+`FilledArrow_Marker`, which also occurs in `themes/LD/dimensioning.svg`) — rename
+them when converting a drawing.
 
 ### Colouring a marker
 
@@ -167,26 +178,52 @@ A marker is painted in the context of its **definition site**, not of the shape
 that references it. Inside `<ld-globals>` that site inherits from `<body>`,
 which carries `[data-theme]` and therefore `color: var(--color)` — so both
 `currentColor` and `var(--color)` give the theme's foreground colour. Measured
-in Chromium, `#aes-arrow path` computes to `rgb(26,26,26)` in a light deck and
-`rgb(255,255,255)` in a dark one, identical to the lines it terminates.
+in Chromium with the shared `#ld-arrow`, the marker's path computes to
+`rgb(16, 16, 16)` in a light deck and `rgb(255, 255, 255)` in a dark one,
+identical to the lines it terminates.
 
-The remaining limitation is honest to state: a marker coloured this way takes
-the **body's** colour, so an arrow drawn inside an admonition with its own
-`[data-theme]` will not match that admonition. `context-stroke` is the construct
-that would fix it, and it is the one Safari lacks. If a diagram really needs
-per-context arrowheads, define a second marker and select it by class.
+A marker coloured this way takes the **body's** colour, so an arrow drawn
+inside an admonition with its own `[data-theme]` will not match that
+admonition. `context-stroke` is the construct that would fix it, and it is the
+one Safari lacks. If a diagram needs other arrowhead colours, define one marker
+per colour and set `color` on the `<marker>` itself, e.g.
+`style="color: var(--accent-color)"` (a `style` attribute, unlike a
+presentation attribute, may use `var()`).
 
-An exporter may leave `color="black"` on the `<marker>` element itself — that
-pins `currentColor` inside the marker to black. Remove it.
+An exporter may leave `color="black"` on the `<marker>` element — that pins
+`currentColor` inside the marker to black. Remove it.
+
+### Marker geometry
+
+`refX`/`refY` name the point of the marker that is placed on the line's end
+point. Without them it is the marker's origin, and an arrowhead drawn from the
+origin forwards overshoots the line by its full length. A stroked arrowhead
+overshoots further: the mitre of an acute tip extends
+`stroke-width / (2 · sin(half the tip angle))` beyond the geometric tip. A
+filled, unstroked head and an explicit `refX` make the tip's position
+predictable. The shared `ld-` markers put the tip exactly
+1.5 × stroke-width beyond the end point — close enough that the line's own
+end is hidden under the head.
+
+### Symbols and `<use>`
+
+- CSS selectors do not reach into the shadow tree of a `<use>`; inherited
+  properties (`fill`, `stroke`, `fill-opacity`, `stroke-width`, …) do. Style the
+  `<use>` element, and let the shapes in the `<symbol>` set only what must not
+  be inherited (`fill="none"` on the grid lines, say).
+- A `<symbol>` establishes its own viewport and clips to it; the outer half of
+  a border stroke disappears unless the symbol has `overflow="visible"`.
 
 ## 4. Size, units and fonts
 
-- `viewBox` only, no root `width`/`height`; the directive sizes the element in
-  `ch` so the drawing scales with the slide's font size.
+- `viewBox` only, no root `width`/`height`; the element around the SVG sizes it
+  in `ch` or `lh`, so the drawing scales with the slide's font size.
 - No `px` anywhere. Coordinates, `stroke-width` and `font-size` are unitless
   numbers.
-- `font-size="1"` on the root and relative sizes below it keep labels in
-  proportion when the drawing is scaled.
+- Set `font-size` on the root to the size of a normal label and size other
+  text relative to it. Labels then stay in proportion when the drawing is
+  scaled, and lengths given in `em` (as the shared `ld-` classes do for stroke
+  widths and dash patterns) mean the same in every drawing.
 - Monospaced values (hex bytes, code) use the theme's stack:
   `font-family: var(--monospaced-font-family)` — the same one
   `.table-data-monospaced` and `<pre>` use, so a drawing and the surrounding
@@ -232,24 +269,31 @@ an SVG.
 
 `<g class="incremental">…</g>` makes one reveal step. The anchor element stays
 outside any such group so that it is visible immediately; each later group can
-hold a shape, its arrow and its labels together.
+hold a shape, its arrow and its labels together. As everywhere in LectureDoc2,
+`incremental-1`, `incremental-2`, … fix the order and let independent elements
+appear in the same step (see `src/css/core/README.md`).
 
 ## 6. Checklist
 
-- [ ] embedded with `{include-svg}`, not `{image}`
+- [ ] inlined, not loaded through `<img>`
 - [ ] no XML declaration, no `<!DOCTYPE>`, no root `width`/`height`
-- [ ] no `<style>` inside the SVG — deck CSS goes to `ld.include-styles`
-- [ ] no colours in presentation attributes; classes instead, coloured from
-      `currentColor` / `var(--color)` / `var(--background-color)`
+- [ ] no `<style>` inside the SVG
+- [ ] no fixed colours in presentation attributes; classes instead, coloured
+      from `currentColor` / `var(--color)` / `var(--background-color)` / the
+      semantic theme colours
 - [ ] no `light-dark()`, no `context-fill` / `context-stroke`
-- [ ] shared `<defs>` in `ld.include-globals`, ids prefixed per deck
+- [ ] no `<defs>` inside the drawing; shared definitions in `<ld-globals>`,
+      ids prefixed (`ld-` is reserved for the shared ones)
 - [ ] no `color="…"` left on a `<marker>`
-- [ ] no `px`; `viewBox` only
+- [ ] no `px`; `viewBox` only; `font-size` on the root
 - [ ] monospaced text uses `var(--monospaced-font-family)`
-- [ ] checked in a light **and** a dark deck, and in the generated PDF
+- [ ] checked in a light **and** a dark deck, inside an admonition if it is
+      used in one, and in the generated PDF
 
 ## Worked example
 
 `sec-aes` in the lecture repository: `drawings/input_for_a_single_aes_round.svg`
-(an OmniGraffle export converted to classes), `drawings/aes-diagrams.css` and
-`drawings/aes-defs.svg`.
+(an OmniGraffle export converted to classes), `drawings/encryption_process.svg`
+(rebuilt by hand, with `incremental` groups), `drawings/aes-diagrams.css` and
+`drawings/aes-defs.svg` (deck specific definitions next to the shared `ld-`
+ones).
