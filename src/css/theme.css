@@ -107,7 +107,7 @@ ld-slide h1:first-of-type,
     );
 
     --link-color: oklch(
-        from var(--accent-color) 0.52 clamp(0.4, calc(0.1 - (c - 0.52)), 0.6) h
+        from var(--accent-color) 0.72 clamp(0.4, calc(0.1 - (c - 0.52)), 0.6) h 
     );
 
     --secondary-color: var(--accent-color);
