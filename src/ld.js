@@ -2018,8 +2018,8 @@ function updateLightTableViewScrollY(y) {
     }
 }
 
-function toggleLightTable() {
-    if (toggleDialog("light-table")) {
+function toggleLightTable(closeNow = false) {
+    if (toggleDialog("light-table",closeNow)) {
         updateLightTableViewScrollY(state.lightTableViewScrollY);
 
         // We don't want the search input field to be automatically selected.
@@ -2036,8 +2036,8 @@ function togglePasswordsDialog() {
     });
 }
 
-function toggleTableOfContents() {
-    toggleDialog("table-of-contents");
+function toggleTableOfContents(closeNow) {
+    toggleDialog("table-of-contents",closeNow);
 }
 
 /**
@@ -2049,7 +2049,7 @@ function toggleTableOfContents() {
  *      The name is also used to identify the key in the state object that is used
  *      to store the current state.
  */
-function toggleDialog(name) {
+function toggleDialog(name, closeNow = false) {
     const elementId = "ld-" + name + "-dialog";
     const stateId = "show" + ld.capitalizeCSSName(name);
     let isShown = undefined;
@@ -2057,12 +2057,16 @@ function toggleDialog(name) {
     const dialog = document.getElementById(elementId);
     if (dialog.open) {
         //dialog.style.opacity = 0;
-        /* the 500ms is also hard coded in the css */
-        dialog.classList.add("ld-dialog-closing");
-        setTimeout(function () {
+        if (closeNow) {
             dialog.close();
-            dialog.classList.remove("ld-dialog-closing");
-        }, 500);
+        } else {
+            /* the 500ms is also hard coded in the css */
+            dialog.classList.add("ld-dialog-closing");
+            setTimeout(function () {
+                dialog.close();
+                dialog.classList.remove("ld-dialog-closing");
+            }, 500);
+        }
         isShown = false;
     } else {
         dialog.showModal();
@@ -2183,9 +2187,10 @@ async function prepareForPrinting() {
             "initialization of LectureDoc did not complete normally",
         );
     }
-    if (state.showHelp) toggleDialog("help");
-    if (state.showLightTable) toggleLightTable();
+    if (state.showHelp) toggleDialog("help",true);
+    if (state.showLightTable) toggleLightTable(true);
     clearJumpTarget();
+    if (state.showTableOfContents) toggleTableOfContents(true);
     if (!state.showDocumentView) toggleDocumentView();
 
     const sections = document.querySelectorAll("#ld-document-view>ld-section");
@@ -2275,8 +2280,8 @@ function localRedrawSlide() {
     if (!state.showDocumentView) {
         console.log(
             "forced rerendering of the current slide [" +
-                state.currentSlideNo +
-                "]",
+            state.currentSlideNo +
+            "]",
         );
         // Sometimes the current slide is not shown properly after
         // resetting the slide progress. This is a workaround to
