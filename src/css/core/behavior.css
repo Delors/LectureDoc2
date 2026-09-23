@@ -69,7 +69,12 @@ html {
         color-scheme: only light;
     }
 
-    body {
+    html { 
+        /* Relevant for the very last page when the body has ended. */
         background-color: white;
     }
+
+    body {
+        background-color: white;
+    }    
 }
