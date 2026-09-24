@@ -23,9 +23,8 @@
 #ld-slides-pane {
     /* Continuously running anmiations. */
 
-    .admonition[data-theme="danger"] > p:first-child.admonition-title {
-        animation: background-color-to-symbol-background-color-and-back 8s
-            infinite;
+    .admonition[data-theme="danger"]>p:first-child.admonition-title {
+        animation: background-color-to-symbol-background-color-and-back 8s infinite;
     }
 
     /* Animations that happen, when an incremental element is revealed.  */
@@ -50,6 +49,35 @@
             &.ld-revealed {
                 scale: 1;
                 opacity: 1;
+            }
+        }
+
+        &.unroll-up {
+            transition: clip-path 0.6s ease-out;
+            clip-path: inset(100% 0 0 0);
+            /* fully clipped from the top */
+
+            &.ld-revealed {
+                clip-path: inset(var(--unroll-clip-path-inset-size, -1em));
+            }
+        }
+
+        &.unroll-down {
+            transition: clip-path 0.6s ease-out;
+            clip-path: inset(0 0 100% 0);
+            /* fully clipped from the bottom */
+
+            &.ld-revealed {
+                clip-path: inset(var(--unroll-clip-path-inset-size, -1em));
+            }
+        }
+
+        &.unroll-right {
+            transition: clip-path 0.6s ease-out;
+            clip-path: inset(0 100% 0 0);
+
+            &.ld-revealed {
+                clip-path: inset(var(--unroll-clip-path-inset-size, -1em));
             }
         }
     }
@@ -92,21 +120,28 @@
             transform: scale(var(--on-hover-scale-factor));
         }
     }
+
     .scale-factor-2x {
         --on-hover-scale-factor: 2;
     }
-    .transform-origin-top-right { /* This is also the default. */
+
+    .transform-origin-top-right {
+        /* This is also the default. */
         transform-origin: top right;
     }
+
     .transform-origin-top-left {
         transform-origin: top left;
     }
+
     .transform-origin-left-center {
         transform-origin: left center;
     }
+
     .transform-origin-right-center {
         transform-origin: right center;
     }
+
     .transform-origin-top-center {
         transform-origin: top center;
     }
@@ -114,7 +149,7 @@
     /*  Works only when the table is not "incremental" and when the slide is shown
         for the first time: */
     table {
-        &.incremental-table-rows.fade-in > tbody > tr {
+        &.incremental-table-rows.fade-in>tbody>tr {
             transition: opacity 0.75s ease-in;
             opacity: 0;
 
@@ -133,9 +168,7 @@
 
             @starting-style {
                 opacity: 0;
-                transform: translateX(
-                    calc((sibling-index() * 100px + var(--ld-slide-width)) * -1)
-                );
+                transform: translateX(calc((sibling-index() * 100px + var(--ld-slide-width)) * -1));
             }
         }
 
@@ -151,11 +184,8 @@
         }
     }
 
-    :is(
-            table.incremental:not(.ld-revealed).fade-in-rows,
-            .incremental:not(.ld-revealed) table.fade-in-rows
-        )
-        tr {
+    :is(table.incremental:not(.ld-revealed).fade-in-rows,
+        .incremental:not(.ld-revealed) table.fade-in-rows) tr {
         opacity: 0;
     }
 
@@ -166,9 +196,12 @@
             translate: 100%;
             opacity: 0;
         }
-        transition-property: translate, opacity;
+
+        transition-property: translate,
+        opacity;
         transition-duration: 3s;
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-move-left) {
         translate: -100%;
         opacity: 0;
@@ -184,9 +217,12 @@
             translate: 0 100%;
             opacity: 0;
         }
-        transition-property: translate, opacity;
+
+        transition-property: translate,
+        opacity;
         transition-duration: 3s;
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-move-to-top) {
         translate: 0 -100%;
         opacity: 0;
@@ -203,10 +239,10 @@
             scale: 1.5;
         }
 
-        transition:
-            scale 3s,
-            opacity 3s;
+        transition: scale 3s,
+        opacity 3s;
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-scale) {
         opacity: 50%;
 
@@ -221,10 +257,10 @@
             scale: 1.5;
         }
 
-        transition:
-            scale 3s,
-            opacity 3s;
+        transition: scale 3s,
+        opacity 3s;
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-zoom) {
         scale: 0;
         opacity: 75%;
@@ -239,8 +275,10 @@
         @starting-style {
             opacity: 0;
         }
+
         transition: opacity 2s;
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-fade) {
         opacity: 0;
 
@@ -256,6 +294,7 @@
 
         animation: 2s flip-in;
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-flip) {
         perspective: 3000px;
         transform-style: preserve-3d;
@@ -271,6 +310,7 @@
     &:has(.ld-current-slide.transition-dice-left) {
         perspective: 3000px;
     }
+
     .ld-current-slide.transition-dice-left,
     .ld-previous-slide:has(+ .ld-current-slide.transition-dice-left) {
         /* the rotation axis sits this far BEHIND the slide.
@@ -281,12 +321,15 @@
     }
 
     .ld-current-slide.transition-dice-left {
-        animation: 3s rotate-left; /* incoming is rendered → animation */
+        animation: 3s rotate-left;
+        /* incoming is rendered → animation */
     }
+
     .ld-previous-slide:has(+ .ld-current-slide.transition-dice-left) {
         transform: rotateY(-90deg);
         transition:
             transform 3s,
             display 3s allow-discrete;
     }
+
 }
