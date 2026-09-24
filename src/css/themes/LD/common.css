@@ -584,7 +584,8 @@ p.sidebar-subtitle {
 h1 + p.subtitle {
     font-size: 1.6em;
     margin-top: 0;
-    font-weight: 500;
+    font-weight: 350;
+    color: var(--muted-color);
 }
 
 /* Nested Paragraphs */
@@ -665,13 +666,13 @@ figure.align-center {
 figcaption {
     font-size: smaller;
     font-style: italic;
-    color: var(--dark-gray);
+    color: var(--muted-color);
     padding: 0.5em;
 
     > .legend {
         font-style: normal;
         font-size: smaller;
-        color: var(--gray);
+        color: var(--smallprint-color);
         text-align: left;
     }
 }
