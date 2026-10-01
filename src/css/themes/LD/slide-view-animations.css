@@ -158,6 +158,19 @@
             }
         }
 
+        &.incremental-table-rows.on-reveal-build-up-from-left>tbody> tr {
+            opacity: 0;
+            transform: translateX(calc(var(--ld-slide-width) * -1));
+            transition:
+                transform 0.75s ease,
+                opacity 0.6s ease;
+
+            &.ld-revealed {
+                opacity: 1;
+                transform: translate(0);
+            }
+        }
+
         &.build-up-from-left tr {
             opacity: 1;
             transform: translate(0);
