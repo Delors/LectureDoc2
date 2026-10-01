@@ -54,46 +54,6 @@
     box-shadow: var(--trbl-shadow);
 }
 
-/*******************************************************************************
-
-    Colors
-
-*******************************************************************************/
-
-.white {
-    --current-fg-color: var(--white);
-    --current-rel-fg-color: var(--current-fg-color);
-    color: var(--current-rel-fg-color);
-}
-
-.black {
-    --current-fg-color: var(--black);
-    --current-rel-fg-color: var(--current-fg-color);
-    color: var(--current-rel-fg-color);
-}
-
-.light-gray {
-    --current-fg-color: var(--light-gray);
-    --current-rel-fg-color: var(--current-fg-color);
-    color: var(--current-rel-fg-color);
-}
-
-.gray {
-    color: var(--gray);
-}
-
-.blue {
-    color: var(--blue);
-}
-
-.orange {
-    color: var(--orange);
-}
-
-.green {
-    color: var(--green);
-}
-
-.red {
-    color: var(--red);
+.thin-border {
+     border: thin solid var(--muted-color);
 }
