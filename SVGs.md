@@ -5,7 +5,7 @@ slide's theme, survives being inlined next to other SVGs, and scales with the
 slide. The short version is in the checklist at the end.
 
 This document describes what the **browser runtime** in this repository does
-with an SVG. 
+with an SVG.
 
 How a drawing gets into a deck — the `{include-svg}` directive,
 the frontmatter keys for deck CSS and definitions, and the shared `ld-` markers
@@ -44,7 +44,8 @@ drawing should be themed properly instead.
 properties, redefined per `[data-theme]` value:
 
 ```css
-:root, [data-theme] {
+:root,
+[data-theme] {
     color: var(--color);
     background-color: var(--background-color);
 }
@@ -112,7 +113,7 @@ alone**, i.e. the operating system. It therefore ignores:
 - `.light-image`, which switches a subtree to `color-scheme: only light`.
 
 The failure is quiet: the colour is plausible in the common case and wrong
-everywhere else. 
+everywhere else.
 
 Use `var(--color)` / `var(--background-color)` if you want to name the theme
 colour explicitly, and `currentColor` otherwise.
@@ -240,18 +241,20 @@ so those families are available to SVG text without any further setup — a
 drawing can set its hex constants in the very font `\mathtt{…}` uses:
 
 ```css
-.hex { font-family: KaTeX_Typewriter, var(--monospaced-font-family); }
+.hex {
+    font-family: KaTeX_Typewriter, var(--monospaced-font-family);
+}
 ```
 
 Same-family is not same-size. The metrics differ enough to matter, so pick a
 `font-size` that keeps the **digit height** of whatever the element used
 before:
 
-| | advance per glyph | digit height |
-| --- | --- | --- |
-| `KaTeX_Typewriter` | 0.525 em | 0.631 em |
-| `Monospace` (LectureDoc2) | 0.600 em | 0.565 em |
-| `Noto Sans Display` | 0.537 em | 0.735 em |
+|                           | advance per glyph | digit height |
+| ------------------------- | ----------------- | ------------ |
+| `KaTeX_Typewriter`        | 0.525 em          | 0.631 em     |
+| `Monospace` (LectureDoc2) | 0.600 em          | 0.565 em     |
+| `Noto Sans Display`       | 0.537 em          | 0.735 em     |
 
 Coming from `Monospace`, multiply the font-size by ≈ 0.90; coming from
 `Noto Sans Display`, by ≈ 1.16. Horizontal position needs no work as long as

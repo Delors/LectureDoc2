@@ -10,9 +10,9 @@ contains no Node code at runtime. Everything that runs at authoring time (MyST
 
 ## Layout
 
-- `src/` — the sources: `ld.css` (declares the cascade layers `normalize,
-  common, theme, utilities, ui, behavior` and imports everything), `ld.js`,
-  `css/`, `js/`
+- `src/` — the sources: `ld.css` (declares the cascade layers 
+  `normalize, common, theme, utilities, ui, behavior` and imports everything), 
+  `ld.js`, `css/`, `js/`
 - `components/` — web components (timeline, group assignment, …)
 - `ext/` — fonts, icons, third-party assets
 - `dist/` — build output of `pnpm build`; never edit it
@@ -40,6 +40,6 @@ pnpm lint:js      # eslint
 Task-specific instructions, in the Agent Skills format (`SKILL.md` with
 `name`/`description` frontmatter):
 
-| task | skill |
-| --- | --- |
+| task                                                | skill                                                                |
+| --------------------------------------------------- | -------------------------------------------------------------------- |
 | create, convert or review an SVG drawing for slides | [`skills/lecturedoc2-svg/SKILL.md`](skills/lecturedoc2-svg/SKILL.md) |

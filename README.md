@@ -12,7 +12,7 @@ This repository is the **browser runtime**: the CSS and the ES modules a
 finished deck loads, plus the fonts, icons and third-party assets under `ext/`. Its files are
 _assets_ — they are copied to the website next to the generated decks.
 
-For authoring slides, we recommend 
+For authoring slides, we recommend
 [LectureDoc2Author](https://github.com/Delors/LectureDoc2Author).
 
 ## Diagrams
@@ -20,7 +20,7 @@ For authoring slides, we recommend
 [SVGs.md](SVGs.md) describes how an SVG has to be written so that it follows
 the slide's theme (`currentColor` / `--color`), how shared
 `<defs>` in `<ld-globals>` avoid id collisions once several drawings are
-inlined into one document, and why only an inlined SVG can do either. 
+inlined into one document, and why only an inlined SVG can do either.
 
 How a drawing gets into a MyST deck (`{include-svg}`, the shared `ld-` markers and
 classes) is documented in LectureDoc2Author's

@@ -3,6 +3,7 @@ title: "LectureDoc2"
 lang: en
 author: "Michael Eichberg"
 ---
+
 LectureDoc2 is an authoring system for lecture material which makes use of modern HTML, CSS and JavaScript. LectureDoc is also very well suited to create normal presentations; its main target is however the creation of lecture material.
 
 LectureDoc makes it trivial to embed math and source code by relying on established projects (e.g. MathJax/KaTeX and HighlightJS).
