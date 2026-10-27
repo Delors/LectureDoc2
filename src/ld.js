@@ -2019,7 +2019,7 @@ function updateLightTableViewScrollY(y) {
 }
 
 function toggleLightTable(closeNow = false) {
-    if (toggleDialog("light-table",closeNow)) {
+    if (toggleDialog("light-table", closeNow)) {
         updateLightTableViewScrollY(state.lightTableViewScrollY);
 
         // We don't want the search input field to be automatically selected.
@@ -2037,7 +2037,7 @@ function togglePasswordsDialog() {
 }
 
 function toggleTableOfContents(closeNow) {
-    toggleDialog("table-of-contents",closeNow);
+    toggleDialog("table-of-contents", closeNow);
 }
 
 /**
@@ -2187,7 +2187,7 @@ async function prepareForPrinting() {
             "initialization of LectureDoc did not complete normally",
         );
     }
-    if (state.showHelp) toggleDialog("help",true);
+    if (state.showHelp) toggleDialog("help", true);
     if (state.showLightTable) toggleLightTable(true);
     clearJumpTarget();
     if (state.showTableOfContents) toggleTableOfContents(true);
@@ -2280,8 +2280,8 @@ function localRedrawSlide() {
     if (!state.showDocumentView) {
         console.log(
             "forced rerendering of the current slide [" +
-            state.currentSlideNo +
-            "]",
+                state.currentSlideNo +
+                "]",
         );
         // Sometimes the current slide is not shown properly after
         // resetting the slide progress. This is a workaround to

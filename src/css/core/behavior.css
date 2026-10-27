@@ -21,7 +21,6 @@
 @import url("light-table.css");
 @import url("slide.css");
 
-
 /*  The container the generator uses for global definitions, defined using 
     (`ld.globals` / `ld.include-globals`). 
     
@@ -69,12 +68,12 @@ html {
         color-scheme: only light;
     }
 
-    html { 
+    html {
         /* Relevant for the very last page when the body has ended. */
         background-color: white;
     }
 
     body {
         background-color: white;
-    }    
+    }
 }

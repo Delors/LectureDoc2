@@ -27,14 +27,14 @@ svg.ld-timeline {
     text {
         fill: light-dark(black, white);
     }
-    
+
     line.date-marker {
         stroke: light-dark(#006, #6666ff);
         stroke-width: 0.1em;
     }
 
     line.timeline-prefix {
-        stroke: light-dark(#666,#aaa);
+        stroke: light-dark(#666, #aaa);
         stroke-width: 1px;
         stroke-dasharray: 1%;
     }
