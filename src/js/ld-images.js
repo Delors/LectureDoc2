@@ -21,10 +21,9 @@ function scaleImageOnLoad(img, scalingFactor) {
     }
 }
 
-/** Scales images and videos within a specific scope. The default scope is "ld-section".
+/** Scales images and videos within a specific scope. The default scope is "ld-document-view".
  *
- * The scope can be changed by providing a different CSS selector as an argument.
- *
+ * The scope can be changed by providing a different root element.
  */
 function scaleDocumentImagesAndVideos(
     rootElement = document.getElementById("ld-document-view"),
@@ -67,6 +66,28 @@ function scaleDocumentImagesAndVideos(
                     parseFloat(img.style.height) *
                         slideToDocumentScalingFactor +
                     unit;
+            }
+        }
+        if (img.getAttribute("width")) {
+            done = true;
+            const width = img.getAttribute("width");
+            const unit = getUnit.exec(width)[1];
+            if (unit !== "%" && unit !== "ch" && unit !== "em") {
+                img.setAttribute(
+                    "width",
+                    parseFloat(width) * slideToDocumentScalingFactor + unit,
+                );
+            }
+        }
+        if (img.getAttribute("height")) {
+            done = true;
+            const height = img.getAttribute("height");
+            const unit = getUnit.exec(height)[1];
+            if (unit !== "%" && unit !== "ch" && unit !== "em") {
+                img.setAttribute(
+                    "height",
+                    parseFloat(height) * slideToDocumentScalingFactor + unit,
+                );
             }
         }
         if (!done) {
