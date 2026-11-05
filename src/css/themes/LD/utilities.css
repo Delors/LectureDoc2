@@ -57,3 +57,10 @@
 .thin-border {
     border: thin solid var(--muted-color);
 }
+
+
+.no-page-break {
+            @media print {
+                break-before: avoid;
+            }
+}
