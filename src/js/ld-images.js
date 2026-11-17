@@ -71,7 +71,17 @@ function scaleDocumentImagesAndVideos(
         if (img.getAttribute("width")) {
             done = true;
             const width = img.getAttribute("width");
-            const unit = getUnit.exec(width)[1];
+            const rawUnit = getUnit.exec(width);
+            let unit = "px"; // this is the default
+            if (rawUnit) {
+                unit = getUnit.exec(width)[1];
+            } else {
+                console.error(
+                    `failed to extract unit from width setting (${width}) of image; using px`,
+                    img,
+                );
+            }
+
             if (unit !== "%" && unit !== "ch" && unit !== "em") {
                 img.setAttribute(
                     "width",
@@ -82,7 +92,16 @@ function scaleDocumentImagesAndVideos(
         if (img.getAttribute("height")) {
             done = true;
             const height = img.getAttribute("height");
-            const unit = getUnit.exec(height)[1];
+            const rawUnit = getUnit.exec(height);
+            let unit = "px"; // this is the default
+            if (rawUnit) {
+                unit = rawUnit[1];
+            } else {
+                console.error(
+                    `failed to extract unit for height setting (${height}) of image; using px`,
+                    img,
+                );
+            }
             if (unit !== "%" && unit !== "ch" && unit !== "em") {
                 img.setAttribute(
                     "height",
