@@ -413,7 +413,13 @@
     display: inline-block;
 }
 
-/* TODO Remove when possible! */
+
+.hide {
+    display: none;
+}
+
+
+/* TODO Remove as soon as possible! */
 .math-r,
 .math-i,
 .math-b {
