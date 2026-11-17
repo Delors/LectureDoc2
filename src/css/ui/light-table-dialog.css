@@ -50,7 +50,7 @@
             overflow: hidden;
             scroll-snap-align: start;
 
-            /*  The class .hide is programmatically associated with slides when the user
+            /*  The class is programmatically associated with slides when the user
                 searches for slides. */
             &.ld-light-table-slide-pane-hide {
                 width: 0;
