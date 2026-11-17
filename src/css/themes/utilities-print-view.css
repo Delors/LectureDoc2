@@ -8,4 +8,8 @@
     .p-no-page-break {
         break-before: avoid;
     }
+
+    .p-hide {
+        display : none;
+    }
 }
