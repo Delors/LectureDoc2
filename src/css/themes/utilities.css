@@ -413,11 +413,9 @@
     display: inline-block;
 }
 
-
 .hide {
     display: none;
 }
-
 
 /* TODO Remove as soon as possible! */
 .math-r,
