@@ -20,6 +20,15 @@
     );
 }
 
+.slight-backdrop-blur {
+    backdrop-filter: blur(0.05em);
+    background-color: color-mix(
+        in srgb,
+        var(--background-color),
+        transparent 40%
+    );
+}
+
 /*******************************************************************************
 
     Text/Content alignment.
@@ -150,8 +159,16 @@
     margin-left: 8em;
 }
 
+.dd-margin-left-7em dd {
+    margin-left: 7em;
+}
+
 .dd-margin-left-6em dd {
     margin-left: 6em;
+}
+
+.dd-margin-left-5em dd {
+    margin-left: 5em;
 }
 
 .dd-margin-left-4em dd {
@@ -415,19 +432,4 @@
 
 .hide {
     display: none;
-}
-
-/* TODO Remove as soon as possible! */
-.math-r,
-.math-i,
-.math-b {
-    font-family: var(--math-font-family);
-    font-size: 1.075em;
-    line-height: 0.5em; /* something is very strange about this font... */
-}
-.math-i {
-    font-style: italic;
-}
-.math-b {
-    font-weight: bold;
 }
