@@ -822,7 +822,7 @@ function setupIncrementalElements(slide) {
        is defined.
        If so, associate the step id with the element using the element's
        dataset. */
-       // TODO transgress into open shadow doms
+    // TODO transgress into open shadow doms
     const incrementalElements = Array.from(
         slide.querySelectorAll(
             ":scope :is([class^='incremental-'],[class*=' incremental-'])",
