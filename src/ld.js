@@ -115,7 +115,7 @@ class LDSlide extends HTMLElement {
 
 customElements.define("ld-slide", LDSlide);
 
-/*  signalReady is called by LectureDoc when the initialization 
+/*  signalReady is called by LectureDoc when the initialization
     has completed. It fullfills the LDReady promise. */
 let signalReady;
 const LDReady = new Promise((resolve) => (signalReady = resolve));
@@ -822,6 +822,7 @@ function setupIncrementalElements(slide) {
        is defined.
        If so, associate the step id with the element using the element's
        dataset. */
+       // TODO transgress into open shadow doms
     const incrementalElements = Array.from(
         slide.querySelectorAll(
             ":scope :is([class^='incremental-'],[class*=' incremental-'])",
@@ -2178,7 +2179,7 @@ async function prepareForPrinting() {
             sectionIteratorResult = sectionIterator.next();
         }
         await section.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest" });
-        return sectionCount;      
+        return sectionCount;
 }
 */
 async function prepareForPrinting() {
