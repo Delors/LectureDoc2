@@ -10,8 +10,8 @@ contains no Node code at runtime. Everything that runs at authoring time (MyST
 
 ## Layout
 
-- `src/` — the sources: `ld.css` (declares the cascade layers 
-  `normalize, common, theme, utilities, ui, behavior` and imports everything), 
+- `src/` — the sources: `ld.css` (declares the cascade layers
+  `normalize, common, theme, utilities, ui, behavior` and imports everything),
   `ld.js`, `css/`, `js/`
 - `components/` — web components (timeline, group assignment, …)
 - `ext/` — fonts, icons, third-party assets
