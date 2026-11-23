@@ -53,8 +53,9 @@ class LDTimeline extends HTMLElement {
     /**
      * @param timeline an array of objects, where each object can set a date property "d"
      * and some text "t". E.g., [{d:"",t:"born"},{d:"",t:"moved to Vienna"},{d:"",t:"died"}]
+     * @param incremental undefined or an int value setting the initial value
      */
-    #createDOM(svg, timeline, spread = 1.0) {
+    #createDOM(svg, timeline, spread = 1.0, incremental = undefined) {
         const svgNS = "http://www.w3.org/2000/svg";
         // Phase 1 - creating the elements
         let textNodeMaxWidth = 0;
@@ -67,7 +68,11 @@ class LDTimeline extends HTMLElement {
         for (let i = 0; i < timeline.length; i++) {
             const event = timeline[i];
             const textNode = document.createElementNS(svgNS, "text");
-            textNode.setAttribute("class", "description");
+            let textClass = "description";
+            if (incremental !== undefined) {
+                textClass += " incremental-" + (i + incremental);
+            }
+            textNode.setAttribute("class", textClass);
             textNode.setAttribute("part", "description");
             textNodes.push(textNode);
             textNode.appendChild(document.createTextNode(event.t || ""));
@@ -82,7 +87,11 @@ class LDTimeline extends HTMLElement {
             );
 
             const dateNode = document.createElementNS(svgNS, "text");
-            dateNode.setAttribute("class", "date");
+            let dateClass = "date";
+            if (incremental !== undefined) {
+                dateClass += " incremental-" + (i + incremental);
+            }
+            dateNode.setAttribute("class", dateClass);
             dateNode.setAttribute("part", "date");
             dateNodes.push(dateNode);
             dateNode.appendChild(document.createTextNode(event.d || ""));
@@ -130,7 +139,11 @@ class LDTimeline extends HTMLElement {
             );
 
             const line = document.createElementNS(svgNS, "line");
-            line.setAttribute("class", "date-marker");
+            let lineClass = "date-marker";
+            if (incremental !== undefined) {
+                lineClass += " incremental-" + (i + incremental);
+            }
+            line.setAttribute("class", lineClass);
             line.setAttribute("part", "date-marker");
             line.setAttribute("x1", textNodeX);
             line.setAttribute("y1", textNodeY + 2);
@@ -202,6 +215,9 @@ class LDTimeline extends HTMLElement {
             if (dataset.spread) {
                 spread = parseFloat(dataset.spread);
             }
+            const incremental = dataset.incremental
+                ? parseInt(dataset.incremental)
+                : undefined;
             let spec = `[${this.textContent.trim()}]`;
             //console.log("timeline-specification: " + spec);
             const timeline = JSON.parse(spec);
@@ -213,7 +229,12 @@ class LDTimeline extends HTMLElement {
             svg.classList.add("ld-timeline");
             // we first have to add the svg to enable createDOM to calculate the dimensions
             shadow.appendChild(svg);
-            /*const [width, height] =*/ this.#createDOM(svg, timeline, spread);
+            /*const [width, height] =*/ this.#createDOM(
+                svg,
+                timeline,
+                spread,
+                incremental,
+            );
             //this.style.width = width + "px";
             //this.style.height = height + "px";
         };

@@ -21,6 +21,7 @@ const convertModuleBasedSpecificationToLDTimelineElement = () => {
             if (spread) {
                 timelineElement.dataset.spread = spread;
             }
+            timelineElement.dataset.incremental = timelineObject.incremental;
             timelineElement.textContent = JSON.stringify(
                 timelineData,
             ).substring(1, JSON.stringify(timelineData).length - 1);
