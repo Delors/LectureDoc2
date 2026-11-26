@@ -12,7 +12,7 @@ ld-light-table {
 
         > * {
             /*  Recall that all child elements of a deck are associated with
-                indexes by LectureDoc's Core which is part of the behavioral
+                indexes by LectureDoc's core which is part of the behavioral
                 layer. */
 
             /*  We can't have max inside of a calc() function. Hence, we have
